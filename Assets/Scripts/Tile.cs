@@ -4,18 +4,30 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    private int xCoord;
-    private int zCoord;
+    private int tileRow;
+    private int tileColumn;
 
-    public void SetCoord(Vector2 newCoord)
+    private bool hasObstacle;
+    
+    public void SetCoord(Vector2Int newCoord)
     {
-        xCoord = (int)newCoord.x;
-        zCoord = (int)newCoord.y;
+        tileRow = newCoord.x;
+        tileColumn = newCoord.y;
     }
 
     public Vector2 GetCoord()
     {
-        return new Vector2(xCoord, zCoord);
+        return new Vector2(tileRow, tileColumn);
+    }
+
+    public bool GetHasObstacle()
+    {
+        return hasObstacle;
+    }
+
+    public void SetHasObstacle(bool newValue)
+    {
+        hasObstacle = newValue;
     }
     
 }

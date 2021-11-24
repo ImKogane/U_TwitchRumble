@@ -7,6 +7,8 @@ public class BoardManager : MonoBehaviour
 {
 
     [SerializeField] private GameObject tilePrefab;
+    [SerializeField] private GameObject obstaclePrefab;
+
 
     private List<Tile> tilesList = new List<Tile>();
     
@@ -48,7 +50,7 @@ public class BoardManager : MonoBehaviour
                 if (newTile)
                 {
                     tilesList.Add(newTile);
-                    newTile.SetCoord(new Vector2(i, j));
+                    newTile.SetCoord(new Vector2Int(i, j));
                 }
                 
             }
@@ -57,20 +59,48 @@ public class BoardManager : MonoBehaviour
         #endregion
 
         #region Holes placement
-        
-        int holePlaced = 0;
 
-        while (holePlaced < holeNumber)
+        List<Tile> tilesWithHole = GetRandomTiles(testHoleNumber);
+
+        foreach (var tile in tilesWithHole)
         {
-            int tempTileIndex = Random.Range(0, (int)tileLength);
-            Tile tempTile = tilesList[tempTileIndex];
+            tilesList.Remove(tile);
+            Destroy(tile.gameObject);
+        }
 
-            tilesList.Remove(tempTile);
-            Destroy(tempTile.gameObject);
+        #endregion
+        
+        #region Obstacle Placement
+        
+        List<Tile> tilesWithObstacle = GetRandomTiles(testObstaclesNumber);
 
-            ++holePlaced;
+        foreach (var tile in tilesWithObstacle)
+        {
+            tile.SetHasObstacle(true);
+            Instantiate(obstaclePrefab, tile.transform.position, Quaternion.identity);
         }
 
         #endregion
     }
+
+    List<Tile> GetRandomTiles(int tilesAmount)
+    {
+        int tempAmount = 0;
+
+        List<Tile> tempTileList = new List<Tile>();
+        
+        while (tempAmount < tilesAmount)
+        {
+            int tempTileIndex = Random.Range(0, tilesList.Count);
+
+            Tile tempTile = tilesList[tempTileIndex];
+            
+            tempTileList.Add(tempTile);
+            
+            ++tempAmount;
+        }
+
+        return tempTileList;
+    }
+    
 }
