@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 5733281094468343528}
   - component: {fileID: 2465102257005671713}
   - component: {fileID: 7001560373705295883}
-  - component: {fileID: 8385201343121112870}
   - component: {fileID: 6504502418940728351}
   - component: {fileID: 2211584795240633153}
+  - component: {fileID: 2764056267165031042}
   m_Layer: 0
   m_Name: TestPlayer
   m_TagString: Untagged
@@ -100,28 +100,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!195 &8385201343121112870
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3689764250513492591}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 1
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!54 &6504502418940728351
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -150,6 +128,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a4cda72b802710409750314f3d5f312, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &2764056267165031042
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3689764250513492591}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &7563197145404178617
 GameObject:
   m_ObjectHideFlags: 0

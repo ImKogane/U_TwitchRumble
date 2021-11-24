@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,16 +7,17 @@ public class Player : MonoBehaviour
 {
     [SerializeField]
     private SO_PlayerStats PlayerStats;
-    
-    // Start is called before the first frame update
-    void Start()
+
+    public PlayerMovement playerMovement;
+
+    private void Start()
     {
-        
+        playerMovement = GetComponent<PlayerMovement>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        playerMovement.HandleMovement(Time.deltaTime);
     }
+    
 }

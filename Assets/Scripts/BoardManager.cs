@@ -9,7 +9,8 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private GameObject tilePrefab;
     [SerializeField] private GameObject obstaclePrefab;
 
-
+    private GameObject gameBoard;
+    
     private List<Tile> tilesList = new List<Tile>();
     
     private float tileWidth;
@@ -36,7 +37,7 @@ public class BoardManager : MonoBehaviour
     {
         #region Basic Board Creation
         
-        GameObject board = new GameObject("GameBoard");
+        gameBoard = new GameObject("GameBoard");
 
         for (int i = 0; i < size; i++)
         {
@@ -45,7 +46,7 @@ public class BoardManager : MonoBehaviour
                 float tempPosZ = i * tileLength;
                 float tempPosX = j * tileWidth;
 
-                Tile newTile = Instantiate(tilePrefab, new Vector3(tempPosX, 0, tempPosZ), Quaternion.identity, board.transform).GetComponent<Tile>();
+                Tile newTile = Instantiate(tilePrefab, new Vector3(tempPosX, 0, tempPosZ), Quaternion.identity, gameBoard.transform).GetComponent<Tile>();
 
                 if (newTile)
                 {
@@ -77,13 +78,13 @@ public class BoardManager : MonoBehaviour
         foreach (var tile in tilesWithObstacle)
         {
             tile.SetHasObstacle(true);
-            Instantiate(obstaclePrefab, tile.transform.position, Quaternion.identity);
+            Instantiate(obstaclePrefab, tile.transform.position, Quaternion.identity, gameBoard.transform);
         }
 
         #endregion
     }
 
-    List<Tile> GetRandomTiles(int tilesAmount)
+    private List<Tile> GetRandomTiles(int tilesAmount)
     {
         int tempAmount = 0;
 
