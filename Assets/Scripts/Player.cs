@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    SO_PlayerStats P
+    [SerializeField]
+    private SO_PlayerStats PlayerStats;
     
     // Start is called before the first frame update
     void Start()
