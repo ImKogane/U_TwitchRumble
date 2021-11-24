@@ -16,7 +16,8 @@ public class BoardManager : MonoBehaviour
     private float tileWidth;
     private float tileLength;
     
-    [SerializeField] private int testBoardSize;
+    [SerializeField] private int testBoardSizeX;
+    [SerializeField] private int testBoardSizeZ;
     [SerializeField] private int testHoleNumber;
     [SerializeField] private int testObstaclesNumber;
     
@@ -30,18 +31,18 @@ public class BoardManager : MonoBehaviour
             tileWidth = tileRenderer.bounds.size.x;
         }
         
-        CreateBoard(testBoardSize, testHoleNumber,testObstaclesNumber);
+        CreateBoard(testBoardSizeX, testBoardSizeZ, testHoleNumber,testObstaclesNumber);
     }
 
-    public void CreateBoard(int size, int holeNumber, int obstacleNumber)
+    public void CreateBoard(int sizeX, int sizeZ, int holeNumber, int obstacleNumber)
     {
         #region Basic Board Creation
         
         gameBoard = new GameObject("GameBoard");
 
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < sizeX; i++)
         {
-            for (int j = 0; j < size; j++)
+            for (int j = 0; j < sizeZ; j++)
             {
                 float tempPosZ = i * tileLength;
                 float tempPosX = j * tileWidth;
