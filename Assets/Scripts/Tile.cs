@@ -15,9 +15,9 @@ public class Tile : MonoBehaviour
         tileColumn = newCoord.y;
     }
 
-    public Vector2 GetCoord()
+    public Vector2Int GetCoord()
     {
-        return new Vector2(tileRow, tileColumn);
+        return new Vector2Int(tileRow, tileColumn);
     }
 
     public bool GetHasObstacle()
