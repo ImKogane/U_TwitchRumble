@@ -5,8 +5,12 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Stats/Player")]
 public class SO_PlayerStats : ScriptableObject
 {
-    //Tile sur laquelle se trouve le joueur
+    [SerializeField]
+    private int PlayerID;
 
     [SerializeField]
     private int PlayerHealth;
+    
+    [SerializeField]
+    private Tile CurrentTile;
 }
