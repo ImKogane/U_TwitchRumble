@@ -44,7 +44,7 @@ public class GlobalManager : MonoBehaviour
 
     void HandleGameStates(float deltaTime)
     {
-        switch (gameState)
+        /*switch (gameState)
         {
             case EnumClass.GameState.WaitingTurn:
 
@@ -80,7 +80,7 @@ public class GlobalManager : MonoBehaviour
 
                 break;
             
-        }
+        }*/
     }
     
     public void AddActionInGameToList(ActionInGame ActionToAdd)

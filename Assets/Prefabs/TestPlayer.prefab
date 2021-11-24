@@ -114,6 +114,8 @@ MonoBehaviour:
   CurrentTile: {fileID: 0}
   playerMovement: {fileID: 0}
   IDOfPlayer: 0
+  typeOfWeapon: 0
+  materialForTryCell: {fileID: 2100000, guid: 8a18584c6e7d0c843a222c09e20e5f61, type: 2}
 --- !u!114 &-8979563016460687950
 MonoBehaviour:
   m_ObjectHideFlags: 0

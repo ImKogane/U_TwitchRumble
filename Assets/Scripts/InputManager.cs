@@ -7,6 +7,7 @@ public class InputManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Actions de déplacements. 
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             //On fait une action toujours sur le meme player il faudra changer �a en fonction du player qui a rentrer l'input. 
@@ -26,6 +27,13 @@ public class InputManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             ActionMoving ActionToDo = new ActionMoving(PlayerManager.Instance.PlayerList[0], EnumClass.Direction.Left);
+            GlobalManager.Instance.AddActionInGameToList(ActionToDo);
+        }
+
+        //Action d'attaque.
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            ActionAttack ActionToDo = new ActionAttack(PlayerManager.Instance.PlayerList[0]);
             GlobalManager.Instance.AddActionInGameToList(ActionToDo);
         }
 

@@ -19,5 +19,12 @@ public static class EnumClass
         ChoseBuffTurn,
         GameEnd
     }
+
+    public enum WeaponType
+    {
+        Hammer,
+        Scythe,
+        Rifle
+    }
 }
 
