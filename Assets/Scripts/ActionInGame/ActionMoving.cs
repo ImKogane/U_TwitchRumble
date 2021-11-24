@@ -10,11 +10,16 @@ public class ActionMoving : ActionInGame
     {
         OwnerPlayer = OwnerOfAction;
         DirectionOfMove = direction;
-        OwnerPlayer.playerMovement.EndOfMoving += EndActionInGame; 
+    }
+
+    public override void SubscribeEndToEvent()
+    {
+        OwnerPlayer.playerMovement.EndOfMoving += EndActionInGame;
     }
 
     public override void LaunchActionInGame()
     {
+        SubscribeEndToEvent();
         Debug.Log("Start moving Action");
         OwnerPlayer.playerMovement.RotatePlayer(DirectionOfMove);
         OwnerPlayer.playerMovement.MakeMovement();
