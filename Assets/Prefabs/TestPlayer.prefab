@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2465102257005671713}
   - component: {fileID: 7001560373705295883}
   - component: {fileID: 4994976626263785483}
+  - component: {fileID: -8979563016460687950}
   m_Layer: 0
   m_Name: TestPlayer
   m_TagString: Untagged
@@ -115,6 +116,19 @@ MonoBehaviour:
   playerMovement: {fileID: 0}
   InitialRotation: {x: 0, y: 0, z: 0, w: 0}
   RotationOfPlayer: {x: 0, y: 0}
+--- !u!114 &-8979563016460687950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3689764250513492591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a4cda72b802710409750314f3d5f312, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movePrecision: 0
 --- !u!1 &7563197145404178617
 GameObject:
   m_ObjectHideFlags: 0

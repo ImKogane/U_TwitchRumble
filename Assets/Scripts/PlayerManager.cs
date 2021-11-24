@@ -52,21 +52,21 @@ public class PlayerManager : MonoBehaviour
             switch (DirectionOfMovement)
             {
                 case EnumClass.Direction.Up:
-                    player.RotateUpDirection();
+                    player.playerMovement.RotateUpDirection();
                     break;
                 case EnumClass.Direction.Down:
-                    player.RotateDownDirection();
+                    player.playerMovement.RotateDownDirection();
                     break;
                 case EnumClass.Direction.Right:
-                    player.RotateRightDirection();
+                    player.playerMovement.RotateRightDirection();
                     break;
                 case EnumClass.Direction.Left:
-                    player.RotateLeftDirection();
+                    player.playerMovement.RotateLeftDirection();
                     break;
                 default:
                     break;
             }
-            player.MakeMovement();
+            player.playerMovement.MakeMovement();
         }
         
     }
