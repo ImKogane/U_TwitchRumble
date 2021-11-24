@@ -106,10 +106,16 @@ public class BoardManager : MonoBehaviour
         
         while (tempAmount < tilesAmount)
         {
-            int tempTileIndex = Random.Range(0, tilesList.Count);
+            int tempTileIndex;
+            Tile tempTile;
 
-            Tile tempTile = tilesList[tempTileIndex];
-            
+            do
+            {
+                tempTileIndex = Random.Range(0, tilesList.Count);
+                tempTile = tilesList[tempTileIndex];
+
+            } while (tempTileList.Contains(tempTile));
+
             tempTileList.Add(tempTile);
             
             ++tempAmount;
