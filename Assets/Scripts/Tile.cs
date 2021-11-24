@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private int xCoord;
+    private int zCoord;
+
+    public void SetCoord(Vector2 newCoord)
     {
-        
+        xCoord = (int)newCoord.x;
+        zCoord = (int)newCoord.y;
     }
 
-    // Update is called once per frame
-    void Update()
+    public Vector2 GetCoord()
     {
-        
+        return new Vector2(xCoord, zCoord);
     }
+    
 }
