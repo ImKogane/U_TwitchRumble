@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using DG.Tweening;
 
 public class PlayerMovement : MonoBehaviour
 {
     public Action EndOfMoving;
+
+    public int MovmentSeconds;
 
     private Tile currentTile;
     private Tile destinationTile;
@@ -135,35 +138,27 @@ public class PlayerMovement : MonoBehaviour
 
         CurrentPlayer.CurrentTile.hasPlayer = false;
         CurrentPlayer.CurrentTile = null;
-        //CurrentPlayer.playerMovement.SetDestination(nextTile);
-        transform.position = nextTile.transform.position;
+
+
+        StartCoroutine(DotweenMovment(nextTile));
+
         CurrentPlayer.CurrentTile = nextTile;
         CurrentPlayer.CurrentTile.hasPlayer = true;
+    }
 
+
+    private IEnumerator DotweenMovment(Tile nextDestination)
+    {
+        transform.DOMove(nextDestination.transform.position, MovmentSeconds);
+
+        yield return new WaitForSeconds(MovmentSeconds);
         EndOfMoving.Invoke();
-    }
-
-    private void SetDestination(Tile nextDestination)
-    {
-       /* destinationTile = nextDestination;
-        isMoving = true;*/
-    }
-    public void HandleMovement(float deltaTime) //Call every Frame 
-    {
-        /*if (!isMoving) return;
-
-        transform.position = destinationTile.transform.position;
-
-        if (transform.position == destinationTile.transform.position)
-        {
-            EndOfMoving.Invoke();
-            isMoving = false;
-        }*/
     }
 
     private void FallInWater()
     {
         Debug.Log("Aucune Tile detectée, vous plongez dans l'océan.");
+        EndOfMoving.Invoke();
     }
     #endregion
 
