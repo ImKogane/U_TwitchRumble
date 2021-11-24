@@ -57,8 +57,8 @@ public class BoardManager : MonoBehaviour
         {
             for (int j = 0; j < sizeZ; j++)
             {
-                float tempPosZ = i * tileLength;
-                float tempPosX = j * tileWidth;
+                float tempPosZ = j * tileLength;
+                float tempPosX = i * tileWidth;
 
                 Tile newTile = Instantiate(tilePrefab, new Vector3(tempPosX, 0, tempPosZ), Quaternion.identity, gameBoard.transform).GetComponent<Tile>();
 
@@ -113,8 +113,8 @@ public class BoardManager : MonoBehaviour
             {
                 tempTileIndex = Random.Range(0, tilesList.Count);
                 tempTile = tilesList[tempTileIndex];
-
-            } while (tempTileList.Contains(tempTile));
+                
+            } while (!CheckPlacementAvailable(tempTile) && tempTileList.Contains(tempTile));
 
             tempTileList.Add(tempTile);
             
@@ -123,6 +123,15 @@ public class BoardManager : MonoBehaviour
 
         return tempTileList;
     }
+
+    private bool CheckPlacementAvailable(Tile tile)
+    {
+        int xPos = tile.GetCoord().x;
+        int zPos = tile.GetCoord().y;
+
+        return (xPos > 5 && zPos > 5 && xPos < testBoardSizeX && zPos < testBoardSizeZ);
+    }
+
 
     public Tile GetTileAtPos(Vector2Int Pos)
     {
