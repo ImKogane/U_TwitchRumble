@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    private int tileRow;
-    private int tileColumn;
+    public int tileRow;
+    public int tileColumn;
 
-    private bool hasObstacle;
+    public bool hasObstacle;
+    public bool isTaken;
     
     public void SetCoord(Vector2Int newCoord)
     {
