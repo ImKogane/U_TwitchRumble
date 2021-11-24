@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class BoardManager : MonoBehaviour
 {
+    public static BoardManager Instance;
 
     [SerializeField] private GameObject tilePrefab;
     [SerializeField] private GameObject obstaclePrefab;
@@ -20,7 +21,19 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private int testBoardSizeZ;
     [SerializeField] private int testHoleNumber;
     [SerializeField] private int testObstaclesNumber;
-    
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
     void Start()
     {
         MeshRenderer tileRenderer = tilePrefab.GetComponentInChildren<MeshRenderer>();
@@ -119,4 +132,18 @@ public class BoardManager : MonoBehaviour
         return (xPos > 5 && zPos > 5 && xPos < testBoardSizeX && zPos < testBoardSizeZ);
     }
 
+
+    public Tile GetTileAtPos(Vector2Int Pos)
+    {
+        foreach (Tile tile in tilesList)
+        {
+            if (tile.tileRow == Pos.x && tile.tileColumn == Pos.y)
+            {
+                return tile;
+            }
+        }
+
+        return null;
+    }
+    
 }
