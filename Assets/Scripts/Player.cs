@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-       playerMovement.HandleMovement(Time.deltaTime);
+       
     }
 
     public void SpawnPlayerInGame(Tile TileForStart)

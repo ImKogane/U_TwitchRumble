@@ -111,11 +111,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c21d9d6aacb27a247858a378b726e918, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerStats: {fileID: 0}
   CurrentTile: {fileID: 0}
   playerMovement: {fileID: 0}
-  InitialRotation: {x: 0, y: 0, z: 0, w: 0}
-  RotationOfPlayer: {x: 0, y: 0}
+  IDOfPlayer: 0
 --- !u!114 &-8979563016460687950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,6 +126,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a4cda72b802710409750314f3d5f312, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MovmentSeconds: 1
+  InitialRotation: {x: 0, y: 0, z: 0, w: 0}
+  RotationOfPlayer: {x: 0, y: 0}
+  CurrentPlayer: {fileID: 0}
   movePrecision: 0
 --- !u!1 &7563197145404178617
 GameObject:
