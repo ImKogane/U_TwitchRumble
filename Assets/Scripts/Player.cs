@@ -6,6 +6,8 @@ public class Player : MonoBehaviour
 
     public PlayerMovement playerMovement;
 
+    public int IDOfPlayer;
+
     private void Start()
     {
         playerMovement = GetComponent<PlayerMovement>();

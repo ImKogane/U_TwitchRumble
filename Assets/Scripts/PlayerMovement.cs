@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public Action EndOfMoving;
+
     private Tile currentTile;
     private Tile destinationTile;
     private bool isMoving;
@@ -23,6 +26,28 @@ public class PlayerMovement : MonoBehaviour
     }
 
     #region RotatePlayer
+
+    public void RotatePlayer(EnumClass.Direction DirectionOfMovement)
+    {
+        switch (DirectionOfMovement)
+        {
+            case EnumClass.Direction.Up:
+                RotateUpDirection();
+                break;
+            case EnumClass.Direction.Down:
+                RotateDownDirection();
+                break;
+            case EnumClass.Direction.Right:
+                RotateRightDirection();
+                break;
+            case EnumClass.Direction.Left:
+                RotateLeftDirection();
+                break;
+            default:
+                break;
+        }
+    }
+
     public void RotateUpDirection()
     {
         RotationOfPlayer = new Vector2Int(0, 1);
@@ -89,18 +114,20 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void MoveToATile(Tile nextTile)
+    private void MoveToATile(Tile nextTile)
     {
         Debug.Log("Cellule ciblée : [" + nextTile.tileRow + "," + nextTile.tileColumn + "]");
 
         if (nextTile.hasObstacle)
         {
             Debug.Log("Cellule ciblée est occupé par un obstacle.");
+            EndOfMoving.Invoke();
             return;
         }
         if (nextTile.hasPlayer)
         {
             Debug.Log("Cellule ciblée est occupé par un joueur.");
+            EndOfMoving.Invoke();
             return;
         }
 
@@ -108,29 +135,33 @@ public class PlayerMovement : MonoBehaviour
 
         CurrentPlayer.CurrentTile.hasPlayer = false;
         CurrentPlayer.CurrentTile = null;
-        CurrentPlayer.playerMovement.SetDestination(nextTile);
+        //CurrentPlayer.playerMovement.SetDestination(nextTile);
+        transform.position = nextTile.transform.position;
         CurrentPlayer.CurrentTile = nextTile;
         CurrentPlayer.CurrentTile.hasPlayer = true;
+
+        EndOfMoving.Invoke();
     }
 
-    public void SetDestination(Tile nextDestination)
+    private void SetDestination(Tile nextDestination)
     {
-        destinationTile = nextDestination;
-        isMoving = true;
+       /* destinationTile = nextDestination;
+        isMoving = true;*/
     }
-    public void HandleMovement(float deltaTime)
+    public void HandleMovement(float deltaTime) //Call every Frame 
     {
-        if (!isMoving) return;
+        /*if (!isMoving) return;
 
         transform.position = destinationTile.transform.position;
 
         if (transform.position == destinationTile.transform.position)
         {
+            EndOfMoving.Invoke();
             isMoving = false;
-        }
+        }*/
     }
 
-    public void FallInWater()
+    private void FallInWater()
     {
         Debug.Log("Aucune Tile detectée, vous plongez dans l'océan.");
     }
