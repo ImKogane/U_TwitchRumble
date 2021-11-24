@@ -96,6 +96,8 @@ public class BoardManager : MonoBehaviour
         }
 
         #endregion
+
+        PlayerManager.Instance.SpawnAllPlayerOnBoard();
     }
 
     private List<Tile> GetRandomTiles(int tilesAmount)
@@ -130,6 +132,22 @@ public class BoardManager : MonoBehaviour
         int zPos = tile.GetCoord().y;
 
         return (xPos > 5 && zPos > 5 && xPos < testBoardSizeX && zPos < testBoardSizeZ);
+    }
+
+    public Tile GetRandomAvailableTile()
+    {
+        Tile tileToReturn = null; 
+
+        int indexOfTile = Random.Range(0, tilesList.Count);
+        tileToReturn = tilesList[indexOfTile];
+
+        if (tileToReturn.hasObstacle == true || tileToReturn.hasPlayer == true)
+        {
+            GetRandomAvailableTile();
+        }
+
+        Debug.Log("Tile return to player : [" + tileToReturn.tileRow + "," + tileToReturn.tileColumn + "]");
+        return tileToReturn;
     }
 
 

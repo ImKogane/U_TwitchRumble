@@ -33,15 +33,14 @@ public class PlayerMovement : MonoBehaviour
     
     public void HandleMovement(float deltaTime)
     {
-        if (!isMoving) return;
+/*        if (!isMoving) return;
         
         transform.Translate(destinationTile.transform.position);
 
         if (Vector3.Distance(transform.position, destinationTile.transform.position) < movePrecision)
         {
             isMoving = false;
-        }
-        
+        }*/
     }
 
 }

@@ -12,9 +12,7 @@ GameObject:
   - component: {fileID: 5733281094468343528}
   - component: {fileID: 2465102257005671713}
   - component: {fileID: 7001560373705295883}
-  - component: {fileID: 6504502418940728351}
-  - component: {fileID: 2211584795240633153}
-  - component: {fileID: 2764056267165031042}
+  - component: {fileID: 4994976626263785483}
   m_Layer: 0
   m_Name: TestPlayer
   m_TagString: Untagged
@@ -29,14 +27,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3689764250513492591}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.6153107, y: 2.37, z: -5.23555}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5179138341469294977}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!33 &5733281094468343528
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -100,23 +98,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &6504502418940728351
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3689764250513492591}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &2211584795240633153
+--- !u!114 &4994976626263785483
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -125,28 +107,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 3689764250513492591}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a4cda72b802710409750314f3d5f312, type: 3}
+  m_Script: {fileID: 11500000, guid: c21d9d6aacb27a247858a378b726e918, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &2764056267165031042
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3689764250513492591}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  PlayerStats: {fileID: 0}
+  CurrentTile: {fileID: 0}
+  playerMovement: {fileID: 0}
+  InitialRotation: {x: 0, y: 0, z: 0, w: 0}
+  RotationOfPlayer: {x: 0, y: 0}
 --- !u!1 &7563197145404178617
 GameObject:
   m_ObjectHideFlags: 0

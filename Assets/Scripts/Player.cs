@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -19,11 +16,19 @@ public class Player : MonoBehaviour
     {
         playerMovement = GetComponent<PlayerMovement>();
         InitialRotation = transform.rotation;
+        RotateDownDirection();
     }
 
     void Update()
     {
-        playerMovement.HandleMovement(Time.deltaTime);
+       //playerMovement.HandleMovement(Time.deltaTime);
+    }
+
+    public void SpawnPlayerInGame(Tile TileForStart)
+    {
+        CurrentTile = TileForStart;
+        transform.position = CurrentTile.transform.position;
+        TileForStart.hasPlayer = true;
     }
 
     #region RotatePlayer
@@ -54,12 +59,17 @@ public class Player : MonoBehaviour
 
     public void MakeMovement()
     {
-        CurrentTile.GetCoord(); // Position de la curent Tile. 
+        if (CurrentTile)
+        {
+            Debug.Log("Current Tile : [" + CurrentTile.tileRow + "," + CurrentTile.tileColumn + "]");
+        }
+       
         Tile NextTile = null;
 
         //Avancer en X 
         if (RotationOfPlayer.x != 0)
         {
+            Debug.Log("board manager : " + BoardManager.Instance);
             if (NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentTile.tileRow + RotationOfPlayer.x, CurrentTile.tileColumn)))
             {
                 MoveToATile(NextTile);
@@ -89,19 +99,25 @@ public class Player : MonoBehaviour
 
     public void MoveToATile(Tile nextTile)
     {
+        Debug.Log("Cellule ciblée : [" + nextTile.tileRow + "," + nextTile.tileColumn + "]");
+
         if (nextTile.hasObstacle)
         {
             Debug.Log("Cellule ciblée est occupé par un obstacle.");
             return;
         }
-        if (nextTile.isTaken)
+        if (nextTile.hasPlayer)
         {
             Debug.Log("Cellule ciblée est occupé par un joueur.");
             return;
         }
 
         Debug.Log("Tile detecté, le mouvement peut etre fait !");
+        CurrentTile.hasPlayer = false;
+        CurrentTile = null;
         transform.position = nextTile.transform.position;
+        CurrentTile = nextTile;
+        CurrentTile.hasPlayer = true;
     }
 
     public void FallInWater()

@@ -8,10 +8,11 @@ public class Tile : MonoBehaviour
     public int tileColumn;
 
     public bool hasObstacle;
-    public bool isTaken;
+    public bool hasPlayer;
     
     public void SetCoord(Vector2Int newCoord)
     {
+        Debug.Log("Tile [" + newCoord.x + "," + newCoord.y + "]");
         tileRow = newCoord.x;
         tileColumn = newCoord.y;
     }
