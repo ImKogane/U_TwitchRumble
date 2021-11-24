@@ -116,11 +116,20 @@ public class BoardManager : MonoBehaviour
                 tempTileIndex = Random.Range(0, tilesList.Count);
                 tempTile = tilesList[tempTileIndex];
                 
-            } while (!CheckPlacementAvailable(tempTile) && tempTileList.Contains(tempTile));
+                if(!CheckPlacementAvailable(tempTile))
+                {
+                    tempTileList.Add(tempTile);
+                    Debug.Log("Tile with obsacle/hole [ " + tempTile.GetCoord().x + " - " + tempTile.GetCoord().y + "]");
+                    ++tempAmount;
+                }
+                else
+                {
+                    Debug.Log("Oui");
+                }
+                
+            } while (tempTileList.Contains(tempTile));
 
-            tempTileList.Add(tempTile);
             
-            ++tempAmount;
         }
 
         return tempTileList;
@@ -130,8 +139,17 @@ public class BoardManager : MonoBehaviour
     {
         int xPos = tile.GetCoord().x;
         int zPos = tile.GetCoord().y;
-
-        return (xPos > 5 && zPos > 5 && xPos < testBoardSizeX && zPos < testBoardSizeZ);
+        
+        if(xPos > 0 && zPos > 0)
+        {
+            if (xPos < testBoardSizeX-1 && zPos < testBoardSizeX-1)
+            {
+                return true;
+            }
+            
+        }
+        
+        return false;
     }
 
     public Tile GetRandomAvailableTile()
