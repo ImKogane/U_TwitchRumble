@@ -9,7 +9,7 @@ public class InputManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            //On fait une action toujours sur le meme player il faudra changer ça en fonction du player qui a rentrer l'input. 
+            //On fait une action toujours sur le meme player il faudra changer ï¿½a en fonction du player qui a rentrer l'input. 
             ActionMoving ActionToDo = new ActionMoving(PlayerManager.Instance.PlayerList[0], EnumClass.Direction.Up);
             GlobalManager.Instance.AddActionInGameToList(ActionToDo);
         }
@@ -35,9 +35,4 @@ public class InputManager : MonoBehaviour
             GlobalManager.Instance.StartAllActionsInGame();
         }
     }
-}
-
-public static class EnumClass
-{
-    public enum Direction { Up, Down, Right, Left };
 }
