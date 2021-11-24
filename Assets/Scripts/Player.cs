@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
     }
 
     #region RotatePlayer
-    public void RotateTopDirection()
+    public void RotateUpDirection()
     {
         RotationOfPlayer = new Vector2Int(0, 1);
         gameObject.transform.rotation = InitialRotation; 
