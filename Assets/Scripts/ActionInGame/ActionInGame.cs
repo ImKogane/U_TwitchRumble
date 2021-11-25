@@ -35,6 +35,10 @@ public class ActionInGame
 
                 Debug.Log("Next Action");
             }
+            else
+            {
+                GlobalManager.Instance.EndActionTurn();
+            }
         }
     }
 }
