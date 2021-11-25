@@ -9,6 +9,8 @@ public class Tile : MonoBehaviour
 
     public bool hasObstacle;
     public bool hasPlayer;
+
+    public Player currentPlayer;
     
     public void SetCoord(Vector2Int newCoord)
     {

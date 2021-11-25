@@ -28,9 +28,9 @@ public class Player : MonoBehaviour
 
     public void SpawnPlayerInGame(Tile TileForStart)
     {
-        CurrentTile = TileForStart;
+        playerMovement.SetNewTile(TileForStart);
+
         transform.position = CurrentTile.transform.position;
-        TileForStart.hasPlayer = true;
     }
 
     public void Attack()
@@ -46,5 +46,10 @@ public class Player : MonoBehaviour
         }
 
         EndOfAttack.Invoke();
+    }
+
+    public void ReceiveDammage()
+    {
+
     }
 }

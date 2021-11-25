@@ -136,13 +136,24 @@ public class PlayerMovement : MonoBehaviour
 
         Debug.Log("Tile detecté, le mouvement peut etre fait !");
 
-        CurrentPlayer.CurrentTile.hasPlayer = false;
-        CurrentPlayer.CurrentTile = null;
-
+        ResetMyTile();
 
         StartCoroutine(DotweenMovment(nextTile));
 
+        SetNewTile(nextTile);
+    }
+
+    public void ResetMyTile()
+    {
+        CurrentPlayer.CurrentTile.hasPlayer = false;
+        CurrentPlayer.CurrentTile.currentPlayer = null;
+        CurrentPlayer.CurrentTile = null;
+    }
+
+    public void SetNewTile(Tile nextTile)
+    {
         CurrentPlayer.CurrentTile = nextTile;
+        CurrentPlayer.CurrentTile.currentPlayer = CurrentPlayer;
         CurrentPlayer.CurrentTile.hasPlayer = true;
     }
 
