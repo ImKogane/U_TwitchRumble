@@ -14,7 +14,7 @@ public class Tile : MonoBehaviour
     
     public void SetCoord(Vector2Int newCoord)
     {
-        Debug.Log("Tile [" + newCoord.x + "," + newCoord.y + "]");
+        //Debug.Log("Tile [" + newCoord.x + "," + newCoord.y + "]");
         tileRow = newCoord.x;
         tileColumn = newCoord.y;
     }
