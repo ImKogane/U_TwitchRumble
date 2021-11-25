@@ -17,6 +17,10 @@ public class Player : MonoBehaviour
 
     public Action EndOfAttack;
 
+    public Action LastMoveActionChosen;
+
+    public Action LastAttackActionChosen;
+    
     public Material materialForTryCell;
 
     public int LifeOfPlayer = 100;
