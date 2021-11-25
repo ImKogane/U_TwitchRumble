@@ -7,7 +7,7 @@ public class GlobalManager : MonoBehaviour
 {
     public static GlobalManager Instance;
 
-    public List<ActionInGame> ListActionsInGame = new List<ActionInGame>();
+    public List<CommandInGame> ListActionsInGame = new List<CommandInGame>();
 
     private EnumClass.GameState currentGameState;
 
@@ -39,7 +39,7 @@ public class GlobalManager : MonoBehaviour
         UIManager.Instance.DisplayEndScreen(false);
     }
 
-    public void AddActionInGameToList(ActionInGame ActionToAdd)
+    public void AddActionInGameToList(CommandInGame ActionToAdd)
     {
         //Ici on devra trier si le propri�taire de l'action que l'on ajoute a la liste n'avait pas deja une action dans la liste avant de remettre son action. 
         Debug.Log(ActionToAdd + "have been added to the list of actions");

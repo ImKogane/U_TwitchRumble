@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ActionMoving : ActionInGame
+public class CommandMoving : CommandInGame
 {
     EnumClass.Direction DirectionOfMove;
 
-    public ActionMoving(Player OwnerOfAction, EnumClass.Direction direction) : base(OwnerOfAction)
+    public CommandMoving(Player OwnerOfAction, EnumClass.Direction direction) : base(OwnerOfAction)
     {
         OwnerPlayer = OwnerOfAction;
         DirectionOfMove = direction;

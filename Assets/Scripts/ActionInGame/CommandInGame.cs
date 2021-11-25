@@ -4,11 +4,11 @@ using UnityEngine;
 using UnityEngine.Events;
 using System;
 
-public class ActionInGame 
+public class CommandInGame 
 {
     protected Player OwnerPlayer = null;
 
-    public ActionInGame(Player OwnerOfAction)
+    public CommandInGame(Player OwnerOfAction)
     {
         OwnerPlayer = OwnerOfAction;
     }

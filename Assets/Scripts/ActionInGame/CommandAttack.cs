@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ActionAttack : ActionInGame
+public class CommandAttack : CommandInGame
 {
-    public ActionAttack(Player OwnerOfAction) : base(OwnerOfAction)
+    public CommandAttack(Player OwnerOfAction) : base(OwnerOfAction)
     {
         OwnerPlayer = OwnerOfAction;
     }
