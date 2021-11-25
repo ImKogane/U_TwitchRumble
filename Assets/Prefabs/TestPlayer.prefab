@@ -112,10 +112,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentTile: {fileID: 0}
-  playerMovement: {fileID: 0}
-  IDOfPlayer: 0
+  playerMovement: {fileID: -8979563016460687950}
+  namePlayer: 
   typeOfWeapon: 0
   materialForTryCell: {fileID: 2100000, guid: 8a18584c6e7d0c843a222c09e20e5f61, type: 2}
+  LifeOfPlayer: 100
+  AttackPlayer: 25
 --- !u!114 &-8979563016460687950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,7 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a4cda72b802710409750314f3d5f312, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovmentSeconds: 1
+  MovmentSeconds: 2
   InitialRotation: {x: 0, y: 0, z: 0, w: 0}
   RotationOfPlayer: {x: 0, y: 0}
   CurrentPlayer: {fileID: 0}

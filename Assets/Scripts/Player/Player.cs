@@ -46,20 +46,30 @@ public class Player : MonoBehaviour
 
     public void Attack()
     {
+        Debug.Log("ATTTACKKKKKKKKKKK");
+
         List<Tile> listTileAffect = weaponOfPlayer.Attack(CurrentTile.GetCoord(), playerMovement.RotationOfPlayer);
+        Color randColor = chooseRandomColor();
 
         foreach (Tile tile in listTileAffect)
         {
             if (!tile.hasObstacle)
             {
-                if (tile.hasPlayer)
-                {
-                    tile.currentPlayer.ReceiveDammage(AttackPlayer);
-                }
+                Debug.Log("Tile Affect : " + tile.tileRow + "/" + tile.tileColumn);
+                //tile.currentPlayer.ReceiveDammage(AttackPlayer);
+                tile.GetComponentInChildren<MeshRenderer>().material.color = randColor;
             }
         }
 
         EndOfAttack.Invoke();
+    }
+
+    public Color chooseRandomColor()
+    {
+        List<Color> listColor = new List<Color>() { Color.black, Color.blue, Color.green, Color.red, Color.yellow , Color.white};
+        int randIndex = UnityEngine.Random.Range(0, listColor.Count);
+
+        return listColor[randIndex];
     }
 
     public void ReceiveDammage(int dammage)
