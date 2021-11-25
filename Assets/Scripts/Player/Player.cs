@@ -59,6 +59,10 @@ public class Player : MonoBehaviour
                 //tile.currentPlayer.ReceiveDammage(AttackPlayer);
                 tile.GetComponentInChildren<MeshRenderer>().material.color = randColor;
             }
+            if (tile.hasPlayer)
+            {
+                tile.currentPlayer.ReceiveDammage(AttackPlayer);
+            }
         }
 
         EndOfAttack.Invoke();
@@ -79,6 +83,7 @@ public class Player : MonoBehaviour
         if (LifeOfPlayer <= 0)
         {
             Debug.Log("Player is dead !");
+            Destroy(gameObject);
         }
 
         if (CurrentTile)
