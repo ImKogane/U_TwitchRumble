@@ -32,7 +32,9 @@ public class GlobalManager : MonoBehaviour
 
     private void Start()
     {
-        StartState(EnumClass.GameState.WaitingTurn);
+        StartState(EnumClass.GameState.ChoseBuffTurn);
+        turnCount = 1;
+        UIManager.Instance.UpdateTurnCount(turnCount);
     }
 
     public void AddActionInGameToList(ActionInGame ActionToAdd)
@@ -46,10 +48,13 @@ public class GlobalManager : MonoBehaviour
     {
         if (ListActionsInGame.Count > 0)
         {
+            UIManager.Instance.DisplayPhaseTitle("Phase d'action");
+            UIManager.Instance.DisplayPhaseDescription("Déroulement des actions choisies précédemment");
             ListActionsInGame[0].LaunchActionInGame();
         }
         else
         {
+            Debug.Log("Personne n'a choisi d'action pendant ce tour !");
             EndActionTurn();
         }
         
@@ -75,25 +80,31 @@ public class GlobalManager : MonoBehaviour
                 break;
             
             case(EnumClass.GameState.GameEnd):
-                //Display End Screen
+                UIManager.Instance.DisplayEndScreen();
                 break;
         }
     }
 
     IEnumerator ActionsChoiceCoroutine()
     {
-        //Display Input Choice screen (and players life+name ?)
-        
+        UIManager.Instance.DisplayPhaseTitle("Phase du choix des actions");
+        UIManager.Instance.DisplayPhaseDescription("Choisissez votre prochain déplacement avec les flèches directionnelles, et A pour attaquer.");
+
         currentTimer = actionsTimerDuration;
 
+        InputManager.Instance.EnableInputs(true);
+        UIManager.Instance.ActivateTimerBar(true);
+        
         while (currentTimer > 0)
         {
             yield return new WaitForSeconds(1);
             currentTimer--;
-            //Update ProgressBar
+            UIManager.Instance.UpdateTimerBar((float)currentTimer/actionsTimerDuration);
         }
         
-        //HideBuffScreen
+        UIManager.Instance.ActivateTimerBar(false);
+        InputManager.Instance.EnableInputs(false);
+        
         StartState(EnumClass.GameState.ActionTurn);
         
     }
@@ -101,25 +112,31 @@ public class GlobalManager : MonoBehaviour
     IEnumerator BuffChoiceCoroutine()
     {
         //SetBuffScreen
-        //DisplayBuffScreen
-
+        UIManager.Instance.DisplayPhaseTitle("Phase d'amélioration");
+        UIManager.Instance.DisplayPhaseDescription("Votre décision affectera grandement votre manière de jouer");
+        UIManager.Instance.ActivateTimerBar(true);
+        
         currentTimer = buffTimerDuration;
 
+        
+        
         while (currentTimer > 0)
         {
             yield return new WaitForSeconds(1);
             currentTimer--;
-            //Update ProgressBar
+            UIManager.Instance.UpdateTimerBar((float)currentTimer/buffTimerDuration);
         }
+        
+        UIManager.Instance.ActivateTimerBar(true);
         
         //HideBuffScreen
         StartState(EnumClass.GameState.WaitingTurn);
     }
     
-    void EndActionTurn()
+    public void EndActionTurn()
     {
         turnCount++;
-        //Update the UI turn counter
+        UIManager.Instance.UpdateTurnCount(turnCount);
         CheckNextTurn(turnCount);
     }
 

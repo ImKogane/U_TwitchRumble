@@ -1,11 +1,39 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Channels;
 using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    // Update is called once per frame
+    public static InputManager Instance;
+
+    private bool inputsEnabled;
+    
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
     void Update()
+    {
+        if (!inputsEnabled) return;
+        HandleInputs();
+    }
+    
+    public void EnableInputs(bool value)
+    {
+        inputsEnabled = value;
+    }
+
+    void HandleInputs()
     {
         //Actions de déplacements. 
         if (Input.GetKeyDown(KeyCode.UpArrow))
@@ -36,11 +64,6 @@ public class InputManager : MonoBehaviour
             ActionAttack ActionToDo = new ActionAttack(PlayerManager.Instance.PlayerList[0]);
             GlobalManager.Instance.AddActionInGameToList(ActionToDo);
         }
-
-        //Pour tester le lancement de toute les actions
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            GlobalManager.Instance.StartAllActionsInGame();
-        }
     }
+    
 }
