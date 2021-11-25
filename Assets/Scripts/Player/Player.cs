@@ -83,6 +83,7 @@ public class Player : MonoBehaviour
         if (LifeOfPlayer <= 0)
         {
             Debug.Log("Player is dead !");
+            PlayerManager.Instance.PlayerList.Remove(this);
             Destroy(gameObject);
         }
 
