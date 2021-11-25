@@ -2,12 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using TMPro;
+using UnityEngine.SocialPlatforms;
+using UnityEngine.UI;
+using Random = System.Random;
 
 public class Player : MonoBehaviour
 {
     public Tile CurrentTile;
 
     public PlayerMovement playerMovement;
+    
+    public TMP_Text playerNameText;
+    public Slider playerLifeBar;
 
     public string namePlayer;
 
@@ -30,7 +37,6 @@ public class Player : MonoBehaviour
     private void Start()
     {
         playerMovement = GetComponent<PlayerMovement>();
-
         weaponOfPlayer = new Weapon(typeOfWeapon);
     }
 
@@ -40,8 +46,13 @@ public class Player : MonoBehaviour
         namePlayer = nameP;
         CurrentTile.currentPlayer = this;
         CurrentTile.hasPlayer = true;
-
         transform.position = CurrentTile.transform.position;
+
+        playerNameText.text = namePlayer;
+        playerNameText.color = UnityEngine.Random.ColorHSV();
+        playerLifeBar.maxValue = LifeOfPlayer;
+        playerLifeBar.minValue = 0;
+        playerLifeBar.value = LifeOfPlayer;
     }
 
     public void Attack()
@@ -62,10 +73,12 @@ public class Player : MonoBehaviour
         EndOfAttack.Invoke();
     }
 
-    public void ReceiveDammage(int dammage)
+    public void ReceiveDammage(int damage)
     {
-        LifeOfPlayer -= dammage;
+        LifeOfPlayer -= damage;
 
+        playerLifeBar.value = LifeOfPlayer;
+        
         if (LifeOfPlayer <= 0)
         {
             Debug.Log("Player is dead !");
