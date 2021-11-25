@@ -9,6 +9,8 @@ using TMPro;
 
 public class TwitchManager : MonoBehaviour
 {
+    public static TwitchManager Instance;
+
     private TcpClient twitchClient;
     private StreamReader reader;
     private StreamWriter writter;
@@ -34,6 +36,21 @@ public class TwitchManager : MonoBehaviour
     public string DownCommande;
 
     bool bConnexionIsDone = false;
+    [System.NonSerialized] public bool canJoinedGame = true;
+    [System.NonSerialized] public bool playersCanMakeActions = false;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
 
     private void Start() // Use datas store in PlayerPrefs
     {
@@ -97,7 +114,7 @@ public class TwitchManager : MonoBehaviour
     {
         // Tcheck if game didn't start. 
 
-        if (messageOfPlayer == JoinCommande) //Connection du joueur twitch dans le jeu 
+        if (messageOfPlayer == JoinCommande && canJoinedGame) //Connection du joueur twitch dans le jeu 
         {
             if (!PlayerManager.Instance.AllPlayersName.Contains(nameOfPlayer))
             {
@@ -116,30 +133,39 @@ public class TwitchManager : MonoBehaviour
                 ShowAllPlayersInGame();
             }
 
-            //Need to be in ActionState in the GlobalManager.
+            if (playersCanMakeActions)
+            {
+                //Need to be in ActionState in the GlobalManager.
 
-            if (messageOfPlayer == AttackCommande) //Attack
-            {
-                Debug.Log("COMMAND : " + nameOfPlayer + " attack !");
+                Player currentplayer = PlayerManager.Instance.ReturnPlayerWithName(nameOfPlayer);
+
+                if (messageOfPlayer == AttackCommande) //Attack
+                {
+                    Debug.Log("COMMAND : " + nameOfPlayer + " attack !");
+                    InputManager.Instance.AttackCommand(currentplayer);
+                }
+                if (messageOfPlayer == LeftCommande) //MoveLeft
+                {
+                    Debug.Log("COMMAND : " + nameOfPlayer + " move to the left !");
+                    InputManager.Instance.MoveCommand(currentplayer, EnumClass.Direction.Left);
+                }
+                if (messageOfPlayer == RightCommande) //MoveRight
+                {
+                    Debug.Log("COMMAND : " + nameOfPlayer + " move to the right !");
+                    InputManager.Instance.MoveCommand(currentplayer, EnumClass.Direction.Right);
+                }
+                if (messageOfPlayer == UpCommande) //MoveTop
+                {
+                    Debug.Log("COMMAND : " + nameOfPlayer + " move to the top !");
+                    InputManager.Instance.MoveCommand(currentplayer, EnumClass.Direction.Up);
+                }
+                if (messageOfPlayer == DownCommande) //MoveDown
+                {
+                    Debug.Log("COMMAND : " + nameOfPlayer + " move to the down !");
+                    InputManager.Instance.MoveCommand(currentplayer, EnumClass.Direction.Down);
+                }
             }
-            if (messageOfPlayer == LeftCommande) //MoveLeft
-            {
-                Debug.Log("COMMAND : " + nameOfPlayer + " move to the left !");
-            }
-            if (messageOfPlayer == RightCommande) //MoveRight
-            {
-                Debug.Log("COMMAND : " + nameOfPlayer + " move to the right !");
-            }
-            if (messageOfPlayer == UpCommande) //MoveTop
-            {
-                Debug.Log("COMMAND : " + nameOfPlayer + " move to the top !");
-            }
-            if (messageOfPlayer == DownCommande) //MoveDown
-            {
-                Debug.Log("COMMAND : " + nameOfPlayer + " move to the down !");
-            }
-        }
-        
+        }        
     }
 
     private void Update()
@@ -163,7 +189,6 @@ public class TwitchManager : MonoBehaviour
         {
             ListeJoueursText.text += item + "\n";
         }
-
-
     }
+
 }

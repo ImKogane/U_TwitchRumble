@@ -63,7 +63,6 @@ public class GlobalManager : MonoBehaviour
         
     }
     
-
     void StartState(EnumClass.GameState nextState)
     {
         currentGameState = nextState;
@@ -94,6 +93,8 @@ public class GlobalManager : MonoBehaviour
         UIManager.Instance.DisplayPhaseTitle("Phase du choix des actions");
         UIManager.Instance.DisplayPhaseDescription("Choisissez votre prochain déplacement avec les flèches directionnelles, et A pour attaquer.");
 
+        TwitchManager.Instance.playersCanMakeActions = true;
+
         currentTimer = actionsTimerDuration;
 
         InputManager.Instance.EnableInputs(true);
@@ -108,7 +109,9 @@ public class GlobalManager : MonoBehaviour
         
         UIManager.Instance.ActivateTimerBar(false);
         InputManager.Instance.EnableInputs(false);
-        
+
+        TwitchManager.Instance.playersCanMakeActions = false;
+
         StartState(EnumClass.GameState.ActionTurn);
         
     }

@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
 
     public PlayerMovement playerMovement;
 
-    public int IDOfPlayer;
+    public string namePlayer;
 
     private Weapon weaponOfPlayer = null;
 
@@ -34,9 +34,10 @@ public class Player : MonoBehaviour
         weaponOfPlayer = new Weapon(typeOfWeapon);
     }
 
-    public void SpawnPlayerInGame(Tile TileForStart)
+    public void SpawnPlayerInGame(Tile TileForStart, string nameP)
     {
         CurrentTile = TileForStart;
+        namePlayer = nameP;
         CurrentTile.currentPlayer = this;
         CurrentTile.hasPlayer = true;
 

@@ -25,7 +25,7 @@ public class InputManager : MonoBehaviour
     void Update()
     {
         if (!inputsEnabled) return;
-        HandleInputs();
+        InputPlayerLocal();
     }
     
     public void EnableInputs(bool value)
@@ -33,37 +33,61 @@ public class InputManager : MonoBehaviour
         inputsEnabled = value;
     }
 
-    void HandleInputs()
+    void InputPlayerLocal()
     {
         //Actions de déplacements. 
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            //On fait une action toujours sur le meme player il faudra changer �a en fonction du player qui a rentrer l'input. 
-            CommandMoving ActionToDo = new CommandMoving(PlayerManager.Instance.PlayerList[0], EnumClass.Direction.Up);
-            GlobalManager.Instance.AddActionInGameToList(ActionToDo);
+            MoveCommand(PlayerManager.Instance.PlayerList[0], EnumClass.Direction.Up);
         }
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            CommandMoving ActionToDo = new CommandMoving(PlayerManager.Instance.PlayerList[0], EnumClass.Direction.Down);
-            GlobalManager.Instance.AddActionInGameToList(ActionToDo);
+            MoveCommand(PlayerManager.Instance.PlayerList[0], EnumClass.Direction.Down);
         }
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            CommandMoving ActionToDo = new CommandMoving(PlayerManager.Instance.PlayerList[0], EnumClass.Direction.Right);
-            GlobalManager.Instance.AddActionInGameToList(ActionToDo);
+            MoveCommand(PlayerManager.Instance.PlayerList[0], EnumClass.Direction.Right);
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            CommandMoving ActionToDo = new CommandMoving(PlayerManager.Instance.PlayerList[0], EnumClass.Direction.Left);
-            GlobalManager.Instance.AddActionInGameToList(ActionToDo);
+            MoveCommand(PlayerManager.Instance.PlayerList[0], EnumClass.Direction.Left);
         }
 
         //Action d'attaque.
         if (Input.GetKeyDown(KeyCode.A))
         {
-            CommandAttack ActionToDo = new CommandAttack(PlayerManager.Instance.PlayerList[0]);
-            GlobalManager.Instance.AddActionInGameToList(ActionToDo);
+            AttackCommand(PlayerManager.Instance.PlayerList[0]);
         }
     }
-    
+
+    public void MoveCommand(Player player, EnumClass.Direction direction)
+    {
+        CommandMoving ActionToDo = null;
+        switch (direction)
+        {
+            case EnumClass.Direction.Up:
+                ActionToDo = new CommandMoving(player, EnumClass.Direction.Up);
+                break;
+            case EnumClass.Direction.Down:
+                ActionToDo = new CommandMoving(player, EnumClass.Direction.Down);
+                break;
+            case EnumClass.Direction.Right:
+                ActionToDo = new CommandMoving(player, EnumClass.Direction.Right);
+                break;
+            case EnumClass.Direction.Left:
+                ActionToDo = new CommandMoving(player, EnumClass.Direction.Left);
+                break;
+            default:
+                break;
+        }
+        GlobalManager.Instance.AddActionInGameToList(ActionToDo);
+    }
+
+    public void AttackCommand(Player player)
+    {
+        CommandAttack ActionToDo = new CommandAttack(player);
+        GlobalManager.Instance.AddActionInGameToList(ActionToDo);
+    }
+
+
 }
