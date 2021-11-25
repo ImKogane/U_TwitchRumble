@@ -19,6 +19,10 @@ public class Player : MonoBehaviour
 
     public Material materialForTryCell;
 
+    public int LifeOfPlayer = 100;
+
+    public int AttackPlayer = 25;
+
     private void Start()
     {
         playerMovement = GetComponent<PlayerMovement>();
@@ -28,7 +32,9 @@ public class Player : MonoBehaviour
 
     public void SpawnPlayerInGame(Tile TileForStart)
     {
-        playerMovement.SetNewTile(TileForStart);
+        CurrentTile = TileForStart;
+        CurrentTile.currentPlayer = this;
+        CurrentTile.hasPlayer = true;
 
         transform.position = CurrentTile.transform.position;
     }
@@ -41,15 +47,28 @@ public class Player : MonoBehaviour
         {
             if (!tile.hasObstacle)
             {
-                tile.gameObject.GetComponentInChildren<MeshRenderer>().material = materialForTryCell;
+                if (tile.hasPlayer)
+                {
+                    tile.currentPlayer.ReceiveDammage(AttackPlayer);
+                }
             }
         }
 
         EndOfAttack.Invoke();
     }
 
-    public void ReceiveDammage()
+    public void ReceiveDammage(int dammage)
     {
+        LifeOfPlayer -= dammage;
 
+        if (LifeOfPlayer <= 0)
+        {
+            Debug.Log("Player is dead !");
+        }
+
+        if (CurrentTile)
+        {
+            CurrentTile.gameObject.GetComponentInChildren<MeshRenderer>().material = materialForTryCell;
+        }
     }
 }
