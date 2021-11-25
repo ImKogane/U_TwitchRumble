@@ -8,6 +8,9 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
+    [SerializeField] private Canvas endScreen;
+    [SerializeField] private Canvas gameScreen;
+    
     [SerializeField] private Slider timerBar;
 
     [SerializeField] private TMP_Text phaseTitle;
@@ -15,13 +18,11 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private float turnDescriptionDuration;
 
-    [SerializeField] private Canvas endScreen;
-
     [SerializeField] private TMP_Text turnCount;
 
     [SerializeField] private float textSpeed;
     [SerializeField] private float waitingDurationAfterPhaseDescription;
-    
+
     private void Awake()
     {
         if (Instance == null)
@@ -70,9 +71,14 @@ public class UIManager : MonoBehaviour
         phaseDescription.enabled = false;
     }
 
-    public void DisplayEndScreen()
+    public void DisplayEndScreen(bool value)
     {
-        endScreen.enabled = true;
+        endScreen.enabled = value;
+    }
+
+    public void DisplayGameScreen(bool value)
+    {
+        gameScreen.enabled = value;
     }
     
     public void UpdateTurnCount(int newCount)

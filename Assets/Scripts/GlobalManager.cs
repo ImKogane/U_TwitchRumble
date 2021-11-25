@@ -35,6 +35,8 @@ public class GlobalManager : MonoBehaviour
         StartState(EnumClass.GameState.ChoseBuffTurn);
         turnCount = 1;
         UIManager.Instance.UpdateTurnCount(turnCount);
+        UIManager.Instance.DisplayGameScreen(true);
+        UIManager.Instance.DisplayEndScreen(false);
     }
 
     public void AddActionInGameToList(ActionInGame ActionToAdd)
@@ -80,7 +82,8 @@ public class GlobalManager : MonoBehaviour
                 break;
             
             case(EnumClass.GameState.GameEnd):
-                UIManager.Instance.DisplayEndScreen();
+                UIManager.Instance.DisplayEndScreen(false);
+                UIManager.Instance.DisplayEndScreen(true);
                 break;
         }
     }
@@ -127,7 +130,7 @@ public class GlobalManager : MonoBehaviour
             UIManager.Instance.UpdateTimerBar((float)currentTimer/buffTimerDuration);
         }
         
-        UIManager.Instance.ActivateTimerBar(true);
+        UIManager.Instance.ActivateTimerBar(false);
         
         //HideBuffScreen
         StartState(EnumClass.GameState.WaitingTurn);
