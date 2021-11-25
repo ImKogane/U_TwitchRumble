@@ -45,29 +45,5 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void MoveAllPlayer(EnumClass.Direction DirectionOfMovement)
-    {
-        foreach (Player player in PlayerList)
-        {
-            switch (DirectionOfMovement)
-            {
-                case EnumClass.Direction.Up:
-                    player.playerMovement.RotateUpDirection();
-                    break;
-                case EnumClass.Direction.Down:
-                    player.playerMovement.RotateDownDirection();
-                    break;
-                case EnumClass.Direction.Right:
-                    player.playerMovement.RotateRightDirection();
-                    break;
-                case EnumClass.Direction.Left:
-                    player.playerMovement.RotateLeftDirection();
-                    break;
-                default:
-                    break;
-            }
-            player.playerMovement.MakeMovement();
-        }
-        
-    }
+    
 }
