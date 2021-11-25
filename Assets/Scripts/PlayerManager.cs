@@ -10,6 +10,8 @@ public class PlayerManager : MonoBehaviour
 
     public GameObject prefabOfPlayer;
 
+    public List<string> AllPlayersName;
+
     [SerializeField]
     public List<Player> PlayerList;
 
@@ -23,11 +25,6 @@ public class PlayerManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-    }
-
-    private void Start()
-    {
-        
     }
 
     public void SpawnAllPlayerOnBoard()
