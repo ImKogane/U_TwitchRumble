@@ -24,4 +24,9 @@ public class CommandMoving : CommandInGame
         OwnerPlayer.playerMovement.RotatePlayer(DirectionOfMove);
         OwnerPlayer.playerMovement.MakeMovement();
     }
+
+    public override void DestroyCommand()
+    {
+        OwnerPlayer.playerMovement.EndOfMoving -= EndActionInGame;
+    }
 }

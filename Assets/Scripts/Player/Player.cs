@@ -96,6 +96,8 @@ public class Player : MonoBehaviour
             CurrentTile.hasPlayer = false;
             CurrentTile.currentPlayer = null;
 
+            GlobalManager.Instance.DestroyAllCommandsOfPlayer(this);
+
             Destroy(gameObject);
         }
     }

@@ -7,7 +7,7 @@ public class GlobalManager : MonoBehaviour
 {
     public static GlobalManager Instance;
 
-    public List<CommandInGame> ListActionsInGame = new List<CommandInGame>();
+    public List<CommandInGame> ListCommandsInGame = new List<CommandInGame>();
 
     private EnumClass.GameState currentGameState;
 
@@ -44,16 +44,16 @@ public class GlobalManager : MonoBehaviour
         //Ici on devra trier si le propri�taire de l'action que l'on ajoute a la liste n'avait pas deja une action dans la liste avant de remettre son action. 
         
         Debug.Log(ActionToAdd + "have been added to the list of actions");
-        ListActionsInGame.Add(ActionToAdd);
+        ListCommandsInGame.Add(ActionToAdd);
     }
 
     public void StartAllActionsInGame()
     {
-        if (ListActionsInGame.Count > 0)
+        if (ListCommandsInGame.Count > 0)
         {
             UIManager.Instance.DisplayPhaseTitle("Phase d'action");
             UIManager.Instance.DisplayPhaseDescription("Déroulement des actions choisies précédemment");
-            ListActionsInGame[0].LaunchActionInGame();
+            ListCommandsInGame[0].LaunchActionInGame();
         }
         else
         {
@@ -163,5 +163,63 @@ public class GlobalManager : MonoBehaviour
         
         StartState(EnumClass.GameState.WaitingTurn);
     }
-    
+
+    public List<CommandInGame> FindPlayerCommands(Player ownerOfCommands)
+    {
+        List<CommandInGame> listToReturn = new List<CommandInGame>();
+
+        foreach (CommandInGame command in ListCommandsInGame)
+        {
+            if (command.OwnerPlayer == ownerOfCommands)
+            {
+                listToReturn.Add(command);
+            }
+        }
+
+        return listToReturn;
+    }
+
+    public void DestroyAllCommandsOfPlayer(Player ownerOfCommands)
+    {
+        List<CommandInGame> listToDestroy = FindPlayerCommands(ownerOfCommands);
+
+        for (int i = 0; i < listToDestroy.Count; i++)
+        {
+            listToDestroy[i].DestroyCommand();
+
+            if (ListCommandsInGame.Contains(listToDestroy[i]))
+            {
+                ListCommandsInGame.Remove(listToDestroy[i]);
+            }
+        }
+    }
+
+    public void RemoveMoveCommandOfPlayer(Player ownerOfCommands)
+    {
+        List<CommandInGame> AllCommandsOfPlayer = FindPlayerCommands(ownerOfCommands);
+
+        for (int i = 0; i < AllCommandsOfPlayer.Count; i++)
+        {
+            if (ListCommandsInGame.Contains(AllCommandsOfPlayer[i]) && AllCommandsOfPlayer[i] is CommandMoving)
+            {
+                AllCommandsOfPlayer[i].DestroyCommand();
+                ListCommandsInGame.Remove(AllCommandsOfPlayer[i]);
+            }
+        }
+    }
+
+    public void RemoveAttackCommandOfPlayer(Player ownerOfCommands)
+    {
+        List<CommandInGame> AllCommandsOfPlayer = FindPlayerCommands(ownerOfCommands);
+
+        for (int i = 0; i < AllCommandsOfPlayer.Count; i++)
+        {
+            if (ListCommandsInGame.Contains(AllCommandsOfPlayer[i]) && AllCommandsOfPlayer[i] is CommandAttack)
+            {
+                AllCommandsOfPlayer[i].DestroyCommand();
+                ListCommandsInGame.Remove(AllCommandsOfPlayer[i]);
+            }
+        }
+    }
+
 }
