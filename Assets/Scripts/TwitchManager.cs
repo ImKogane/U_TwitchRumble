@@ -35,6 +35,8 @@ public class TwitchManager : MonoBehaviour
     public string UpCommande;
     public string DownCommande;
 
+    public int maxCharacterInNames;
+
     bool bConnexionIsDone = false;
     [System.NonSerialized] public bool canJoinedGame = true;
     [System.NonSerialized] public bool playersCanMakeActions = false;
@@ -134,8 +136,9 @@ public class TwitchManager : MonoBehaviour
 
     public void AnalyseChatCommand(string nameOfPlayer, string messageOfPlayer)
     {
-        // Tcheck if game didn't start. 
+        nameOfPlayer = CutPlayerName(nameOfPlayer);
 
+        // Tcheck if game didn't start. 
         if (messageOfPlayer == JoinCommande && canJoinedGame) //Connection du joueur twitch dans le jeu 
         {
             if (!PlayerManager.Instance.AllPlayersName.Contains(nameOfPlayer))
@@ -190,7 +193,23 @@ public class TwitchManager : MonoBehaviour
         }        
     }
 
-
+    public string CutPlayerName(string namePlayer)
+    {
+        
+        if (namePlayer.Length > maxCharacterInNames)
+        {
+            string nameCut = "";
+            for (int i = 0; i < maxCharacterInNames; i++)
+            {
+                nameCut += namePlayer[i];
+            }
+            return nameCut;
+        }
+        else
+        {
+            return namePlayer;
+        }
+    }
 
     public void ShowAllPlayersInGame()
     {
