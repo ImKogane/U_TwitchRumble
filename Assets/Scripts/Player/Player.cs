@@ -12,9 +12,6 @@ public class Player : MonoBehaviour
     public Tile CurrentTile;
 
     public PlayerMovement playerMovement;
-    
-    public TMP_Text playerNameText;
-    public Slider playerLifeBar;
 
     public string namePlayer;
 
@@ -34,10 +31,17 @@ public class Player : MonoBehaviour
 
     public int AttackPlayer = 25;
 
+    [Header("UI variables")]
+    public TMP_Text playerNameText;
+    public Slider playerLifeBar;
+    public Canvas playerCanvas;
+
     private void Start()
     {
-        playerMovement = GetComponent<PlayerMovement>();
+        //playerMovement = GetComponent<PlayerMovement>();
         weaponOfPlayer = new Weapon(typeOfWeapon);
+        playerCanvas.worldCamera = Camera.main;
+        UpdateRotationOfUI();
     }
 
     public void SpawnPlayerInGame(Tile TileForStart, string nameP)
@@ -49,7 +53,6 @@ public class Player : MonoBehaviour
         transform.position = CurrentTile.transform.position;
 
         playerNameText.text = namePlayer;
-        playerNameText.color = UnityEngine.Random.ColorHSV();
         playerLifeBar.maxValue = LifeOfPlayer;
         playerLifeBar.minValue = 0;
         playerLifeBar.value = LifeOfPlayer;
@@ -67,6 +70,10 @@ public class Player : MonoBehaviour
                 {
                     tile.currentPlayer.ReceiveDammage(AttackPlayer);
                 }
+                else
+                {
+                    tile.gameObject.GetComponentInChildren<MeshRenderer>().material = materialForTryCell;
+                }
             }
         }
 
@@ -82,11 +89,19 @@ public class Player : MonoBehaviour
         if (LifeOfPlayer <= 0)
         {
             Debug.Log("Player is dead !");
-        }
 
-        if (CurrentTile)
-        {
-            CurrentTile.gameObject.GetComponentInChildren<MeshRenderer>().material = materialForTryCell;
+            PlayerManager.Instance.AllPlayersName.Remove(namePlayer);
+            PlayerManager.Instance.PlayerList.Remove(this);
+
+            CurrentTile.hasPlayer = false;
+            CurrentTile.currentPlayer = null;
+
+            Destroy(gameObject);
         }
+    }
+
+    public void UpdateRotationOfUI()
+    {
+        playerCanvas.transform.LookAt(playerCanvas.transform.position + Camera.main.transform.rotation * Vector3.back, Camera.main.transform.rotation * Vector3.up);
     }
 }

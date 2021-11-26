@@ -19,13 +19,16 @@ public class PlayerMovement : MonoBehaviour
 
     public Player CurrentPlayer;
 
+    bool UpdateRotOfUI = false;
+
     [SerializeField] private float movePrecision;
 
     private void Start()
     {
-        CurrentPlayer = GetComponent<Player>();
+        //CurrentPlayer = GetComponent<Player>();
         InitialRotation = transform.rotation;
         RotateDownDirection();
+        EndOfMoving += () => { UpdateRotOfUI = false; };
     }
 
     #region RotatePlayer
@@ -76,9 +79,19 @@ public class PlayerMovement : MonoBehaviour
     }
     #endregion
 
+    private void Update()
+    {
+        if (UpdateRotOfUI)
+        {
+            CurrentPlayer.UpdateRotationOfUI();
+        }
+    }
+
     #region Movement
     public void MakeMovement()
     {
+        UpdateRotOfUI = true; 
+
         if (CurrentPlayer.CurrentTile)
         {
             Debug.Log("Current Tile : [" + CurrentPlayer.CurrentTile.tileRow + "," + CurrentPlayer.CurrentTile.tileColumn + "]");

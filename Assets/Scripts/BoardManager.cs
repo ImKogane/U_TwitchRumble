@@ -151,15 +151,13 @@ public class BoardManager : MonoBehaviour
 
     public Tile GetRandomAvailableTile()
     {
-        Tile tileToReturn = null; 
+        Tile tileToReturn = null;
 
-        int indexOfTile = Random.Range(0, tilesList.Count);
-        tileToReturn = tilesList[indexOfTile];
+        do{
+            int indexOfTile = Random.Range(0, tilesList.Count);
+            tileToReturn = tilesList[indexOfTile];
+        }while (tileToReturn.hasObstacle == true || tileToReturn.hasPlayer == true);
 
-        if (tileToReturn.hasObstacle == true || tileToReturn.hasPlayer == true)
-        {
-            GetRandomAvailableTile();
-        }
         return tileToReturn;
     }
 
