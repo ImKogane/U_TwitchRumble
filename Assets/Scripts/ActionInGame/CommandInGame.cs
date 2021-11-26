@@ -37,7 +37,7 @@ public class CommandInGame
             }
             else
             {
-                GlobalManager.Instance.EndActionTurn();
+                if (GlobalManager.Instance.GetCurrentGameState() == EnumClass.GameState.ActionTurn) GlobalManager.Instance.EndActionTurn();
             }
         }
     }

@@ -35,7 +35,7 @@ public class Player : MonoBehaviour
     public Canvas playerUIPrefab;
     public Vector3 UIOffset;
     
-    private Canvas playerCanvas;
+    public Canvas playerCanvas;
     private Slider playerHealthBar;
     private TMP_Text playerNameText;
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GlobalManager : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public class GlobalManager : MonoBehaviour
     private int currentTimer;
 
     public SO_Choice[] choicesArray;
-    
+
     private int turnCount;
 
     #region Unity Basic Events
@@ -35,8 +36,8 @@ public class GlobalManager : MonoBehaviour
 
     private void Start()
     {
-        StartState(EnumClass.GameState.ChoseBuffTurn);
         turnCount = 1;
+        StartState(EnumClass.GameState.ChoseBuffTurn);
         UIManager.Instance.UpdateTurnCount(turnCount);
         UIManager.Instance.DisplayGameScreen(true);
         UIManager.Instance.DisplayEndScreen(false);
@@ -50,6 +51,7 @@ public class GlobalManager : MonoBehaviour
     {
         UIManager.Instance.DisplayPhaseTitle("Phase du choix des actions");
         UIManager.Instance.DisplayPhaseDescription("Choisissez votre prochain déplacement avec les flèches directionnelles, et A pour attaquer.");
+        UIManager.Instance.DisplayAllPlayersUI(PlayerManager.Instance.PlayerList, true);
 
         TwitchManager.Instance.playersCanMakeActions = true;
 
@@ -65,6 +67,8 @@ public class GlobalManager : MonoBehaviour
             UIManager.Instance.UpdateTimerBar((float)currentTimer/actionsTimerDuration);
         }
         
+        
+        UIManager.Instance.DisplayAllPlayersUI(PlayerManager.Instance.PlayerList, false);
         UIManager.Instance.ActivateTimerBar(false);
         InputManager.Instance.EnableActionInputs(false);
 
@@ -79,10 +83,13 @@ public class GlobalManager : MonoBehaviour
         UIManager.Instance.DisplayPhaseTitle("Phase d'amélioration");
         UIManager.Instance.DisplayPhaseDescription("Votre décision affectera grandement votre manière de jouer");
         UIManager.Instance.ActivateTimerBar(true);
+
+        UIManager.Instance.UpdateChoiceCardsImage();
+        UIManager.Instance.DisplayChoiceCards(true);
         
         InputManager.Instance.EnableChoiceInputs(true);
         TwitchManager.Instance.playersCanMakeChoices = true;
-        
+
         currentTimer = buffTimerDuration;
 
         while (currentTimer > 0)
@@ -93,9 +100,12 @@ public class GlobalManager : MonoBehaviour
         }
         
         UIManager.Instance.ActivateTimerBar(false);
+        UIManager.Instance.DisplayChoiceCards(false);
         
         TwitchManager.Instance.playersCanMakeChoices = false;
         InputManager.Instance.EnableChoiceInputs(false);
+        
+        StartAllActionsInGame();
         
         StartState(EnumClass.GameState.WaitingTurn);
     }
@@ -181,7 +191,7 @@ public class GlobalManager : MonoBehaviour
     }
 
 
-    EnumClass.GameState GetCurrentGameState()
+    public EnumClass.GameState GetCurrentGameState()
     {
         return currentGameState;
     }
@@ -252,5 +262,19 @@ public class GlobalManager : MonoBehaviour
         }
     }
 
+    public SO_Choice GetCurrentChoice()
+    {
+        foreach (SO_Choice choice in choicesArray)
+        {
+            int choiceTurnCount = choice.turnToTakeEffect;
+            
+            if (turnCount == choiceTurnCount)
+            {
+                return choice;
+            }
+        }
 
+        return null;
+    }
+    
 }

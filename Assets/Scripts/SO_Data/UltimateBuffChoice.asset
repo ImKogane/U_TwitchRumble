@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: UltimateBuffChoice
   m_EditorClassIdentifier: 
   choiceType: 3
-  leftChoiceCard: {fileID: 0}
-  rightChoiceCard: {fileID: 0}
-  middleChoiceCard: {fileID: 0}
+  leftChoiceCard: {fileID: 21300000, guid: 6b368a1dd5731164580d1bb7cc59c32d, type: 3}
+  rightChoiceCard: {fileID: 21300000, guid: 52822d63b144c0440af7fd87b954cc1d, type: 3}
+  middleChoiceCard: {fileID: 21300000, guid: c3f7a46a32c02804b85cbdafe5d8cf27, type: 3}
   turnToTakeEffect: 15

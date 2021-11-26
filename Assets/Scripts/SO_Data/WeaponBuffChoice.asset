@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WeaponBuffChoice
   m_EditorClassIdentifier: 
   choiceType: 1
-  leftChoiceCard: {fileID: 0}
-  rightChoiceCard: {fileID: 0}
-  middleChoiceCard: {fileID: 0}
+  leftChoiceCard: {fileID: 21300000, guid: 80e4531469737d24f969c5ec6ccc450e, type: 3}
+  rightChoiceCard: {fileID: 21300000, guid: 8ce87f78edaa4b0469addfd7ae497527, type: 3}
+  middleChoiceCard: {fileID: 21300000, guid: 7fc9d4823cfdcb2488eaa8f9230cd5da, type: 3}
   turnToTakeEffect: 5

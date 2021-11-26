@@ -23,6 +23,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private float textSpeed;
     [SerializeField] private float waitingDurationAfterPhaseDescription;
 
+    public Image leftChoiceImage;
+    public Image middleChoiceImage;
+    public Image rightChoiceImage;
+    
     private void Awake()
     {
         if (Instance == null)
@@ -80,11 +84,51 @@ public class UIManager : MonoBehaviour
     {
         gameScreen.enabled = value;
     }
+
+    public void DisplayAllPlayersUI(List<Player> playerList, bool value)
+    {
+        foreach (var player in playerList)
+        {
+            player.playerCanvas.enabled = value;
+        }
+    }
+
+    public void DisplayPlayerUI(Player player, bool value)
+    {
+        player.playerCanvas.enabled = value;
+    }
     
     public void UpdateTurnCount(int newCount)
     {
         turnCount.enabled = true;
         turnCount.text = "Tour " + newCount.ToString();
     }
+    
+    public void DisplayChoiceCards(bool value)
+    {
+        leftChoiceImage.enabled = value;
+        middleChoiceImage.enabled = value;
+        rightChoiceImage.enabled = value;
+    }
+
+    public void UpdateChoiceCardsImage()
+    {
+        SO_Choice choice = GlobalManager.Instance.GetCurrentChoice();
+
+        if (choice)
+        {
+            if(leftChoiceImage) leftChoiceImage.sprite = choice.leftChoiceCard;
+            if(rightChoiceImage) rightChoiceImage.sprite = choice.rightChoiceCard;
+            if(middleChoiceImage) middleChoiceImage.sprite = choice.middleChoiceCard;
+            Debug.Log("On est censé avoir set les images");
+        }
+        else
+        {
+            Debug.Log("Pas de choix trouvé !");
+        }
+        
+    }
+
+    
     
 }

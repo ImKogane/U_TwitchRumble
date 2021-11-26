@@ -9,11 +9,12 @@ public class CommandWeaponChoice : CommandInGame
     public CommandWeaponChoice(Player ownerOfAction, EnumClass.WeaponType typeOfWeapon) : base(ownerOfAction)
     {
         OwnerPlayer = ownerOfAction;
+        weaponType = typeOfWeapon;
     }
     public override void LaunchActionInGame()
     {
-        SubscribeEndToEvent();
-        Debug.Log("Start choice Action");
         OwnerPlayer.weaponOfPlayer = WeaponFactory.CreateWeapon(weaponType);
+        Debug.Log("New Player's Weapon : " + OwnerPlayer.weaponOfPlayer.GetType());
+        EndActionInGame();
     }
 }

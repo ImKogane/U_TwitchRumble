@@ -33,9 +33,9 @@ public class TwitchManager : MonoBehaviour
     public string RightCommande;
     public string UpCommande;
     public string DownCommande;
-    public string FirstChoiceCommande = "_Card1";
-    public string SecondChoiceCommande = "_Card2";
-    public string ThirdChoiceCommande = "_Card3";
+    public string FirstChoiceCommande = "_card1";
+    public string SecondChoiceCommande = "_card2";
+    public string ThirdChoiceCommande = "_card3";
     
     
 
