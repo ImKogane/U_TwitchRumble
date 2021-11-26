@@ -77,9 +77,10 @@ public class TwitchManager : MonoBehaviour
         writter.WriteLine("JOIN #" + ChannelNameInput.text);
         writter.Flush();
 
-        bConnexionIsDone = true;
-        PanelConnexion.SetActive(false);
-        PanelLobby.SetActive(true);
+        if (twitchClient.Connected)
+        {
+            bConnexionIsDone = true;
+        }
     }
 
     private void ReadChat()
@@ -87,6 +88,13 @@ public class TwitchManager : MonoBehaviour
         if (twitchClient.Available > 0)
         {
             var message = reader.ReadLine();
+
+            if (message.Contains("Your host is"))
+            {
+                Debug.Log("CONNEXION ? " + message);
+                PanelConnexion.SetActive(false);
+                PanelLobby.SetActive(true);
+            }
 
             if (message.Contains("PRIVMSG"))
             {
@@ -108,6 +116,20 @@ public class TwitchManager : MonoBehaviour
                 Debug.Log("DEBUG : " + message);
             }
         }
+    }
+
+    private void Update()
+    {
+        if (bConnexionIsDone && (!twitchClient.Connected))
+        {
+            Connect();
+        }
+
+        if (bConnexionIsDone)
+        {
+            ReadChat();
+        }
+        
     }
 
     public void AnalyseChatCommand(string nameOfPlayer, string messageOfPlayer)
@@ -168,18 +190,7 @@ public class TwitchManager : MonoBehaviour
         }        
     }
 
-    private void Update()
-    {
-        if (bConnexionIsDone && (!twitchClient.Connected))
-        {
-            Connect();
-        }
 
-        if (bConnexionIsDone)
-        {
-            ReadChat();
-        }
-    }
 
     public void ShowAllPlayersInGame()
     {
