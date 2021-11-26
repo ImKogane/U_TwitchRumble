@@ -29,16 +29,21 @@ public class TwitchManager : MonoBehaviour
     public string AttackCommande;
     public string JoinCommande;
     public string QuitCommande;
-
     public string LeftCommande;
     public string RightCommande;
     public string UpCommande;
     public string DownCommande;
-
+    public string FirstChoiceCommande = "_Card1";
+    public string SecondChoiceCommande = "_Card2";
+    public string ThirdChoiceCommande = "_Card3";
+    
+    
     bool bConnexionIsDone = false;
     [System.NonSerialized] public bool canJoinedGame = true;
     [System.NonSerialized] public bool playersCanMakeActions = false;
-
+    [System.NonSerialized] public bool playersCanMakeChoices = false;
+    
+    
     private void Awake()
     {
         if (Instance == null)
@@ -163,6 +168,29 @@ public class TwitchManager : MonoBehaviour
                 {
                     Debug.Log("COMMAND : " + nameOfPlayer + " move to the down !");
                     InputManager.Instance.MoveCommand(currentplayer, EnumClass.Direction.Down);
+                }
+            }
+            
+            if (playersCanMakeChoices)
+            {
+                //Need to be in ActionState in the GlobalManager.
+
+                Player currentplayer = PlayerManager.Instance.ReturnPlayerWithName(nameOfPlayer);
+
+                if (messageOfPlayer == FirstChoiceCommande) //Weapon 1
+                {
+                    Debug.Log("COMMAND : " + nameOfPlayer + " choose Weapon 1 !");
+                    InputManager.Instance.ChoiceCommand(currentplayer, EnumClass.ChosenCard.Card1);
+                }
+                if (messageOfPlayer == SecondChoiceCommande) //Weapon 2
+                {
+                    Debug.Log("COMMAND : " + nameOfPlayer + " choose Weapon 2 !");
+                    InputManager.Instance.ChoiceCommand(currentplayer, EnumClass.ChosenCard.Card2);
+                }
+                if (messageOfPlayer == RightCommande) //Weapon 3
+                {
+                    Debug.Log("COMMAND : " + nameOfPlayer + " choose Weapon 3 !");
+                    InputManager.Instance.ChoiceCommand(currentplayer, EnumClass.ChosenCard.Card3);
                 }
             }
         }        

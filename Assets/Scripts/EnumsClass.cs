@@ -26,5 +26,20 @@ public static class EnumClass
         Scythe,
         Rifle
     }
+
+    public enum ChosenCard
+    {
+        Card1,
+        Card2,
+        Card3
+    }
+
+    public enum ChoiceType
+    {
+        Weapon,
+        WeaponBuff,
+        MovementBuff,
+        UltimateBuff
+    }
 }
 

@@ -83,7 +83,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (UpdateRotOfUI)
         {
-            CurrentPlayer.UpdateRotationOfUI();
+            CurrentPlayer.UpdatePlayerCanvas();
         }
     }
 
@@ -126,28 +126,28 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            Debug.Log("Le joueur est pas orienté en X ou en Z");
+            Debug.Log("Le joueur est pas orientÃ© en X ou en Z");
         }
     }
 
     private void MoveToATile(Tile nextTile)
     {
-        Debug.Log("Cellule ciblée : [" + nextTile.tileRow + "," + nextTile.tileColumn + "]");
+        Debug.Log("Cellule ciblÃ©e : [" + nextTile.tileRow + "," + nextTile.tileColumn + "]");
 
         if (nextTile.hasObstacle)
         {
-            Debug.Log("Cellule ciblée est occupé par un obstacle.");
+            Debug.Log("Cellule ciblÃ©e est occupÃ© par un obstacle.");
             EndOfMoving.Invoke();
             return;
         }
         if (nextTile.hasPlayer)
         {
-            Debug.Log("Cellule ciblée est occupé par un joueur.");
+            Debug.Log("Cellule ciblÃ©e est occupÃ© par un joueur.");
             EndOfMoving.Invoke();
             return;
         }
 
-        Debug.Log("Tile detecté, le mouvement peut etre fait !");
+        Debug.Log("Tile detectÃ©, le mouvement peut etre fait !");
 
         ResetMyTile();
 
@@ -181,7 +181,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FallInWater()
     {
-        Debug.Log("Aucune Tile detectée, vous plongez dans l'océan.");
+        Debug.Log("Aucune Tile detectÃ©e, vous plongez dans l'ocÃ©an.");
         EndOfMoving.Invoke();
     }
     #endregion

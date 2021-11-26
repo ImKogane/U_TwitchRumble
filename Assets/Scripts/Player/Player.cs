@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
 
     public string namePlayer;
 
-    private Weapon weaponOfPlayer = null;
+    public Weapon weaponOfPlayer = null;
 
     public EnumClass.WeaponType typeOfWeapon;
 
@@ -32,17 +32,12 @@ public class Player : MonoBehaviour
     public int AttackPlayer = 25;
 
     [Header("UI variables")]
-    public TMP_Text playerNameText;
-    public Slider playerLifeBar;
-    public Canvas playerCanvas;
-
-    private void Start()
-    {
-        //playerMovement = GetComponent<PlayerMovement>();
-        weaponOfPlayer = new Weapon(typeOfWeapon);
-        playerCanvas.worldCamera = Camera.main;
-        UpdateRotationOfUI();
-    }
+    public Canvas playerUIPrefab;
+    public Vector3 UIOffset;
+    
+    private Canvas playerCanvas;
+    private Slider playerHealthBar;
+    private TMP_Text playerNameText;
 
     public void SpawnPlayerInGame(Tile TileForStart, string nameP)
     {
@@ -52,10 +47,17 @@ public class Player : MonoBehaviour
         CurrentTile.hasPlayer = true;
         transform.position = CurrentTile.transform.position;
 
+        playerCanvas = Instantiate(playerUIPrefab);
+        playerHealthBar = playerCanvas.GetComponentInChildren<Slider>();
+        playerNameText = playerCanvas.GetComponentInChildren<TMP_Text>();
+        
+        playerCanvas.worldCamera = Camera.main;
+        playerCanvas.transform.position = transform.position;
         playerNameText.text = namePlayer;
-        playerLifeBar.maxValue = LifeOfPlayer;
-        playerLifeBar.minValue = 0;
-        playerLifeBar.value = LifeOfPlayer;
+        playerHealthBar.maxValue = LifeOfPlayer;
+        playerHealthBar.minValue = 0;
+        playerHealthBar.value = LifeOfPlayer;
+        UpdatePlayerCanvas();
     }
 
     public void Attack()
@@ -84,7 +86,7 @@ public class Player : MonoBehaviour
     {
         LifeOfPlayer -= damage;
 
-        playerLifeBar.value = LifeOfPlayer;
+        playerHealthBar.value = LifeOfPlayer;
         
         if (LifeOfPlayer <= 0)
         {
@@ -95,13 +97,15 @@ public class Player : MonoBehaviour
 
             CurrentTile.hasPlayer = false;
             CurrentTile.currentPlayer = null;
-
+            
+            Destroy(playerCanvas.gameObject);
             Destroy(gameObject);
         }
     }
 
-    public void UpdateRotationOfUI()
+    public void UpdatePlayerCanvas()
     {
         playerCanvas.transform.LookAt(playerCanvas.transform.position + Camera.main.transform.rotation * Vector3.back, Camera.main.transform.rotation * Vector3.up);
+        playerCanvas.transform.position = transform.position + UIOffset;
     }
 }

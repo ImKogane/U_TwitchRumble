@@ -15,9 +15,12 @@ public class GlobalManager : MonoBehaviour
     [SerializeField] private int buffTimerDuration;
     private int currentTimer;
 
-    [SerializeField] private int[] buffChoiceTurns;
+    public SO_Choice[] choicesArray;
+    
     private int turnCount;
 
+    #region Unity Basic Events
+    
     private void Awake()
     {
         if (Instance == null)
@@ -39,6 +42,69 @@ public class GlobalManager : MonoBehaviour
         UIManager.Instance.DisplayEndScreen(false);
     }
 
+    #endregion
+    
+    #region Coroutines
+    
+    IEnumerator ActionsChoiceCoroutine()
+    {
+        UIManager.Instance.DisplayPhaseTitle("Phase du choix des actions");
+        UIManager.Instance.DisplayPhaseDescription("Choisissez votre prochain déplacement avec les flèches directionnelles, et A pour attaquer.");
+
+        TwitchManager.Instance.playersCanMakeActions = true;
+
+        currentTimer = actionsTimerDuration;
+
+        InputManager.Instance.EnableActionInputs(true);
+        UIManager.Instance.ActivateTimerBar(true);
+        
+        while (currentTimer > 0)
+        {
+            yield return new WaitForSeconds(1);
+            currentTimer--;
+            UIManager.Instance.UpdateTimerBar((float)currentTimer/actionsTimerDuration);
+        }
+        
+        UIManager.Instance.ActivateTimerBar(false);
+        InputManager.Instance.EnableActionInputs(false);
+
+        TwitchManager.Instance.playersCanMakeActions = false;
+
+        StartState(EnumClass.GameState.ActionTurn);
+        
+    }
+    
+    IEnumerator BuffChoiceCoroutine()
+    {
+        UIManager.Instance.DisplayPhaseTitle("Phase d'amélioration");
+        UIManager.Instance.DisplayPhaseDescription("Votre décision affectera grandement votre manière de jouer");
+        UIManager.Instance.ActivateTimerBar(true);
+        
+        InputManager.Instance.EnableChoiceInputs(true);
+        TwitchManager.Instance.playersCanMakeChoices = true;
+        
+        currentTimer = buffTimerDuration;
+
+        while (currentTimer > 0)
+        {
+            yield return new WaitForSeconds(1);
+            currentTimer--;
+            UIManager.Instance.UpdateTimerBar((float)currentTimer/buffTimerDuration);
+        }
+        
+        UIManager.Instance.ActivateTimerBar(false);
+        
+        TwitchManager.Instance.playersCanMakeChoices = false;
+        InputManager.Instance.EnableChoiceInputs(false);
+        
+        StartState(EnumClass.GameState.WaitingTurn);
+    }
+    
+    
+    #endregion
+
+    #region ActionsInGame Handling
+    
     public void AddActionInGameToList(CommandInGame ActionToAdd)
     {
         //Ici on devra trier si le propri�taire de l'action que l'on ajoute a la liste n'avait pas deja une action dans la liste avant de remettre son action. 
@@ -62,6 +128,10 @@ public class GlobalManager : MonoBehaviour
         }
         
     }
+    
+    #endregion
+    
+    #region GameState Handling
     
     void StartState(EnumClass.GameState nextState)
     {
@@ -87,58 +157,6 @@ public class GlobalManager : MonoBehaviour
                 break;
         }
     }
-
-    IEnumerator ActionsChoiceCoroutine()
-    {
-        UIManager.Instance.DisplayPhaseTitle("Phase du choix des actions");
-        UIManager.Instance.DisplayPhaseDescription("Choisissez votre prochain déplacement avec les flèches directionnelles, et A pour attaquer.");
-
-        TwitchManager.Instance.playersCanMakeActions = true;
-
-        currentTimer = actionsTimerDuration;
-
-        InputManager.Instance.EnableInputs(true);
-        UIManager.Instance.ActivateTimerBar(true);
-        
-        while (currentTimer > 0)
-        {
-            yield return new WaitForSeconds(1);
-            currentTimer--;
-            UIManager.Instance.UpdateTimerBar((float)currentTimer/actionsTimerDuration);
-        }
-        
-        UIManager.Instance.ActivateTimerBar(false);
-        InputManager.Instance.EnableInputs(false);
-
-        TwitchManager.Instance.playersCanMakeActions = false;
-
-        StartState(EnumClass.GameState.ActionTurn);
-        
-    }
-
-    IEnumerator BuffChoiceCoroutine()
-    {
-        //SetBuffScreen
-        UIManager.Instance.DisplayPhaseTitle("Phase d'amélioration");
-        UIManager.Instance.DisplayPhaseDescription("Votre décision affectera grandement votre manière de jouer");
-        UIManager.Instance.ActivateTimerBar(true);
-        
-        currentTimer = buffTimerDuration;
-
-        
-        
-        while (currentTimer > 0)
-        {
-            yield return new WaitForSeconds(1);
-            currentTimer--;
-            UIManager.Instance.UpdateTimerBar((float)currentTimer/buffTimerDuration);
-        }
-        
-        UIManager.Instance.ActivateTimerBar(false);
-        
-        //HideBuffScreen
-        StartState(EnumClass.GameState.WaitingTurn);
-    }
     
     public void EndActionTurn()
     {
@@ -149,19 +167,29 @@ public class GlobalManager : MonoBehaviour
 
     void CheckNextTurn(int nextTurn)
     {
-        if (buffChoiceTurns.Length > 0)
+        foreach (SO_Choice choice in choicesArray)
         {
-            foreach (var buffChoiceTurn in buffChoiceTurns)
+            if (choice.turnToTakeEffect == turnCount)
             {
-                if (nextTurn == buffChoiceTurn)
-                {
-                    StartState(EnumClass.GameState.ChoseBuffTurn);
-                    return;
-                }
+                StartState(EnumClass.GameState.ChoseBuffTurn);
+                return;
             }
         }
-        
+
         StartState(EnumClass.GameState.WaitingTurn);
+
     }
+
+    EnumClass.GameState GetCurrentGameState()
+    {
+        return currentGameState;
+    }
+
+    public int GetCurrentTurn()
+    {
+        return turnCount;
+    }
+
+    #endregion
     
 }
