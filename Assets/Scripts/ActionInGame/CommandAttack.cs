@@ -20,4 +20,9 @@ public class CommandAttack : CommandInGame
         Debug.Log("Start attack Action");
         OwnerPlayer.Attack();
     }
+
+    public override void DestroyCommand()
+    {
+        OwnerPlayer.EndOfAttack -= EndActionInGame;
+    }
 }

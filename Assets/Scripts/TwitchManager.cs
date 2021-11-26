@@ -38,6 +38,10 @@ public class TwitchManager : MonoBehaviour
     public string ThirdChoiceCommande = "_Card3";
     
     
+
+
+    public int maxCharacterInNames;
+
     bool bConnexionIsDone = false;
     [System.NonSerialized] public bool canJoinedGame = true;
     [System.NonSerialized] public bool playersCanMakeActions = false;
@@ -82,9 +86,10 @@ public class TwitchManager : MonoBehaviour
         writter.WriteLine("JOIN #" + ChannelNameInput.text);
         writter.Flush();
 
-        bConnexionIsDone = true;
-        PanelConnexion.SetActive(false);
-        PanelLobby.SetActive(true);
+        if (twitchClient.Connected)
+        {
+            bConnexionIsDone = true;
+        }
     }
 
     private void ReadChat()
@@ -92,6 +97,13 @@ public class TwitchManager : MonoBehaviour
         if (twitchClient.Available > 0)
         {
             var message = reader.ReadLine();
+
+            if (message.Contains("Your host is"))
+            {
+                Debug.Log("CONNEXION ? " + message);
+                PanelConnexion.SetActive(false);
+                PanelLobby.SetActive(true);
+            }
 
             if (message.Contains("PRIVMSG"))
             {
@@ -115,10 +127,25 @@ public class TwitchManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (bConnexionIsDone && (!twitchClient.Connected))
+        {
+            Connect();
+        }
+
+        if (bConnexionIsDone)
+        {
+            ReadChat();
+        }
+        
+    }
+
     public void AnalyseChatCommand(string nameOfPlayer, string messageOfPlayer)
     {
-        // Tcheck if game didn't start. 
+        nameOfPlayer = CutPlayerName(nameOfPlayer);
 
+        // Tcheck if game didn't start. 
         if (messageOfPlayer == JoinCommande && canJoinedGame) //Connection du joueur twitch dans le jeu 
         {
             if (!PlayerManager.Instance.AllPlayersName.Contains(nameOfPlayer))
@@ -196,16 +223,21 @@ public class TwitchManager : MonoBehaviour
         }        
     }
 
-    private void Update()
+    public string CutPlayerName(string namePlayer)
     {
-        if (bConnexionIsDone && (!twitchClient.Connected))
+        
+        if (namePlayer.Length > maxCharacterInNames)
         {
-            Connect();
+            string nameCut = "";
+            for (int i = 0; i < maxCharacterInNames; i++)
+            {
+                nameCut += namePlayer[i];
+            }
+            return nameCut;
         }
-
-        if (bConnexionIsDone)
+        else
         {
-            ReadChat();
+            return namePlayer;
         }
     }
 

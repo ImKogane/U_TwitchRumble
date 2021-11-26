@@ -6,7 +6,7 @@ using System;
 
 public class CommandInGame 
 {
-    protected Player OwnerPlayer = null;
+    public Player OwnerPlayer = null;
 
     public CommandInGame(Player OwnerOfAction)
     {
@@ -25,13 +25,13 @@ public class CommandInGame
 
     public virtual void EndActionInGame()
     {
-        if (GlobalManager.Instance.ListActionsInGame.Count > 0 && GlobalManager.Instance.ListActionsInGame[0] == this) //Somme nous bien l'action a la base de la liste
+        if (GlobalManager.Instance.ListCommandsInGame.Count > 0 && GlobalManager.Instance.ListCommandsInGame[0] == this) //Somme nous bien l'action a la base de la liste
         {
-            GlobalManager.Instance.ListActionsInGame.Remove(this); //On s'enleve de la liste. 
+            GlobalManager.Instance.ListCommandsInGame.Remove(this); //On s'enleve de la liste. 
 
-            if (GlobalManager.Instance.ListActionsInGame.Count > 0)
+            if (GlobalManager.Instance.ListCommandsInGame.Count > 0)
             {
-                GlobalManager.Instance.ListActionsInGame[0].LaunchActionInGame(); //On lance la prochaine action. 
+                GlobalManager.Instance.ListCommandsInGame[0].LaunchActionInGame(); //On lance la prochaine action. 
 
                 Debug.Log("Next Action");
             }
@@ -40,5 +40,10 @@ public class CommandInGame
                 GlobalManager.Instance.EndActionTurn();
             }
         }
+    }
+
+    public virtual void DestroyCommand()
+    {
+
     }
 }

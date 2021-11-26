@@ -85,6 +85,8 @@ public class InputManager : MonoBehaviour
 
     public void MoveCommand(Player player, EnumClass.Direction direction)
     {
+        GlobalManager.Instance.RemoveMoveCommandOfPlayer(player);
+
         CommandMoving ActionToDo = null;
         switch (direction)
         {
@@ -103,11 +105,13 @@ public class InputManager : MonoBehaviour
             default:
                 break;
         }
+
         GlobalManager.Instance.AddActionInGameToList(ActionToDo);
     }
 
     public void AttackCommand(Player player)
     {
+        GlobalManager.Instance.RemoveAttackCommandOfPlayer(player);
         CommandAttack ActionToDo = new CommandAttack(player);
         GlobalManager.Instance.AddActionInGameToList(ActionToDo);
     }
