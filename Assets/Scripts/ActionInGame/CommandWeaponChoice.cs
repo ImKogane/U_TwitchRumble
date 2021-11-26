@@ -13,6 +13,7 @@ public class CommandWeaponChoice : CommandInGame
     }
     public override void LaunchActionInGame()
     {
+        GlobalManager.Instance.DestroyAllCommandsOfPlayer(OwnerPlayer);
         OwnerPlayer.weaponOfPlayer = WeaponFactory.CreateWeapon(weaponType);
         Debug.Log("New Player's Weapon : " + OwnerPlayer.weaponOfPlayer.GetType());
         EndActionInGame();

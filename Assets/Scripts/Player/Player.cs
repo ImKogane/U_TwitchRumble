@@ -99,12 +99,11 @@ public class Player : MonoBehaviour
             CurrentTile.currentPlayer = null;
 
             
-            Destroy(playerCanvas.gameObject);
-
-
+            
+            
             GlobalManager.Instance.DestroyAllCommandsOfPlayer(this);
-
-
+            
+            Destroy(playerCanvas.gameObject);
             Destroy(gameObject);
         }
     }

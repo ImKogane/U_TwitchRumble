@@ -849,7 +849,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionsTimerDuration: 20
-  buffTimerDuration: 10
+  buffTimerDuration: 20
   choicesArray:
   - {fileID: 11400000, guid: 81398ecfd16de644083ab9d570ba9667, type: 2}
   - {fileID: 11400000, guid: ff37db85719fcf6478687b9855327ed8, type: 2}

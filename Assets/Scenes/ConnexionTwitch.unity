@@ -2126,16 +2126,16 @@ MonoBehaviour:
   PanelConnexion: {fileID: 340582840}
   ListeJoueursText: {fileID: 214907093}
   PanelLobby: {fileID: 341703558}
-  AttackCommande: _attack
-  JoinCommande: _join
-  QuitCommande: _quit
-  LeftCommande: _left
-  RightCommande: _right
-  UpCommande: _up
-  DownCommande: _down
-  FirstChoiceCommande: _card1
-  SecondChoiceCommande: _card2
-  ThirdChoiceCommande: _card3
+  AttackCommande: '!attack'
+  JoinCommande: '!join'
+  QuitCommande: '!quit'
+  LeftCommande: '!left'
+  RightCommande: '!right'
+  UpCommande: '!up'
+  DownCommande: '!down'
+  FirstChoiceCommande: '!card1'
+  SecondChoiceCommande: '!card2'
+  ThirdChoiceCommande: '!card3'
   maxCharacterInNames: 12
 --- !u!4 &1097726312
 Transform:

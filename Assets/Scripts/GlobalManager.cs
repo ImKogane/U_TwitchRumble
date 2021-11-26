@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -104,6 +105,8 @@ public class GlobalManager : MonoBehaviour
         
         TwitchManager.Instance.playersCanMakeChoices = false;
         InputManager.Instance.EnableChoiceInputs(false);
+
+        CheckPlayersChoicesInputs();
         
         StartAllActionsInGame();
         
@@ -261,7 +264,7 @@ public class GlobalManager : MonoBehaviour
             }
         }
     }
-
+    
     public SO_Choice GetCurrentChoice()
     {
         foreach (SO_Choice choice in choicesArray)
@@ -275,6 +278,28 @@ public class GlobalManager : MonoBehaviour
         }
 
         return null;
+    }
+
+    public EnumClass.ChosenCard GetRandomChosenCard()
+    {
+        Array values = Enum.GetValues(typeof(EnumClass.ChosenCard));
+        System.Random random = new System.Random();
+        EnumClass.ChosenCard randomCard = (EnumClass.ChosenCard)values.GetValue(random.Next(values.Length));
+
+        return randomCard;
+    }
+    
+    private void CheckPlayersChoicesInputs()
+    {
+        foreach (var player in PlayerManager.Instance.PlayerList)
+        {
+            List<CommandInGame> playerPreviousChoiceInput = FindPlayerCommands(player);
+
+            if (playerPreviousChoiceInput.Count == 0)
+            {
+                InputManager.Instance.ChoiceCommand(player, GetRandomChosenCard());
+            }
+        }
     }
     
 }
