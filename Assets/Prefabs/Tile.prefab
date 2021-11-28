@@ -48,6 +48,7 @@ MonoBehaviour:
   tileColumn: 0
   hasObstacle: 0
   hasPlayer: 0
+  currentPlayer: {fileID: 0}
 --- !u!1001 &7220852004748569562
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -103,6 +104,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 23211266174801970, guid: 2039c3cc01700934082ddbe111167cb3, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 46a384b24c4e6a4498e3ecd7857c7853, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2039c3cc01700934082ddbe111167cb3, type: 3}
 --- !u!4 &7216068547653254678 stripped
