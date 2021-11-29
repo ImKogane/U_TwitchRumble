@@ -214,7 +214,7 @@ public class TwitchManager : MonoBehaviour
                     Debug.Log("COMMAND : " + nameOfPlayer + " choose Weapon 2 !");
                     InputManager.Instance.ChoiceCommand(currentplayer, 1);
                 }
-                if (messageOfPlayer == RightCommande) //Weapon 3
+                if (messageOfPlayer == ThirdChoiceCommande) //Weapon 3
                 {
                     Debug.Log("COMMAND : " + nameOfPlayer + " choose Weapon 3 !");
                     InputManager.Instance.ChoiceCommand(currentplayer, 2);

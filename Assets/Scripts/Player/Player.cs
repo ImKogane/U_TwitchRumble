@@ -59,6 +59,9 @@ public class Player : MonoBehaviour
         playerHealthBar.minValue = 0;
         playerHealthBar.value = LifeOfPlayer;
         UpdatePlayerCanvas();
+
+        playerWeapon = new ScytheWeapon();
+        playerWeaponBuff = new WindWeaponBuff();
     }
 
     public void Attack()
@@ -71,8 +74,11 @@ public class Player : MonoBehaviour
             {
                 if (tile.hasPlayer)
                 {
-                    tile.currentPlayer.ReceiveWeaponBuffEffect(this);
                     tile.currentPlayer.ReceiveDammage(AttackPlayer);
+                    if (tile.currentPlayer != null )
+                    {
+                        tile.currentPlayer.ReceiveWeaponBuffEffect(this);
+                    }
                 }
                 else
                 {
@@ -109,7 +115,11 @@ public class Player : MonoBehaviour
 
     public void ReceiveWeaponBuffEffect(Player attackingPlayer)
     {
-        attackingPlayer.playerWeaponBuff.ApplyWeaponBuff(this, attackingPlayer);
+
+        if (attackingPlayer.playerWeaponBuff != null)
+        {
+            attackingPlayer.playerWeaponBuff.ApplyWeaponBuff(this, attackingPlayer);
+        }
     }
 
     public void UpdatePlayerCanvas()

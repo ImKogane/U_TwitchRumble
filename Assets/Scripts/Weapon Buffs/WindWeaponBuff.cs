@@ -6,12 +6,14 @@ public class WindWeaponBuff : WeaponBuff
 {
     public override void ApplyWeaponBuff(Player playerAffect, Player playerAttacking)
     {
+        //Enregistrer pour remettre sa vrai rotation a la fin de la poussée. 
+        Vector2Int oldRotOfPlayer = playerAffect.playerMovement.RotationOfPlayer;
+
         if (playerAttacking.playerWeapon is HammerWeapon || playerAttacking.playerWeapon is RifleWeapon)
         {
             //Faux = a changer pour adapter correctement la rotation du joueur qui prend l'attaque. 
             playerAffect.playerMovement.RotationOfPlayer = playerAttacking.playerMovement.RotationOfPlayer;
-            playerAffect.gameObject.transform.rotation = playerAttacking.gameObject.transform.rotation;
-
+            //playerAffect.gameObject.transform.rotation = playerAttacking.gameObject.transform.rotation;
             playerAffect.playerMovement.MakeMovement();
         }
         else if (playerAttacking.playerWeapon is ScytheWeapon)
@@ -24,13 +26,13 @@ public class WindWeaponBuff : WeaponBuff
 
             if (PosXAttacker != PosXReceiver) // Defenseur a droite ou a gauche
             {
-                if (PosXAttacker < PosXReceiver) // Gauche
+                if (PosXAttacker < PosXReceiver) // Droite
                 {
-                    playerAffect.playerMovement.RotateRightDirection();
+                    playerAffect.playerMovement.RotationOfPlayer = new Vector2Int(1, 0);
                 }
-                if(PosXAttacker > PosXReceiver) //Droite
+                if(PosXAttacker > PosXReceiver) //Gauche
                 {
-                    playerAffect.playerMovement.RotateLeftDirection();
+                    playerAffect.playerMovement.RotationOfPlayer = new Vector2Int(-1, 0);
                 }
 
                 playerAffect.playerMovement.MakeMovement();
@@ -40,16 +42,17 @@ public class WindWeaponBuff : WeaponBuff
             {
                 if (PosYAttacker < PosYReceiver) //Haut
                 {
-                    playerAffect.playerMovement.RotateUpDirection(); 
+                    playerAffect.playerMovement.RotationOfPlayer = new Vector2Int(0, 1);
                 }
                 else if (PosYAttacker > PosYReceiver) //Bas
                 {
-                    playerAffect.playerMovement.RotateDownDirection(); 
+                    playerAffect.playerMovement.RotationOfPlayer = new Vector2Int(0, -1);
                 }
 
                 playerAffect.playerMovement.MakeMovement();
             }
         }
-       
+
+        playerAffect.playerMovement.RotationOfPlayer = oldRotOfPlayer;
     }
 }
