@@ -43,7 +43,7 @@ public class Player : MonoBehaviour
     public int isFrozenForXTurns;
     public int isBurntForXTurns;
 
-    bool ReceiveBuffThisTurn = false;
+    bool AlreadyAttackThisTurn = false;
 
 
     public void SpawnPlayerInGame(Tile TileForStart, string nameP)
@@ -73,7 +73,7 @@ public class Player : MonoBehaviour
     public void Attack()
     {
         List<Tile> listTileAffect = playerWeapon.Attack(CurrentTile.GetCoord(), playerMovement.RotationOfPlayer);
-        List<Player> PieceAffectByBuff = new List<Player>();
+        List<Player> PlayersAffectByAttack = new List<Player>();
 
         foreach (Tile tile in listTileAffect)
         {
@@ -81,11 +81,11 @@ public class Player : MonoBehaviour
             {
                 if (tile.hasPlayer)
                 {
-                    tile.currentPlayer.ReceiveDammage(AttackPlayer);
-                    if (tile.currentPlayer != null && !tile.currentPlayer.ReceiveBuffThisTurn)
+                    if (tile.currentPlayer != null && !tile.currentPlayer.AlreadyAttackThisTurn)
                     {
-                        tile.currentPlayer.ReceiveBuffThisTurn = true;
-                        PieceAffectByBuff.Add(tile.currentPlayer);
+                        tile.currentPlayer.ReceiveDammage(AttackPlayer);
+                        tile.currentPlayer.AlreadyAttackThisTurn = true;
+                        PlayersAffectByAttack.Add(tile.currentPlayer);
                         tile.currentPlayer.ReceiveWeaponBuffEffect(this);
                     }
                 }
@@ -96,9 +96,9 @@ public class Player : MonoBehaviour
             }
         }
 
-        foreach (Player player in PieceAffectByBuff)
+        foreach (Player player in PlayersAffectByAttack)
         {
-            player.ReceiveBuffThisTurn = false;
+            player.AlreadyAttackThisTurn = false;
         }
 
         EndOfAttack.Invoke();

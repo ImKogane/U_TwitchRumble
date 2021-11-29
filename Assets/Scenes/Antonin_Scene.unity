@@ -1390,8 +1390,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilePrefab: {fileID: 5746394300765634574, guid: e2489f06c34d97943bf4d3ae3b362686, type: 3}
   obstaclePrefab: {fileID: 3590698708861309716, guid: ec807b791eaec3143bc18c5145c54c17, type: 3}
-  testBoardSizeX: 15
-  testBoardSizeZ: 8
+  testBoardSizeX: 13
+  testBoardSizeZ: 6
   testHoleNumber: 4
   testObstaclesNumber: 4
 --- !u!4 &1921050129
