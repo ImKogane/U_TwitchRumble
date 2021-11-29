@@ -40,6 +40,10 @@ public class Player : MonoBehaviour
     private Slider playerHealthBar;
     private TMP_Text playerNameText;
 
+    public int isFrozenForXTurns;
+    public int isBurntForXTurns;
+    
+
     public void SpawnPlayerInGame(Tile TileForStart, string nameP)
     {
         CurrentTile = TileForStart;
