@@ -13,15 +13,17 @@ public class PlayerMovement : MonoBehaviour
     private Tile currentTile;
     private Tile destinationTile;
     private bool isMoving;
+    [NonSerialized]
+    public bool canMove = true;
 
     public Quaternion InitialRotation;
     public Vector2Int RotationOfPlayer;
 
     public Player CurrentPlayer;
 
-    bool UpdateRotOfUI = false;
-
     [SerializeField] private float movePrecision;
+    
+    bool UpdateRotOfUI = false;
 
     private void Start()
     {
@@ -29,8 +31,17 @@ public class PlayerMovement : MonoBehaviour
         InitialRotation = transform.rotation;
         RotateDownDirection();
         EndOfMoving += () => { UpdateRotOfUI = false; };
+        canMove = true;
     }
 
+    private void Update()
+    {
+        if (UpdateRotOfUI)
+        {
+            CurrentPlayer.UpdatePlayerCanvas();
+        }
+    }
+    
     #region RotatePlayer
 
     public void RotatePlayer(EnumClass.Direction DirectionOfMovement)
@@ -79,19 +90,18 @@ public class PlayerMovement : MonoBehaviour
     }
     #endregion
 
-    private void Update()
-    {
-        if (UpdateRotOfUI)
-        {
-            CurrentPlayer.UpdatePlayerCanvas();
-        }
-    }
-
     #region Movement
     public void MakeMovement()
     {
-        UpdateRotOfUI = true; 
-
+        if (!canMove)
+        {
+            EndOfMoving.Invoke();
+            return;
+        }
+        
+        UpdateRotOfUI = true;
+        
+        
         if (CurrentPlayer.CurrentTile)
         {
             Debug.Log("Current Tile : [" + CurrentPlayer.CurrentTile.tileRow + "," + CurrentPlayer.CurrentTile.tileColumn + "]");

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,10 +12,11 @@ public class PlayerManager : MonoBehaviour
 
     public GameObject prefabOfPlayer;
 
-    public List<string> AllPlayersName;
+    [NonSerialized]
+    public List<string> AllPlayersName = new List<string>();
 
-    [SerializeField]
-    public List<Player> PlayerList;
+    [NonSerialized]
+    public List<Player> PlayerList = new List<Player>();
 
     private void Awake()
     {
@@ -61,4 +63,14 @@ public class PlayerManager : MonoBehaviour
         }
         return null;
     }
+
+    public void ManagePlayersDebuffs()
+    {
+        foreach (var player in PlayerList)
+        {
+            player.ManageAllDebuffs();
+        }
+    }
+    
+    
 }

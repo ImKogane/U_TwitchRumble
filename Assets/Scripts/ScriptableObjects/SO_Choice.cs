@@ -32,7 +32,7 @@ public class SO_Choice : ScriptableObject
             
             case(EnumClass.ChoiceType.WeaponBuff):
                 
-                //newCommand = newCommandWeaponBuffChoice(targetPlayer, typeOfWeaponBuff);
+                newCommand = new CommandWeaponBuffChoice(targetPlayer, typeOfWeaponBuff);
                 break;
             
             

@@ -53,7 +53,7 @@ public class GlobalManager : MonoBehaviour
     {
         UIManager.Instance.DisplayPhaseTitle("Phase du choix des actions");
         UIManager.Instance.DisplayPhaseDescription("Choisissez votre prochain déplacement avec les flèches directionnelles, et A pour attaquer.");
-        UIManager.Instance.DisplayAllPlayersUI(PlayerManager.Instance.PlayerList, true);
+        //UIManager.Instance.DisplayAllPlayersUI(PlayerManager.Instance.PlayerList, true);
 
         TwitchManager.Instance.playersCanMakeActions = true;
 
@@ -61,7 +61,7 @@ public class GlobalManager : MonoBehaviour
 
         InputManager.Instance.EnableActionInputs(true);
         UIManager.Instance.ActivateTimerBar(true);
-        
+
         while (currentTimer > 0)
         {
             yield return new WaitForSeconds(1);
@@ -70,7 +70,7 @@ public class GlobalManager : MonoBehaviour
         }
         
         
-        UIManager.Instance.DisplayAllPlayersUI(PlayerManager.Instance.PlayerList, false);
+        //UIManager.Instance.DisplayAllPlayersUI(PlayerManager.Instance.PlayerList, false);
         UIManager.Instance.ActivateTimerBar(false);
         InputManager.Instance.EnableActionInputs(false);
 
@@ -158,6 +158,7 @@ public class GlobalManager : MonoBehaviour
                 break;
             
             case(EnumClass.GameState.ActionTurn):
+                PlayerManager.Instance.ManagePlayersDebuffs();
                 StartAllActionsInGame();
                 break;
             

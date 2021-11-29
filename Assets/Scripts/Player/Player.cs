@@ -40,11 +40,9 @@ public class Player : MonoBehaviour
     private Slider playerHealthBar;
     private TMP_Text playerNameText;
 
-    public int isFrozenForXTurns;
-    public int isBurntForXTurns;
-
     bool AlreadyAttackThisTurn = false;
 
+    public List<Debuff> debuffList = new List<Debuff>();
 
     public void SpawnPlayerInGame(Tile TileForStart, string nameP)
     {
@@ -64,10 +62,11 @@ public class Player : MonoBehaviour
         playerHealthBar.maxValue = LifeOfPlayer;
         playerHealthBar.minValue = 0;
         playerHealthBar.value = LifeOfPlayer;
+        
         UpdatePlayerCanvas();
-
-        playerWeapon = new HammerWeapon();
-        playerWeaponBuff = new WindWeaponBuff();
+        
+        debuffList.Add(new BurningDebuff(1, this, 15));
+        
     }
 
     public void Attack()
@@ -83,7 +82,7 @@ public class Player : MonoBehaviour
                 {
                     if (tile.currentPlayer != null && !tile.currentPlayer.AlreadyAttackThisTurn)
                     {
-                        tile.currentPlayer.ReceiveDammage(AttackPlayer);
+                        tile.currentPlayer.ReceiveDamage(AttackPlayer);
                         tile.currentPlayer.AlreadyAttackThisTurn = true;
                         PlayersAffectByAttack.Add(tile.currentPlayer);
                         tile.currentPlayer.ReceiveWeaponBuffEffect(this);
@@ -104,7 +103,7 @@ public class Player : MonoBehaviour
         EndOfAttack.Invoke();
     }
 
-    public void ReceiveDammage(int damage)
+    public void ReceiveDamage(int damage)
     {
         LifeOfPlayer -= damage;
 
@@ -127,6 +126,22 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void ManageAllDebuffs()
+    {
+        for(int i = 0; i< debuffList.Count; i++)
+        {
+            if (debuffList[i].duration > 0)
+            {
+                debuffList[i].ApplyEffect();
+                debuffList[i].duration--;
+            }
+            else
+            {
+                debuffList[i].RemoveEffect();
+            }
+        }
+    }
+    
     public void ReceiveWeaponBuffEffect(Player attackingPlayer)
     {
 
@@ -135,10 +150,11 @@ public class Player : MonoBehaviour
             attackingPlayer.playerWeaponBuff.ApplyWeaponBuff(this, attackingPlayer);
         }
     }
-
+    
     public void UpdatePlayerCanvas()
     {
         playerCanvas.transform.LookAt(playerCanvas.transform.position + Camera.main.transform.rotation * Vector3.back, Camera.main.transform.rotation * Vector3.up);
         playerCanvas.transform.position = transform.position + UIOffset;
     }
+    
 }
