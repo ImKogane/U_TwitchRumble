@@ -26,13 +26,7 @@ public static class EnumClass
         Scythe,
         Rifle
     }
-
-    public enum ChosenCard
-    {
-        Card1,
-        Card2,
-        Card3
-    }
+    
 
     public enum ChoiceType
     {
@@ -41,5 +35,22 @@ public static class EnumClass
         MovementBuff,
         UltimateBuff
     }
+
+    public enum WeaponBuffType
+    {
+        Fire,
+        Frost,
+        Wind
+    }
+
+    public enum MovementBuffType
+    {
+        Mine
+        
+        
+        
+    }
+    
+    
 }
 

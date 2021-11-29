@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 135d3f097bf650045a1197c2f64ed14c, type: 3}
-  m_Name: MovementBuffChoice
+  m_Name: WeaponsChoicePanel
   m_EditorClassIdentifier: 
-  choiceType: 2
-  leftChoiceCard: {fileID: 21300000, guid: 21ac0d56ec7bc3548936882adad012ca, type: 3}
-  rightChoiceCard: {fileID: 21300000, guid: 70ec292fde686b34ab5ec4d04e3b12c6, type: 3}
-  middleChoiceCard: {fileID: 21300000, guid: ca9c28d58ac7a624b826ebe44745ae3a, type: 3}
-  turnToTakeEffect: 10
+  choiceList:
+  - {fileID: 11400000, guid: 9a7cdbbc26787264aacc5ea117a6ff5f, type: 2}
+  - {fileID: 11400000, guid: 79c742b1c35e02a4690b3ab98b60ebea, type: 2}
+  - {fileID: 11400000, guid: 141832afd6d7750408973ba046c61c24, type: 2}
+  turnToTakeEffect: 1

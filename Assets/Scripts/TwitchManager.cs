@@ -207,17 +207,17 @@ public class TwitchManager : MonoBehaviour
                 if (messageOfPlayer == FirstChoiceCommande) //Weapon 1
                 {
                     Debug.Log("COMMAND : " + nameOfPlayer + " choose Weapon 1 !");
-                    InputManager.Instance.ChoiceCommand(currentplayer, EnumClass.ChosenCard.Card1);
+                    InputManager.Instance.ChoiceCommand(currentplayer, 0);
                 }
                 if (messageOfPlayer == SecondChoiceCommande) //Weapon 2
                 {
                     Debug.Log("COMMAND : " + nameOfPlayer + " choose Weapon 2 !");
-                    InputManager.Instance.ChoiceCommand(currentplayer, EnumClass.ChosenCard.Card2);
+                    InputManager.Instance.ChoiceCommand(currentplayer, 1);
                 }
                 if (messageOfPlayer == RightCommande) //Weapon 3
                 {
                     Debug.Log("COMMAND : " + nameOfPlayer + " choose Weapon 3 !");
-                    InputManager.Instance.ChoiceCommand(currentplayer, EnumClass.ChosenCard.Card3);
+                    InputManager.Instance.ChoiceCommand(currentplayer, 2);
                 }
             }
         }        

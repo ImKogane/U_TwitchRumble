@@ -9,7 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e00ea96d73e979448f21ecac50efed9, type: 3}
-  m_Name: SO_PlayerStats
+  m_Script: {fileID: 11500000, guid: 75ecc64b83b8594438b7de7c7bc61f14, type: 3}
+  m_Name: FrostWeaponBuffChoice
   m_EditorClassIdentifier: 
-  PlayerHealth: 0
+  spriteOfChoice: {fileID: 21300000, guid: 8ce87f78edaa4b0469addfd7ae497527, type: 3}
+  typeOfChoice: 1
+  typeOfWeapon: 0
+  typeOfWeaponBuff: 1

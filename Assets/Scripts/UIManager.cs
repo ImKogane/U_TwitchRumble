@@ -23,10 +23,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private float textSpeed;
     [SerializeField] private float waitingDurationAfterPhaseDescription;
 
-    public Image leftChoiceImage;
-    public Image middleChoiceImage;
-    public Image rightChoiceImage;
-    
+    public RectTransform choiceScreen;
+    public List<Image> choiceImagesList;
+
     private void Awake()
     {
         if (Instance == null)
@@ -104,31 +103,42 @@ public class UIManager : MonoBehaviour
         turnCount.text = "Tour " + newCount.ToString();
     }
     
-    public void DisplayChoiceCards(bool value)
+    public void DisplayChoiceScreen(bool value)
     {
-        leftChoiceImage.enabled = value;
-        middleChoiceImage.enabled = value;
-        rightChoiceImage.enabled = value;
+        choiceScreen.gameObject.SetActive(value);
     }
 
-    public void UpdateChoiceCardsImage()
+    void DestroyChoicesImages()
     {
-        SO_Choice choice = GlobalManager.Instance.GetCurrentChoice();
-
-        if (choice)
+        foreach (var choiceImage in choiceImagesList)
         {
-            if(leftChoiceImage) leftChoiceImage.sprite = choice.leftChoiceCard;
-            if(rightChoiceImage) rightChoiceImage.sprite = choice.rightChoiceCard;
-            if(middleChoiceImage) middleChoiceImage.sprite = choice.middleChoiceCard;
-            Debug.Log("On est censé avoir set les images");
-        }
-        else
-        {
-            Debug.Log("Pas de choix trouvé !");
+            Destroy(choiceImage.gameObject);
         }
         
+        choiceImagesList.Clear();
+        
+    }
+    
+    public void UpdateChoiceCardsImage()
+    {
+        DestroyChoicesImages();
+        
+        SO_PanelChoice panelChoice = GlobalManager.Instance.GetPanelChoiceOfThisTurn();
+
+        if (!panelChoice) return;
+        
+        for(int i = 0; i < panelChoice.choiceList.Count; i++)
+        {
+            Image newChoiceImage = new GameObject().AddComponent<Image>();
+
+            newChoiceImage.transform.parent = choiceScreen;
+            newChoiceImage.sprite = panelChoice.choiceList[i].spriteOfChoice;
+            newChoiceImage.SetNativeSize();
+            newChoiceImage.preserveAspect = true;
+
+            choiceImagesList.Add(newChoiceImage);
+        }
+
     }
 
-    
-    
 }

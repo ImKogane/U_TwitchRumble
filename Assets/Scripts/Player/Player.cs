@@ -15,7 +15,8 @@ public class Player : MonoBehaviour
 
     public string namePlayer;
 
-    public Weapon weaponOfPlayer = null;
+    public Weapon playerWeapon = null;
+    public WeaponBuff playerWeaponBuff = null;
 
     public EnumClass.WeaponType typeOfWeapon;
 
@@ -62,7 +63,7 @@ public class Player : MonoBehaviour
 
     public void Attack()
     {
-        List<Tile> listTileAffect = weaponOfPlayer.Attack(CurrentTile.GetCoord(), playerMovement.RotationOfPlayer);
+        List<Tile> listTileAffect = playerWeapon.Attack(CurrentTile.GetCoord(), playerMovement.RotationOfPlayer);
 
         foreach (Tile tile in listTileAffect)
         {

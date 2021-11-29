@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class GlobalManager : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class GlobalManager : MonoBehaviour
     [SerializeField] private int buffTimerDuration;
     private int currentTimer;
 
-    public SO_Choice[] choicesArray;
+    public SO_PanelChoice[] panelChoiceArray;
 
     private int turnCount;
 
@@ -86,7 +87,7 @@ public class GlobalManager : MonoBehaviour
         UIManager.Instance.ActivateTimerBar(true);
 
         UIManager.Instance.UpdateChoiceCardsImage();
-        UIManager.Instance.DisplayChoiceCards(true);
+        UIManager.Instance.DisplayChoiceScreen(true);
         
         InputManager.Instance.EnableChoiceInputs(true);
         TwitchManager.Instance.playersCanMakeChoices = true;
@@ -101,7 +102,7 @@ public class GlobalManager : MonoBehaviour
         }
         
         UIManager.Instance.ActivateTimerBar(false);
-        UIManager.Instance.DisplayChoiceCards(false);
+        UIManager.Instance.DisplayChoiceScreen(false);
         
         TwitchManager.Instance.playersCanMakeChoices = false;
         InputManager.Instance.EnableChoiceInputs(false);
@@ -180,7 +181,7 @@ public class GlobalManager : MonoBehaviour
 
     void CheckNextTurn(int nextTurn)
     {
-        foreach (SO_Choice choice in choicesArray)
+        foreach (SO_PanelChoice choice in panelChoiceArray)
         {
             if (choice.turnToTakeEffect == turnCount)
             {
@@ -264,30 +265,26 @@ public class GlobalManager : MonoBehaviour
             }
         }
     }
-    
-    public SO_Choice GetCurrentChoice()
+
+    public int GetRandomChoiceIndex()
     {
-        foreach (SO_Choice choice in choicesArray)
+        int index = (int) Random.Range(0, 3);
+        return index;
+    }
+
+    public SO_PanelChoice GetPanelChoiceOfThisTurn()
+    {
+        foreach (var choicePanel in panelChoiceArray)
         {
-            int choiceTurnCount = choice.turnToTakeEffect;
-            
-            if (turnCount == choiceTurnCount)
+            if (turnCount == choicePanel.turnToTakeEffect)
             {
-                return choice;
+                return choicePanel;
             }
         }
 
         return null;
     }
-
-    public EnumClass.ChosenCard GetRandomChosenCard()
-    {
-        Array values = Enum.GetValues(typeof(EnumClass.ChosenCard));
-        System.Random random = new System.Random();
-        EnumClass.ChosenCard randomCard = (EnumClass.ChosenCard)values.GetValue(random.Next(values.Length));
-
-        return randomCard;
-    }
+    
     
     private void CheckPlayersChoicesInputs()
     {
@@ -297,9 +294,12 @@ public class GlobalManager : MonoBehaviour
 
             if (playerPreviousChoiceInput.Count == 0)
             {
-                InputManager.Instance.ChoiceCommand(player, GetRandomChosenCard());
+                InputManager.Instance.ChoiceCommand(player, GetRandomChoiceIndex());
             }
         }
     }
+    
+    
+    
     
 }

@@ -44,15 +44,15 @@ public class InputManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            ChoiceCommand(PlayerManager.Instance.PlayerList[0], EnumClass.ChosenCard.Card1);
+            ChoiceCommand(PlayerManager.Instance.PlayerList[0], 0);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            ChoiceCommand(PlayerManager.Instance.PlayerList[0], EnumClass.ChosenCard.Card2);
+            ChoiceCommand(PlayerManager.Instance.PlayerList[0], 1);
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            ChoiceCommand(PlayerManager.Instance.PlayerList[0], EnumClass.ChosenCard.Card3);
+            ChoiceCommand(PlayerManager.Instance.PlayerList[0], 2);
         }
     }
     
@@ -116,51 +116,16 @@ public class InputManager : MonoBehaviour
         GlobalManager.Instance.AddActionInGameToList(ActionToDo);
     }
 
-    public void ChoiceCommand(Player player, EnumClass.ChosenCard chosenCard)
+    public void ChoiceCommand(Player player, int choiceIndex)
     {
-        int currentTurn = GlobalManager.Instance.GetCurrentTurn();
-
-        SO_Choice[] choicesArray = GlobalManager.Instance.choicesArray;
+        SO_PanelChoice panelChoice = GlobalManager.Instance.GetPanelChoiceOfThisTurn();
         
-        foreach (SO_Choice choice in choicesArray)
+        if (panelChoice)
         {
-            if (currentTurn == choice.turnToTakeEffect && choice.choiceType == EnumClass.ChoiceType.Weapon)
-            {
-                CommandWeaponChoice WeaponToChoose = null;
-                
-                switch (chosenCard)
-                {
-                    case(EnumClass.ChosenCard.Card1):
-                        WeaponToChoose = new CommandWeaponChoice(player, EnumClass.WeaponType.Hammer);
-                        break;
-                    
-                    case(EnumClass.ChosenCard.Card2):
-                        WeaponToChoose = new CommandWeaponChoice(player, EnumClass.WeaponType.Scythe);
-                        break;
-                    
-                    case(EnumClass.ChosenCard.Card3):
-                        WeaponToChoose = new CommandWeaponChoice(player, EnumClass.WeaponType.Rifle);
-                        break;
-                }
-                
-                GlobalManager.Instance.AddActionInGameToList(WeaponToChoose);
-            }
-            
-            else if (currentTurn == choice.turnToTakeEffect && choice.choiceType == EnumClass.ChoiceType.WeaponBuff)
-            {
-                //TODO : CommandWeaponBuffChoice
-            }
-            
-            else if (currentTurn == choice.turnToTakeEffect && choice.choiceType == EnumClass.ChoiceType.MovementBuff)
-            {
-                //TODO : CommandMovementBuffChoice
-            }
-            
-            else if (currentTurn == choice.turnToTakeEffect && choice.choiceType == EnumClass.ChoiceType.UltimateBuff)
-            {
-                //TODO : CommandUltimateBuffChoice
-            }
+            panelChoice.choiceList[choiceIndex].ApplyChoice(player);
         }
+            
+
     }
 
 }

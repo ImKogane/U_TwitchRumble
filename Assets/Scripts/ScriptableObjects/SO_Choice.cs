@@ -1,21 +1,47 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Xml.Serialization;
 using UnityEngine;
-using UnityEngine.UI;
 
-[CreateAssetMenu(menuName = "Choice")]
 
+[CreateAssetMenu(menuName = "SO/Choice")]
 public class SO_Choice : ScriptableObject
 {
-    public EnumClass.ChoiceType choiceType;
+    public Sprite spriteOfChoice;
 
-    public Sprite leftChoiceCard;
+    public EnumClass.ChoiceType typeOfChoice;
 
-    public Sprite rightChoiceCard;
+    [Header("Custom Inspector to do according to typeOfChoice")]
+    public EnumClass.WeaponType typeOfWeapon;
 
-    public Sprite middleChoiceCard;
-
-    public int turnToTakeEffect;
+    public EnumClass.WeaponBuffType typeOfWeaponBuff;
     
+    
+    public void ApplyChoice(Player targetPlayer)
+    {
+        GlobalManager.Instance.DestroyAllCommandsOfPlayer(targetPlayer);
+
+        CommandInGame newCommand = null;
+        
+        switch (typeOfChoice)
+        {
+            case(EnumClass.ChoiceType.Weapon):
+
+                newCommand = new CommandWeaponChoice(targetPlayer, typeOfWeapon);
+                
+                break;
+            
+            case(EnumClass.ChoiceType.WeaponBuff):
+                
+                //newCommand = newCommandWeaponBuffChoice(targetPlayer, typeOfWeaponBuff);
+                break;
+            
+            
+        }
+        
+        
+        
+        GlobalManager.Instance.AddActionInGameToList(newCommand);
+        
+    }
+
 }
