@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class WindWeaponBuff : WeaponBuff
 {
-    
+    public override void ApplyWeaponBuff()
+    {
+
+    }
 }

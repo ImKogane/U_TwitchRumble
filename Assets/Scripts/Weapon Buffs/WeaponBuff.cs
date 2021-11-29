@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WeaponBuff
 {
-    public virtual  void ApplyWeaponBuff()
+    public virtual  void ApplyWeaponBuff(Player playerAffect, Player playerAttacking)
     {
         
     }

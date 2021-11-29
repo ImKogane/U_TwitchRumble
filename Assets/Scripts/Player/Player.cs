@@ -71,7 +71,7 @@ public class Player : MonoBehaviour
             {
                 if (tile.hasPlayer)
                 {
-                    ReceiveWeaponBuffEffect();
+                    tile.currentPlayer.ReceiveWeaponBuffEffect(this);
                     tile.currentPlayer.ReceiveDammage(AttackPlayer);
                 }
                 else
@@ -107,12 +107,9 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void ReceiveWeaponBuffEffect()
+    public void ReceiveWeaponBuffEffect(Player attackingPlayer)
     {
-        if (playerWeaponBuff != null)
-        {
-            playerWeaponBuff.ApplyWeaponBuff();
-        }
+        attackingPlayer.playerWeaponBuff.ApplyWeaponBuff(this, attackingPlayer);
     }
 
     public void UpdatePlayerCanvas()
