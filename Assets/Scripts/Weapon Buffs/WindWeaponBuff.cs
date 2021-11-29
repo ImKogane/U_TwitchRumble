@@ -16,6 +16,7 @@ public class WindWeaponBuff : WeaponBuff
             //playerAffect.gameObject.transform.rotation = playerAttacking.gameObject.transform.rotation;
             playerAffect.playerMovement.MakeMovement();
         }
+
         else if (playerAttacking.playerWeapon is ScytheWeapon)
         {
             int PosXAttacker = playerAttacking.CurrentTile.tileRow;

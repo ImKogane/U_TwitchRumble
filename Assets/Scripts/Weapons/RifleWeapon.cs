@@ -13,9 +13,10 @@ public class RifleWeapon : Weapon
         {
             for (int i = 1; i < 5; i++)
             {
-                if (tileToAdd = BoardManager.Instance.GetTileAtPos(CurrentCellOfPlayer + new Vector2Int(RotationOfPlayer.x * i, RotationOfPlayer.y)))
+                if (BoardManager.Instance.GetTileAtPos(CurrentCellOfPlayer + new Vector2Int(RotationOfPlayer.x * i, RotationOfPlayer.y)))
                 {
-                    if (tileToAdd.hasObstacle || tileToAdd.hasPlayer)
+                    tileToAdd = BoardManager.Instance.GetTileAtPos(CurrentCellOfPlayer + new Vector2Int(RotationOfPlayer.x * i, RotationOfPlayer.y));
+                    if (tileToAdd.hasObstacle)
                     {
                         break;
                     }
@@ -28,9 +29,10 @@ public class RifleWeapon : Weapon
         {
             for (int i = 1; i < 5; i++)
             {
-                if (tileToAdd = BoardManager.Instance.GetTileAtPos(CurrentCellOfPlayer + new Vector2Int(RotationOfPlayer.x, RotationOfPlayer.y * i)))
+                if (BoardManager.Instance.GetTileAtPos(CurrentCellOfPlayer + new Vector2Int(RotationOfPlayer.x, RotationOfPlayer.y * i)))
                 {
-                    if (tileToAdd.hasObstacle || tileToAdd.hasPlayer)
+                    tileToAdd = BoardManager.Instance.GetTileAtPos(CurrentCellOfPlayer + new Vector2Int(RotationOfPlayer.x, RotationOfPlayer.y * i));
+                    if (tileToAdd.hasObstacle)
                     {
                         break;
                     }

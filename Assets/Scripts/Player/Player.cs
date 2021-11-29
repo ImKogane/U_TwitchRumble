@@ -42,7 +42,9 @@ public class Player : MonoBehaviour
 
     public int isFrozenForXTurns;
     public int isBurntForXTurns;
-    
+
+    bool ReceiveBuffThisTurn = false;
+
 
     public void SpawnPlayerInGame(Tile TileForStart, string nameP)
     {
@@ -64,13 +66,14 @@ public class Player : MonoBehaviour
         playerHealthBar.value = LifeOfPlayer;
         UpdatePlayerCanvas();
 
-        playerWeapon = new ScytheWeapon();
+        playerWeapon = new HammerWeapon();
         playerWeaponBuff = new WindWeaponBuff();
     }
 
     public void Attack()
     {
         List<Tile> listTileAffect = playerWeapon.Attack(CurrentTile.GetCoord(), playerMovement.RotationOfPlayer);
+        List<Player> PieceAffectByBuff = new List<Player>();
 
         foreach (Tile tile in listTileAffect)
         {
@@ -79,8 +82,10 @@ public class Player : MonoBehaviour
                 if (tile.hasPlayer)
                 {
                     tile.currentPlayer.ReceiveDammage(AttackPlayer);
-                    if (tile.currentPlayer != null )
+                    if (tile.currentPlayer != null && !tile.currentPlayer.ReceiveBuffThisTurn)
                     {
+                        tile.currentPlayer.ReceiveBuffThisTurn = true;
+                        PieceAffectByBuff.Add(tile.currentPlayer);
                         tile.currentPlayer.ReceiveWeaponBuffEffect(this);
                     }
                 }
@@ -89,6 +94,11 @@ public class Player : MonoBehaviour
                     tile.gameObject.GetComponentInChildren<MeshRenderer>().material = materialForTryCell;
                 }
             }
+        }
+
+        foreach (Player player in PieceAffectByBuff)
+        {
+            player.ReceiveBuffThisTurn = false;
         }
 
         EndOfAttack.Invoke();
