@@ -4,5 +4,6 @@ using UnityEngine;
 
 public class FireWeaponBuff : WeaponBuff
 {
+    //Trigger Fire FX
     
 }
