@@ -71,6 +71,7 @@ public class Player : MonoBehaviour
             {
                 if (tile.hasPlayer)
                 {
+                    ApplyWeaponBuff();
                     tile.currentPlayer.ReceiveDammage(AttackPlayer);
                 }
                 else
@@ -99,13 +100,18 @@ public class Player : MonoBehaviour
             CurrentTile.hasPlayer = false;
             CurrentTile.currentPlayer = null;
 
-            
-            
-            
             GlobalManager.Instance.DestroyAllCommandsOfPlayer(this);
             
             Destroy(playerCanvas.gameObject);
             Destroy(gameObject);
+        }
+    }
+
+    public void ApplyWeaponBuff()
+    {
+        if (playerWeaponBuff != null)
+        {
+            playerWeaponBuff.ApplyWeaponBuff();
         }
     }
 
