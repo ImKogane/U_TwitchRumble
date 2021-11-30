@@ -40,10 +40,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (UpdateRotOfUI)
-        {
-            CurrentPlayer.UpdatePlayerCanvas();
-        }
+        CurrentPlayer.UpdatePlayerCanvas();
     }
     
     #region RotatePlayer
