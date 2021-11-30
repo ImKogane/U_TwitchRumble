@@ -16,7 +16,9 @@ public class Player : MonoBehaviour
     public string namePlayer;
 
     public Weapon playerWeapon = null;
+
     public WeaponBuff playerWeaponBuff = null;
+
     public MoveBuff playerMoveBuff = null;
 
     public GameObject trapPrefab;
@@ -37,10 +39,13 @@ public class Player : MonoBehaviour
 
     [Header("UI variables")]
     public Canvas playerUIPrefab;
+
     public Vector3 UIOffset;
     
     public Canvas playerCanvas;
+
     private Slider playerHealthBar;
+
     private TMP_Text playerNameText;
 
     bool AlreadyAttackThisTurn = false;

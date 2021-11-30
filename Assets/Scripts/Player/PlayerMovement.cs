@@ -115,30 +115,12 @@ public class PlayerMovement : MonoBehaviour
         {
             NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentPlayer.CurrentTile.tileRow + RotationOfPlayer.x, CurrentPlayer.CurrentTile.tileColumn));
             CheckBeforeMoveToATile(NextTile);
-
-            /*if (NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentPlayer.CurrentTile.tileRow + RotationOfPlayer.x, CurrentPlayer.CurrentTile.tileColumn)))
-            {
-                CheckBeforeMoveToATile(NextTile);
-            }
-            else
-            {
-                FallInWater();
-            }*/
         }
         //Avancer en Z
         else if (RotationOfPlayer.y != 0)
         {
             NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentPlayer.CurrentTile.tileRow, CurrentPlayer.CurrentTile.tileColumn + RotationOfPlayer.y));
             CheckBeforeMoveToATile(NextTile);
-
-            /*if (NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentPlayer.CurrentTile.tileRow, CurrentPlayer.CurrentTile.tileColumn + RotationOfPlayer.y)))
-            {
-                CheckBeforeMoveToATile(NextTile);
-            }
-            else
-            {
-                FallInWater();
-            }*/
         }
         else
         {
