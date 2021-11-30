@@ -45,10 +45,9 @@ public static class EnumClass
 
     public enum MovementBuffType
     {
-        Mine
-        
-        
-        
+        Trap,
+        Magnet,
+        Spring
     }
     
     

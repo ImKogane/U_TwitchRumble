@@ -14,6 +14,8 @@ public class SO_Choice : ScriptableObject
     public EnumClass.WeaponType typeOfWeapon;
 
     public EnumClass.WeaponBuffType typeOfWeaponBuff;
+
+    public EnumClass.MovementBuffType typeOfMovementBuff;
     
     
     public void ApplyChoice(Player targetPlayer)
@@ -35,10 +37,12 @@ public class SO_Choice : ScriptableObject
                 newCommand = new CommandWeaponBuffChoice(targetPlayer, typeOfWeaponBuff);
                 break;
             
+            case(EnumClass.ChoiceType.MovementBuff):
+
+                newCommand = new CommandMovementBuffChoice(targetPlayer, typeOfMovementBuff);
+                break;
             
         }
-        
-        
         
         GlobalManager.Instance.AddActionInGameToList(newCommand);
         

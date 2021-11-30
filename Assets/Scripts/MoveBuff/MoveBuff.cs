@@ -1,7 +1,7 @@
 
 public class MoveBuff 
 {
-    Player ownerOfMoveBuff;
+    protected Player ownerOfMoveBuff;
 
     public MoveBuff(Player playerToBuff)
     {

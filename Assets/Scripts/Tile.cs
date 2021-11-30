@@ -11,6 +11,8 @@ public class Tile : MonoBehaviour
     public bool hasPlayer;
 
     public Player currentPlayer;
+
+    public List<Trap> trapList;
     
     public void SetCoord(Vector2Int newCoord)
     {

@@ -226,6 +226,17 @@ public class PlayerMovement : MonoBehaviour
         transform.DOMove(nextDestination.transform.position, MovmentSeconds);
 
         yield return new WaitForSeconds(MovmentSeconds);
+
+        for (int i = 0; i < nextDestination.trapList.Count; i++)
+        {
+            nextDestination.trapList[i].Trigger(CurrentPlayer);
+        }
+
+        if (CurrentPlayer.playerMoveBuff != null)
+        {
+            CurrentPlayer.playerMoveBuff.ApplyMoveBuff();
+        }
+
         EndOfMoving.Invoke();
     }
 
