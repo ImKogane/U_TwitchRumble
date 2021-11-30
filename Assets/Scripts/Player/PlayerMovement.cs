@@ -118,7 +118,7 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("board manager : " + BoardManager.Instance);
             if (NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentPlayer.CurrentTile.tileRow + RotationOfPlayer.x, CurrentPlayer.CurrentTile.tileColumn)))
             {
-                MoveToATile(NextTile);
+                CheckBeforeMoveToATile(NextTile);
             }
             else
             {
@@ -130,7 +130,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentPlayer.CurrentTile.tileRow, CurrentPlayer.CurrentTile.tileColumn + RotationOfPlayer.y)))
             {
-                MoveToATile(NextTile);
+                CheckBeforeMoveToATile(NextTile);
             }
             else
             {
@@ -143,7 +143,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void MoveToATile(Tile nextTile)
+    private void CheckBeforeMoveToATile(Tile nextTile)
     {
         Debug.Log("Cellule ciblée : [" + nextTile.tileRow + "," + nextTile.tileColumn + "]");
 
@@ -152,11 +152,13 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("Cellule ciblée est occupé par un obstacle.");
             if (CanJumpObstacle)
             {
+                Debug.Log("Vous sautez au dessus d'un obstacle.");
                 JumpAnObstacle();
             }
             EndOfMoving.Invoke();
             return;
         }
+
         if (nextTile.hasPlayer)
         {
             Debug.Log("Cellule ciblée est occupé par un joueur.");
@@ -164,6 +166,11 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
+        GoToATile(nextTile);
+    }
+
+    private void GoToATile(Tile nextTile)
+    {
         Debug.Log("Tile detecté, le mouvement peut etre fait !");
 
         ResetMyTile();
@@ -175,15 +182,27 @@ public class PlayerMovement : MonoBehaviour
 
     public void JumpAnObstacle()
     {
+        Tile NextTile = null;
+
         //Sauter en X
         if (RotationOfPlayer.x != 0)
         {
-
+            if (BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentPlayer.CurrentTile.tileRow + RotationOfPlayer.x * 2, CurrentPlayer.CurrentTile.tileColumn)))
+            {
+                NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentPlayer.CurrentTile.tileRow + RotationOfPlayer.x * 2, CurrentPlayer.CurrentTile.tileColumn));
+                GoToATile(NextTile);
+                return;
+            }
         }
         //Sauter en Z
         else if (RotationOfPlayer.y != 0)
         {
-
+            if (BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentPlayer.CurrentTile.tileRow, CurrentPlayer.CurrentTile.tileColumn + RotationOfPlayer.y * 2)))
+            {
+                NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentPlayer.CurrentTile.tileRow , CurrentPlayer.CurrentTile.tileColumn + RotationOfPlayer.y * 2));
+                GoToATile(NextTile);
+                return;
+            }
         }
     }
 
