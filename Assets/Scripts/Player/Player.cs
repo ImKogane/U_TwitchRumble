@@ -65,9 +65,8 @@ public class Player : MonoBehaviour
         playerHealthBar.value = LifeOfPlayer;
         
         UpdatePlayerCanvas();
-        
-        debuffList.Add(new BurningDebuff(1, this, 15));
-        
+
+        playerMoveBuff = new MagnetMoveBuff(this);
     }
 
     public void Attack()

@@ -9,10 +9,8 @@ public class MagnetMoveBuff : MoveBuff
 
     public override void ApplyMoveBuff()
     {
-        
-        List<Tile> tileToApply = new List<Tile>();
-
-        
+        AttiranceOnRight(new Vector2Int(-1, 0));
+        AttiranceOnRight(new Vector2Int(1, 0));
     }
 
     public void AttiranceOnRight(Vector2Int VectorAttirance)
