@@ -154,7 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PasswordInput: {fileID: 1395211581}
   ChannelNameInput: {fileID: 90267248}
-  PanelConnexion: {fileID: 2071863762}
+  PanelConnexion: {fileID: 472656668}
   AttackCommande: '!attack'
   JoinCommande: '!join'
   QuitCommande: '!quit'
