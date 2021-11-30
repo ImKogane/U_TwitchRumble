@@ -22,6 +22,11 @@ public class UI_MainMenu : MonoBehaviour
         TwitchManager.Instance.canJoinedGame = true;
         SceneManager.LoadScene("ConnexionTwitch", LoadSceneMode.Single);
     }
+
+    private IEnumerator BlackScreen()
+    {
+        
+    }
     
     public void OpenSettings()
     {
@@ -52,4 +57,6 @@ public class UI_MainMenu : MonoBehaviour
             ConnectButton.SetActive(true);
         }
     }
+
 }
+
