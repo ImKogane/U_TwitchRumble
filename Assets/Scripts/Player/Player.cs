@@ -67,8 +67,6 @@ public class Player : MonoBehaviour
         playerHealthBar.value = LifeOfPlayer;
         
         UpdatePlayerCanvas();
-
-        playerMoveBuff = new MagnetMoveBuff(this);
     }
 
     public void Attack()
