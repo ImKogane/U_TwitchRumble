@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using DG.Tweening;
+using UnityEngine.Rendering.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -212,6 +213,7 @@ public class PlayerMovement : MonoBehaviour
                 NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentPlayer.CurrentTile.tileRow , CurrentPlayer.CurrentTile.tileColumn + RotationOfPlayer.y * 2));
                 GoToATile(NextTile);
                 return;
+                
             }
         }
     }

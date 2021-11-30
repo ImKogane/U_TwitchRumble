@@ -7,8 +7,6 @@ public class TrapMoveBuff : MoveBuff
 {
     public int trapDamages = 15;
 
-    public Trap trapPrefab;
-    
     public TrapMoveBuff(Player playerToBuff) : base(playerToBuff)
     {
 
@@ -17,9 +15,13 @@ public class TrapMoveBuff : MoveBuff
     public override void ApplyMoveBuff()
     {
         Tile currentTile = ownerOfMoveBuff.CurrentTile;
-        Trap newTrap = GameObject.Instantiate(trapPrefab, currentTile.transform);
-        currentTile.trapList.Add(newTrap);
-        newTrap.currentTile = currentTile;
+        GameObject newTrapGO = GameObject.Instantiate(ownerOfMoveBuff.trapPrefab, currentTile.transform);
+        Trap trapComponent = newTrapGO.GetComponent<Trap>();
+        if (trapComponent)
+        {
+            currentTile.trapList.Add(trapComponent);
+            trapComponent.currentTile = currentTile;
+        }
 
         //Play SFX
     }
