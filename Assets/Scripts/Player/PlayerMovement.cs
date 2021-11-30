@@ -150,6 +150,7 @@ public class PlayerMovement : MonoBehaviour
         if (nextTile == null)
         {
             FallInWater();
+            return;
         }
 
         Debug.Log("Cellule ciblée : [" + nextTile.tileRow + "," + nextTile.tileColumn + "]");

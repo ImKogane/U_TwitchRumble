@@ -697,8 +697,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40cb1a901501bc04dae49783976410cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actionsTimerDuration: 20
-  buffTimerDuration: 20
+  actionsTimerDuration: 15
+  buffTimerDuration: 2
   panelChoiceArray:
   - {fileID: 11400000, guid: 81398ecfd16de644083ab9d570ba9667, type: 2}
   - {fileID: 11400000, guid: 12c5564fe28a9c549adcea8e744c82db, type: 2}
@@ -1391,10 +1391,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilePrefab: {fileID: 5746394300765634574, guid: e2489f06c34d97943bf4d3ae3b362686, type: 3}
   obstaclePrefab: {fileID: 3590698708861309716, guid: ec807b791eaec3143bc18c5145c54c17, type: 3}
-  testBoardSizeX: 13
-  testBoardSizeZ: 6
+  testBoardSizeX: 15
+  testBoardSizeZ: 8
   testHoleNumber: 4
-  testObstaclesNumber: 4
+  testObstaclesNumber: 6
 --- !u!4 &1921050129
 Transform:
   m_ObjectHideFlags: 0

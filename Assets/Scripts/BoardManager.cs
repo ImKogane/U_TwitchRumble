@@ -172,7 +172,6 @@ public class BoardManager : MonoBehaviour
             }
         }
 
-        Debug.Log("No Tile in this position !");
         return null;
     }
     
