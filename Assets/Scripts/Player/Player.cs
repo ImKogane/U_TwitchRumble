@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
 
     public Weapon playerWeapon = null;
     public WeaponBuff playerWeaponBuff = null;
+    public MoveBuff playerMoveBuff = null;
 
     public EnumClass.WeaponType typeOfWeapon;
 

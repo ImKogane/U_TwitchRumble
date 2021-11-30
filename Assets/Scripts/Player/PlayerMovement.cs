@@ -22,7 +22,10 @@ public class PlayerMovement : MonoBehaviour
     public Player CurrentPlayer;
 
     [SerializeField] private float movePrecision;
-    
+
+    [NonSerialized]
+    public bool CanJumpObstacle = false;
+
     bool UpdateRotOfUI = false;
 
     private void Start()
@@ -147,6 +150,10 @@ public class PlayerMovement : MonoBehaviour
         if (nextTile.hasObstacle)
         {
             Debug.Log("Cellule ciblée est occupé par un obstacle.");
+            if (CanJumpObstacle)
+            {
+                JumpAnObstacle();
+            }
             EndOfMoving.Invoke();
             return;
         }
@@ -164,6 +171,20 @@ public class PlayerMovement : MonoBehaviour
         StartCoroutine(DotweenMovment(nextTile));
 
         SetNewTile(nextTile);
+    }
+
+    public void JumpAnObstacle()
+    {
+        //Sauter en X
+        if (RotationOfPlayer.x != 0)
+        {
+
+        }
+        //Sauter en Z
+        else if (RotationOfPlayer.y != 0)
+        {
+
+        }
     }
 
     public void ResetMyTile()
