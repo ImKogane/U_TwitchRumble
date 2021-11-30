@@ -115,27 +115,32 @@ public class PlayerMovement : MonoBehaviour
         //Avancer en X 
         if (RotationOfPlayer.x != 0)
         {
-            Debug.Log("board manager : " + BoardManager.Instance);
-            if (NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentPlayer.CurrentTile.tileRow + RotationOfPlayer.x, CurrentPlayer.CurrentTile.tileColumn)))
+            NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentPlayer.CurrentTile.tileRow + RotationOfPlayer.x, CurrentPlayer.CurrentTile.tileColumn));
+            CheckBeforeMoveToATile(NextTile);
+
+            /*if (NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentPlayer.CurrentTile.tileRow + RotationOfPlayer.x, CurrentPlayer.CurrentTile.tileColumn)))
             {
                 CheckBeforeMoveToATile(NextTile);
             }
             else
             {
                 FallInWater();
-            }
+            }*/
         }
         //Avancer en Z
         else if (RotationOfPlayer.y != 0)
         {
-            if (NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentPlayer.CurrentTile.tileRow, CurrentPlayer.CurrentTile.tileColumn + RotationOfPlayer.y)))
+            NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentPlayer.CurrentTile.tileRow, CurrentPlayer.CurrentTile.tileColumn + RotationOfPlayer.y));
+            CheckBeforeMoveToATile(NextTile);
+
+            /*if (NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentPlayer.CurrentTile.tileRow, CurrentPlayer.CurrentTile.tileColumn + RotationOfPlayer.y)))
             {
                 CheckBeforeMoveToATile(NextTile);
             }
             else
             {
                 FallInWater();
-            }
+            }*/
         }
         else
         {
@@ -143,8 +148,13 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void CheckBeforeMoveToATile(Tile nextTile)
+    public void CheckBeforeMoveToATile(Tile nextTile)
     {
+        if (nextTile == null)
+        {
+            FallInWater();
+        }
+
         Debug.Log("Cellule ciblée : [" + nextTile.tileRow + "," + nextTile.tileColumn + "]");
 
         if (nextTile.hasObstacle)
