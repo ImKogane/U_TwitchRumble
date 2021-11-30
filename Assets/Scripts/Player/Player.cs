@@ -19,6 +19,8 @@ public class Player : MonoBehaviour
     public WeaponBuff playerWeaponBuff = null;
     public MoveBuff playerMoveBuff = null;
 
+    public GameObject trapPrefab;
+
     public EnumClass.WeaponType typeOfWeapon;
 
     public Action EndOfAttack;

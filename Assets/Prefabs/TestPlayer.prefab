@@ -114,6 +114,7 @@ MonoBehaviour:
   CurrentTile: {fileID: 0}
   playerMovement: {fileID: -8979563016460687950}
   namePlayer: 
+  trapPrefab: {fileID: 8117021642554933914, guid: 9d7bb4bdd3539ed40b134ba77cf2737a, type: 3}
   typeOfWeapon: 0
   materialForTryCell: {fileID: 2100000, guid: 8a18584c6e7d0c843a222c09e20e5f61, type: 2}
   LifeOfPlayer: 100
