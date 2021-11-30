@@ -40,7 +40,7 @@ public class TwitchManager : MonoBehaviour
     public int maxCharacterInNames;
 
     bool bConnexionIsDone = false;
-    [System.NonSerialized] public bool canJoinedGame = true;
+    [System.NonSerialized] public bool canJoinedGame = false;
     [System.NonSerialized] public bool playersCanMakeActions = false;
     [System.NonSerialized] public bool playersCanMakeChoices = false;
     
@@ -243,11 +243,13 @@ public class TwitchManager : MonoBehaviour
 
     public void ShowAllPlayersInGame()
     {
-        //ListeJoueursText.text = "";
+        string List = LobbyManager.Instance.PlayerList.text = "";
+        
 
         foreach (string item in PlayerManager.Instance.AllPlayersName)
         {
-           //ListeJoueursText.text += item + "\n";
+            Debug.Log("Try");
+            LobbyManager.Instance.PlayerList.text += item + "\n";
         }
     }
 

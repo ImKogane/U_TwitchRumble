@@ -703,7 +703,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerList: {fileID: 214907093}
-  CanvasLobby: {fileID: 0}
+  CanvasLobby: {fileID: 431452956}
+  PlayerManager: {fileID: 314623834}
 --- !u!4 &1400307709
 Transform:
   m_ObjectHideFlags: 0
