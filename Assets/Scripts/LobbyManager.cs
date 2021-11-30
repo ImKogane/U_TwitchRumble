@@ -1,9 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
-public class OpenSettings : MonoBehaviour
+public class LobbyManager : MonoBehaviour
 {
+    
+    [Header("Reference UI Lobby")]
+    public TextMeshProUGUI PlayerList;
+    public GameObject CanvasLobby;
+    
     // Start is called before the first frame update
     void Start()
     {

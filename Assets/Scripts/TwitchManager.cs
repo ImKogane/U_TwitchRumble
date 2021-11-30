@@ -17,13 +17,10 @@ public class TwitchManager : MonoBehaviour
 
     [Header("Reference UI Connexion")]
     public TMP_InputField PasswordInput;
-    public TMP_InputField UserNameInput;
     public TMP_InputField ChannelNameInput;
     public GameObject PanelConnexion;
 
-    [Header("Reference UI Lobby")]
-    public TextMeshProUGUI ListeJoueursText;
-    public GameObject PanelLobby;
+    
 
     [Header("Commande of the game")]
     public string AttackCommande;
@@ -63,9 +60,8 @@ public class TwitchManager : MonoBehaviour
 
     private void Start() // Use datas store in PlayerPrefs
     {
-        PanelConnexion.SetActive(true);
+        //PanelConnexion.SetActive(true);
         if (PlayerPrefs.HasKey("PasswordInput")) { PasswordInput.text = PlayerPrefs.GetString("PasswordInput"); }
-        if (PlayerPrefs.HasKey("UserNameInput")) { UserNameInput.text = PlayerPrefs.GetString("UserNameInput"); }
         if (PlayerPrefs.HasKey("ChannelNameInput")) { ChannelNameInput.text = PlayerPrefs.GetString("ChannelNameInput"); }
     }
 
@@ -73,23 +69,27 @@ public class TwitchManager : MonoBehaviour
     {
         //Store datas of connexion in PlayerPrefs
         PlayerPrefs.SetString("PasswordInput", PasswordInput.text);
-        PlayerPrefs.SetString("UserNameInput", UserNameInput.text);
-        PlayerPrefs.SetString("ChannelNameInput", ChannelNameInput.text);
+        PlayerPrefs.SetString("ChannelNameInput", ChannelNameInput.text.ToLower());
 
         twitchClient = new TcpClient("irc.chat.twitch.tv", 6667);
         reader = new StreamReader(twitchClient.GetStream());
         writter = new StreamWriter(twitchClient.GetStream());
 
         writter.WriteLine("PASS " + PasswordInput.text);
-        writter.WriteLine("NICK " + UserNameInput.text);
-        writter.WriteLine("USER " + UserNameInput.text + " 8 * :" + UserNameInput.text);
-        writter.WriteLine("JOIN #" + ChannelNameInput.text);
+        writter.WriteLine("NICK " + ChannelNameInput.text.ToLower());
+        writter.WriteLine("USER " + ChannelNameInput.text.ToLower() + " 8 * :" + ChannelNameInput.text.ToLower());
+        writter.WriteLine("JOIN #" + ChannelNameInput.text.ToLower());
         writter.Flush();
 
         if (twitchClient.Connected)
         {
             bConnexionIsDone = true;
         }
+    }
+
+    public bool GetConnexionIsDone()
+    {
+        return bConnexionIsDone;
     }
 
     private void ReadChat()
@@ -102,7 +102,7 @@ public class TwitchManager : MonoBehaviour
             {
                 Debug.Log("CONNEXION ? " + message);
                 PanelConnexion.SetActive(false);
-                PanelLobby.SetActive(true);
+                //PanelLobby.SetActive(true);
             }
 
             if (message.Contains("PRIVMSG"))
@@ -243,11 +243,11 @@ public class TwitchManager : MonoBehaviour
 
     public void ShowAllPlayersInGame()
     {
-        ListeJoueursText.text = "";
+        //ListeJoueursText.text = "";
 
         foreach (string item in PlayerManager.Instance.AllPlayersName)
         {
-            ListeJoueursText.text += item + "\n";
+           //ListeJoueursText.text += item + "\n";
         }
     }
 
