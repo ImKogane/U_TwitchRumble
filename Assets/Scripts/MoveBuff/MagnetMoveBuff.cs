@@ -33,6 +33,12 @@ public class MagnetMoveBuff : MoveBuff
                         GlobalManager.Instance.ListCommandsInGame.Insert(1, magneticCommand);
                     }
                 }
+                else
+                {
+                    //Tomber dans l'eau
+                    MagneticCommand magneticCommand = new MagneticCommand(ownerOfMoveBuff, VectorAttirance, null);
+                    GlobalManager.Instance.ListCommandsInGame.Insert(1, magneticCommand);
+                }
             }
         }
 
@@ -49,6 +55,12 @@ public class MagnetMoveBuff : MoveBuff
                         MagneticCommand magneticCommand = new MagneticCommand(ownerOfMoveBuff, VectorAttirance, currentTile);
                         GlobalManager.Instance.ListCommandsInGame.Insert(1, magneticCommand);
                     }
+                }
+                else
+                {
+                    //Tomber dans l'eau
+                    MagneticCommand magneticCommand = new MagneticCommand(ownerOfMoveBuff, VectorAttirance, null);
+                    GlobalManager.Instance.ListCommandsInGame.Insert(1, magneticCommand);
                 }
             }
         }

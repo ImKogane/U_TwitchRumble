@@ -32,25 +32,19 @@ public class MagneticCommand : CommandInGame
 
         //Get player infos.
         PlayerMovement _currentMovementPlayer = TyleToAffect.currentPlayer.playerMovement;
-        Vector2Int oldRotOfPlayer = _currentMovementPlayer.RotationOfPlayer;
+        _currentMovementPlayer.RotatePlayerWithvector(VectorAttirance);
 
         if (VectorAttirance.x != 0) //Left and Right
         {
             //Move the player.
             _currentMovementPlayer.RotationOfPlayer = VectorAttirance;
             _currentMovementPlayer.CheckBeforeMoveToATile(BoardManager.Instance.GetTileAtPos(new Vector2Int(TyleToAffect.tileRow + (-VectorAttirance.x), startTile.tileColumn)));
-
-            //Reset old rotation of player
-            _currentMovementPlayer.RotationOfPlayer = oldRotOfPlayer;
         }
         if (VectorAttirance.y != 0) //Up and Down
         {
             //Move the player.
             _currentMovementPlayer.RotationOfPlayer = VectorAttirance;
             _currentMovementPlayer.CheckBeforeMoveToATile(BoardManager.Instance.GetTileAtPos(new Vector2Int(startTile.tileRow, TyleToAffect.tileColumn + (-VectorAttirance.y))));
-
-            //Reset old rotation of player
-            _currentMovementPlayer.RotationOfPlayer = oldRotOfPlayer;
         }
 
     }

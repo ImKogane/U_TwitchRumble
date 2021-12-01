@@ -73,6 +73,8 @@ public class Player : MonoBehaviour
         
         UpdatePlayerCanvas();
 
+        playerWeapon = new HammerWeapon();
+        playerWeaponBuff = new WindWeaponBuff();
         playerMoveBuff = new MagnetMoveBuff(this);
     }
 

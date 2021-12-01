@@ -63,6 +63,26 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void RotatePlayerWithvector(Vector2Int VecteurDirection)
+    {
+        if (VecteurDirection.x == 1)
+        {
+            RotateRightDirection();
+        }
+        else if (VecteurDirection.x == -1)
+        {
+            RotateLeftDirection();
+        }
+        else if (VecteurDirection.y == 1)
+        {
+            RotateUpDirection();
+        }
+        else if (VecteurDirection.y == -1)
+        {
+            RotateDownDirection();
+        }
+    }
+
     public void RotateUpDirection()
     {
         RotationOfPlayer = new Vector2Int(0, 1);
