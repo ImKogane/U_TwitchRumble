@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
 
     public PlayerMovement playerMovement;
 
+    public Animator playerAnimator;
+
     public string namePlayer;
 
     public Weapon playerWeapon = null;
@@ -63,6 +65,8 @@ public class Player : MonoBehaviour
         playerCanvas = Instantiate(playerUIPrefab);
         playerHealthBar = playerCanvas.GetComponentInChildren<Slider>();
         playerNameText = playerCanvas.GetComponentInChildren<TMP_Text>();
+
+        playerAnimator = GetComponent<Animator>();
         
         playerCanvas.worldCamera = Camera.main;
         playerCanvas.transform.position = transform.position;
@@ -73,10 +77,24 @@ public class Player : MonoBehaviour
         
         UpdatePlayerCanvas();
 
-        playerWeapon = new HammerWeapon();
-        playerWeaponBuff = new WindWeaponBuff();
         playerMoveBuff = new MagnetMoveBuff(this);
+
+        //playerMoveBuff = new MagnetMoveBuff(this);
     }
+
+    public IEnumerator StartAttackCoroutine()
+    {
+        playerAnimator.SetTrigger("IsAttacking");
+        
+        AnimatorClipInfo currentAnimationInfo = playerAnimator.GetCurrentAnimatorClipInfo(0)[0];
+
+        yield return new WaitForSeconds(currentAnimationInfo.clip.length);
+
+        EndOfAttack.Invoke();
+        
+        //Récupérer la commande d'attaque ici à la place de Attack(), uis utiliser Attack() comme animation event
+    }
+
 
     public void Attack()
     {
@@ -109,7 +127,7 @@ public class Player : MonoBehaviour
             player.AlreadyAttackThisTurn = false;
         }
 
-        EndOfAttack.Invoke();
+        //EndOfAttack.Invoke();
     }
 
     public void ReceiveDamage(int damage)

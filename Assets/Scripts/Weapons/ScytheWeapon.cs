@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class ScytheWeapon : Weapon
 {
+    public ScytheWeapon(Player ownerPlayer) : base(ownerPlayer)
+    {
+        weaponData = DatasManager.Instance.GetWeaponData(EnumClass.WeaponType.Scythe);
+    }
+    
+    
     public override List<Tile> Attack(Vector2Int CurrentCellOfPlayer, Vector2Int RotationOfPlayer)
     {
         List<Tile> returnList = new List<Tile>();
@@ -28,4 +34,5 @@ public class ScytheWeapon : Weapon
 
         return returnList;
     }
+
 }

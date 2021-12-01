@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public Action EndOfMoving;
 
-    public int MovmentSeconds;
+    public float MovmentSeconds = 1f;
 
     private bool isMoving;
     [NonSerialized]
@@ -27,12 +27,15 @@ public class PlayerMovement : MonoBehaviour
 
     bool UpdateRotOfUI = false;
 
+    public Animator playerAnimator;
+    
     private void Start()
     {
         InitialRotation = transform.rotation;
         RotateDownDirection();
         EndOfMoving += () => { UpdateRotOfUI = false; };
         canMove = true;
+        playerAnimator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -231,9 +234,23 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator DotweenMovment(Tile nextDestination)
     {
-        transform.DOMove(nextDestination.transform.position, MovmentSeconds);
+        playerAnimator.SetBool("IsWalking", true);
 
-        yield return new WaitForSeconds(MovmentSeconds);
+        Vector3 originalPosition = transform.position;
+        
+        for (float i = 0.0f; i < 1f; i += Time.deltaTime / MovmentSeconds)
+        {
+            transform.position = Vector3.Lerp(originalPosition, nextDestination.transform.position, i);
+            yield return null;
+        }
+        
+        //transform.DOMove(nextDestination.transform.position, MovmentSeconds, false);
+
+        
+        
+        //yield return new WaitForSeconds(MovmentSeconds);
+        
+        playerAnimator.SetBool("IsWalking", false);
 
         for (int i = 0; i < nextDestination.trapList.Count; i++)
         {

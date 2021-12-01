@@ -18,7 +18,7 @@ public class CommandAttack : CommandInGame
     {
         SubscribeEndToEvent();
         Debug.Log("Start attack Action");
-        OwnerPlayer.Attack();
+        OwnerPlayer.StartCoroutine(OwnerPlayer.StartAttackCoroutine());
     }
 
     public override void DestroyCommand()

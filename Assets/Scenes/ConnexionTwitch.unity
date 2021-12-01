@@ -287,9 +287,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerToInstantiate: 1
-  prefabOfPlayer: {fileID: 3689764250513492591, guid: 72d8485faf0f7fe48b95403955594973, type: 3}
-  AllPlayersName: []
-  PlayerList: []
+  prefabOfPlayer: {fileID: 7984710894443702818, guid: fe1639c62a2b8884eac82f74322f8109, type: 3}
 --- !u!4 &314623836
 Transform:
   m_ObjectHideFlags: 0
@@ -704,7 +702,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerList: {fileID: 214907093}
   CanvasLobby: {fileID: 431452956}
-  PlayerManager: {fileID: 314623834}
+  PlayerManager: {fileID: 314623835}
 --- !u!4 &1400307709
 Transform:
   m_ObjectHideFlags: 0

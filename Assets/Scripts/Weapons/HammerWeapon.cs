@@ -5,6 +5,13 @@ using UnityEngine;
 
 public class HammerWeapon : Weapon
 {
+
+    public HammerWeapon(Player ownerPlayer) : base(ownerPlayer)
+    {
+        weaponData = DatasManager.Instance.GetWeaponData(EnumClass.WeaponType.Hammer);
+    }
+    
+    
     public override List<Tile> Attack(Vector2Int CurrentCellOfPlayer, Vector2Int RotationOfPlayer)
     {
         List<Tile> returnList = new List<Tile>();
