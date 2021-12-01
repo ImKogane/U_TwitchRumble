@@ -6,10 +6,10 @@ public class Weapon
 {
 
     public SO_WeaponData weaponData;
+
+    private Player ownerPlayer;
     
-    
-    
-    public Weapon()
+    public Weapon(Player ownerPlayer)
     {
         
     }

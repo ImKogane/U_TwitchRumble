@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ScytheWeapon : Weapon
 {
-    public ScytheWeapon()
+    public ScytheWeapon(Player ownerPlayer) : base(ownerPlayer)
     {
         weaponData = DatasManager.Instance.GetWeaponData(EnumClass.WeaponType.Scythe);
     }

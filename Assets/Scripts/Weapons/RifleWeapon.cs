@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RifleWeapon : Weapon
 {
-    public RifleWeapon()
+    public RifleWeapon(Player ownerPlayer) : base(ownerPlayer)
     {
         weaponData = DatasManager.Instance.GetWeaponData(EnumClass.WeaponType.Rifle);
     }

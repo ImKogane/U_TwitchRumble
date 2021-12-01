@@ -6,7 +6,7 @@ using UnityEngine;
 public class HammerWeapon : Weapon
 {
 
-    public HammerWeapon()
+    public HammerWeapon(Player ownerPlayer) : base(ownerPlayer)
     {
         weaponData = DatasManager.Instance.GetWeaponData(EnumClass.WeaponType.Hammer);
     }

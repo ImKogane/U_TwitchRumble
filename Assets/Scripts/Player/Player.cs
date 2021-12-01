@@ -77,20 +77,23 @@ public class Player : MonoBehaviour
         
         UpdatePlayerCanvas();
 
-        playerMoveBuff = new MagnetMoveBuff(this);
+        //playerMoveBuff = new MagnetMoveBuff(this);
     }
 
-    public void StartAttack()
+    public IEnumerator StartAttackCoroutine()
     {
+        playerAnimator.SetTrigger("IsAttacking");
+        
+        AnimatorClipInfo currentAnimationInfo = playerAnimator.GetCurrentAnimatorClipInfo(0)[0];
+
+        yield return new WaitForSeconds(currentAnimationInfo.clip.length);
+
+        EndOfAttack.Invoke();
+        
         //Récupérer la commande d'attaque ici à la place de Attack(), uis utiliser Attack() comme animation event
     }
 
-    public void EndAttack()
-    {
-        //Faire un animation event avec ça pour appeler EndOfAttack.Invoke();
-    }
-    
-    
+
     public void Attack()
     {
         List<Tile> listTileAffect = playerWeapon.Attack(CurrentTile.GetCoord(), playerMovement.RotationOfPlayer);
@@ -122,7 +125,7 @@ public class Player : MonoBehaviour
             player.AlreadyAttackThisTurn = false;
         }
 
-        EndOfAttack.Invoke();
+        //EndOfAttack.Invoke();
     }
 
     public void ReceiveDamage(int damage)
