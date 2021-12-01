@@ -26,27 +26,25 @@ public class MagneticCommand : CommandInGame
 
         SubscribeEndToEvent();
 
-        Debug.Log($"MagneticCommandStart, owner : {OwnerPlayer.name}, vector : {VectorAttirance}, playerAffect : {TyleToAffect.currentPlayer.name}");
-
         Tile startTile = OwnerPlayer.CurrentTile;
 
         //Get player infos.
         PlayerMovement _currentMovementPlayer = TyleToAffect.currentPlayer.playerMovement;
-        _currentMovementPlayer.RotatePlayerWithvector(VectorAttirance);
+
+        _currentMovementPlayer.RotatePlayerWithvector(VectorAttirance * -1);
+
+        Debug.Log($"MagneticCommandStart, owner : {OwnerPlayer.name}, vector : {VectorAttirance * -1}, playerAffect : {TyleToAffect.currentPlayer.name}");
 
         if (VectorAttirance.x != 0) //Left and Right
         {
             //Move the player.
-            _currentMovementPlayer.RotationOfPlayer = VectorAttirance;
             _currentMovementPlayer.CheckBeforeMoveToATile(BoardManager.Instance.GetTileAtPos(new Vector2Int(TyleToAffect.tileRow + (-VectorAttirance.x), startTile.tileColumn)));
         }
         if (VectorAttirance.y != 0) //Up and Down
         {
             //Move the player.
-            _currentMovementPlayer.RotationOfPlayer = VectorAttirance;
             _currentMovementPlayer.CheckBeforeMoveToATile(BoardManager.Instance.GetTileAtPos(new Vector2Int(startTile.tileRow, TyleToAffect.tileColumn + (-VectorAttirance.y))));
         }
-
     }
 
     public override void DestroyCommand()

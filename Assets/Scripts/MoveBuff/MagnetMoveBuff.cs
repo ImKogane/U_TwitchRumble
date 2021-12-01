@@ -24,6 +24,7 @@ public class MagnetMoveBuff : MoveBuff
             for (int i = 15; i > 2; i--)
             {
                 Tile currentTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(startTile.tileRow + (i * VectorAttirance.x), startTile.tileColumn));
+
                 if (currentTile != null)
                 {
                     if (currentTile.hasPlayer)
@@ -33,12 +34,7 @@ public class MagnetMoveBuff : MoveBuff
                         GlobalManager.Instance.ListCommandsInGame.Insert(1, magneticCommand);
                     }
                 }
-                else
-                {
-                    //Tomber dans l'eau
-                    MagneticCommand magneticCommand = new MagneticCommand(ownerOfMoveBuff, VectorAttirance, null);
-                    GlobalManager.Instance.ListCommandsInGame.Insert(1, magneticCommand);
-                }
+
             }
         }
 
@@ -55,12 +51,6 @@ public class MagnetMoveBuff : MoveBuff
                         MagneticCommand magneticCommand = new MagneticCommand(ownerOfMoveBuff, VectorAttirance, currentTile);
                         GlobalManager.Instance.ListCommandsInGame.Insert(1, magneticCommand);
                     }
-                }
-                else
-                {
-                    //Tomber dans l'eau
-                    MagneticCommand magneticCommand = new MagneticCommand(ownerOfMoveBuff, VectorAttirance, null);
-                    GlobalManager.Instance.ListCommandsInGame.Insert(1, magneticCommand);
                 }
             }
         }
