@@ -72,6 +72,8 @@ public class Player : MonoBehaviour
         playerHealthBar.value = LifeOfPlayer;
         
         UpdatePlayerCanvas();
+
+        playerMoveBuff = new MagnetMoveBuff(this);
     }
 
     public void Attack()
@@ -116,19 +118,24 @@ public class Player : MonoBehaviour
         
         if (LifeOfPlayer <= 0)
         {
-            Debug.Log("Player is dead !");
-
-            PlayerManager.Instance.AllPlayersName.Remove(namePlayer);
-            PlayerManager.Instance.PlayerList.Remove(this);
-
-            CurrentTile.hasPlayer = false;
-            CurrentTile.currentPlayer = null;
-
-            GlobalManager.Instance.DestroyAllCommandsOfPlayer(this);
-            
-            Destroy(playerCanvas.gameObject);
-            Destroy(gameObject);
+            KillPlayer();
         }
+    }
+
+    public void KillPlayer()
+    {
+        Debug.Log($"{namePlayer} is dead !");
+
+        PlayerManager.Instance.AllPlayersName.Remove(namePlayer);
+        PlayerManager.Instance.PlayerList.Remove(this);
+
+        CurrentTile.hasPlayer = false;
+        CurrentTile.currentPlayer = null;
+
+        GlobalManager.Instance.DestroyAllCommandsOfPlayer(this);
+
+        Destroy(playerCanvas.gameObject);
+        Destroy(gameObject);
     }
 
     public void ManageAllDebuffs()
