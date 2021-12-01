@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Weapon
 {
+
     public SO_WeaponData weaponData;
     
     
@@ -12,11 +13,13 @@ public class Weapon
     {
         
     }
-    
+   
+
     public virtual List<Tile> Attack(Vector2Int CurrentCellOfPlayer, Vector2Int RotationOfPlayer)
     {
         return null;
     }
+
 
     public virtual void PlayWeaponVFX()
     {
@@ -31,4 +34,5 @@ public class Weapon
     
     
     
+
 }

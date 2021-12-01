@@ -11,8 +11,6 @@ public class PlayerMovement : MonoBehaviour
 
     public float MovmentSeconds = 1f;
 
-    private Tile currentTile;
-    private Tile destinationTile;
     private bool isMoving;
     [NonSerialized]
     public bool canMove = true;
@@ -33,7 +31,6 @@ public class PlayerMovement : MonoBehaviour
     
     private void Start()
     {
-        //CurrentPlayer = GetComponent<Player>();
         InitialRotation = transform.rotation;
         RotateDownDirection();
         EndOfMoving += () => { UpdateRotOfUI = false; };
@@ -105,7 +102,6 @@ public class PlayerMovement : MonoBehaviour
         
         UpdateRotOfUI = true;
         
-        
         if (CurrentPlayer.CurrentTile)
         {
             Debug.Log("Current Tile : [" + CurrentPlayer.CurrentTile.tileRow + "," + CurrentPlayer.CurrentTile.tileColumn + "]");
@@ -135,7 +131,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (nextTile == null)
         {
-            FallInWater();
+            StartCoroutine(FallInWaterCoroutine());
             return;
         }
 
@@ -249,27 +245,41 @@ public class PlayerMovement : MonoBehaviour
         EndOfMoving.Invoke();
     }
 
-    private void FallInWater()
+    private IEnumerator FallInWaterCoroutine()
     {
         Debug.Log("Aucune Tile detectée, vous plongez dans l'océan.");
+
+        float offset = 5;
+
+        //Avancer jusqu'au milieu du trou.
+        if (RotationOfPlayer.x != 0)
+        {
+            transform.DOMove(new Vector3(transform.position.x + (offset * RotationOfPlayer.x), transform.position.y, transform.position.z), MovmentSeconds);
+        }
+        if (RotationOfPlayer.y != 0)
+        {
+            transform.DOMove(new Vector3(transform.position.x , transform.position.y, transform.position.z + (offset * RotationOfPlayer.y)), MovmentSeconds);
+        }
+
+        //Attendre d'etre au milieu du trou. 
+        yield return new WaitForSeconds(MovmentSeconds);
+
+        int offsetGoUp = 2;
+        int offsetGoDown = 8;
+        float delayGoUp = 0.2f;
+        float delayGoDown = 1.5f;
+
+        //Jouer l'animation pour tomber dans l'eau.
+        Sequence fallSequence = DOTween.Sequence()
+        .Append(transform.DOMove(transform.position + Vector3.up * offsetGoUp, delayGoUp))
+        .Append(transform.DOMove(transform.position - Vector3.up * offsetGoDown, delayGoDown));
+            
+        //Attendre d'etre dans l'eau.
+        yield return new WaitForSeconds(4);
+
         EndOfMoving.Invoke();
-    }
-    #endregion
 
-    #region Getters/Setters
-    public Tile GetDestinationTile()
-    {
-        return destinationTile;
-    }
-    
-    public void SetCurrentTile(Tile newTile)
-    {
-        currentTile = newTile;
-    }
-
-    public Tile GetCurrentTile()
-    {
-        return currentTile;
+        CurrentPlayer.KillPlayer();
     }
     #endregion
 }
