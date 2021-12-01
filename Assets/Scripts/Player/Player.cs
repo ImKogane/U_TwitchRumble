@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
 
     public PlayerMovement playerMovement;
 
+    public Animator playerAnimator;
+
     public string namePlayer;
 
     public Weapon playerWeapon = null;
@@ -63,6 +65,8 @@ public class Player : MonoBehaviour
         playerCanvas = Instantiate(playerUIPrefab);
         playerHealthBar = playerCanvas.GetComponentInChildren<Slider>();
         playerNameText = playerCanvas.GetComponentInChildren<TMP_Text>();
+
+        playerAnimator = GetComponent<Animator>();
         
         playerCanvas.worldCamera = Camera.main;
         playerCanvas.transform.position = transform.position;
@@ -74,6 +78,17 @@ public class Player : MonoBehaviour
         UpdatePlayerCanvas();
     }
 
+    public void StartAttack()
+    {
+        //Récupérer la commande d'attaque ici à la place de Attack(), uis utiliser Attack() comme animation event
+    }
+
+    public void EndAttack()
+    {
+        //Faire un animation event avec ça pour appeler EndOfAttack.Invoke();
+    }
+    
+    
     public void Attack()
     {
         List<Tile> listTileAffect = playerWeapon.Attack(CurrentTile.GetCoord(), playerMovement.RotationOfPlayer);

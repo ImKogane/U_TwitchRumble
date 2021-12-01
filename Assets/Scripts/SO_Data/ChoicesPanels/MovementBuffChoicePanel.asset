@@ -12,5 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 135d3f097bf650045a1197c2f64ed14c, type: 3}
   m_Name: MovementBuffChoicePanel
   m_EditorClassIdentifier: 
-  choiceList: []
+  choiceList:
+  - {fileID: 11400000, guid: 7c446204c9af68c4b86124b3eee0befd, type: 2}
+  - {fileID: 11400000, guid: eb71f77f2f2fd6b489864f44276b541f, type: 2}
+  - {fileID: 11400000, guid: e2c0024eb6fe051419449868a1c5f8f2, type: 2}
   turnToTakeEffect: 40

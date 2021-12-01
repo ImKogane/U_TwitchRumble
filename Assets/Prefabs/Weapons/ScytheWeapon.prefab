@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5399678568072684415
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2478270331069871991}
+  m_Layer: 0
+  m_Name: ScytheWeapon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2478270331069871991
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5399678568072684415}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 2015630602622689642}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &2015630602622817398
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2478270331069871991}
+    m_Modifications:
+    - target: {fileID: 107148, guid: 2af05eac9619e09419fa737d4829b030, type: 3}
+      propertyPath: m_Name
+      value: SM_Wep_Scythe_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 406812, guid: 2af05eac9619e09419fa737d4829b030, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 406812, guid: 2af05eac9619e09419fa737d4829b030, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 100.00002
+      objectReference: {fileID: 0}
+    - target: {fileID: 406812, guid: 2af05eac9619e09419fa737d4829b030, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 100.00002
+      objectReference: {fileID: 0}
+    - target: {fileID: 406812, guid: 2af05eac9619e09419fa737d4829b030, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 100.00002
+      objectReference: {fileID: 0}
+    - target: {fileID: 406812, guid: 2af05eac9619e09419fa737d4829b030, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 14.199942
+      objectReference: {fileID: 0}
+    - target: {fileID: 406812, guid: 2af05eac9619e09419fa737d4829b030, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.6000175
+      objectReference: {fileID: 0}
+    - target: {fileID: 406812, guid: 2af05eac9619e09419fa737d4829b030, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 58.000042
+      objectReference: {fileID: 0}
+    - target: {fileID: 406812, guid: 2af05eac9619e09419fa737d4829b030, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.73250556
+      objectReference: {fileID: 0}
+    - target: {fileID: 406812, guid: 2af05eac9619e09419fa737d4829b030, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.67926466
+      objectReference: {fileID: 0}
+    - target: {fileID: 406812, guid: 2af05eac9619e09419fa737d4829b030, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.041672897
+      objectReference: {fileID: 0}
+    - target: {fileID: 406812, guid: 2af05eac9619e09419fa737d4829b030, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.017280133
+      objectReference: {fileID: 0}
+    - target: {fileID: 406812, guid: 2af05eac9619e09419fa737d4829b030, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -96.44
+      objectReference: {fileID: 0}
+    - target: {fileID: 406812, guid: 2af05eac9619e09419fa737d4829b030, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 131.095
+      objectReference: {fileID: 0}
+    - target: {fileID: 406812, guid: 2af05eac9619e09419fa737d4829b030, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -133.075
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2af05eac9619e09419fa737d4829b030, type: 3}
+--- !u!4 &2015630602622689642 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 406812, guid: 2af05eac9619e09419fa737d4829b030, type: 3}
+  m_PrefabInstance: {fileID: 2015630602622817398}
+  m_PrefabAsset: {fileID: 0}

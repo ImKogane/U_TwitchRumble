@@ -359,7 +359,7 @@ ModelImporter:
     second: 2Hand-Axe
   - first:
       74: 7400000
-    second: 2Hand-Axe-Attack1
+    second: Hammer_Attack
   - first:
       95: 9500000
     second: //RootNode
@@ -403,7 +403,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: 2Hand-Axe-Attack1
+      name: Hammer_Attack
       takeName: Take 001
       internalID: 7400000
       firstFrame: 0

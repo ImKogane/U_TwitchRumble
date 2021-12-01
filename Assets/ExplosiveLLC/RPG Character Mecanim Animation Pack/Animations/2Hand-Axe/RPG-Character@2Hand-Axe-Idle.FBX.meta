@@ -701,7 +701,7 @@ ModelImporter:
     second: 2Hand-Axe
   - first:
       74: 7400000
-    second: 2Hand-Axe-Idle
+    second: Hammer_Idle
   - first:
       95: 9500000
     second: //RootNode
@@ -729,8 +729,7 @@ ModelImporter:
     resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: Motion
-    rigImportErrors: "Copied Avatar Rig Configuration mis-match. Transform hierarchy
-      does not match:\n\tTransform 'Pelvis' for human bone 'Hips' not found\n"
+    rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
@@ -747,7 +746,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: 2Hand-Axe-Idle
+      name: Hammer_Idle
       takeName: Take 001
       internalID: 7400000
       firstFrame: 0
