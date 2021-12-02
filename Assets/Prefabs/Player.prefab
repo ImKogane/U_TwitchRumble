@@ -1715,6 +1715,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentTile: {fileID: 0}
   playerMovement: {fileID: 918737186891934907}
+  playerAnimator: {fileID: 0}
   namePlayer: 
   trapPrefab: {fileID: 8343551848952941216, guid: d035de0456440e845b5a51bb28574255, type: 3}
   typeOfWeapon: 0
@@ -1741,6 +1742,7 @@ MonoBehaviour:
   RotationOfPlayer: {x: 0, y: 0}
   CurrentPlayer: {fileID: 941451258311421410}
   movePrecision: 0
+  playerAnimator: {fileID: 0}
 --- !u!1 &8028029919027752019
 GameObject:
   m_ObjectHideFlags: 0
