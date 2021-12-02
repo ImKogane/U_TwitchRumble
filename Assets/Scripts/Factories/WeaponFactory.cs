@@ -12,15 +12,15 @@ public static class WeaponFactory
         switch (weaponType)
         {
             case(EnumClass.WeaponType.Hammer):
-                return new HammerWeapon(ownerPlayer);
+                return new HammerWeapon(ownerPlayer, weaponType);
                 break;
             
             case(EnumClass.WeaponType.Rifle):
-                return new RifleWeapon(ownerPlayer);
+                return new RifleWeapon(ownerPlayer, weaponType);
                 break;
             
             case(EnumClass.WeaponType.Scythe):
-                return new ScytheWeapon(ownerPlayer);
+                return new ScytheWeapon(ownerPlayer, weaponType);
                 break;
             
         }

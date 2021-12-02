@@ -95,6 +95,11 @@ public class Player : MonoBehaviour
         //Récupérer la commande d'attaque ici à la place de Attack(), uis utiliser Attack() comme animation event
     }
 
+    public void TriggerAttackVFX()
+    {
+        playerWeapon.PlayWeaponVFX();
+    }
+    
 
     public void Attack()
     {

@@ -7,11 +7,19 @@ public class Weapon
 
     public SO_WeaponData weaponData;
 
-    private Player ownerPlayer;
+    protected Player ownerPlayer;
+
+    private GameObject weaponPrefab;
+
+    protected List<Transform> VFXtransformList = new List<Transform>();
     
-    public Weapon(Player ownerPlayer)
+    public Weapon(Player newOwnerPlayer, EnumClass.WeaponType weaponType)
     {
-        
+        weaponData = DatasManager.Instance.GetWeaponData(weaponType);
+        ownerPlayer = newOwnerPlayer;
+        ownerPlayer.playerAnimator.runtimeAnimatorController = weaponData.weaponAnimator;
+        Transform weaponSocket = ownerPlayer.transform.Find("Hand_R");
+        weaponPrefab = GameObject.Instantiate(weaponData.weaponPrefab, weaponSocket);
     }
    
 
@@ -23,16 +31,18 @@ public class Weapon
 
     public virtual void PlayWeaponVFX()
     {
+        foreach (var currentTransform in VFXtransformList)
+        {
+            GameObject.Instantiate(weaponData.weaponVFX, currentTransform);
+        }
         
+        VFXtransformList.Clear();
     }
 
     public void PlayWeaponSFX()
     {
         AudioManager.Instance.PlaySFX(weaponData.weaponSFX);
     }
-    
-    
-    
-    
+
 
 }

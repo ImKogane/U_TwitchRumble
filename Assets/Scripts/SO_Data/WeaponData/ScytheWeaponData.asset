@@ -16,4 +16,4 @@ MonoBehaviour:
   weaponVFX: {fileID: 1298042462260652, guid: 01b067e2a360cd444a6312d3b37c6c01, type: 3}
   weaponSFX: {fileID: 8300000, guid: 41305399dcddf5a4d9c202697f36d421, type: 3}
   weaponPrefab: {fileID: 5399678568072684415, guid: b0e38e0fa0c39c14fa284fd141c81e5b, type: 3}
-  weaponAnimator: {fileID: 0}
+  weaponAnimator: {fileID: 9100000, guid: 01a58424aeb91244a90f83ad050c4dfb, type: 2}
