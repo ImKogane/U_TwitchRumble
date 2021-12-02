@@ -14,9 +14,9 @@ public class GlobalManager : MonoBehaviour
 
     private EnumClass.GameState currentGameState;
 
-    [SerializeField] private int actionsTimerDuration;
-    [SerializeField] private int buffTimerDuration;
-    private int currentTimer;
+    [SerializeField] private float actionsTimerDuration;
+    [SerializeField] private float buffTimerDuration;
+    private float currentTimer;
 
     public SO_PanelChoice[] panelChoiceArray;
 
@@ -64,9 +64,9 @@ public class GlobalManager : MonoBehaviour
 
         while (currentTimer > 0)
         {
-            yield return new WaitForSeconds(1);
-            currentTimer--;
-            UIManager.Instance.UpdateTimerBar((float)currentTimer/actionsTimerDuration);
+            yield return null;
+            currentTimer -= Time.deltaTime;
+            UIManager.Instance.UpdateTimerBar(currentTimer/actionsTimerDuration);
         }
         
         
@@ -96,9 +96,9 @@ public class GlobalManager : MonoBehaviour
 
         while (currentTimer > 0)
         {
-            yield return new WaitForSeconds(1);
-            currentTimer--;
-            UIManager.Instance.UpdateTimerBar((float)currentTimer/buffTimerDuration);
+            yield return null;
+            currentTimer -= Time.deltaTime;
+            UIManager.Instance.UpdateTimerBar(currentTimer/buffTimerDuration);
         }
         
         UIManager.Instance.ActivateTimerBar(false);
