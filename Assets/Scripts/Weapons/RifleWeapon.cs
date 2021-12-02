@@ -9,7 +9,7 @@ public class RifleWeapon : Weapon
         weaponData = DatasManager.Instance.GetWeaponData(EnumClass.WeaponType.Rifle);
     }
     
-    public override List<Tile> Attack(Vector2Int CurrentCellOfPlayer, Vector2Int RotationOfPlayer)
+    public override List<Tile> GetAffectedTiles(Vector2Int CurrentCellOfPlayer, Vector2Int RotationOfPlayer)
     {
         List<Tile> returnList = new List<Tile>();
         Tile tileToAdd = null;

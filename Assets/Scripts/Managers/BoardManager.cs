@@ -174,5 +174,19 @@ public class BoardManager : MonoBehaviour
 
         return null;
     }
+
+    public bool TileSameLineAndSameColumn(Tile tileOne, Tile tileTwo)
+    {
+        if (tileOne.tileColumn == tileTwo.tileColumn)
+        {
+            return true;
+        }
+        if (tileOne.tileRow == tileTwo.tileRow)
+        {
+            return true;
+        }
+
+        return false;
+    }
     
 }

@@ -22,7 +22,29 @@ public class MagneticCommand : CommandInGame
 
     public override void LaunchActionInGame()
     {
-        playerToAffect = TyleToAffect.currentPlayer;
+        //Si la cible n'est plus sur sa case
+        if (TyleToAffect.currentPlayer == null)
+        {
+            Debug.Log("NO CURRENT PLAYER ON THE TILE TO MAGNETISE !");
+            EndActionInGame();
+        }
+        else
+        {
+            playerToAffect = TyleToAffect.currentPlayer;
+        }
+        //Si l'un des joueurs est mort.
+        if (OwnerPlayer.isDead || playerToAffect.isDead) 
+        {
+            Debug.Log("PLAYER OWNER OR PLAYER TO MAGNETISE IS DEAD!");
+            EndActionInGame();
+        }
+        //Si les deux joueurs ne sont plus sur la meme ligne. 
+        if (!BoardManager.Instance.TileSameLineAndSameColumn(OwnerPlayer.CurrentTile, TyleToAffect))
+        {
+            Debug.Log("PLAYER ARE NOT ON THE SAME LINE OR COLUMN ANYMORE !");
+            EndActionInGame();
+        }
+
 
         SubscribeEndToEvent();
 

@@ -3135,10 +3135,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionsTimerDuration: 15
   buffTimerDuration: 2
-  panelChoiceArray:
-  - {fileID: 11400000, guid: 81398ecfd16de644083ab9d570ba9667, type: 2}
-  - {fileID: 11400000, guid: 12c5564fe28a9c549adcea8e744c82db, type: 2}
-  - {fileID: 11400000, guid: ff37db85719fcf6478687b9855327ed8, type: 2}
+  panelChoiceArray: []
 --- !u!4 &758945550
 Transform:
   m_ObjectHideFlags: 0

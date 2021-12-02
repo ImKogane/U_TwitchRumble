@@ -91,16 +91,16 @@ public class InputManager : MonoBehaviour
         switch (direction)
         {
             case EnumClass.Direction.Up:
-                ActionToDo = new CommandMoving(player, EnumClass.Direction.Up);
+                ActionToDo = new CommandMoving(player, new Vector2Int(0, 1));
                 break;
             case EnumClass.Direction.Down:
-                ActionToDo = new CommandMoving(player, EnumClass.Direction.Down);
+                ActionToDo = new CommandMoving(player, new Vector2Int(0, -1));
                 break;
             case EnumClass.Direction.Right:
-                ActionToDo = new CommandMoving(player, EnumClass.Direction.Right);
+                ActionToDo = new CommandMoving(player, new Vector2Int(1, 0));
                 break;
             case EnumClass.Direction.Left:
-                ActionToDo = new CommandMoving(player, EnumClass.Direction.Left);
+                ActionToDo = new CommandMoving(player, new Vector2Int(-1, 0));
                 break;
             default:
                 break;

@@ -2,20 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon
+public abstract class Weapon
 {
-
     public SO_WeaponData weaponData;
 
-    private Player ownerPlayer;
+    protected Player ownerPlayer;
     
-    public Weapon(Player ownerPlayer)
+    public Weapon(Player OwnerPlayer)
     {
-        
+        ownerPlayer = OwnerPlayer;
     }
    
 
-    public virtual List<Tile> Attack(Vector2Int CurrentCellOfPlayer, Vector2Int RotationOfPlayer)
+    public virtual List<Tile> GetAffectedTiles(Vector2Int CurrentCellOfPlayer, Vector2Int RotationOfPlayer)
     {
         return null;
     }

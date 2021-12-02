@@ -54,6 +54,8 @@ public class Player : MonoBehaviour
 
     public List<Debuff> debuffList = new List<Debuff>();
 
+    public bool isDead = false;
+
     public void SpawnPlayerInGame(Tile TileForStart, string nameP)
     {
         CurrentTile = TileForStart;
@@ -77,9 +79,8 @@ public class Player : MonoBehaviour
         
         UpdatePlayerCanvas();
 
-        playerMoveBuff = new MagnetMoveBuff(this);
-
-        //playerMoveBuff = new MagnetMoveBuff(this);
+        playerWeapon = new HammerWeapon(this);
+        playerWeaponBuff = new WindWeaponBuff();
     }
 
     public IEnumerator StartAttackCoroutine()
@@ -98,7 +99,7 @@ public class Player : MonoBehaviour
 
     public void Attack()
     {
-        List<Tile> listTileAffect = playerWeapon.Attack(CurrentTile.GetCoord(), playerMovement.RotationOfPlayer);
+        List<Tile> listTileAffect = playerWeapon.GetAffectedTiles(CurrentTile.GetCoord(), playerMovement.RotationOfPlayer);
         List<Player> PlayersAffectByAttack = new List<Player>();
 
         foreach (Tile tile in listTileAffect)

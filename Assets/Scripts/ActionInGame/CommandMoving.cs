@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class CommandMoving : CommandInGame
 {
-    EnumClass.Direction DirectionOfMove;
+    Vector2Int DirectionOfMove;
 
-    public CommandMoving(Player OwnerOfAction, EnumClass.Direction direction) : base(OwnerOfAction)
+    public CommandMoving(Player OwnerOfAction, Vector2Int direction) : base(OwnerOfAction)
     {
         OwnerPlayer = OwnerOfAction;
         DirectionOfMove = direction;
@@ -19,9 +19,13 @@ public class CommandMoving : CommandInGame
 
     public override void LaunchActionInGame()
     {
+        if (OwnerPlayer.isDead)
+        {
+            EndActionInGame();
+        }
         SubscribeEndToEvent();
         Debug.Log("Start moving Action");
-        OwnerPlayer.playerMovement.RotatePlayer(DirectionOfMove);
+        OwnerPlayer.playerMovement.RotatePlayerWithvector(DirectionOfMove);
         OwnerPlayer.playerMovement.MakeMovement();
     }
 

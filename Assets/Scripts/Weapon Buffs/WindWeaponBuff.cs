@@ -6,15 +6,13 @@ public class WindWeaponBuff : WeaponBuff
 {
     public override void ApplyWeaponBuff(Player playerAffect, Player playerAttacking)
     {
-        //Enregistrer pour remettre sa vrai rotation a la fin de la poussée. 
-        Vector2Int oldRotOfPlayer = playerAffect.playerMovement.RotationOfPlayer;
-
         if (playerAttacking.playerWeapon is HammerWeapon || playerAttacking.playerWeapon is RifleWeapon)
         {
-            //Faux = a changer pour adapter correctement la rotation du joueur qui prend l'attaque. 
-            playerAffect.playerMovement.RotationOfPlayer = playerAttacking.playerMovement.RotationOfPlayer;
-            //playerAffect.gameObject.transform.rotation = playerAttacking.gameObject.transform.rotation;
-            playerAffect.playerMovement.MakeMovement();
+            /*playerAffect.playerMovement.RotationOfPlayer = playerAttacking.playerMovement.RotationOfPlayer;
+            playerAffect.playerMovement.MakeMovement();*/
+
+            CommandMoving moveCommand = new CommandMoving(playerAffect, playerAttacking.playerMovement.RotationOfPlayer);
+            GlobalManager.Instance.ListCommandsInGame.Insert(1, moveCommand);
         }
 
         else if (playerAttacking.playerWeapon is ScytheWeapon)
@@ -53,7 +51,5 @@ public class WindWeaponBuff : WeaponBuff
                 playerAffect.playerMovement.MakeMovement();
             }
         }
-
-        playerAffect.playerMovement.RotationOfPlayer = oldRotOfPlayer;
     }
 }

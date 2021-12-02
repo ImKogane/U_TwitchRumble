@@ -295,7 +295,9 @@ public class PlayerMovement : MonoBehaviour
         .Append(transform.DOMove(transform.position - Vector3.up * offsetGoDown, delayGoDown));
             
         //Attendre d'etre dans l'eau.
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(delayGoUp + delayGoDown);
+
+        CurrentPlayer.isDead = true;
 
         EndOfMoving.Invoke();
 
