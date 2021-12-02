@@ -109,7 +109,7 @@ public class GlobalManager : MonoBehaviour
         TwitchManager.Instance.playersCanMakeChoices = false;
         InputManager.Instance.EnableChoiceInputs(false);
 
-        //CheckPlayersChoicesInputs();
+        CheckAllPlayersGetChoice();
         
         StartAllActionsInGame();
 
@@ -275,20 +275,30 @@ public class GlobalManager : MonoBehaviour
         return index;
     }
 
-/*    private void CheckPlayersChoicesInputs()
+    private void CheckAllPlayersGetChoice()
     {
         foreach (var player in PlayerManager.Instance.PlayerList)
         {
-            List<CommandInGame> playerPreviousChoiceInput = FindPlayerCommands(player);
+            List<CommandInGame> playerCommands = FindPlayerCommands(player);
 
-            if (playerPreviousChoiceInput.Count == 0)
+            if (playerCommands.Count == 0)
             {
-                InputManager.Instance.ChoiceCommand(player, GetRandomChoiceIndex());
+                InputManager.Instance.ChoiceCommand(player, ScriptableManager.Instance.GetRandomIndexChoice());
             }
         }
-    }*/
+    }
     
-    
+    public void InsertCommandInList(int index, CommandInGame command)
+    {
+        if (ListCommandsInGame.Count>1)
+        {
+            ListCommandsInGame.Insert(index, command);
+        }
+        else
+        {
+            ListCommandsInGame.Add(command);
+        }
+    }
     
     
 }

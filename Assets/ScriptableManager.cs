@@ -14,9 +14,7 @@ public class ScriptableManager : MonoBehaviour
         public List<SO_Choice> choiceList;
     }
 
-
     private int _choiceIndexCompteur = 0;
-
 
     private void Awake()
     {
@@ -38,5 +36,15 @@ public class ScriptableManager : MonoBehaviour
     public int GetChoiceIndexCompteur()
     {
         return _choiceIndexCompteur;
+    }
+
+    public int GetRandomIndexChoice()
+    {
+        if (_turnChoiceList.Count > _choiceIndexCompteur)
+        {
+            int rand = Random.Range(0, _turnChoiceList[_choiceIndexCompteur].choiceList.Count);
+            return rand;
+        }
+        return 0;
     }
 }

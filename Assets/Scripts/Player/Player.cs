@@ -90,8 +90,6 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(currentAnimationInfo.clip.length);
 
         //Attack function is launch in animation events inside the animation.
-
-        EndOfAttack.Invoke();
     }
 
     public void Attack()
@@ -129,6 +127,8 @@ public class Player : MonoBehaviour
         {
             player.AlreadyAttackThisTurn = false;
         }
+
+        EndOfAttack.Invoke();
     }
 
     public void ReceiveDamage(int damage)

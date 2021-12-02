@@ -40,7 +40,7 @@ public class SO_BuffWeapon : SO_Choice
                 playerAffect.playerMovement.MakeMovement();*/
 
                 CommandMoving moveCommand = new CommandMoving(playerAffect, playerAttacking.playerMovement.RotationOfPlayer);
-                GlobalManager.Instance.ListCommandsInGame.Insert(1, moveCommand);
+                GlobalManager.Instance.InsertCommandInList(1, moveCommand);
 
                 /*else if (playerAttacking.playerWeapon is ScytheWeapon)
                 {
