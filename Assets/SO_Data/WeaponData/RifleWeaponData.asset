@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 856097233caa89548a576e6fb71f071e, type: 3}
   m_Name: RifleWeaponData
   m_EditorClassIdentifier: 
-  weaponType: 2
-  weaponVFX: {fileID: 1481071673524230, guid: 5fa3d6cba145ffc4486e9934d6abcecb, type: 3}
-  weaponSFX: {fileID: 8300000, guid: 237fa4ab13ef5744db4469d63b786e11, type: 3}
-  weaponPrefab: {fileID: 7779497602211829559, guid: ee37adc4880431a4c9358d0673d1ea2f, type: 3}
-  weaponAnimatorController: {fileID: 9100000, guid: 81779b41b039c7149a350ebefcf8cb79, type: 2}
+  _weaponPrefab: {fileID: 7779497602211829559, guid: ee37adc4880431a4c9358d0673d1ea2f, type: 3}
+  _listOfCellAffects:
+  - {x: 0, y: 1}
+  - {x: 0, y: 2}
+  - {x: 0, y: 3}
+  - {x: 0, y: 4}
+  _weaponAnimatorController: {fileID: 9100000, guid: 81779b41b039c7149a350ebefcf8cb79, type: 2}
+  _prefabWeaponVFX: {fileID: 1481071673524230, guid: 5fa3d6cba145ffc4486e9934d6abcecb, type: 3}
+  _weaponSFX: {fileID: 8300000, guid: 237fa4ab13ef5744db4469d63b786e11, type: 3}

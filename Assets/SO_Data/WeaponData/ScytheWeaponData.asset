@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 856097233caa89548a576e6fb71f071e, type: 3}
   m_Name: ScytheWeaponData
   m_EditorClassIdentifier: 
-  weaponType: 1
-  weaponVFX: {fileID: 1298042462260652, guid: 01b067e2a360cd444a6312d3b37c6c01, type: 3}
-  weaponSFX: {fileID: 8300000, guid: 41305399dcddf5a4d9c202697f36d421, type: 3}
-  weaponPrefab: {fileID: 5399678568072684415, guid: b0e38e0fa0c39c14fa284fd141c81e5b, type: 3}
-  weaponAnimatorController: {fileID: 9100000, guid: 01a58424aeb91244a90f83ad050c4dfb, type: 2}
+  _weaponPrefab: {fileID: 5399678568072684415, guid: b0e38e0fa0c39c14fa284fd141c81e5b, type: 3}
+  _listOfCellAffects:
+  - {x: -1, y: 0}
+  - {x: 1, y: 0}
+  - {x: 0, y: 1}
+  - {x: 0, y: -1}
+  _weaponAnimatorController: {fileID: 9100000, guid: 01a58424aeb91244a90f83ad050c4dfb, type: 2}
+  _prefabWeaponVFX: {fileID: 1298042462260652, guid: 01b067e2a360cd444a6312d3b37c6c01, type: 3}
+  _weaponSFX: {fileID: 8300000, guid: 41305399dcddf5a4d9c202697f36d421, type: 3}

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Weapon
 {
-    public SO_WeaponData weaponData;
+    public SO_Weapon weaponData;
 
     protected Player ownerPlayer;
 
@@ -16,12 +16,12 @@ public abstract class Weapon
     {
         weaponData = DatasManager.Instance.GetWeaponData(weaponType);
         ownerPlayer = newOwnerPlayer;
-        ownerPlayer.playerAnimator.runtimeAnimatorController = weaponData.weaponAnimatorController;
+        ownerPlayer.playerAnimator.runtimeAnimatorController = weaponData._weaponAnimatorController;
         
         foreach(Transform childTransform in ownerPlayer.GetComponentsInChildren<Transform>())
         {
             if(childTransform.name == "Hand_R")
-                weaponPrefab = GameObject.Instantiate(weaponData.weaponPrefab, childTransform, false);
+                weaponPrefab = GameObject.Instantiate(weaponData._weaponPrefab, childTransform, false);
         }
 
     }
@@ -37,7 +37,7 @@ public abstract class Weapon
     {
         foreach (var currentTransform in VFXtransformList)
         {
-            GameObject.Instantiate(weaponData.weaponVFX, currentTransform.position, Quaternion.identity); 
+            GameObject.Instantiate(weaponData._prefabWeaponVFX, currentTransform.position, Quaternion.identity); 
         }
         
         VFXtransformList.Clear();
@@ -45,7 +45,7 @@ public abstract class Weapon
 
     public void PlayWeaponSFX()
     {
-        AudioManager.Instance.PlaySFX(weaponData.weaponSFX);
+        AudioManager.Instance.PlaySFX(weaponData._weaponSFX);
     }
 
 

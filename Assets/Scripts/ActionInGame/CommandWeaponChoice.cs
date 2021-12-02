@@ -13,7 +13,7 @@ public class CommandWeaponChoice : CommandInGame
     }
     public override void LaunchActionInGame()
     {
-        OwnerPlayer.playerWeapon = WeaponFactory.CreateWeapon(weaponType, OwnerPlayer);
+        //OwnerPlayer.playerWeapon = WeaponFactory.CreateWeapon(weaponType, OwnerPlayer);
         Debug.Log("New Player's Weapon : " + OwnerPlayer.playerWeapon.GetType());
         EndActionInGame();
     }

@@ -188,5 +188,51 @@ public class BoardManager : MonoBehaviour
 
         return false;
     }
-    
+
+    public List<Tile> GetAffectedTiles(List<Vector2Int> paternOfAttack, Tile tileOfPlayer, Vector2Int rotationOfPlayer)
+    {
+        List<Vector2Int> currentPaternOfAttack = new List<Vector2Int>();
+        List<Tile> currentTilesToReturn = new List<Tile>();
+
+        foreach (Vector2Int pos in paternOfAttack)
+        {
+            if (rotationOfPlayer.x > 0) // right
+            {
+                currentPaternOfAttack.Add(SwapValuesOfVector(pos));
+            }
+            else if(rotationOfPlayer.x < 0) //left
+            {
+                currentPaternOfAttack.Add(SwapValuesOfVector(InverseVectorSign(pos)));
+            }
+            else if (rotationOfPlayer.y > 0) //up
+            {
+                currentPaternOfAttack.Add(pos);
+            }
+            else if (rotationOfPlayer.y < 0) //down
+            {
+                currentPaternOfAttack.Add(InverseVectorSign(pos));
+            }
+        }
+
+        foreach (Vector2Int pos in currentPaternOfAttack)
+        {
+            Tile currentTile = GetTileAtPos(new Vector2Int(tileOfPlayer.tileRow + pos.x, tileOfPlayer.tileColumn + pos.y));
+            if (currentTile != null)
+            {
+                currentTilesToReturn.Add(currentTile);
+            }
+        }
+
+        return currentTilesToReturn;
+    }
+
+    public Vector2Int InverseVectorSign(Vector2Int vector)
+    {
+        return vector * (-1);
+    }
+
+    public Vector2Int SwapValuesOfVector(Vector2Int vector)
+    {
+        return new Vector2Int(vector.y, vector.x);
+    }
 }

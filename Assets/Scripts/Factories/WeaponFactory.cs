@@ -5,7 +5,7 @@ using UnityEngine;
 public static class WeaponFactory
 {
 
-    public static Weapon CreateWeapon(EnumClass.WeaponType weaponType, Player ownerPlayer)
+   /* public static Weapon CreateWeapon(EnumClass.WeaponType weaponType, Player ownerPlayer)
     {
         //Grace au type de ton enum, tu declanches la fonction du SOManager qui te retourne un SO du memem type que ton arme. 
 
@@ -26,6 +26,6 @@ public static class WeaponFactory
         }
 
         return null;
-    }
+    }*/
 
 }

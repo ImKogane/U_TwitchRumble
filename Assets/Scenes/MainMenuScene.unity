@@ -162,9 +162,7 @@ MonoBehaviour:
   RightCommande: '!right'
   UpCommande: '!up'
   DownCommande: '!down'
-  FirstChoiceCommande: '!card1'
-  SecondChoiceCommande: '!card2'
-  ThirdChoiceCommande: '!card3'
+  ChoiceCommande: '!choice'
   maxCharacterInNames: 12
 --- !u!4 &6122261
 Transform:

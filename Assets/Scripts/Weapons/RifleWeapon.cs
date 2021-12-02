@@ -11,7 +11,7 @@ public class RifleWeapon : Weapon
     
     public override void PlayWeaponVFX()
     {
-        Transform socket = weaponData.weaponPrefab.transform.Find("VFX_Socket");
+        Transform socket = weaponData._weaponPrefab.transform.Find("VFX_Socket");
         VFXtransformList.Add(socket);
         base.PlayWeaponVFX();
     }

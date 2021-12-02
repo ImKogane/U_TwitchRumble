@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
 
     public string namePlayer;
 
-    public Weapon playerWeapon = null;
+    public SO_Weapon playerWeapon = null;
 
     public WeaponBuff playerWeaponBuff = null;
 
@@ -82,26 +82,21 @@ public class Player : MonoBehaviour
 
     public IEnumerator StartAttackCoroutine()
     {
+        //Play anim in the animator
         playerAnimator.SetTrigger("IsAttacking");
         
         AnimatorClipInfo currentAnimationInfo = playerAnimator.GetCurrentAnimatorClipInfo(0)[0];
 
         yield return new WaitForSeconds(currentAnimationInfo.clip.length);
 
-        EndOfAttack.Invoke();
-        
-        //Récupérer la commande d'attaque ici à la place de Attack(), uis utiliser Attack() comme animation event
-    }
+        //Attack function is launch in animation events inside the animation.
 
-    public void TriggerAttackVFX()
-    {
-        playerWeapon.PlayWeaponVFX();
+        EndOfAttack.Invoke();
     }
-    
 
     public void Attack()
     {
-        List<Tile> listTileAffect = playerWeapon.GetAffectedTiles(CurrentTile.GetCoord(), playerMovement.RotationOfPlayer);
+        List<Tile> listTileAffect = BoardManager.Instance.GetAffectedTiles(playerWeapon._listOfCellAffects, CurrentTile, playerMovement.RotationOfPlayer);
         List<Player> PlayersAffectByAttack = new List<Player>();
 
         foreach (Tile tile in listTileAffect)
@@ -129,8 +124,6 @@ public class Player : MonoBehaviour
         {
             player.AlreadyAttackThisTurn = false;
         }
-
-        //EndOfAttack.Invoke();
     }
 
     public void ReceiveDamage(int damage)
