@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
 
     public SO_Weapon playerWeapon = null;
 
-    public WeaponBuff playerWeaponBuff = null;
+    public SO_BuffWeapon playerWeaponBuff = null;
 
     public MoveBuff playerMoveBuff = null;
 
@@ -96,6 +96,11 @@ public class Player : MonoBehaviour
 
     public void Attack()
     {
+        if (playerWeapon == null)
+        {
+            return;
+        }
+
         List<Tile> listTileAffect = BoardManager.Instance.GetAffectedTiles(playerWeapon._listOfCellAffects, CurrentTile, playerMovement.RotationOfPlayer);
         List<Player> PlayersAffectByAttack = new List<Player>();
 
@@ -172,7 +177,6 @@ public class Player : MonoBehaviour
     
     public void ReceiveWeaponBuffEffect(Player attackingPlayer)
     {
-
         if (attackingPlayer.playerWeaponBuff != null)
         {
             attackingPlayer.playerWeaponBuff.ApplyWeaponBuff(this, attackingPlayer);
@@ -183,6 +187,20 @@ public class Player : MonoBehaviour
     {
         playerCanvas.transform.LookAt(playerCanvas.transform.position + Camera.main.transform.rotation * Vector3.back, Camera.main.transform.rotation * Vector3.up);
         playerCanvas.transform.position = transform.position + UIOffset;
+    }
+
+    public void ReceiveAChoice(SO_Choice choice)
+    {
+        switch (choice)
+        {
+            case SO_Weapon weapon:
+                playerWeapon = weapon;
+                break;
+
+            case SO_BuffWeapon buffWeapon:
+                playerWeaponBuff = buffWeapon;
+                break;
+        }
     }
     
 }

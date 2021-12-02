@@ -6,7 +6,17 @@ public class ScriptableManager : MonoBehaviour
 {
     public static ScriptableManager Instance;
 
-    public List<SO_Weapon> weaponDataList = new List<SO_Weapon>();
+    public List<ListSoChoiceClass> _turnChoiceList = new List<ListSoChoiceClass>();
+
+    [System.Serializable]
+    public class ListSoChoiceClass
+    {
+        public List<SO_Choice> choiceList;
+    }
+
+
+    private int _choiceIndexCompteur = 0;
+
 
     private void Awake()
     {
@@ -18,5 +28,15 @@ public class ScriptableManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+    }
+
+    public void IncreaseChoiceIndexCompteur() //A appeler a la fin d'un tour de choice
+    {
+        _choiceIndexCompteur++;
+    }
+
+    public int GetChoiceIndexCompteur()
+    {
+        return _choiceIndexCompteur;
     }
 }

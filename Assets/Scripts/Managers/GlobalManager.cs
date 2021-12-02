@@ -18,7 +18,9 @@ public class GlobalManager : MonoBehaviour
     [SerializeField] private float buffTimerDuration;
     private float currentTimer;
 
-    public SO_PanelChoice[] panelChoiceArray;
+    //public SO_PanelChoice[] panelChoiceArray;
+
+    public List<int> _turnsToMakeChoice = new List<int>();
 
     private int turnCount;
 
@@ -107,10 +109,12 @@ public class GlobalManager : MonoBehaviour
         TwitchManager.Instance.playersCanMakeChoices = false;
         InputManager.Instance.EnableChoiceInputs(false);
 
-        CheckPlayersChoicesInputs();
+        //CheckPlayersChoicesInputs();
         
         StartAllActionsInGame();
-        
+
+        ScriptableManager.Instance.IncreaseChoiceIndexCompteur();
+
         StartState(EnumClass.GameState.WaitingTurn);
     }
     
@@ -182,9 +186,9 @@ public class GlobalManager : MonoBehaviour
 
     void CheckNextTurn(int nextTurn)
     {
-        foreach (SO_PanelChoice choice in panelChoiceArray)
+        foreach (int choice in _turnsToMakeChoice)
         {
-            if (choice.turnToTakeEffect == turnCount)
+            if (choice == turnCount)
             {
                 StartState(EnumClass.GameState.ChoseBuffTurn);
                 return;
@@ -192,7 +196,6 @@ public class GlobalManager : MonoBehaviour
         }
 
         StartState(EnumClass.GameState.WaitingTurn);
-
     }
 
 
@@ -208,7 +211,6 @@ public class GlobalManager : MonoBehaviour
 
     #endregion
     
-
     public List<CommandInGame> FindPlayerCommands(Player ownerOfCommands)
     {
         List<CommandInGame> listToReturn = new List<CommandInGame>();
@@ -273,21 +275,7 @@ public class GlobalManager : MonoBehaviour
         return index;
     }
 
-    public SO_PanelChoice GetPanelChoiceOfThisTurn()
-    {
-        foreach (var choicePanel in panelChoiceArray)
-        {
-            if (turnCount == choicePanel.turnToTakeEffect)
-            {
-                return choicePanel;
-            }
-        }
-
-        return null;
-    }
-    
-    
-    private void CheckPlayersChoicesInputs()
+/*    private void CheckPlayersChoicesInputs()
     {
         foreach (var player in PlayerManager.Instance.PlayerList)
         {
@@ -298,7 +286,7 @@ public class GlobalManager : MonoBehaviour
                 InputManager.Instance.ChoiceCommand(player, GetRandomChoiceIndex());
             }
         }
-    }
+    }*/
     
     
     

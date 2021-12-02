@@ -5,7 +5,7 @@ using UnityEditor.Animations;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "SO/Weapon Data")]
-public class SO_Weapon : ScriptableObject
+public class SO_Weapon : SO_Choice
 {
     [Header("Skin Of Weapon")]
 
@@ -24,8 +24,4 @@ public class SO_Weapon : ScriptableObject
     public GameObject _prefabWeaponVFX;
 
     public AudioClip _weaponSFX;
-
-    [Header("Sprite of card")]
-
-    public Sprite _cardSprite;
 }

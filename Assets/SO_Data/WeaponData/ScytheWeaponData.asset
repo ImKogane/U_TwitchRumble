@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 856097233caa89548a576e6fb71f071e, type: 3}
   m_Name: ScytheWeaponData
   m_EditorClassIdentifier: 
+  _cardSprite: {fileID: 21300000, guid: 5953f4830042f684b88a7000b06941c9, type: 3}
   _weaponPrefab: {fileID: 5399678568072684415, guid: b0e38e0fa0c39c14fa284fd141c81e5b, type: 3}
   _listOfCellAffects:
   - {x: -1, y: 0}

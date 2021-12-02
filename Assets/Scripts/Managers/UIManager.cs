@@ -122,17 +122,20 @@ public class UIManager : MonoBehaviour
     public void UpdateChoiceCardsImage()
     {
         DestroyChoicesImages();
-        
-        SO_PanelChoice panelChoice = GlobalManager.Instance.GetPanelChoiceOfThisTurn();
 
-        if (!panelChoice) return;
+        int currentIndexChoice = ScriptableManager.Instance.GetChoiceIndexCompteur();
+
+        if (ScriptableManager.Instance._turnChoiceList.Count <= currentIndexChoice)
+        {
+            return;
+        }
         
-        for(int i = 0; i < panelChoice.choiceList.Count; i++)
+        for(int i = 0; i < ScriptableManager.Instance._turnChoiceList[currentIndexChoice].choiceList.Count; i++)
         {
             Image newChoiceImage = new GameObject().AddComponent<Image>();
 
             newChoiceImage.transform.parent = choiceScreen;
-            newChoiceImage.sprite = panelChoice.choiceList[i].spriteOfChoice;
+            newChoiceImage.sprite = ScriptableManager.Instance._turnChoiceList[currentIndexChoice].choiceList[i]._cardSprite;
             newChoiceImage.SetNativeSize();
             newChoiceImage.preserveAspect = true;
 

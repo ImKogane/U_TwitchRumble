@@ -2365,10 +2365,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionsTimerDuration: 15
   buffTimerDuration: 5
-  panelChoiceArray:
-  - {fileID: 11400000, guid: 81398ecfd16de644083ab9d570ba9667, type: 2}
-  - {fileID: 11400000, guid: 12c5564fe28a9c549adcea8e744c82db, type: 2}
-  - {fileID: 11400000, guid: ff37db85719fcf6478687b9855327ed8, type: 2}
+  _turnsToMakeChoice: 
 --- !u!4 &758945550
 Transform:
   m_ObjectHideFlags: 0
@@ -3712,10 +3709,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2a237df09ef0f743a878262379fb816, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponDataList:
-  - {fileID: 11400000, guid: f73f3e2f0fb2e7844830638ccaebdc71, type: 2}
-  - {fileID: 11400000, guid: 8e04e1837ed367347a83fe2e663f357a, type: 2}
-  - {fileID: 11400000, guid: 1c51868a45d99704db06152d8667e28e, type: 2}
 --- !u!4 &1211385192
 Transform:
   m_ObjectHideFlags: 0

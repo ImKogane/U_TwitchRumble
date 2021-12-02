@@ -40,7 +40,7 @@ public class TwitchManager : MonoBehaviour
     bool bConnexionIsDone = false;
     [System.NonSerialized] public bool canJoinedGame = false;
     [System.NonSerialized] public bool playersCanMakeActions = false;
-    [System.NonSerialized] public bool playersCanMakeChoices = true;
+    [System.NonSerialized] public bool playersCanMakeChoices = false;
     
     
     private void Awake()
@@ -223,10 +223,14 @@ public class TwitchManager : MonoBehaviour
                     {
                         int numberOfCommand = int.Parse(officialsNumber);
 
-                        Debug.Log("Number of command : " + numberOfCommand);
+                        if (numberOfCommand > 0)
+                        {
+                            numberOfCommand--;
 
-                        //Chercher dans le ScriptableManager si cet index exist.
-                        //Faire une choice command en fonction de notre index et de notre player.
+                            Debug.Log("COMMAND : " + nameOfPlayer + " choose choice " + numberOfCommand);
+
+                            InputManager.Instance.ChoiceCommand(currentplayer, numberOfCommand);
+                        }
                     }
                     else 
                     {
@@ -234,13 +238,6 @@ public class TwitchManager : MonoBehaviour
                         return; 
                     }
                 }
-
-               /* if (messageOfPlayer == ChoiceCommande) //Weapon 1
-                {
-                    Debug.Log("COMMAND : " + nameOfPlayer + " choose Weapon 1 !");
-                    InputManager.Instance.ChoiceCommand(currentplayer, 0);
-                }*/
-
             }
         }        
     }

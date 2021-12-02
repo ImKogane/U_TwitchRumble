@@ -11,5 +11,4 @@ public class SO_PanelChoice : ScriptableObject
     public List<SO_Choice> choiceList = new List<SO_Choice>();
 
     public int turnToTakeEffect;
-    
 }

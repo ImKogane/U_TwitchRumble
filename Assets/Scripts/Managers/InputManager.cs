@@ -118,14 +118,26 @@ public class InputManager : MonoBehaviour
 
     public void ChoiceCommand(Player player, int choiceIndex)
     {
-        SO_PanelChoice panelChoice = GlobalManager.Instance.GetPanelChoiceOfThisTurn();
-        
-        if (panelChoice)
-        {
-            panelChoice.choiceList[choiceIndex].ApplyChoice(player);
-        }
-            
+        int currentIndexChoice = ScriptableManager.Instance.GetChoiceIndexCompteur();
 
+        if (ScriptableManager.Instance._turnChoiceList.Count <= currentIndexChoice)
+        {
+            Debug.Log("Number of command is out of range !");
+            return;
+        }
+
+        if (ScriptableManager.Instance._turnChoiceList[currentIndexChoice].choiceList.Count <= choiceIndex)
+        {
+            Debug.Log("Number of command is out of range !");
+            return;
+        }
+
+        SO_Choice currentChoice = ScriptableManager.Instance._turnChoiceList[currentIndexChoice].choiceList[choiceIndex];
+
+        if (currentChoice)
+        {
+            currentChoice.ApplyChoice(player);
+        }
     }
 
 }

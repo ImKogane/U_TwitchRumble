@@ -13,7 +13,7 @@ public class CommandWeaponBuffChoice : CommandInGame
     }
     public override void LaunchActionInGame()
     {
-        OwnerPlayer.playerWeaponBuff = WeaponBuffFactory.CreateWeaponBuff(weaponBuffType);
+        //OwnerPlayer.playerWeaponBuff = WeaponBuffFactory.CreateWeaponBuff(weaponBuffType);
         Debug.Log("New Player's Weapon Buff : " + OwnerPlayer.playerWeapon.GetType());
         EndActionInGame();
     }
