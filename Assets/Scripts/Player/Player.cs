@@ -78,9 +78,6 @@ public class Player : MonoBehaviour
         playerHealthBar.value = LifeOfPlayer;
         
         UpdatePlayerCanvas();
-
-        playerWeapon = new HammerWeapon(this);
-        playerWeaponBuff = new WindWeaponBuff();
     }
 
     public IEnumerator StartAttackCoroutine()
