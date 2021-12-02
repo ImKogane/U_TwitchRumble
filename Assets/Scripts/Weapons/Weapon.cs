@@ -18,12 +18,12 @@ public abstract class Weapon
         ownerPlayer = newOwnerPlayer;
         ownerPlayer.playerAnimator.runtimeAnimatorController = weaponData.weaponAnimatorController;
         
-        foreach (Transform eachChild in ownerPlayer.transform) {
-            if (eachChild.CompareTag("WeaponSocket")) {
-                weaponPrefab = GameObject.Instantiate(weaponData.weaponPrefab, eachChild, false);
-            }
+        foreach(Transform childTransform in ownerPlayer.GetComponentsInChildren<Transform>())
+        {
+            if(childTransform.name == "Hand_R")
+                weaponPrefab = GameObject.Instantiate(weaponData.weaponPrefab, childTransform, false);
         }
-        
+
     }
    
 
