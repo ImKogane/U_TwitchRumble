@@ -6,9 +6,9 @@ using UnityEngine;
 public class HammerWeapon : Weapon
 {
 
-    public HammerWeapon(Player ownerPlayer) : base(ownerPlayer)
+    public HammerWeapon(Player ownerPlayer, EnumClass.WeaponType weaponType) : base(ownerPlayer, weaponType)
     {
-        weaponData = DatasManager.Instance.GetWeaponData(EnumClass.WeaponType.Hammer);
+        
     }
     
     
@@ -54,6 +54,13 @@ public class HammerWeapon : Weapon
             }
         }
 
+        foreach (var tile in returnList)
+        {
+            VFXtransformList.Add(tile.transform);
+        }
+        
+        PlayWeaponVFX();
+        
         return returnList;
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Animations;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "SO/Weapon Data")]
@@ -14,5 +15,5 @@ public class SO_WeaponData : ScriptableObject
 
     public GameObject weaponPrefab;
 
-    public Animator weaponAnimator;
+    public AnimatorController weaponAnimator;
 }

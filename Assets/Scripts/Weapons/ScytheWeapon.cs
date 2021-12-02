@@ -4,9 +4,15 @@ using UnityEngine;
 
 public class ScytheWeapon : Weapon
 {
-    public ScytheWeapon(Player ownerPlayer) : base(ownerPlayer)
+    public ScytheWeapon(Player ownerPlayer, EnumClass.WeaponType weaponType) : base(ownerPlayer, weaponType)
     {
-        weaponData = DatasManager.Instance.GetWeaponData(EnumClass.WeaponType.Scythe);
+  
+    }
+    
+    public override void PlayWeaponVFX()
+    {
+        VFXtransformList.Add(ownerPlayer.transform);
+        base.PlayWeaponVFX();
     }
     
     

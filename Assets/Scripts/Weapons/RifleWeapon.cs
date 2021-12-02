@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class RifleWeapon : Weapon
 {
-    public RifleWeapon(Player ownerPlayer) : base(ownerPlayer)
+    public RifleWeapon(Player ownerPlayer, EnumClass.WeaponType weaponType) : base(ownerPlayer, weaponType)
     {
-        weaponData = DatasManager.Instance.GetWeaponData(EnumClass.WeaponType.Rifle);
+
+    }
+    
+    public override void PlayWeaponVFX()
+    {
+        Transform socket = weaponData.weaponPrefab.transform.Find("VFX_Socket");
+        VFXtransformList.Add(socket);
+        base.PlayWeaponVFX();
     }
     
     public override List<Tile> GetAffectedTiles(Vector2Int CurrentCellOfPlayer, Vector2Int RotationOfPlayer)
