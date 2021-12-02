@@ -224,6 +224,9 @@ public class TwitchManager : MonoBehaviour
                         int numberOfCommand = int.Parse(officialsNumber);
 
                         Debug.Log("Number of command : " + numberOfCommand);
+
+                        //Chercher dans le ScriptableManager si cet index exist.
+                        //Faire une choice command en fonction de notre index et de notre player.
                     }
                     else 
                     {
