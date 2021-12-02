@@ -195,6 +195,7 @@ public class Player : MonoBehaviour
         {
             case SO_Weapon weapon:
                 playerWeapon = weapon;
+                SetupWeapon();
                 break;
 
             case SO_BuffWeapon buffWeapon:
@@ -202,5 +203,22 @@ public class Player : MonoBehaviour
                 break;
         }
     }
+
+    public void SetupWeapon()
+    {
+        playerAnimator.runtimeAnimatorController = playerWeapon._weaponAnimatorController;
+        foreach(Transform childTransform in GetComponentsInChildren<Transform>())
+        {
+            if (childTransform.name == "Hand_R")
+            {
+                Instantiate(playerWeapon._weaponPrefab, childTransform, false);
+            }
+            else
+            {
+                Debug.Log("Hand Socket not found !");
+            }
+        }
+    }
+    
     
 }
