@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 856097233caa89548a576e6fb71f071e, type: 3}
   m_Name: HammerWeaponData
   m_EditorClassIdentifier: 
-  weaponType: 0
-  weaponVFX: {fileID: 1078749407405562, guid: 6b6db6bab205edc44b6e614df225cd3d, type: 3}
-  weaponSFX: {fileID: 8300000, guid: c0f63bf9320775946abb922c44d22ca8, type: 3}
-  weaponPrefab: {fileID: 4056109020764304341, guid: de4c3606f9cc0144dbedfcfe12b106d0, type: 3}
-  weaponAnimatorController: {fileID: 9100000, guid: 5a743250fc5f37645bb8df8be56d71ce, type: 2}
+  _weaponPrefab: {fileID: 4056109020764304341, guid: de4c3606f9cc0144dbedfcfe12b106d0, type: 3}
+  _listOfCellAffects:
+  - {x: 0, y: 1}
+  - {x: 0, y: 2}
+  - {x: -1, y: 1}
+  - {x: 1, y: 1}
+  _weaponAnimatorController: {fileID: 9100000, guid: 5a743250fc5f37645bb8df8be56d71ce, type: 2}
+  _prefabWeaponVFX: {fileID: 1078749407405562, guid: 6b6db6bab205edc44b6e614df225cd3d, type: 3}
+  _weaponSFX: {fileID: 8300000, guid: c0f63bf9320775946abb922c44d22ca8, type: 3}

@@ -18,6 +18,7 @@ public class CommandAttack : CommandInGame
     {
         SubscribeEndToEvent();
         Debug.Log("Start attack Action");
+
         OwnerPlayer.StartCoroutine(OwnerPlayer.StartAttackCoroutine());
     }
 

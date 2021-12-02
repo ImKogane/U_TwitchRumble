@@ -30,9 +30,7 @@ public class TwitchManager : MonoBehaviour
     public string RightCommande;
     public string UpCommande;
     public string DownCommande;
-    public string FirstChoiceCommande = "_card1";
-    public string SecondChoiceCommande = "_card2";
-    public string ThirdChoiceCommande = "_card3";
+    public string ChoiceCommande = "!card";
     
     
 
@@ -42,7 +40,7 @@ public class TwitchManager : MonoBehaviour
     bool bConnexionIsDone = false;
     [System.NonSerialized] public bool canJoinedGame = false;
     [System.NonSerialized] public bool playersCanMakeActions = false;
-    [System.NonSerialized] public bool playersCanMakeChoices = false;
+    [System.NonSerialized] public bool playersCanMakeChoices = true;
     
     
     private void Awake()
@@ -204,21 +202,42 @@ public class TwitchManager : MonoBehaviour
 
                 Player currentplayer = PlayerManager.Instance.ReturnPlayerWithName(nameOfPlayer);
 
-                if (messageOfPlayer == FirstChoiceCommande) //Weapon 1
+                if (messageOfPlayer.Contains(ChoiceCommande))
+                {
+                    //Enlever le text de la commande
+                    string numberOfCommandTxt = messageOfPlayer.Substring(ChoiceCommande.Length);
+
+                    string officialsNumber = string.Empty;
+
+                    //Chercher si nous possedons un/des chiffre dans notre nouveau string
+                    foreach (char cara in numberOfCommandTxt)
+                    {
+                        if (char.IsDigit(cara))
+                        {
+                            officialsNumber += cara;
+                        }
+                    }
+
+                    //Si le string n'est pas null on le transform en int
+                    if (officialsNumber.Length > 0)
+                    {
+                        int numberOfCommand = int.Parse(officialsNumber);
+
+                        Debug.Log("Number of command : " + numberOfCommand);
+                    }
+                    else 
+                    {
+                        Debug.Log("Number of command is not valid !");
+                        return; 
+                    }
+                }
+
+               /* if (messageOfPlayer == ChoiceCommande) //Weapon 1
                 {
                     Debug.Log("COMMAND : " + nameOfPlayer + " choose Weapon 1 !");
                     InputManager.Instance.ChoiceCommand(currentplayer, 0);
-                }
-                if (messageOfPlayer == SecondChoiceCommande) //Weapon 2
-                {
-                    Debug.Log("COMMAND : " + nameOfPlayer + " choose Weapon 2 !");
-                    InputManager.Instance.ChoiceCommand(currentplayer, 1);
-                }
-                if (messageOfPlayer == ThirdChoiceCommande) //Weapon 3
-                {
-                    Debug.Log("COMMAND : " + nameOfPlayer + " choose Weapon 3 !");
-                    InputManager.Instance.ChoiceCommand(currentplayer, 2);
-                }
+                }*/
+
             }
         }        
     }
