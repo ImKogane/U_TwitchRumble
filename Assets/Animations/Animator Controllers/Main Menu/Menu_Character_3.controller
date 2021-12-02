@@ -33,7 +33,7 @@ AnimatorController:
   m_AnimatorParameters:
   - m_Name: FrameTime
     m_Type: 1
-    m_DefaultFloat: 0
+    m_DefaultFloat: 0.569
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
@@ -70,7 +70,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 1
-  m_Motion: {fileID: -203655887218126122, guid: 02ccfe000750248418ea7f09309a0085, type: 3}
+  m_Motion: {fileID: 7400000, guid: a8ab023ea98b9fa42be56d59a1681b34, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

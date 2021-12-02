@@ -15,5 +15,5 @@ public class SO_WeaponData : ScriptableObject
 
     public GameObject weaponPrefab;
 
-    public AnimatorController weaponAnimator;
+    public AnimatorController weaponAnimatorController;
 }

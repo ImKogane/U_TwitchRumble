@@ -6,7 +6,7 @@ public class ScytheWeapon : Weapon
 {
     public ScytheWeapon(Player ownerPlayer, EnumClass.WeaponType weaponType) : base(ownerPlayer, weaponType)
     {
-  
+        
     }
     
     public override void PlayWeaponVFX()

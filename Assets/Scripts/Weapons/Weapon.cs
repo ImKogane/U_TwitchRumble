@@ -16,9 +16,14 @@ public abstract class Weapon
     {
         weaponData = DatasManager.Instance.GetWeaponData(weaponType);
         ownerPlayer = newOwnerPlayer;
-        ownerPlayer.playerAnimator.runtimeAnimatorController = weaponData.weaponAnimator;
-        Transform weaponSocket = ownerPlayer.transform.Find("Hand_R");
-        weaponPrefab = GameObject.Instantiate(weaponData.weaponPrefab, weaponSocket);
+        ownerPlayer.playerAnimator.runtimeAnimatorController = weaponData.weaponAnimatorController;
+        
+        foreach (Transform eachChild in ownerPlayer.transform) {
+            if (eachChild.CompareTag("WeaponSocket")) {
+                weaponPrefab = GameObject.Instantiate(weaponData.weaponPrefab, eachChild, false);
+            }
+        }
+        
     }
    
 
@@ -32,7 +37,7 @@ public abstract class Weapon
     {
         foreach (var currentTransform in VFXtransformList)
         {
-            GameObject.Instantiate(weaponData.weaponVFX, currentTransform);
+            GameObject.Instantiate(weaponData.weaponVFX, currentTransform.position, Quaternion.identity); 
         }
         
         VFXtransformList.Clear();
