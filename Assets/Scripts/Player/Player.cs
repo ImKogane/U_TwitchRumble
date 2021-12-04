@@ -233,6 +233,17 @@ public class Player : MonoBehaviour
             }
         }
     }
+
+    public void SetATrap()
+    {
+        GameObject newTrapGO = GameObject.Instantiate(trapPrefab, CurrentTile.transform.position, Quaternion.identity);
+        Trap trapComponent = newTrapGO.GetComponent<Trap>();
+        if (trapComponent)
+        {
+            CurrentTile.trapList.Add(trapComponent);
+            trapComponent.currentTile = CurrentTile;
+        }
+    }
     
     
 }

@@ -22,14 +22,7 @@ public class SO_BuffMoving : SO_Choice
         {
             case EnumClass.MovementBuffType.Trap:
 
-                Tile currentTile = ownerOfBuff.CurrentTile;
-                GameObject newTrapGO = GameObject.Instantiate(ownerOfBuff.trapPrefab, currentTile.transform);
-                Trap trapComponent = newTrapGO.GetComponent<Trap>();
-                if (trapComponent)
-                {
-                    currentTile.trapList.Add(trapComponent);
-                    trapComponent.currentTile = currentTile;
-                }
+                ownerOfBuff.playerAnimator.SetTrigger("IsPlacingTrap");
                 break;
 
             case EnumClass.MovementBuffType.Magnet:

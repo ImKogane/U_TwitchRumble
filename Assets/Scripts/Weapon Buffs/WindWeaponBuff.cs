@@ -11,7 +11,7 @@ public class WindWeaponBuff : WeaponBuff
             /*playerAffect.playerMovement.RotationOfPlayer = playerAttacking.playerMovement.RotationOfPlayer;
             playerAffect.playerMovement.MakeMovement();*/
 
-            CommandMoving moveCommand = new CommandMoving(playerAffect, playerAttacking.playerMovement.RotationOfPlayer);
+            CommandMoving moveCommand = new CommandMoving(playerAffect, playerAttacking.playerMovement.RotationOfPlayer, true);
             GlobalManager.Instance.ListCommandsInGame.Insert(1, moveCommand);
         }
 

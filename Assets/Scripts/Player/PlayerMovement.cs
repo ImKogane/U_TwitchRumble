@@ -9,7 +9,8 @@ public class PlayerMovement : MonoBehaviour
 {
     public Action EndOfMoving;
 
-    public float MovmentSeconds = 1f;
+    public float _walkMovementSpeed = 1f;
+    public float _pushedMovementSpeed = 2f;
 
     private bool isMoving;
     [NonSerialized]
@@ -112,14 +113,14 @@ public class PlayerMovement : MonoBehaviour
     #endregion
 
     #region Movement
-    public void MakeMovement()
+    public void MakeMovement(bool isPushed = false)
     {
-        if (!canMove)
+        if (!canMove && !isPushed)
         {
             EndOfMoving.Invoke();
             return;
         }
-        
+
         UpdateRotOfUI = true;
         
         if (CurrentPlayer.CurrentTile)
@@ -133,13 +134,13 @@ public class PlayerMovement : MonoBehaviour
         if (RotationOfPlayer.x != 0)
         {
             NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentPlayer.CurrentTile.tileRow + RotationOfPlayer.x, CurrentPlayer.CurrentTile.tileColumn));
-            CheckBeforeMoveToATile(NextTile);
+            CheckBeforeMoveToATile(NextTile, isPushed);
         }
         //Avancer en Z
         else if (RotationOfPlayer.y != 0)
         {
             NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentPlayer.CurrentTile.tileRow, CurrentPlayer.CurrentTile.tileColumn + RotationOfPlayer.y));
-            CheckBeforeMoveToATile(NextTile);
+            CheckBeforeMoveToATile(NextTile, isPushed);
         }
         else
         {
@@ -147,7 +148,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void CheckBeforeMoveToATile(Tile nextTile)
+    public void CheckBeforeMoveToATile(Tile nextTile, bool isPushed = false)
     {
         if (nextTile == null)
         {
@@ -176,16 +177,16 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        GoToATile(nextTile);
+        GoToATile(nextTile, isPushed);
     }
 
-    private void GoToATile(Tile nextTile)
+    private void GoToATile(Tile nextTile, bool isPushed = false)
     {
         Debug.Log("Tile detecté, le mouvement peut etre fait !");
 
         ResetMyTile();
 
-        StartCoroutine(DotweenMovment(nextTile));
+        StartCoroutine(DotweenMovment(nextTile, isPushed));
 
         SetNewTile(nextTile);
     }
@@ -232,25 +233,40 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    private IEnumerator DotweenMovment(Tile nextDestination)
+    private IEnumerator DotweenMovment(Tile nextDestination, bool isPushed)
     {
-        playerAnimator.SetBool("IsWalking", true);
+        float animationSpeed;
+        
+        if (!isPushed)
+        {
+            playerAnimator.SetBool("IsWalking", true);
+            animationSpeed = _walkMovementSpeed;
+        }
+        else
+        {
+            playerAnimator.SetBool("IsPushed", true);
+            animationSpeed = _pushedMovementSpeed;
+        }
 
         Vector3 originalPosition = transform.position;
         
-        for (float i = 0.0f; i < 1f; i += Time.deltaTime / MovmentSeconds)
+        for (float i = 0.0f; i < 1f/animationSpeed; i += Time.deltaTime)
         {
             transform.position = Vector3.Lerp(originalPosition, nextDestination.transform.position, i);
             yield return null;
         }
         
         //transform.DOMove(nextDestination.transform.position, MovmentSeconds, false);
-
-        
-        
         //yield return new WaitForSeconds(MovmentSeconds);
         
-        playerAnimator.SetBool("IsWalking", false);
+        if (!isPushed)
+        {
+            playerAnimator.SetBool("IsWalking", false);
+        }
+        else
+        {
+            playerAnimator.SetBool("IsPushed", false);
+        }
 
         for (int i = 0; i < nextDestination.trapList.Count; i++)
         {
@@ -274,15 +290,15 @@ public class PlayerMovement : MonoBehaviour
         //Avancer jusqu'au milieu du trou.
         if (RotationOfPlayer.x != 0)
         {
-            transform.DOMove(new Vector3(transform.position.x + (offset * RotationOfPlayer.x), transform.position.y, transform.position.z), MovmentSeconds);
+            transform.DOMove(new Vector3(transform.position.x + (offset * RotationOfPlayer.x), transform.position.y, transform.position.z), _walkMovementSpeed);
         }
         if (RotationOfPlayer.y != 0)
         {
-            transform.DOMove(new Vector3(transform.position.x , transform.position.y, transform.position.z + (offset * RotationOfPlayer.y)), MovmentSeconds);
+            transform.DOMove(new Vector3(transform.position.x , transform.position.y, transform.position.z + (offset * RotationOfPlayer.y)), _walkMovementSpeed);
         }
 
         //Attendre d'etre au milieu du trou. 
-        yield return new WaitForSeconds(MovmentSeconds);
+        yield return new WaitForSeconds(_walkMovementSpeed);
 
         int offsetGoUp = 2;
         int offsetGoDown = 8;

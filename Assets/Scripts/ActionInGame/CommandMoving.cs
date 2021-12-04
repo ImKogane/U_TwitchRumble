@@ -6,10 +6,13 @@ public class CommandMoving : CommandInGame
 {
     Vector2Int DirectionOfMove;
 
-    public CommandMoving(Player OwnerOfAction, Vector2Int direction) : base(OwnerOfAction)
+    private bool isPushed;
+    
+    public CommandMoving(Player OwnerOfAction, Vector2Int direction, bool isPushedValue = false) : base(OwnerOfAction)
     {
         OwnerPlayer = OwnerOfAction;
         DirectionOfMove = direction;
+        isPushed = isPushedValue;
     }
 
     public override void SubscribeEndToEvent()
@@ -26,7 +29,7 @@ public class CommandMoving : CommandInGame
         SubscribeEndToEvent();
         Debug.Log("Start moving Action");
         OwnerPlayer.playerMovement.RotatePlayerWithvector(DirectionOfMove);
-        OwnerPlayer.playerMovement.MakeMovement();
+        OwnerPlayer.playerMovement.MakeMovement(isPushed);
     }
 
     public override void DestroyCommand()

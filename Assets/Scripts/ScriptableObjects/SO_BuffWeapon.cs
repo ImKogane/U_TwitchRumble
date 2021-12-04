@@ -93,7 +93,7 @@ public class SO_BuffWeapon : SO_Choice
                     }
                 }
 
-                CommandMoving moveCommand = new CommandMoving(playerAffect, direction);
+                CommandMoving moveCommand = new CommandMoving(playerAffect, direction, true);
                 GlobalManager.Instance.InsertCommandInList(1, moveCommand);
 
                 break;
