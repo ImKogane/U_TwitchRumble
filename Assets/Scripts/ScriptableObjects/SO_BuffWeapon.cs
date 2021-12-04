@@ -42,7 +42,7 @@ public class SO_BuffWeapon : SO_Choice
 
                 Vector2Int direction = Vector2Int.zero;
 
-                if (rotOfPlayerAttacking.x != 0) //Si je joueur est tourné vers la gauche ou droite
+                if (rotOfPlayerAttacking.x != 0) //Si je joueur est tournÃ© vers la gauche ou droite
                 {
                     if (posPlayerAttacking.x != posPlayerAffect.x) //Droite ou gauche
                     {
@@ -67,7 +67,7 @@ public class SO_BuffWeapon : SO_Choice
                         }
                     }
                 }
-                else //Si le joueur est tourné vers le haut ou le bas
+                else //Si le joueur est tournÃ© vers le haut ou le bas
                 {
                     if (posPlayerAttacking.y != posPlayerAffect.y) 
                     {

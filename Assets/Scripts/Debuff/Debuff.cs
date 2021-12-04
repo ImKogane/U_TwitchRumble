@@ -14,6 +14,11 @@ public class Debuff
         ownerOfDebuff = playerOwner;
     }
 
+    public virtual void OnPlayerReceiveDebuff()
+    {
+        
+    }
+    
     public virtual void ApplyEffect()
     {
         

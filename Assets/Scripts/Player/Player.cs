@@ -181,6 +181,14 @@ public class Player : MonoBehaviour
         {
             attackingPlayer.playerWeaponBuff.ApplyWeaponBuff(this, attackingPlayer);
         }
+
+        if (debuffList.Count > 0)
+        {
+            foreach (var debuff in debuffList)
+            {
+                debuff.OnPlayerReceiveDebuff();
+            }
+        }
     }
     
     public void UpdatePlayerCanvas()

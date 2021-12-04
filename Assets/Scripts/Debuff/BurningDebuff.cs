@@ -5,10 +5,15 @@ using UnityEngine;
 public class BurningDebuff : Debuff
 {
     public int damages;
-    
+
     public BurningDebuff(int newDuration, Player playerOwner, int burnDamages) : base(newDuration, playerOwner)
     {
         damages = burnDamages;
+    }
+
+    public override void OnPlayerReceiveDebuff()
+    {
+        //Play big FX
     }
 
     public override void ApplyEffect()
