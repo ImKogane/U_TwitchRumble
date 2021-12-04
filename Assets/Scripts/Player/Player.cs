@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
 
     public SO_BuffWeapon playerWeaponBuff = null;
 
-    public MoveBuff playerMoveBuff = null;
+    public SO_BuffMoving playerMoveBuff = null;
 
     public GameObject trapPrefab;
 
@@ -191,6 +191,8 @@ public class Player : MonoBehaviour
 
     public void ReceiveAChoice(SO_Choice choice)
     {
+        choice.StartAChoice(this);
+
         switch (choice)
         {
             case SO_Weapon weapon:
@@ -200,6 +202,10 @@ public class Player : MonoBehaviour
 
             case SO_BuffWeapon buffWeapon:
                 playerWeaponBuff = buffWeapon;
+                break;
+
+            case SO_BuffMoving buffMove:
+                playerMoveBuff = buffMove;
                 break;
         }
     }

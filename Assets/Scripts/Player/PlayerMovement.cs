@@ -259,7 +259,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (CurrentPlayer.playerMoveBuff != null)
         {
-            CurrentPlayer.playerMoveBuff.ApplyMoveBuff();
+            CurrentPlayer.playerMoveBuff.ApplyMoveBuff(CurrentPlayer);
         }
 
         EndOfMoving.Invoke();

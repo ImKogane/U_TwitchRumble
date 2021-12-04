@@ -2365,7 +2365,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionsTimerDuration: 15
   buffTimerDuration: 15
-  _turnsToMakeChoice: 0100000005000000
+  _turnsToMakeChoice: 010000000300000005000000
 --- !u!4 &758945550
 Transform:
   m_ObjectHideFlags: 0
@@ -3718,6 +3718,10 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 44a4610711629e14ba343fcd01178160, type: 2}
     - {fileID: 11400000, guid: 5b6d019bc6b6edc4f9b4972597f18c9f, type: 2}
     - {fileID: 11400000, guid: 5a31304d9aadc29438d0d61f3503517a, type: 2}
+  - choiceList:
+    - {fileID: 11400000, guid: 63df9b5876b3c6046a815dddbba1a2f5, type: 2}
+    - {fileID: 11400000, guid: b094b3024b13da842b90392cd4ac31e8, type: 2}
+    - {fileID: 11400000, guid: 0c48bf8b66182d7458cdfb6cde8148de, type: 2}
 --- !u!4 &1211385192
 Transform:
   m_ObjectHideFlags: 0

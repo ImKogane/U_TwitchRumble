@@ -36,48 +36,65 @@ public class SO_BuffWeapon : SO_Choice
                 break;
             case EnumClass.WeaponBuffType.Wind:
 
-                /*playerAffect.playerMovement.RotationOfPlayer = playerAttacking.playerMovement.RotationOfPlayer;
-                playerAffect.playerMovement.MakeMovement();*/
+                Vector2Int rotOfPlayerAttacking = playerAttacking.playerMovement.RotationOfPlayer;
+                Vector2Int posPlayerAffect = new Vector2Int(playerAffect.CurrentTile.tileRow, playerAffect.CurrentTile.tileColumn);
+                Vector2Int posPlayerAttacking = new Vector2Int(playerAttacking.CurrentTile.tileRow, playerAttacking.CurrentTile.tileColumn);
 
-                CommandMoving moveCommand = new CommandMoving(playerAffect, playerAttacking.playerMovement.RotationOfPlayer);
-                GlobalManager.Instance.InsertCommandInList(1, moveCommand);
+                Vector2Int direction = Vector2Int.zero;
 
-                /*else if (playerAttacking.playerWeapon is ScytheWeapon)
+                if (rotOfPlayerAttacking.x != 0) //Si je joueur est tourné vers la gauche ou droite
                 {
-                    int PosXAttacker = playerAttacking.CurrentTile.tileRow;
-                    int PosYAttacker = playerAttacking.CurrentTile.tileColumn;
-
-                    int PosXReceiver = playerAffect.CurrentTile.tileRow;
-                    int PosYReceiver = playerAffect.CurrentTile.tileColumn;
-
-                    if (PosXAttacker != PosXReceiver) // Defenseur a droite ou a gauche
+                    if (posPlayerAttacking.x != posPlayerAffect.x) //Droite ou gauche
                     {
-                        if (PosXAttacker < PosXReceiver) // Droite
+                        if (posPlayerAttacking.x > posPlayerAffect.x) //Gauche
                         {
-                            playerAffect.playerMovement.RotationOfPlayer = new Vector2Int(1, 0);
+                            direction = new Vector2Int(-1, 0);
                         }
-                        if (PosXAttacker > PosXReceiver) //Gauche
+                        if (posPlayerAttacking.x < posPlayerAffect.x) //Droite
                         {
-                            playerAffect.playerMovement.RotationOfPlayer = new Vector2Int(-1, 0);
+                            direction = new Vector2Int(1, 0);
                         }
-
-                        playerAffect.playerMovement.MakeMovement();
                     }
-
-                    if (PosYAttacker != PosYReceiver) // Defenseur en haut ou en bas
+                    else //Haut et bas
                     {
-                        if (PosYAttacker < PosYReceiver) //Haut
+                        if (posPlayerAttacking.y > posPlayerAffect.y) //Bas
                         {
-                            playerAffect.playerMovement.RotationOfPlayer = new Vector2Int(0, 1);
+                            direction = new Vector2Int(0, -1);
                         }
-                        else if (PosYAttacker > PosYReceiver) //Bas
+                        if (posPlayerAttacking.y < posPlayerAffect.y) //Haut
                         {
-                            playerAffect.playerMovement.RotationOfPlayer = new Vector2Int(0, -1);
+                            direction = new Vector2Int(0, 1);
                         }
-
-                        playerAffect.playerMovement.MakeMovement();
                     }
-                }*/
+                }
+                else //Si le joueur est tourné vers le haut ou le bas
+                {
+                    if (posPlayerAttacking.y != posPlayerAffect.y) 
+                    {
+                        if (posPlayerAttacking.y > posPlayerAffect.y) //Bas
+                        {
+                            direction = new Vector2Int(0, -1);
+                        }
+                        if (posPlayerAttacking.y < posPlayerAffect.y) //Haut
+                        {
+                            direction = new Vector2Int(0, 1);
+                        }
+                    }
+                    else
+                    {
+                        if (posPlayerAttacking.x > posPlayerAffect.x) //Gauche
+                        {
+                            direction = new Vector2Int(-1, 0);
+                        }
+                        if (posPlayerAttacking.x < posPlayerAffect.x) //Droite
+                        {
+                            direction = new Vector2Int(1, 0);
+                        }
+                    }
+                }
+
+                CommandMoving moveCommand = new CommandMoving(playerAffect, direction);
+                GlobalManager.Instance.InsertCommandInList(1, moveCommand);
 
                 break;
             default:

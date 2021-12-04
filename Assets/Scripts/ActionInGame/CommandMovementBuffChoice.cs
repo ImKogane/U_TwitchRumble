@@ -13,7 +13,7 @@ public class CommandMovementBuffChoice : CommandInGame
     }
     public override void LaunchActionInGame()
     {
-        OwnerPlayer.playerMoveBuff = MovementBuffFactory.CreateMovementBuff(movementBuffType, OwnerPlayer);
+        //OwnerPlayer.playerMoveBuff = MovementBuffFactory.CreateMovementBuff(movementBuffType, OwnerPlayer);
         Debug.Log("New Player's Movement Buff : " + OwnerPlayer.playerMoveBuff.GetType());
         EndActionInGame();
     }

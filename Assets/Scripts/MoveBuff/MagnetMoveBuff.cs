@@ -9,13 +9,13 @@ public class MagnetMoveBuff : MoveBuff
 
     public override void ApplyMoveBuff()
     {
-        AttiranceOnRight(new Vector2Int(-1, 0));
-        AttiranceOnRight(new Vector2Int(1, 0));
-        AttiranceOnRight(new Vector2Int(0, 1));
-        AttiranceOnRight(new Vector2Int(0, -1));
+        AttiranceOnSpecificSide(new Vector2Int(-1, 0));
+        AttiranceOnSpecificSide(new Vector2Int(1, 0));
+        AttiranceOnSpecificSide(new Vector2Int(0, 1));
+        AttiranceOnSpecificSide(new Vector2Int(0, -1));
     }
 
-    public void AttiranceOnRight(Vector2Int VectorAttirance)
+    public void AttiranceOnSpecificSide(Vector2Int VectorAttirance)
     {
         Tile startTile = ownerOfMoveBuff.CurrentTile;
 
