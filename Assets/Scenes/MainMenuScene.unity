@@ -7998,6 +7998,7 @@ MonoBehaviour:
   GameScenesNames:
   - UIScene
   - EnviroScene
+  - PlayersScene
   - BoardScene
   - GameScene
 --- !u!4 &1196285923
