@@ -25,17 +25,9 @@ public class LobbyManager : MonoBehaviour
         }
     }
     
-   
-    
-    // Start is called before the first frame update
-    void Start()
+    public void LaunchGame()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        TwitchManager.Instance.canJoinedGame = false;
+        ScenesManager.Instance.LaunchGameScenes();    
     }
 }

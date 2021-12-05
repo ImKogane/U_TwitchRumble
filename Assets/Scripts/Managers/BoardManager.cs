@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using System.Configuration;
 using UnityEngine;
 
@@ -50,7 +51,9 @@ public class BoardManager : MonoBehaviour
     public void CreateBoard(int sizeX, int sizeZ, int holeNumber, int obstacleNumber)
     {
         #region Basic Board Creation
-        
+
+        ScenesManager.Instance.SetActiveScene("BoardScene");
+
         gameBoard = new GameObject("GameBoard");
 
         for (int i = 0; i < sizeX; i++)
@@ -96,6 +99,8 @@ public class BoardManager : MonoBehaviour
         }
 
         #endregion
+
+        ScenesManager.Instance.SetActiveScene("PlayersScene");
 
         PlayerManager.Instance.SpawnAllPlayerOnBoard();
     }

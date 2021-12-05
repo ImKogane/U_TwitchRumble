@@ -20,7 +20,6 @@ public class TwitchManager : MonoBehaviour
     public TMP_InputField ChannelNameInput;
     public GameObject PanelConnexion;
 
-    
 
     [Header("Commande of the game")]
     public string AttackCommande;
