@@ -519,9 +519,7 @@ MonoBehaviour:
   RightCommande: '!right'
   UpCommande: '!up'
   DownCommande: '!down'
-  FirstChoiceCommande: '!card1'
-  SecondChoiceCommande: '!card2'
-  ThirdChoiceCommande: '!card3'
+  ChoiceCommande: '!card'
   maxCharacterInNames: 12
 --- !u!4 &1097726312
 Transform:
@@ -1027,9 +1025,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 314623835}
-        m_TargetAssemblyTypeName: PlayerManager, Assembly-CSharp
-        m_MethodName: PlayGame
+      - m_Target: {fileID: 1400307708}
+        m_TargetAssemblyTypeName: LobbyManager, Assembly-CSharp
+        m_MethodName: LaunchGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
