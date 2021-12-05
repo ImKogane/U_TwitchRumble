@@ -11,7 +11,7 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 5325784697021963277}
-    m_Position: {x: 559.07947, y: 177.67862, z: 0}
+    m_Position: {x: 500, y: 90, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -36,7 +36,7 @@ AnimatorController:
     m_DefaultFloat: 0.18
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -57,7 +57,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 2Hand-Axe-Attack2
+  m_Name: Scythe Attack
   m_Speed: 0
   m_CycleOffset: 0
   m_Transitions: []
@@ -70,7 +70,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 1
-  m_Motion: {fileID: 7400000, guid: 5382c9f3a528413448fc27554dd73d74, type: 3}
+  m_Motion: {fileID: 7400000, guid: dbbbb5af8230ce64a98899a9e3a2c367, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

@@ -19,9 +19,7 @@ public class SO_Weapon : SO_Choice
 
     public AnimatorController _weaponAnimatorController;
 
-    [Header("VFX et SFX")]
-
-    public GameObject _prefabWeaponVFX;
+    [Header("SFX")]
 
     public AudioClip _weaponSFX;
 }

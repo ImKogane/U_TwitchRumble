@@ -23,9 +23,7 @@ public class Player : MonoBehaviour
 
     public SO_BuffMoving playerMoveBuff = null;
 
-    public GameObject trapPrefab;
-
-    public EnumClass.WeaponType typeOfWeapon;
+    public SO_PlayerData _playerData;
 
     public Action EndOfAttack;
 
@@ -35,14 +33,16 @@ public class Player : MonoBehaviour
     
     public Material materialForTryCell;
 
-    public int LifeOfPlayer = 100;
+    int _playerLife = 100;
 
-    public int AttackPlayer = 25;
+    int _playerDamages = 25;
 
+    GameObject _trapPrefab;
+    
     [Header("UI variables")]
-    public Canvas playerUIPrefab;
+    private Canvas _playerUIPrefab;
 
-    public Vector3 UIOffset;
+    private Vector3 _playerUIOffset;
     
     public Canvas playerCanvas;
 
@@ -58,13 +58,15 @@ public class Player : MonoBehaviour
 
     public void SpawnPlayerInGame(Tile TileForStart, string nameP)
     {
+        LoadPlayerData();
+        
         CurrentTile = TileForStart;
         namePlayer = nameP;
         CurrentTile.currentPlayer = this;
         CurrentTile.hasPlayer = true;
         transform.position = CurrentTile.transform.position;
 
-        playerCanvas = Instantiate(playerUIPrefab);
+        playerCanvas = Instantiate(_playerUIPrefab);
         playerHealthBar = playerCanvas.GetComponentInChildren<Slider>();
         playerNameText = playerCanvas.GetComponentInChildren<TMP_Text>();
 
@@ -73,13 +75,22 @@ public class Player : MonoBehaviour
         playerCanvas.worldCamera = Camera.main;
         playerCanvas.transform.position = transform.position;
         playerNameText.text = namePlayer;
-        playerHealthBar.maxValue = LifeOfPlayer;
+        playerHealthBar.maxValue = _playerLife;
         playerHealthBar.minValue = 0;
-        playerHealthBar.value = LifeOfPlayer;
+        playerHealthBar.value = _playerLife;
         
         UpdatePlayerCanvas();
     }
 
+    private void LoadPlayerData()
+    {
+        _playerLife = _playerData._lifeOfPlayer;
+        _playerDamages = _playerData._attackPlayer;
+        _playerUIPrefab = _playerData._playerUIPrefab;
+        _playerUIOffset = _playerData._playerUIOffset;
+        _trapPrefab = _playerData._trapPrefab;
+    }
+    
     public IEnumerator StartAttackCoroutine()
     {
         //Play anim in the animator
@@ -110,7 +121,7 @@ public class Player : MonoBehaviour
                 {
                     if (tile.currentPlayer != null && !tile.currentPlayer.AlreadyAttackThisTurn)
                     {
-                        tile.currentPlayer.ReceiveDamage(AttackPlayer);
+                        tile.currentPlayer.ReceiveDamage(_playerDamages);
                         tile.currentPlayer.AlreadyAttackThisTurn = true;
                         PlayersAffectByAttack.Add(tile.currentPlayer);
                         tile.currentPlayer.ReceiveWeaponBuffEffect(this);
@@ -133,11 +144,11 @@ public class Player : MonoBehaviour
 
     public void ReceiveDamage(int damage)
     {
-        LifeOfPlayer -= damage;
+        _playerLife -= damage;
 
-        playerHealthBar.value = LifeOfPlayer;
+        playerHealthBar.value = _playerLife;
         
-        if (LifeOfPlayer <= 0)
+        if (_playerLife <= 0)
         {
             KillPlayer();
         }
@@ -194,7 +205,7 @@ public class Player : MonoBehaviour
     public void UpdatePlayerCanvas()
     {
         playerCanvas.transform.LookAt(playerCanvas.transform.position + Camera.main.transform.rotation * Vector3.back, Camera.main.transform.rotation * Vector3.up);
-        playerCanvas.transform.position = transform.position + UIOffset;
+        playerCanvas.transform.position = transform.position + _playerUIOffset;
     }
 
     public void ReceiveAChoice(SO_Choice choice)
@@ -236,13 +247,27 @@ public class Player : MonoBehaviour
 
     public void SetATrap()
     {
-        GameObject newTrapGO = GameObject.Instantiate(trapPrefab, CurrentTile.transform.position, Quaternion.identity);
+        GameObject newTrapGO = GameObject.Instantiate(_trapPrefab, CurrentTile.transform.position, Quaternion.identity);
         Trap trapComponent = newTrapGO.GetComponent<Trap>();
         if (trapComponent)
         {
             CurrentTile.trapList.Add(trapComponent);
             trapComponent.currentTile = CurrentTile;
         }
+    }
+
+    public void PlayWeaponVFX()
+    {
+        ParticleSystem particleSystem = playerWeapon._weaponPrefab.GetComponentInChildren<ParticleSystem>();
+        if (particleSystem)
+        {
+            particleSystem.Play();
+        }
+    }
+
+    public void PlayWeaponSFX()
+    {
+        
     }
     
     
