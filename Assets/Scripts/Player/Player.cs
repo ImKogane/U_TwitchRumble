@@ -279,6 +279,16 @@ public class Player : MonoBehaviour
         EndOfAttack.Invoke();
         
     }
+
+    public String GetPlayerName()
+    {
+        return namePlayer;
+    }
     
+    
+    public void CanvasVisibility(bool visibility)
+    {
+        playerCanvas.enabled = visibility;
+    }
     
 }
