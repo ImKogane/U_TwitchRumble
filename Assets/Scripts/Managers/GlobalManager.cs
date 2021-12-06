@@ -6,10 +6,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-public class GlobalManager : MonoBehaviour
+public class GlobalManager : SingletonMonobehaviour<GlobalManager>
 {
-    public static GlobalManager Instance;
-
     public List<CommandInGame> ListCommandsInGame = new List<CommandInGame>();
 
     private EnumClass.GameState currentGameState;
@@ -24,19 +22,9 @@ public class GlobalManager : MonoBehaviour
 
     private int turnCount;
 
+    public override bool DestroyOnLoad => true;
+
     #region Unity Basic Events
-    
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
-    }
 
     private void Start()
     {

@@ -7,10 +7,8 @@ using System.Threading;
 using UnityEngine.UI;
 using TMPro;
 
-public class TwitchManager : MonoBehaviour
+public class TwitchManager : SingletonMonobehaviour<TwitchManager>
 {
-    public static TwitchManager Instance;
-
     private TcpClient twitchClient;
     private StreamReader reader;
     private StreamWriter writter;
@@ -30,9 +28,6 @@ public class TwitchManager : MonoBehaviour
     public string UpCommande;
     public string DownCommande;
     public string ChoiceCommande = "!card";
-    
-    
-
 
     public int maxCharacterInNames;
 
@@ -40,20 +35,8 @@ public class TwitchManager : MonoBehaviour
     [System.NonSerialized] public bool canJoinedGame = false;
     [System.NonSerialized] public bool playersCanMakeActions = false;
     [System.NonSerialized] public bool playersCanMakeChoices = false;
-    
-    
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(this.gameObject);
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
-    }
+
+    public override bool DestroyOnLoad => false;
 
     private void Start() // Use datas store in PlayerPrefs
     {

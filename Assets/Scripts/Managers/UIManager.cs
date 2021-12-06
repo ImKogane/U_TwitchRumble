@@ -4,10 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-public class UIManager : MonoBehaviour
+public class UIManager : SingletonMonobehaviour<UIManager>
 {
-    public static UIManager Instance;
-
     [SerializeField] private Canvas endScreen;
     [SerializeField] private Canvas gameScreen;
     
@@ -26,17 +24,7 @@ public class UIManager : MonoBehaviour
     public RectTransform choiceScreen;
     public List<Image> choiceImagesList;
 
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
-    }
+    public override bool DestroyOnLoad => true;
 
     public void UpdateTimerBar(float value)
     {

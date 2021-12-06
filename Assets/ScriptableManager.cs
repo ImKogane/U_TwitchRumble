@@ -2,10 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScriptableManager : MonoBehaviour
+public class ScriptableManager : SingletonMonobehaviour<ScriptableManager>
 {
-    public static ScriptableManager Instance;
-
     public List<ListSoChoiceClass> _turnChoiceList = new List<ListSoChoiceClass>();
 
     [System.Serializable]
@@ -16,17 +14,7 @@ public class ScriptableManager : MonoBehaviour
 
     private int _choiceIndexCompteur = 0;
 
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
-    }
+    public override bool DestroyOnLoad => true;
 
     public void IncreaseChoiceIndexCompteur() //A appeler a la fin d'un tour de choice
     {

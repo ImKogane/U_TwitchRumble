@@ -3,28 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class LobbyManager : MonoBehaviour
+public class LobbyManager : SingletonMonobehaviour<LobbyManager>
 {
-    public static LobbyManager Instance;
-    
     [Header("Reference UI Lobby")]
     public TextMeshProUGUI PlayerList;
     public GameObject CanvasLobby;
     public PlayerManager PlayerManager;
-    
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(this.gameObject);
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
-    }
-    
+
+    public override bool DestroyOnLoad => false;
+
     public void LaunchGame()
     {
         TwitchManager.Instance.canJoinedGame = false;

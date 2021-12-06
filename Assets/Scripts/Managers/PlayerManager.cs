@@ -4,10 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : SingletonMonobehaviour<PlayerManager>
 {
-    public static PlayerManager Instance;
-
     public int PlayerToInstantiate = 1;
 
     public GameObject prefabOfPlayer;
@@ -18,18 +16,7 @@ public class PlayerManager : MonoBehaviour
     [NonSerialized]
     public List<Player> PlayerList = new List<Player>();
 
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(this.gameObject);
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
-    }
+    public override bool DestroyOnLoad => false;
 
     public void PlayGame()
     {

@@ -4,10 +4,8 @@ using UnityEngine.SceneManagement;
 using System.Configuration;
 using UnityEngine;
 
-public class BoardManager : MonoBehaviour
+public class BoardManager : SingletonMonobehaviour<BoardManager>
 {
-    public static BoardManager Instance;
-
     [SerializeField] private GameObject tilePrefab;
     [SerializeField] private GameObject obstaclePrefab;
 
@@ -23,17 +21,7 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private int testHoleNumber;
     [SerializeField] private int testObstaclesNumber;
 
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
-    }
+    public override bool DestroyOnLoad => true;
 
     void Start()
     {

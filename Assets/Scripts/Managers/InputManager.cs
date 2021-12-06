@@ -4,30 +4,17 @@ using System.Collections.Generic;
 using System.Runtime.Remoting.Channels;
 using UnityEngine;
 
-public class InputManager : MonoBehaviour
+public class InputManager : SingletonMonobehaviour<InputManager>
 {
-    public static InputManager Instance;
-
     private bool actionInputsEnabled;
     private bool choiceInputsEnabled;
-    
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
-    }
+
+    public override bool DestroyOnLoad => false;
 
     void Update()
     {
         if (!actionInputsEnabled) InputPlayerLocal();
         if (!choiceInputsEnabled) ChoiceInputPlayerLocal();
-
     }
     
     public void EnableActionInputs(bool value)
