@@ -1725,6 +1725,7 @@ MonoBehaviour:
   playerUIPrefab: {fileID: 6251927802403043066, guid: c5c313ac7b4455b478cdc8621676fc38, type: 3}
   UIOffset: {x: 0, y: 2, z: 2}
   playerCanvas: {fileID: 0}
+  isDead: 0
 --- !u!114 &918737186891934907
 MonoBehaviour:
   m_ObjectHideFlags: 0

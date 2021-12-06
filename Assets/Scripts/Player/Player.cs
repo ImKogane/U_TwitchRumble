@@ -78,9 +78,7 @@ public class Player : MonoBehaviour
         playerHealthBar.value = LifeOfPlayer;
         
         UpdatePlayerCanvas();
-
-        playerWeapon = new HammerWeapon(this);
-        playerWeaponBuff = new WindWeaponBuff();
+        
     }
 
     public IEnumerator StartAttackCoroutine()
@@ -193,6 +191,17 @@ public class Player : MonoBehaviour
     {
         playerCanvas.transform.LookAt(playerCanvas.transform.position + Camera.main.transform.rotation * Vector3.back, Camera.main.transform.rotation * Vector3.up);
         playerCanvas.transform.position = transform.position + UIOffset;
+    }
+
+    public String GetPlayerName()
+    {
+        return namePlayer;
+    }
+    
+    
+    public void CanvasVisibility(bool visibility)
+    {
+        playerCanvas.enabled = visibility;
     }
     
 }

@@ -71,6 +71,23 @@ public class PlayerManager : MonoBehaviour
             player.ManageAllDebuffs();
         }
     }
+
+    public int GetPlayerCount()
+    {
+        return PlayerList.Count;
+    }
+
+    public Player GetLastPlayer()
+    {
+        if (GetPlayerCount() == 1)
+        {
+            return PlayerList[0];
+        }
+        else
+        {
+            return null;
+        }
+    }
     
     
 }

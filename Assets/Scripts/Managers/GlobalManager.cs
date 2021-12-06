@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -20,6 +21,12 @@ public class GlobalManager : MonoBehaviour
 
     public SO_PanelChoice[] panelChoiceArray;
 
+    [Header("Win game system")]
+    [SerializeField] private GameObject MainCamera;
+    [SerializeField] private GameObject WinCamera;
+    [SerializeField] private Transform WinPoint;
+    [SerializeField] private Text PlayerNameText;
+    
     private int turnCount;
 
     #region Unity Basic Events
@@ -43,6 +50,7 @@ public class GlobalManager : MonoBehaviour
         UIManager.Instance.UpdateTurnCount(turnCount);
         UIManager.Instance.DisplayGameScreen(true);
         UIManager.Instance.DisplayEndScreen(false);
+        WinCamera.SetActive(false);
     }
 
     #endregion
@@ -175,9 +183,20 @@ public class GlobalManager : MonoBehaviour
     
     public void EndActionTurn()
     {
-        turnCount++;
-        UIManager.Instance.UpdateTurnCount(turnCount);
-        CheckNextTurn(turnCount);
+        int RemainingPlayers = PlayerManager.Instance.GetPlayerCount();
+
+        if (RemainingPlayers > 1)
+        {
+            turnCount++;
+            UIManager.Instance.UpdateTurnCount(turnCount);
+            CheckNextTurn(turnCount);
+        }
+        else
+        {
+            EndGame();
+            
+        }
+
     }
 
     void CheckNextTurn(int nextTurn)
@@ -298,6 +317,19 @@ public class GlobalManager : MonoBehaviour
                 InputManager.Instance.ChoiceCommand(player, GetRandomChoiceIndex());
             }
         }
+    }
+
+    private void EndGame()
+    {
+        MainCamera.SetActive(false);
+        WinCamera.SetActive(true);
+        UIManager.Instance.DisplayEndScreen(true);
+        UIManager.Instance.DisplayGameScreen(false);
+        PlayerNameText.text = PlayerManager.Instance.GetLastPlayer().GetPlayerName();
+
+        PlayerManager.Instance.GetLastPlayer().transform.position = WinPoint.position;
+        PlayerManager.Instance.GetLastPlayer().CanvasVisibility(false);
+        PlayerManager.Instance.PlayerList.Clear();
     }
     
     
