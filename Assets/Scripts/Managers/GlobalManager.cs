@@ -167,9 +167,20 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
     
     public void EndActionTurn()
     {
-        turnCount++;
-        UIManager.Instance.UpdateTurnCount(turnCount);
-        CheckNextTurn(turnCount);
+        int remainingPlayers = PlayerManager.Instance.GetPlayerCount();
+
+        if (remainingPlayers > 1)
+        {
+            turnCount++;
+            UIManager.Instance.UpdateTurnCount(turnCount);
+            CheckNextTurn(turnCount);
+        }
+        else
+        {
+            EndGame();
+            
+        }
+
     }
 
     void CheckNextTurn(int nextTurn)
@@ -286,6 +297,19 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
         {
             ListCommandsInGame.Add(command);
         }
+    }
+    
+    private void EndGame()
+    {
+        UIManager.Instance.GetComponent<UI_WinScreen>().MainCameraEnabled(false);
+        UIManager.Instance.GetComponent<UI_WinScreen>().WinCameraEnabled(true);
+        UIManager.Instance.DisplayEndScreen(true);
+        UIManager.Instance.DisplayGameScreen(false);
+        UIManager.Instance.GetComponent<UI_WinScreen>().SetPlayerNameText(PlayerManager.Instance.GetLastPlayer().GetPlayerName());
+
+        //PlayerManager.Instance.GetLastPlayer().transform.position = WinPoint.position;
+        PlayerManager.Instance.GetLastPlayer().CanvasVisibility(false);
+        PlayerManager.Instance.PlayerList.Clear();
     }
     
     

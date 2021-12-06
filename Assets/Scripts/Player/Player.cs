@@ -280,5 +280,16 @@ public class Player : MonoBehaviour
         
     }
     
+    public String GetPlayerName()
+    {
+        return namePlayer;
+    }
+    
+    
+    public void CanvasVisibility(bool visibility)
+    {
+        playerCanvas.enabled = visibility;
+    }
+    
     
 }
