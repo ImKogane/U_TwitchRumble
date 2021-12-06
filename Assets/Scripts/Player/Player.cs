@@ -56,6 +56,9 @@ public class Player : MonoBehaviour
 
     public bool isDead = false;
 
+    private GameObject _weaponGO;
+    private ParticleSystem _weaponVFX;
+
     public void SpawnPlayerInGame(Tile TileForStart, string nameP)
     {
         LoadPlayerData();
@@ -236,13 +239,12 @@ public class Player : MonoBehaviour
         {
             if (childTransform.name == "Hand_R")
             {
-                Instantiate(playerWeapon._weaponPrefab, childTransform, false);
-            }
-            else
-            {
-                Debug.Log("Hand Socket not found !");
+                _weaponGO = Instantiate(playerWeapon._weaponPrefab, childTransform, false);
             }
         }
+
+        _weaponVFX = _weaponGO.GetComponentInChildren<ParticleSystem>();
+        Debug.Log(_weaponVFX);
     }
 
     public void SetATrap()
@@ -256,17 +258,25 @@ public class Player : MonoBehaviour
         }
     }
 
+    [ContextMenu("Play Weapon VFX")]
     public void PlayWeaponVFX()
     {
-        ParticleSystem particleSystem = playerWeapon._weaponPrefab.GetComponentInChildren<ParticleSystem>();
-        if (particleSystem)
-        {
-            particleSystem.Play();
-        }
+        _weaponVFX.Play();
     }
 
     public void PlayWeaponSFX()
     {
+        
+    }
+
+    public IEnumerator SetupTrapCoroutine()
+    {
+        playerAnimator.SetTrigger("IsPlacingTrap");
+        AnimatorClipInfo currentAnimationInfo = playerAnimator.GetCurrentAnimatorClipInfo(0)[0];
+
+        yield return new WaitForSeconds(currentAnimationInfo.clip.length);
+        
+        EndOfAttack.Invoke();
         
     }
     
