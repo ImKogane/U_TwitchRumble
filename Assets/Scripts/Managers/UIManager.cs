@@ -136,7 +136,7 @@ public class UIManager : MonoBehaviour
 
             newChoiceImage.transform.parent = choiceScreen;
             newChoiceImage.sprite = ScriptableManager.Instance._turnChoiceList[currentIndexChoice].choiceList[i]._cardSprite;
-            newChoiceImage.SetNativeSize();
+            //newChoiceImage.SetNativeSize();
             newChoiceImage.preserveAspect = true;
 
             choiceImagesList.Add(newChoiceImage);

@@ -49,27 +49,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4849453531148100, guid: 6b6db6bab205edc44b6e614df225cd3d, type: 3}
       propertyPath: m_LocalScale.x
-      value: 100
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4849453531148100, guid: 6b6db6bab205edc44b6e614df225cd3d, type: 3}
       propertyPath: m_LocalScale.y
-      value: 100
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4849453531148100, guid: 6b6db6bab205edc44b6e614df225cd3d, type: 3}
       propertyPath: m_LocalScale.z
-      value: 100
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4849453531148100, guid: 6b6db6bab205edc44b6e614df225cd3d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 37
+      value: 32.2
       objectReference: {fileID: 0}
     - target: {fileID: 4849453531148100, guid: 6b6db6bab205edc44b6e614df225cd3d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8
+      value: 10.4
       objectReference: {fileID: 0}
     - target: {fileID: 4849453531148100, guid: 6b6db6bab205edc44b6e614df225cd3d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -90
+      value: -151.3
       objectReference: {fileID: 0}
     - target: {fileID: 4849453531148100, guid: 6b6db6bab205edc44b6e614df225cd3d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -102,6 +102,10 @@ PrefabInstance:
     - target: {fileID: 198742785445991666, guid: 6b6db6bab205edc44b6e614df225cd3d, type: 3}
       propertyPath: playOnAwake
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198742785445991666, guid: 6b6db6bab205edc44b6e614df225cd3d, type: 3}
+      propertyPath: moveWithTransform
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b6db6bab205edc44b6e614df225cd3d, type: 3}

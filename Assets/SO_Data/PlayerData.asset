@@ -15,5 +15,5 @@ MonoBehaviour:
   _lifeOfPlayer: 100
   _attackPlayer: 25
   _trapPrefab: {fileID: 8343551848952941216, guid: d035de0456440e845b5a51bb28574255, type: 3}
-  _playerUIOffset: {x: 0, y: 2, z: 1}
+  _playerUIOffset: {x: 0, y: 4, z: 1}
   _playerUIPrefab: {fileID: 6251927802403043066, guid: c5c313ac7b4455b478cdc8621676fc38, type: 3}
