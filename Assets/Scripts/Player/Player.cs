@@ -84,10 +84,11 @@ public class Player : MonoBehaviour
         playerHealthBar.minValue = 0;
         playerHealthBar.value = _playerLife;
         
+        //Random player model system
         playerModel.sharedMesh = PlayerManager.Instance.SkinSystem.GetRandomSkin();
-        //PlayerManager.Instance.SkinSystem.GetRandomMaterial();
-        //PlayerManager.Instance.SkinSystem.GetRandomSkin();
-        
+        playerModel.material = PlayerManager.Instance.SkinSystem.GetRandomMaterial();
+        // -------------------------
+
         UpdatePlayerCanvas();
     }
 
