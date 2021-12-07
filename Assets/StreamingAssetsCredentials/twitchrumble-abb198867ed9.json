@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "twitchrumble",
+  "private_key_id": "abb198867ed9b41028f8760fef7d6e0e3c367646",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC15yLcbvtXdJ8o\nUh/E8TRQxYwXi3Ws/ZW2wctUenncmQa3HugYJTphBL+O8dWqMxjl9LQlGRr0O2zJ\nGPKR5NJkmUWNRFXtLB9FdBZJ+sfAEWNos9iawPB93p3fMbEANLSewaeh632aCGeQ\ns1hqgGwdvzH2Q0ISKt7YTl0EIa8XSnaSkdxp12JMAz2wgLwdDK+wYe2yrHDFY//V\ngRLyWXkKqqybS1jSEY/GsOjNiZXUvNZJGljGDcf9P7uPRPRtMEHhHsw/oea/4bNV\nCd860K59A5/1vibdKO7rgT37pcElunCXJRya+vFCkB7wEfhMQrh5IMCEGGAqUGcl\nBI5HhcGvAgMBAAECggEAHfQ54WLFMNmbe+BKKvwtST++mgH1Fs+LX9T5zqd8eb8Z\nQ/5q6c73lhJaGQfpz2UqrHNnVtSTg7RlbZgWGcA8hSRYN7MRE0U4wQ8kvHn3esFi\nRVOYT6OF9rQ5+w8LvqTvOVVabWeB/2Ny6nkeDiunoh5h89OPhb5Zg/UjjBKf6o2p\ndRoRVjkvL+nHNLk43b8yp2qf2UD0wEmx1nZ+smiFHGaPbpGSvKWR7OrQHFo4XoK8\n1TJBge4YWTTtKYaq4LhJV6A3KHkQNkLcToWt1HBCBRYHgxpCtKQWM+7mi/m3GCoN\nzY9plc0ZM5KEql7j5P25EMJcUgz+kxYkuisCr64YwQKBgQDauvFG/WhskXes11sc\nhJlFY6VyXrjuAierhXXwTCuyxVDuCBFO5tcOU/ly+b4OM5ic618m48DPYP80qOBc\nCDGMdmyDEHR2QzECxwR7rgBLhCKoDPatQayJFz+8xc0BJZ3+aAqwC8tqXujFdhSK\nDGwbICtqDqE1IjdvrNyxWsGrCwKBgQDU5cbDuHizF+Oj3FznWmT7slPvkKiZUNdS\nOLGhlX9jGBkhtAh6ThdumhORvkuz1B2xTW6/iwQLmpvYWRzyjMWJ9iP8sMkI43kG\nrXnN9f330KV2FGJhJy95L2oOhVqrde5hTbjnBvY9bqrCfkU0d5eoM0112yaw0VTw\nQC4CoBSKbQKBgARHV+TtnBdTmSW2aL/cECt9UYU1OSTewevnBnGW69vpZDXjzoLe\nnSJYni6TmBYrCDc5m3jlR6ZG3XcoPotOVbnLrz+5GK4fjlvhjMLmmnbftNXYuxKU\nkE12OPb2X5ZAKCEL4/mhoW8JQEBsmOZCa/Lz5CWE975UVwVGOmL1xYgVAoGAA0tC\n1ghmpa668PAZ5+J4KYTK06wTT7v2eOkzpmJfxDK9QM4+S1Yl+qobn2eoWDHx+6pN\nCl2mRF+yBZjrX71Z2Rab2+8ITUDnwHiyp8MkmM77oGYUV5h5nZBkPbFGg9yhQZQo\nRjrPWIf70GKPw44OJKYWjrpDUP0MKWN00smTR8kCgYEAg/QmaVYXcp5vyXv1e1tt\nDjJzWK2zC1kThhDw/b2QgM9FO2LngFhykVoxsTTe8ztRM/FLQMwjtCRntKo0MHGC\nDHa5CR8On+aX2cuThK2NPQiL05i+r4rj7DPj7Ldafpx0YKKJh56+BWJGc2hMVDnM\nBMtUiyfTQBObUt7D7XhjSc4=\n-----END PRIVATE KEY-----\n",
+  "client_email": "unitytwitchrumble@twitchrumble.iam.gserviceaccount.com",
+  "client_id": "106128790697898500280",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/unitytwitchrumble%40twitchrumble.iam.gserviceaccount.com"
+}
