@@ -288,6 +288,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerToInstantiate: 1
   prefabOfPlayer: {fileID: 7984710894443702818, guid: fe1639c62a2b8884eac82f74322f8109, type: 3}
+  SkinSystem: {fileID: 11400000, guid: abef38fc6d0f48047b63c471e23d73e4, type: 2}
 --- !u!4 &314623836
 Transform:
   m_ObjectHideFlags: 0

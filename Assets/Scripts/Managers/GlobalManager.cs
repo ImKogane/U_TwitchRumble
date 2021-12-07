@@ -14,6 +14,7 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
 
     [SerializeField] private float actionsTimerDuration;
     [SerializeField] private float buffTimerDuration;
+    [SerializeField] private Transform WinPoint;
     private float currentTimer;
 
     //public SO_PanelChoice[] panelChoiceArray;
@@ -21,6 +22,7 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
     public List<int> _turnsToMakeChoice = new List<int>();
 
     private int turnCount;
+    
 
     public override bool DestroyOnLoad => true;
 
@@ -307,7 +309,7 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
         UIManager.Instance.DisplayGameScreen(false);
         UIManager.Instance.GetComponent<UI_WinScreen>().SetPlayerNameText(PlayerManager.Instance.GetLastPlayer().GetPlayerName());
 
-        //PlayerManager.Instance.GetLastPlayer().transform.position = WinPoint.position;
+        PlayerManager.Instance.GetLastPlayer().transform.position = WinPoint.position;
         PlayerManager.Instance.GetLastPlayer().CanvasVisibility(false);
         PlayerManager.Instance.PlayerList.Clear();
     }
