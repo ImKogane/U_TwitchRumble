@@ -910,7 +910,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: -2777479634979631107, guid: 8368c50e82b03ee4e8563d57bd5c5b20, type: 3}
+  m_Mesh: {fileID: -6605361700306264710, guid: 17f56339b5d43e74c9277644ca89ea76, type: 3}
   m_Bones:
   - {fileID: 1262173373800977043}
   - {fileID: 776700917765848392}
@@ -1716,16 +1716,13 @@ MonoBehaviour:
   CurrentTile: {fileID: 0}
   playerMovement: {fileID: 918737186891934907}
   playerAnimator: {fileID: 0}
+  playerModel: {fileID: 4869730117634527052}
   namePlayer: 
   playerWeapon: {fileID: 0}
   playerWeaponBuff: {fileID: 0}
   playerMoveBuff: {fileID: 11400000, guid: 0c48bf8b66182d7458cdfb6cde8148de, type: 2}
   _playerData: {fileID: 11400000, guid: 04ec05f7a48915d4baa7139c3d0e7b81, type: 2}
   materialForTryCell: {fileID: 2100000, guid: 8a18584c6e7d0c843a222c09e20e5f61, type: 2}
-  _playerLife: 100
-  _playerDamages: 25
-  _trapPrefab: {fileID: 0}
-  _playerUIPrefab: {fileID: 0}
   playerCanvas: {fileID: 0}
   isDead: 0
 --- !u!114 &918737186891934907

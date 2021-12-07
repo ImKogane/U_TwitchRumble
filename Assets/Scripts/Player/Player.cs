@@ -14,6 +14,8 @@ public class Player : MonoBehaviour
     public PlayerMovement playerMovement;
 
     public Animator playerAnimator;
+    
+    [SerializeField] private SkinnedMeshRenderer playerModel;
 
     public string namePlayer;
 
@@ -82,6 +84,11 @@ public class Player : MonoBehaviour
         playerHealthBar.minValue = 0;
         playerHealthBar.value = _playerLife;
         
+        //Random player model system
+        playerModel.sharedMesh = PlayerManager.Instance.SkinSystem.GetRandomSkin();
+        playerModel.material = PlayerManager.Instance.SkinSystem.GetRandomMaterial();
+        // -------------------------
+
         UpdatePlayerCanvas();
     }
 
