@@ -9,6 +9,8 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
     public int PlayerToInstantiate = 1;
 
     public GameObject prefabOfPlayer;
+    
+    public SO_PlayerSkin SkinSystem;
 
     [NonSerialized]
     public List<string> AllPlayersName = new List<string>();
