@@ -37,7 +37,7 @@ public class ScenesManager : SingletonMonobehaviour<ScenesManager>
     }
 
 
-    private IEnumerator NextLevelCoroutine(List<string> scenesTooad)
+    private IEnumerator NextLevelCoroutine(List<string> scenesToLoad)
     {
         List<string> scenesToUnload = new List<string>();
         for (int i = 0; i < SceneManager.sceneCount; i++)
@@ -45,7 +45,7 @@ public class ScenesManager : SingletonMonobehaviour<ScenesManager>
             scenesToUnload.Add(SceneManager.GetSceneAt(i).name);
         }
 
-        yield return StartCoroutine(LoadAll(scenesTooad));
+        yield return StartCoroutine(LoadAll(scenesToLoad));
         yield return StartCoroutine(UnloadAll(scenesToUnload));
         Debug.Log("Done");
     }

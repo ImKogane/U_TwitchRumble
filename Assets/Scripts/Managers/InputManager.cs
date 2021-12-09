@@ -13,8 +13,8 @@ public class InputManager : SingletonMonobehaviour<InputManager>
 
     void Update()
     {
-        if (!actionInputsEnabled) InputPlayerLocal();
-        if (!choiceInputsEnabled) ChoiceInputPlayerLocal();
+        if (actionInputsEnabled) InputPlayerLocal();
+        if (choiceInputsEnabled) ChoiceInputPlayerLocal();
     }
     
     public void EnableActionInputs(bool value)
