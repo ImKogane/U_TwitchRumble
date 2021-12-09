@@ -119,7 +119,8 @@ public class Player : MonoBehaviour
         {
             return;
         }
-
+        
+        playerWeapon.RaiseEvent();
         List<Tile> listTileAffect = BoardManager.Instance.GetAffectedTiles(playerWeapon._listOfCellAffects, CurrentTile, playerMovement.RotationOfPlayer);
         List<Player> PlayersAffectByAttack = new List<Player>();
 
@@ -270,12 +271,6 @@ public class Player : MonoBehaviour
     {
         _weaponVFX.Play();
     }
-
-    public void PlayWeaponSFX()
-    {
-        
-    }
-
     public IEnumerator SetupTrapCoroutine()
     {
         playerAnimator.SetTrigger("IsPlacingTrap");

@@ -9,7 +9,7 @@ public class GameEventListener : MonoBehaviour
     public SO_GameEvent _gameEvent;
 
     public UnityEvent _unityEvent;
-    
+
     private void OnEnable()
     {
         if (_gameEvent)

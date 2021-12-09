@@ -29,6 +29,8 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
     public string DownCommande;
     public string ChoiceCommande = "!card";
 
+    public string channelName;
+    
     public int maxCharacterInNames;
 
     bool bConnexionIsDone = false;
@@ -64,6 +66,7 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
         if (twitchClient.Connected)
         {
             bConnexionIsDone = true;
+            channelName = CutPlayerName(ChannelNameInput.text);
         }
     }
 

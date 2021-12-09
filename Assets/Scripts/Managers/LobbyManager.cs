@@ -12,6 +12,12 @@ public class LobbyManager : SingletonMonobehaviour<LobbyManager>
 
     public override bool DestroyOnLoad => false;
 
+    void Start()
+    {
+        PlayerManager.Instance.AllPlayersName.Add(TwitchManager.Instance.channelName);
+        TwitchManager.Instance.ShowAllPlayersInGame();
+    }
+    
     public void LaunchGame()
     {
         TwitchManager.Instance.canJoinedGame = false;
