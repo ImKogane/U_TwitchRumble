@@ -19,7 +19,11 @@ public class SO_Weapon : SO_Choice
 
     public AnimatorController _weaponAnimatorController;
 
-    [Header("SFX")]
-
-    public AudioClip _weaponSFX;
+    [Header("Events Called")]
+    public SO_GameEvent _onHitEventSFX;
+    
+    public void RaiseEvent()
+    {
+        _onHitEventSFX.Raise();
+    }
 }

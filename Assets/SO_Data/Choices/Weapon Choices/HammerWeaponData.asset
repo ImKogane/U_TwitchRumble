@@ -20,5 +20,4 @@ MonoBehaviour:
   - {x: -1, y: 1}
   - {x: 1, y: 1}
   _weaponAnimatorController: {fileID: 9100000, guid: 5a743250fc5f37645bb8df8be56d71ce, type: 2}
-  _prefabWeaponVFX: {fileID: 1078749407405562, guid: 6b6db6bab205edc44b6e614df225cd3d, type: 3}
-  _weaponSFX: {fileID: 8300000, guid: c0f63bf9320775946abb922c44d22ca8, type: 3}
+  _onHitEventSFX: {fileID: 11400000, guid: a4b3f184768a26d40a3e689958e53661, type: 2}
