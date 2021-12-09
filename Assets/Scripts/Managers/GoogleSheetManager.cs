@@ -10,6 +10,8 @@ using Google.Apis.Util.Store;
 using System;
 using System.IO;
 using System.Threading;
+using System.Linq;
+using System.Dynamic;
 
 
 public class GoogleSheetManager : SingletonMonobehaviour<GoogleSheetManager>
@@ -19,16 +21,34 @@ public class GoogleSheetManager : SingletonMonobehaviour<GoogleSheetManager>
     private string _spreadSheetID = "1stc2jb4ra-qVqIeG2AlY8yNqKGgHYvGI3ImMrKeryic";
     private string _jsonPath = "/StreamingAssetsCredentials/twitchrumble-abb198867ed9.json";
 
+    private List<string> AllLetters= new List<string>() {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
+    
+    private int currentColumn = 0;
+    private int currentLine = 0;
+
     private SheetsService service;
 
     private void Start()
     {
-        SheetReader();
-        printAllValues(GetSheetRange("A1:J10"));
-        SetSheetRange();
+        ConnectToGoogleAPI();
+        SetValidCurrentLine(GetSheetRange("A:A"));
+        SetDateTimeInfosInSheet();
     }
 
-    public void SheetReader()
+    public void SetDateTimeInfosInSheet()
+    {
+        List<string> datasToStore = new List<string>();
+        datasToStore.Add(DateTime.Now.Hour.ToString() + ":" + DateTime.Now.Minute.ToString());
+        datasToStore.Add(DateTime.Now.Day.ToString() + "/" + DateTime.Now.Month.ToString());
+        datasToStore.Add(DateTime.Now.Year.ToString());
+
+        foreach (string info in datasToStore)
+        {
+            SetACell(info);
+        }
+    }
+
+    public void ConnectToGoogleAPI()
     {
         String fullJsonPath = Application.dataPath + _jsonPath;
 
@@ -41,6 +61,8 @@ public class GoogleSheetManager : SingletonMonobehaviour<GoogleSheetManager>
             HttpClientInitializer = credential,
         });
     }
+
+    #region OwnFunctions
 
     public IList<IList<object>> GetSheetRange(String sheetNameAndRange)
     {
@@ -61,15 +83,40 @@ public class GoogleSheetManager : SingletonMonobehaviour<GoogleSheetManager>
         }
     }
 
-    public void printAllValues(IList<IList<object>> values)
+    public void SetValidCurrentLine(IList<IList<object>> values)
     {
         foreach (var item in values)
         {
-            foreach (var x in item)
+            for (int i = 0; i < item.Count; i++)
             {
-                Debug.Log(x);
+                currentLine ++;
+                Debug.Log(currentLine);
             }
         }
+        currentLine++;
+        Debug.Log(currentLine);
+    }
+
+    public void SetACell(string DataToSave)
+    {
+        //string nameOfPage = "A1";
+        string nameOfPage = AllLetters[currentColumn] + currentLine.ToString();
+        Debug.Log("CellToStoreDatas :" + nameOfPage);
+
+        ValueRange values = new ValueRange();
+        //values.MajorDimension = "COLUMNS";
+
+        List<object> oblist = new List<object>() { DataToSave };
+        values.Values = new List<IList<object>> { oblist };
+
+        SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum valueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.RAW;
+
+        SpreadsheetsResource.ValuesResource.UpdateRequest request = service.Spreadsheets.Values.Update(values, _spreadSheetID, nameOfPage);
+        request.ValueInputOption = valueInputOption;
+
+        request.Execute();
+
+        currentColumn++;
     }
 
     public void SetSheetRange()
@@ -81,7 +128,6 @@ public class GoogleSheetManager : SingletonMonobehaviour<GoogleSheetManager>
         valuesRange.Range = "A1A2";
         valuesRange.Values = values;
 
-
         var batchUpdateRequest = new BatchUpdateValuesRequest();
 
         IList<ValueRange> listValueRange = new List<ValueRange> { valuesRange };
@@ -89,5 +135,11 @@ public class GoogleSheetManager : SingletonMonobehaviour<GoogleSheetManager>
         batchUpdateRequest.ValueInputOption = "RAW";
 
         SpreadsheetsResource.ValuesResource.BatchUpdateRequest request = service.Spreadsheets.Values.BatchUpdate(batchUpdateRequest, _spreadSheetID);
+
+        request.Execute();
     }
+
+    #endregion
+
+    
 }
