@@ -257,7 +257,7 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
         foreach (string item in PlayerManager.Instance.AllPlayersName)
         {
             Debug.Log("Try");
-            LobbyManager.Instance.PlayerList.text += item + "\n";
+            LobbyManager.Instance.PlayerList.text += item + " - ";
         }
     }
 

@@ -31,8 +31,13 @@ public class GoogleSheetManager : SingletonMonobehaviour<GoogleSheetManager>
     private void Start()
     {
         ConnectToGoogleAPI();
-        SetValidCurrentLine(GetSheetRange("A:A"));
+        SetValidCurrentLine(GetSheetRange("Stats!A:A"));
         SetDateTimeInfosInSheet();
+    }
+
+    public void LaunchConnexionToGoogle()
+    {
+
     }
 
     public void SetDateTimeInfosInSheet()
@@ -97,10 +102,10 @@ public class GoogleSheetManager : SingletonMonobehaviour<GoogleSheetManager>
         Debug.Log(currentLine);
     }
 
-    public void SetACell(string DataToSave)
+    public async void SetACell(string DataToSave)
     {
         //string nameOfPage = "A1";
-        string nameOfPage = AllLetters[currentColumn] + currentLine.ToString();
+        string nameOfPage = "Stats!"+AllLetters[currentColumn] + currentLine.ToString();
         Debug.Log("CellToStoreDatas :" + nameOfPage);
 
         ValueRange values = new ValueRange();
