@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class LobbyManager : SingletonMonobehaviour<LobbyManager>
 {
@@ -18,9 +20,4 @@ public class LobbyManager : SingletonMonobehaviour<LobbyManager>
         TwitchManager.Instance.ShowAllPlayersInGame();
     }
     
-    public void LaunchGame()
-    {
-        TwitchManager.Instance.canJoinedGame = false;
-        ScenesManager.Instance.LaunchGameScenes();    
-    }
 }
