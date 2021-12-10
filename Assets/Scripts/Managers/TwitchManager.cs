@@ -33,6 +33,9 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
     
     public int maxCharacterInNames;
 
+    [SerializeField]
+    private UI_MainMenu _UIMainMenu;
+    
     bool bConnexionIsDone = false;
     [System.NonSerialized] public bool canJoinedGame = false;
     [System.NonSerialized] public bool playersCanMakeActions = false;
@@ -66,6 +69,7 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
         if (twitchClient.Connected)
         {
             bConnexionIsDone = true;
+            _UIMainMenu.DisplayPlayButton();
             channelName = CutPlayerName(ChannelNameInput.text);
         }
     }

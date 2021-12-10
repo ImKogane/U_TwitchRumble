@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: MagnetMovementBuffData
   m_EditorClassIdentifier: 
   _cardSprite: {fileID: 21300000, guid: 21ac0d56ec7bc3548936882adad012ca, type: 3}
+  movementBuffType: 1

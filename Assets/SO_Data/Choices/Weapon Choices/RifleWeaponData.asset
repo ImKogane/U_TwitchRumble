@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: RifleWeaponData
   m_EditorClassIdentifier: 
   _cardSprite: {fileID: 21300000, guid: 3afe3692c1d7aaf4c9a3e41a78f94276, type: 3}
+  weaponType: 2
   _weaponPrefab: {fileID: 7779497602211829559, guid: ee37adc4880431a4c9358d0673d1ea2f, type: 3}
   _listOfCellAffects:
   - {x: 0, y: 1}

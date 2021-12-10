@@ -7,6 +7,9 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SO/Weapon Data")]
 public class SO_Weapon : SO_Choice
 {
+    [Header("Weapon Type (used for saves)")]
+    public EnumClass.WeaponType weaponType;
+    
     [Header("Skin Of Weapon")]
 
     public GameObject _weaponPrefab;

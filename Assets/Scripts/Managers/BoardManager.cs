@@ -11,7 +11,8 @@ public class BoardManager : SingletonMonobehaviour<BoardManager>
 
     private GameObject gameBoard;
     
-    private List<Tile> tilesList = new List<Tile>();
+    [HideInInspector]
+    public List<Tile> tilesList = new List<Tile>();
     
     private float tileWidth;
     private float tileLength;

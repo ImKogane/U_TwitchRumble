@@ -13,8 +13,7 @@ public class UI_MainMenu : MonoBehaviour
     [SerializeField] private TwitchManager TwitchManager;
     [SerializeField] private GameObject PlayButton;
     [SerializeField] private GameObject ConnectButton;
-    
-    
+
     // Start is called before the first frame update
 
     public void OpenLobby()
@@ -39,19 +38,12 @@ public class UI_MainMenu : MonoBehaviour
         Application.Quit();
     }
 
-    public void Update()
+    public void DisplayPlayButton()
     {
-        if (TwitchManager.GetConnexionIsDone())
-        {
-            PlayButton.SetActive(true);
-            ConnectButton.SetActive(false);
-        }
-        else
-        {
-            PlayButton.SetActive(false);
-            ConnectButton.SetActive(true);
-        }
+        PlayButton.SetActive(true);
+        ConnectButton.SetActive(false);
     }
+
 
 }
 

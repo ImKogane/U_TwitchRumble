@@ -23,6 +23,24 @@ public class SO_PlayerSkin : ScriptableObject
 
         return tempMesh;
     }
+
+    public int GetSkinIndex(Mesh mesh)
+    {
+        if (PlayerMeshSkins.IndexOf(mesh) != null)
+        {
+            return PlayerMeshSkins.IndexOf(mesh);
+        }
+        return 0;
+    }
+
+    public int GetMaterialIndex(Material material)
+    {
+        if (PlayerMaterials.IndexOf(material) != null)
+        {
+            return PlayerMaterials.IndexOf(material);
+        }
+        return 0;
+    }
     
     /// <summary>
     /// Get random material from the material list

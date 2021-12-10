@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: WindWeaponBuffData
   m_EditorClassIdentifier: 
   _cardSprite: {fileID: 21300000, guid: 7fc9d4823cfdcb2488eaa8f9230cd5da, type: 3}
+  weaponBuffType: 2

@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: SpringMovementBuffData
   m_EditorClassIdentifier: 
   _cardSprite: {fileID: 21300000, guid: 70ec292fde686b34ab5ec4d04e3b12c6, type: 3}
+  movementBuffType: 2

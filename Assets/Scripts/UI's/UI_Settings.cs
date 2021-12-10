@@ -1,19 +1,34 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class UI_Settings : MonoBehaviour
 {
-    [SerializeField] private GameObject SettingsCanvas;
-    [SerializeField] private GameObject ConnectionCanvas;
+    [SerializeField] private Slider musicVolumeSlider;
+    [SerializeField] private Slider sfxVolumeSlider;
 
-    public void Back()
+    private void Start()
     {
-        SettingsCanvas.SetActive(false);
+        float musicVolumeValue = PlayerPrefs.GetFloat("musicVolume");
+        musicVolumeSlider.SetValueWithoutNotify(musicVolumeValue);
+        AudioManager.Instance.MusicVolumeChanged(musicVolumeValue);
+        
+        float sfxVolumeValue = PlayerPrefs.GetFloat("sfxVolume");
+        musicVolumeSlider.SetValueWithoutNotify(sfxVolumeValue);
+        AudioManager.Instance.MusicVolumeChanged(sfxVolumeValue);
+    }
+
+    public void MusicVolumeChanged(float value)
+    {
+        AudioManager.Instance.MusicVolumeChanged(value);
+    }
+
+    public void SFXVolumeChanged(float value)
+    {
+        AudioManager.Instance.SFXVolumeChanged(value);
     }
     
-    public void OpenConnection()
-    {
-        ConnectionCanvas.SetActive(true);
-        SettingsCanvas.SetActive(false);
-    } }
+}

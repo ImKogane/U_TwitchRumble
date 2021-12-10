@@ -35,9 +35,9 @@ public class Player : MonoBehaviour
     
     public Material materialForTryCell;
 
-    int _playerLife = 100;
+    public int _playerLife = 100;
 
-    int _playerDamages = 25;
+    public int _playerDamages = 25;
 
     GameObject _trapPrefab;
     
