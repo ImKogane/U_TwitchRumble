@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class UI_MainMenu : MonoBehaviour
 {
-
+    
     [SerializeField] private GameObject SettingsCanvas;
     [SerializeField] private GameObject ConnectionCanvas;
     [SerializeField] private TwitchManager TwitchManager;

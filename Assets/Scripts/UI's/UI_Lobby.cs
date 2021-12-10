@@ -5,7 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class UI_Lobby : MonoBehaviour
 {
-    
+    [Header("UI canvas")]
+    [SerializeField] private GameObject LobbyCanvas;
+    [SerializeField] private GameObject HelpCanvas;
+
+    [Header("UI elements")]
     [SerializeField] GameObject PlayButton;
     [SerializeField] GameObject ErrorText;
     
@@ -36,5 +40,20 @@ public class UI_Lobby : MonoBehaviour
     {
         TwitchManager.Instance.canJoinedGame = false;
         SceneManager.LoadScene(menuSceneName, LoadSceneMode.Single);
+    }
+    
+    public void ShowHelp(bool state)
+    {
+        if (state == true)
+        {
+            HelpCanvas.SetActive(true);
+            LobbyCanvas.SetActive(false);
+        }
+        else
+        {
+            HelpCanvas.SetActive(false);
+            LobbyCanvas.SetActive(true);
+        }
+
     }
 }
