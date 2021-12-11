@@ -33,7 +33,6 @@ public class UI_Lobby : MonoBehaviour
     public void LaunchGame()
     {
         TwitchManager.Instance.canJoinedGame = false;
-        ScenesManager.Instance.LaunchGameScenes();    
     }
 
     public void BackToMenu(string menuSceneName)
