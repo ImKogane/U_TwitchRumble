@@ -23,11 +23,13 @@ public class UI_WinScreen : MonoBehaviour
     {
         TwitchManager.Instance.canJoinedGame = true;
         SceneManager.LoadScene(LobbySceneName, LoadSceneMode.Single);
+        AudioManager.Instance.EnableAmbienceSounds(false);
     }
     
     public void BackToMenu()
     {
         SceneManager.LoadScene(MainMenuSceneName, LoadSceneMode.Single);
+        AudioManager.Instance.EnableAmbienceSounds(false);
     }
 
     public void SetPlayerNameText(String newText)

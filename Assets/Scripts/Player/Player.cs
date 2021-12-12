@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
 
     public PlayerMovement playerMovement;
 
-    public Animator playerAnimator;
+    public Animator _animator;
     
     [SerializeField] private SkinnedMeshRenderer playerModel;
 
@@ -29,9 +29,7 @@ public class Player : MonoBehaviour
 
     public Action EndOfAttack;
 
-    public Action LastMoveActionChosen;
-
-    public Action LastAttackActionChosen;
+    public Action EndOfDeath;
     
     public Material materialForTryCell;
 
@@ -75,7 +73,7 @@ public class Player : MonoBehaviour
         playerHealthBar = playerCanvas.GetComponentInChildren<Slider>();
         playerNameText = playerCanvas.GetComponentInChildren<TMP_Text>();
 
-        playerAnimator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
         
         playerCanvas.worldCamera = Camera.main;
         playerCanvas.transform.position = transform.position;
@@ -104,9 +102,9 @@ public class Player : MonoBehaviour
     public IEnumerator StartAttackCoroutine()
     {
         //Play anim in the animator
-        playerAnimator.SetTrigger("IsAttacking");
+        _animator.SetTrigger("IsAttacking");
         
-        AnimatorClipInfo currentAnimationInfo = playerAnimator.GetCurrentAnimatorClipInfo(0)[0];
+        AnimatorClipInfo currentAnimationInfo = _animator.GetCurrentAnimatorClipInfo(0)[0];
 
         yield return new WaitForSeconds(currentAnimationInfo.clip.length);
 
@@ -133,9 +131,12 @@ public class Player : MonoBehaviour
                     if (tile.currentPlayer != null && !tile.currentPlayer.AlreadyAttackThisTurn)
                     {
                         tile.currentPlayer.ReceiveDamage(_playerDamages);
-                        tile.currentPlayer.AlreadyAttackThisTurn = true;
-                        PlayersAffectByAttack.Add(tile.currentPlayer);
-                        tile.currentPlayer.ReceiveWeaponBuffEffect(this);
+                        if (tile.currentPlayer != null)
+                        {
+                            tile.currentPlayer.AlreadyAttackThisTurn = true;
+                            PlayersAffectByAttack.Add(tile.currentPlayer);
+                            tile.currentPlayer.ReceiveWeaponBuffEffect(this);
+                        }
                     }
                 }
                 else
@@ -155,30 +156,50 @@ public class Player : MonoBehaviour
 
     public void ReceiveDamage(int damage)
     {
+        _animator.SetTrigger("GetHit");
         _playerLife -= damage;
-
         playerHealthBar.value = _playerLife;
         
         if (_playerLife <= 0)
         {
-            KillPlayer();
+            GlobalManager.Instance.InsertCommandInList(1, new CommandDeath(this));
         }
     }
 
     public void KillPlayer()
     {
         Debug.Log($"{namePlayer} is dead !");
-
+        
         PlayerManager.Instance.AllPlayersName.Remove(namePlayer);
         PlayerManager.Instance.PlayerList.Remove(this);
 
         CurrentTile.hasPlayer = false;
         CurrentTile.currentPlayer = null;
 
+        isDead = true;
+        
+        EndOfDeath.Invoke();
+        
         GlobalManager.Instance.DestroyAllCommandsOfPlayer(this);
-
+        
         Destroy(playerCanvas.gameObject);
         Destroy(gameObject);
+    }
+
+    public IEnumerator DeathCoroutine()
+    {
+        while (!_animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+        {
+            yield return null;
+        }
+        
+        _animator.SetTrigger("IsDead");
+        
+        AnimatorClipInfo currentAnimationInfo = _animator.GetCurrentAnimatorClipInfo(0)[0];
+
+        yield return new WaitForSeconds(currentAnimationInfo.clip.length);
+        
+        KillPlayer();
     }
 
     public void ManageAllDebuffs()
@@ -242,7 +263,7 @@ public class Player : MonoBehaviour
 
     public void SetupWeapon()
     {
-        playerAnimator.runtimeAnimatorController = playerWeapon._weaponAnimatorController;
+        _animator.runtimeAnimatorController = playerWeapon._weaponAnimatorController;
         foreach(Transform childTransform in GetComponentsInChildren<Transform>())
         {
             if (childTransform.name == "Hand_R")
@@ -273,8 +294,8 @@ public class Player : MonoBehaviour
     }
     public IEnumerator SetupTrapCoroutine()
     {
-        playerAnimator.SetTrigger("IsPlacingTrap");
-        AnimatorClipInfo currentAnimationInfo = playerAnimator.GetCurrentAnimatorClipInfo(0)[0];
+        _animator.SetTrigger("IsPlacingTrap");
+        AnimatorClipInfo currentAnimationInfo = _animator.GetCurrentAnimatorClipInfo(0)[0];
 
         yield return new WaitForSeconds(currentAnimationInfo.clip.length);
         

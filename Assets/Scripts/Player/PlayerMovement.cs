@@ -28,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
 
     bool UpdateRotOfUI = false;
 
-    public Animator playerAnimator;
+    public Animator _animator;
     
     private void Start()
     {
@@ -36,7 +36,7 @@ public class PlayerMovement : MonoBehaviour
         RotateDownDirection();
         EndOfMoving += () => { UpdateRotOfUI = false; };
         canMove = true;
-        playerAnimator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -240,13 +240,13 @@ public class PlayerMovement : MonoBehaviour
         
         if (!isPushed)
         {
-            playerAnimator.SetBool("IsWalking", true);
+            _animator.SetBool("IsWalking", true);
             moveTime = _walkMovementSpeed;
             movementEase = Ease.InOutSine;
         }
         else
         {
-            playerAnimator.SetBool("IsPushed", true);
+            _animator.SetBool("IsPushed", true);
             moveTime = _pushedMovementSpeed;
             movementEase = Ease.OutQuint;
         }
@@ -256,11 +256,11 @@ public class PlayerMovement : MonoBehaviour
         
         if (!isPushed)
         {
-            playerAnimator.SetBool("IsWalking", false);
+            _animator.SetBool("IsWalking", false);
         }
         else
         {
-            playerAnimator.SetBool("IsPushed", false);
+            _animator.SetBool("IsPushed", false);
         }
 
         for (int i = 0; i < nextDestination.trapList.Count; i++)
@@ -304,7 +304,9 @@ public class PlayerMovement : MonoBehaviour
         Sequence fallSequence = DOTween.Sequence()
         .Append(transform.DOMove(transform.position + Vector3.up * offsetGoUp, delayGoUp))
         .Append(transform.DOMove(transform.position - Vector3.up * offsetGoDown, delayGoDown));
-            
+        
+        _animator.SetTrigger("IsFalling");
+        
         //Attendre d'etre dans l'eau.
         yield return new WaitForSeconds(delayGoUp + delayGoDown);
 

@@ -9,14 +9,18 @@ public class UI_Settings : MonoBehaviour
 {
     [SerializeField] private Slider musicVolumeSlider;
     [SerializeField] private Slider sfxVolumeSlider;
-
+    [SerializeField] private Slider _ambienceVolumeSlider;
+    
+    
     [SerializeField] private float defaultSFXVolume = .5f;
     [SerializeField] private float defaultMusicVolume = .5f;
+    [SerializeField] private float defaultAmbienceVolume = .5f;
 
     private void Start()
     {
         float musicVolumeValue;
         float sfxVolumeValue;
+        float ambienceVolumeValue;
         
         if (PlayerPrefs.HasKey("musicVolume"))
         {
@@ -36,9 +40,18 @@ public class UI_Settings : MonoBehaviour
             sfxVolumeValue = defaultSFXVolume;
         }
         
+        if (PlayerPrefs.HasKey("ambienceVolume"))
+        {
+            ambienceVolumeValue = PlayerPrefs.GetFloat("ambienceVolume");
+        }
+        else
+        {
+            ambienceVolumeValue = defaultAmbienceVolume;
+        }
+        
         musicVolumeSlider.value = musicVolumeValue;
         sfxVolumeSlider.value = sfxVolumeValue;
-        
+        _ambienceVolumeSlider.value = ambienceVolumeValue;
     }
 
     public void MusicVolumeChanged(float value)
@@ -49,6 +62,11 @@ public class UI_Settings : MonoBehaviour
     public void SFXVolumeChanged(float value)
     {
         AudioManager.Instance.SFXVolumeChanged(value);
+    }
+
+    public void AmbienceVolumeChanged(float value)
+    {
+        AudioManager.Instance.AmbienceVolumeChanged(value);
     }
     
 }

@@ -14,7 +14,7 @@ public class AudioManager : SingletonMonobehaviour<AudioManager>
 
     [SerializeField] private AudioSource _sfxAudioSource;
     [SerializeField] private AudioSource _musicAudioSource;
-    
+    [SerializeField] private AudioSource _ambianceAudioSource;
 
     public void MusicVolumeChanged(float value)
     {
@@ -30,6 +30,13 @@ public class AudioManager : SingletonMonobehaviour<AudioManager>
         PlayerPrefs.SetFloat("sfxVolume", value);
     }
 
+    public void AmbienceVolumeChanged(float value)
+    {
+        float dbValue = _audioCurve.Evaluate(value);
+        _audioMixer.SetFloat("ambienceVolume", dbValue);
+        PlayerPrefs.SetFloat("ambienceVolume", value);
+    }
+    
     public void PlayBGMusic(AudioClip newClip)
     {
         if (newClip != null)
@@ -39,6 +46,9 @@ public class AudioManager : SingletonMonobehaviour<AudioManager>
         }
         
     }
-    
-    
+
+    public void EnableAmbienceSounds(bool value)
+    {
+        _ambianceAudioSource.gameObject.SetActive(value);
+    }
 }
