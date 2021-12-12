@@ -10,15 +10,35 @@ public class UI_Settings : MonoBehaviour
     [SerializeField] private Slider musicVolumeSlider;
     [SerializeField] private Slider sfxVolumeSlider;
 
+    [SerializeField] private float defaultSFXVolume = .5f;
+    [SerializeField] private float defaultMusicVolume = .5f;
+
     private void Start()
     {
-        float musicVolumeValue = PlayerPrefs.GetFloat("musicVolume");
-        musicVolumeSlider.SetValueWithoutNotify(musicVolumeValue);
-        AudioManager.Instance.MusicVolumeChanged(musicVolumeValue);
+        float musicVolumeValue;
+        float sfxVolumeValue;
         
-        float sfxVolumeValue = PlayerPrefs.GetFloat("sfxVolume");
-        musicVolumeSlider.SetValueWithoutNotify(sfxVolumeValue);
-        AudioManager.Instance.MusicVolumeChanged(sfxVolumeValue);
+        if (PlayerPrefs.HasKey("musicVolume"))
+        {
+            musicVolumeValue = PlayerPrefs.GetFloat("musicVolume");
+        }
+        else
+        {
+            musicVolumeValue = defaultMusicVolume;
+        }
+        
+        if (PlayerPrefs.HasKey("sfxVolume"))
+        {
+            sfxVolumeValue = PlayerPrefs.GetFloat("sfxVolume");
+        }
+        else
+        {
+            sfxVolumeValue = defaultSFXVolume;
+        }
+        
+        musicVolumeSlider.value = musicVolumeValue;
+        sfxVolumeSlider.value = sfxVolumeValue;
+        
     }
 
     public void MusicVolumeChanged(float value)

@@ -235,29 +235,24 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator DotweenMovment(Tile nextDestination, bool isPushed)
     {
-        float animationSpeed;
+        float moveTime;
+        Ease movementEase;
         
         if (!isPushed)
         {
             playerAnimator.SetBool("IsWalking", true);
-            animationSpeed = _walkMovementSpeed;
+            moveTime = _walkMovementSpeed;
+            movementEase = Ease.InOutSine;
         }
         else
         {
             playerAnimator.SetBool("IsPushed", true);
-            animationSpeed = _pushedMovementSpeed;
+            moveTime = _pushedMovementSpeed;
+            movementEase = Ease.OutQuint;
         }
 
-        Vector3 originalPosition = transform.position;
-        
-        for (float i = 0.0f; i < 1f/animationSpeed; i += Time.deltaTime)
-        {
-            transform.position = Vector3.Lerp(originalPosition, nextDestination.transform.position, i);
-            yield return null;
-        }
-        
-        //transform.DOMove(nextDestination.transform.position, MovmentSeconds, false);
-        //yield return new WaitForSeconds(MovmentSeconds);
+        transform.DOMove(nextDestination.transform.position, moveTime, false).SetEase(movementEase);
+        yield return new WaitForSeconds(moveTime);
         
         if (!isPushed)
         {

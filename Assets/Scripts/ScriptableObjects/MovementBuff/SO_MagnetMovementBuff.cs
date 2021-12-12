@@ -19,7 +19,7 @@ public class SO_MagnetMovementBuff : SO_BuffMoving
 
         if (VectorAttirance.x != 0) //Left and Right
         {
-            for (int i = 15; i > 2; i--)
+            for (int i = 15; i >= 2; i--)
             {
                 Tile currentTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(startTile.tileRow + (i * VectorAttirance.x), startTile.tileColumn));
 
@@ -36,9 +36,9 @@ public class SO_MagnetMovementBuff : SO_BuffMoving
             }
         }
 
-        if (VectorAttirance.y != 0) //Left and Right
+        if (VectorAttirance.y != 0) //Up and Down
         {
-            for (int i = 15; i > 2; i--)
+            for (int i = 15; i >= 2; i--)
             {
                 Tile currentTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(startTile.tileRow, startTile.tileColumn + (i * VectorAttirance.y)));
                 if (currentTile != null)

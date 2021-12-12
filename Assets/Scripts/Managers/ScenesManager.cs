@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class ScenesManager : SingletonMonobehaviour<ScenesManager>
 {
+
     List<AsyncOperation> AsyncOperations = new List<AsyncOperation>();
 
     [Header("Non destructible scenes")]
@@ -17,6 +18,8 @@ public class ScenesManager : SingletonMonobehaviour<ScenesManager>
     [Header("Ref to UI")]
     public ChargingUI _chargementUI;
 
+    private AudioClip _musicToPlayWhenLevelLoaded;
+    
     public override bool DestroyOnLoad => true;
 
 
@@ -26,13 +29,14 @@ public class ScenesManager : SingletonMonobehaviour<ScenesManager>
         List<string> StartGameScenesNames = new List<string>();
         StartGameScenesNames.AddRange(_NeverDestroyScenes);
         StartGameScenesNames.AddRange(_startLevel.LevelsToCharge);
-        ChargeALevel(StartGameScenesNames);
+        ChargeALevel(StartGameScenesNames, _startLevel._levelMusic);
     }
 
     #region Charge levels
-    public void ChargeALevel(List<string> ScenesOfNextLevel)
+    public void ChargeALevel(List<string> ScenesOfNextLevel, AudioClip clip)
     {
         StartCoroutine(_chargementUI.FadeInCoroutine(ScenesOfNextLevel));
+        _musicToPlayWhenLevelLoaded = clip;
     }
 
     public IEnumerator AfterFadeIn(List<string> ScenesOfNextLevel)
@@ -95,6 +99,11 @@ public class ScenesManager : SingletonMonobehaviour<ScenesManager>
         }
 
         AsyncOperations.Clear();
+
+
+        Debug.Log(AudioManager.Instance);
+        AudioManager.Instance.PlayBGMusic(_musicToPlayWhenLevelLoaded);
+
     }
 
     #region usefull functions
