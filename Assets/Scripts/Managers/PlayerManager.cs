@@ -11,11 +11,9 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
     public GameObject prefabOfPlayer;
     
     public SO_PlayerSkin SkinSystem;
-
-    [NonSerialized]
+    
     public List<string> AllPlayersName = new List<string>();
-
-    [NonSerialized]
+    
     public List<Player> PlayerList = new List<Player>();
 
     public override bool DestroyOnLoad => false;

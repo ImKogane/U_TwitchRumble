@@ -161,7 +161,6 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
                 break;
             
             case(EnumClass.GameState.GameEnd):
-                UIManager.Instance.DisplayEndScreen(false);
                 UIManager.Instance.DisplayEndScreen(true);
                 break;
         }

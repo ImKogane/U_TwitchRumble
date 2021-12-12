@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Game_Level
   m_EditorClassIdentifier: 
   LevelsToCharge:
-  - BoardScene
-  - EnviroScene
+  - UIScene
   - GameScene
   - PlayersScene
-  - UIScene
+  - BoardScene
+  - EnviroScene

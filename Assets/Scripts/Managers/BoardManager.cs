@@ -91,7 +91,10 @@ public class BoardManager : SingletonMonobehaviour<BoardManager>
 
         ScenesManager.Instance.SetActiveScene("PlayersScene");
 
+        
+        
         PlayerManager.Instance.SpawnAllPlayerOnBoard();
+        Debug.Log("Player Management : " + PlayerManager.Instance);
     }
 
     private List<Tile> GetRandomTiles(int tilesAmount)
