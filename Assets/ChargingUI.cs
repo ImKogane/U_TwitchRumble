@@ -66,6 +66,7 @@ public class ChargingUI : MonoBehaviour
         compteur = 0;
         slider.value = 0;
         gameObject.SetActive(false);
+
     }
     #endregion
 
