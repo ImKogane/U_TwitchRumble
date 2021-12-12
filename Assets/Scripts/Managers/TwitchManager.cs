@@ -143,6 +143,7 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
             }
         }
 
+
         if (PlayerManager.Instance.AllPlayersName.Contains(nameOfPlayer)) // S'assurer que le joueur est dans la liste des joueurs pour faire ces commandes. 
         {
             if (messageOfPlayer == QuitCommande) //Deconnection du joueur twitch du jeu. 

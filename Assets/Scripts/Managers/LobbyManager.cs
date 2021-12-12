@@ -18,6 +18,7 @@ public class LobbyManager : SingletonMonobehaviour<LobbyManager>
     {
         PlayerManager.Instance.AllPlayersName.Add(TwitchManager.Instance.channelName);
         TwitchManager.Instance.ShowAllPlayersInGame();
+        TwitchManager.Instance.canJoinedGame = true;
     }
     
 }
