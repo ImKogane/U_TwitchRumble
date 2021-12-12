@@ -77,6 +77,8 @@ public class GoogleSheetManager : SingletonMonobehaviour<GoogleSheetManager>
     {
         List<string> playersName = PlayerManager.Instance.AllPlayersName;
 
+        SetACell(playersName.Count.ToString(), currentColumn, currentLine);
+
         SetACell("Noms des joueurs :", 0, currentLine + 1);
 
         for (int i = 0; i < playersName.Count; i++)
