@@ -1723,6 +1723,8 @@ MonoBehaviour:
   playerMoveBuff: {fileID: 11400000, guid: 0c48bf8b66182d7458cdfb6cde8148de, type: 2}
   _playerData: {fileID: 11400000, guid: 04ec05f7a48915d4baa7139c3d0e7b81, type: 2}
   materialForTryCell: {fileID: 2100000, guid: 8a18584c6e7d0c843a222c09e20e5f61, type: 2}
+  _playerLife: 100
+  _playerDamages: 25
   playerCanvas: {fileID: 0}
   isDead: 0
 --- !u!114 &918737186891934907
@@ -1737,8 +1739,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a4cda72b802710409750314f3d5f312, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _walkMovementSpeed: 1
-  _pushedMovementSpeed: 0.5
+  _walkMovementSpeed: 1.5
+  _pushedMovementSpeed: 1.5
   InitialRotation: {x: 0, y: 0, z: 0, w: 1}
   RotationOfPlayer: {x: 0, y: 0}
   CurrentPlayer: {fileID: 941451258311421410}

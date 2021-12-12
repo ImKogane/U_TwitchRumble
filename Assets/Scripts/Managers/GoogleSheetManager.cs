@@ -28,16 +28,19 @@ public class GoogleSheetManager : SingletonMonobehaviour<GoogleSheetManager>
 
     private SheetsService service;
 
+    public List<int> VariablesGetFromSheet = new List<int>();
+
     private void Start()
     {
         ConnectToGoogleAPI();
         SetValidCurrentLine(GetSheetRange("Stats!A:A"));
-        SetDateTimeInfosInSheet();
+        GetVariablesOfGame();
     }
 
-    public void LaunchConnexionToGoogle()
+    public void StartGoogleSheetSaving()
     {
-
+        SetDateTimeInfosInSheet();
+        SetPlayersListToSheet();
     }
 
     public void SetDateTimeInfosInSheet()
@@ -47,9 +50,38 @@ public class GoogleSheetManager : SingletonMonobehaviour<GoogleSheetManager>
         datasToStore.Add(DateTime.Now.Day.ToString() + "/" + DateTime.Now.Month.ToString());
         datasToStore.Add(DateTime.Now.Year.ToString());
 
+        SetACell("Datas of the game :", 0, currentLine);
+
         foreach (string info in datasToStore)
         {
-            SetACell(info);
+            SetACell(info, currentColumn, currentLine);
+        }
+    }
+
+    public void GetVariablesOfGame()
+    {
+        IList<IList<object>> listOfDatas = GetSheetRange("Params!2:2");
+
+        foreach (var item in listOfDatas)
+        {
+            for (int i = 0; i < item.Count; i++)
+            {
+                //VariablesGetFromSheet.Add((int)item[i]);
+                Debug.Log("Datas get from sheet : " + item[i]);
+                VariablesGetFromSheet.Add(Convert.ToInt32(item[i]));
+            }
+        }
+    }
+
+    public void SetPlayersListToSheet()
+    {
+        List<string> playersName = PlayerManager.Instance.AllPlayersName;
+
+        SetACell("Noms des joueurs :", 0, currentLine + 1);
+
+        for (int i = 0; i < playersName.Count; i++)
+        {
+            SetACell(playersName[i], i + 1, currentLine + 1);
         }
     }
 
@@ -95,21 +127,23 @@ public class GoogleSheetManager : SingletonMonobehaviour<GoogleSheetManager>
             for (int i = 0; i < item.Count; i++)
             {
                 currentLine ++;
+                if (i%2 == 0)
+                {
+                    currentLine++;
+                }
                 Debug.Log(currentLine);
             }
         }
-        currentLine++;
+        currentLine ++;
         Debug.Log(currentLine);
     }
 
-    public async void SetACell(string DataToSave)
+    public void SetACell(string DataToSave, int column, int line)
     {
-        //string nameOfPage = "A1";
-        string nameOfPage = "Stats!"+AllLetters[currentColumn] + currentLine.ToString();
+        string nameOfPage = "Stats!"+AllLetters[column] + line.ToString();
         Debug.Log("CellToStoreDatas :" + nameOfPage);
 
         ValueRange values = new ValueRange();
-        //values.MajorDimension = "COLUMNS";
 
         List<object> oblist = new List<object>() { DataToSave };
         values.Values = new List<IList<object>> { oblist };

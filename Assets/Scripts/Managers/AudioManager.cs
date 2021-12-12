@@ -11,12 +11,10 @@ public class AudioManager : SingletonMonobehaviour<AudioManager>
     
     [SerializeField] private AudioMixer _audioMixer;
     [SerializeField] private AnimationCurve _audioCurve;
+
+    [SerializeField] private AudioSource _sfxAudioSource;
+    [SerializeField] private AudioSource _musicAudioSource;
     
-    private void Start()
-    {
-        MusicVolumeChanged(PlayerPrefs.GetFloat("musicVolume"));
-        SFXVolumeChanged(PlayerPrefs.GetFloat("sfxVolume"));
-    }
 
     public void MusicVolumeChanged(float value)
     {
@@ -30,6 +28,16 @@ public class AudioManager : SingletonMonobehaviour<AudioManager>
         float dbValue = _audioCurve.Evaluate(value);
         _audioMixer.SetFloat("sfxVolume", dbValue);
         PlayerPrefs.SetFloat("sfxVolume", value);
+    }
+
+    public void PlayBGMusic(AudioClip newClip)
+    {
+        if (newClip != null)
+        {
+            _musicAudioSource.clip = newClip;
+            _musicAudioSource.Play();
+        }
+        
     }
     
     
