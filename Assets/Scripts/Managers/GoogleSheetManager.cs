@@ -127,10 +127,14 @@ public class GoogleSheetManager : SingletonMonobehaviour<GoogleSheetManager>
             for (int i = 0; i < item.Count; i++)
             {
                 currentLine ++;
+                if (i%2 == 0)
+                {
+                    currentLine++;
+                }
                 Debug.Log(currentLine);
             }
         }
-        currentLine ++;
+        currentLine += 2;
         Debug.Log(currentLine);
     }
 
