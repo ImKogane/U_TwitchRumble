@@ -134,7 +134,7 @@ public class GoogleSheetManager : SingletonMonobehaviour<GoogleSheetManager>
                 Debug.Log(currentLine);
             }
         }
-        currentLine += 2;
+        currentLine ++;
         Debug.Log(currentLine);
     }
 
