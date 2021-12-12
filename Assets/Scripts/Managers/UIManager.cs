@@ -96,7 +96,7 @@ public class UIManager : SingletonMonobehaviour<UIManager>
     public void UpdateTurnCount(int newCount)
     {
         turnCount.enabled = true;
-        turnCount.text = "Tour " + newCount.ToString();
+        turnCount.text = newCount.ToString();
     }
     
     public void DisplayChoiceScreen(bool value)

@@ -46,8 +46,8 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
     
     IEnumerator ActionsChoiceCoroutine()
     {
-        UIManager.Instance.DisplayPhaseTitle("Phase du choix des actions");
-        UIManager.Instance.DisplayPhaseDescription("Choisissez votre prochain déplacement avec les flèches directionnelles, et A pour attaquer.");
+        UIManager.Instance.DisplayPhaseTitle("Choose your action(s)");
+        UIManager.Instance.DisplayPhaseDescription("Attack with the command !attack and move with the command !left/!right/!top/!down. Be carefull you can only do once each type of action.");
         //UIManager.Instance.DisplayAllPlayersUI(PlayerManager.Instance.PlayerList, true);
 
         TwitchManager.Instance.playersCanMakeActions = true;
@@ -77,8 +77,8 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
     
     IEnumerator BuffChoiceCoroutine()
     {
-        UIManager.Instance.DisplayPhaseTitle("Phase d'amélioration");
-        UIManager.Instance.DisplayPhaseDescription("Votre décision affectera grandement votre manière de jouer");
+        UIManager.Instance.DisplayPhaseTitle("Choose a boost");
+        UIManager.Instance.DisplayPhaseDescription("Your decision will greatly affect the way you play");
         UIManager.Instance.ActivateTimerBar(true);
 
         UIManager.Instance.UpdateChoiceCardsImage();
