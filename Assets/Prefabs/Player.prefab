@@ -1740,7 +1740,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _walkMovementSpeed: 1.5
-  _pushedMovementSpeed: 1
+  _pushedMovementSpeed: 1.5
   InitialRotation: {x: 0, y: 0, z: 0, w: 1}
   RotationOfPlayer: {x: 0, y: 0}
   CurrentPlayer: {fileID: 941451258311421410}
