@@ -130,7 +130,7 @@ public class GoogleSheetManager : SingletonMonobehaviour<GoogleSheetManager>
                 Debug.Log(currentLine);
             }
         }
-        currentLine ++;
+        currentLine += 2;
         Debug.Log(currentLine);
     }
 
