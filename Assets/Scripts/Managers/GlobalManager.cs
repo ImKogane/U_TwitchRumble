@@ -30,6 +30,10 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
 
     private void Start()
     {
+        //Set up variable with google sheet datas.
+        actionsTimerDuration = GoogleSheetManager.Instance.VariablesGetFromSheet[3];
+        buffTimerDuration = GoogleSheetManager.Instance.VariablesGetFromSheet[4];
+
         turnCount = 1;
         StartState(EnumClass.GameState.ChoseBuffTurn);
         UIManager.Instance.UpdateTurnCount(turnCount);
@@ -181,7 +185,6 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
         else
         {
             EndGame();
-            
         }
 
     }
