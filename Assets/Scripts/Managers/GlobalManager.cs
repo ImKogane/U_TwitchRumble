@@ -39,8 +39,9 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
         UIManager.Instance.UpdateTurnCount(turnCount);
         UIManager.Instance.DisplayGameScreen(true);
         UIManager.Instance.DisplayEndScreen(false);
-
+        UIManager.Instance.DisplayPauseScreen(false);
         GoogleSheetManager.Instance.StartGoogleSheetSaving();
+
     }
 
     #endregion
@@ -49,8 +50,8 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
     
     IEnumerator ActionsChoiceCoroutine()
     {
-        UIManager.Instance.DisplayPhaseTitle("Phase du choix des actions");
-        UIManager.Instance.DisplayPhaseDescription("Choisissez votre prochain déplacement avec les flèches directionnelles, et A pour attaquer.");
+        UIManager.Instance.DisplayPhaseTitle("Choose your action(s)");
+        UIManager.Instance.DisplayPhaseDescription("Attack with the command !attack and move with the command !left/!right/!top/!down. Be carefull you can only do once each type of action.");
         //UIManager.Instance.DisplayAllPlayersUI(PlayerManager.Instance.PlayerList, true);
 
         TwitchManager.Instance.playersCanMakeActions = true;
@@ -80,8 +81,8 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
     
     IEnumerator BuffChoiceCoroutine()
     {
-        UIManager.Instance.DisplayPhaseTitle("Phase d'amélioration");
-        UIManager.Instance.DisplayPhaseDescription("Votre décision affectera grandement votre manière de jouer");
+        UIManager.Instance.DisplayPhaseTitle("Choose a boost");
+        UIManager.Instance.DisplayPhaseDescription("Your decision will greatly affect the way you play");
         UIManager.Instance.ActivateTimerBar(true);
 
         UIManager.Instance.UpdateChoiceCardsImage();
@@ -167,7 +168,6 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
                 break;
             
             case(EnumClass.GameState.GameEnd):
-                UIManager.Instance.DisplayEndScreen(true);
                 break;
         }
     }
@@ -305,15 +305,13 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
         }
     }
     
-    private void EndGame()
+    public  void EndGame()
     {
-        UIManager.Instance.GetComponent<UI_WinScreen>().MainCameraEnabled(false);
-        UIManager.Instance.GetComponent<UI_WinScreen>().WinCameraEnabled(true);
-        UIManager.Instance.DisplayEndScreen(true);
-        UIManager.Instance.DisplayGameScreen(false);
-        UIManager.Instance.GetComponent<UI_WinScreen>().SetPlayerNameText(PlayerManager.Instance.GetLastPlayer().GetPlayerName());
+        StartState(EnumClass.GameState.GameEnd);
+        UIManager.Instance.EndGameUI();
 
         PlayerManager.Instance.GetLastPlayer().transform.position = WinPoint.position;
+        PlayerManager.Instance.GetLastPlayer().ResetPlayerRotation();
         PlayerManager.Instance.GetLastPlayer().CanvasVisibility(false);
         PlayerManager.Instance.PlayerList.Clear();
     }
@@ -344,5 +342,19 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
 
         SaveSystem.SaveDatas(newSave, "save");
     }
-    
+
+    public void SetGamePause(bool state)
+    {
+        if (state)
+        {
+            Time.timeScale = 0;
+            UIManager.Instance.DisplayPauseScreen(state);
+        }
+        else
+        {
+            Time.timeScale = 1;
+            UIManager.Instance.DisplayPauseScreen(state);
+        }
+        
+    }
 }

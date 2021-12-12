@@ -6,9 +6,12 @@ using UnityEngine.UI;
 using TMPro;
 public class UIManager : SingletonMonobehaviour<UIManager>
 {
-    [SerializeField] private Canvas endScreen;
-    [SerializeField] private Canvas gameScreen;
+    [Header("UI Canvas references")]
+    [SerializeField] private GameObject endScreen;
+    [SerializeField] private GameObject gameScreen;
+    [SerializeField] private GameObject pauseScreen;
     
+    [Header("Other")]
     [SerializeField] private Slider timerBar;
 
     [SerializeField] private TMP_Text phaseTitle;
@@ -64,12 +67,17 @@ public class UIManager : SingletonMonobehaviour<UIManager>
 
     public void DisplayEndScreen(bool value)
     {
-        endScreen.enabled = value;
+        endScreen.SetActive(value); 
     }
 
     public void DisplayGameScreen(bool value)
     {
-        gameScreen.enabled = value;
+        gameScreen.SetActive(value);
+    }
+    
+    public void DisplayPauseScreen(bool value)
+    {
+        pauseScreen.SetActive(value);
     }
 
     public void DisplayAllPlayersUI(List<Player> playerList, bool value)
@@ -88,13 +96,14 @@ public class UIManager : SingletonMonobehaviour<UIManager>
     public void UpdateTurnCount(int newCount)
     {
         turnCount.enabled = true;
-        turnCount.text = "Tour " + newCount.ToString();
+        turnCount.text = newCount.ToString();
     }
     
     public void DisplayChoiceScreen(bool value)
     {
         choiceScreen.gameObject.SetActive(value);
     }
+    
 
     void DestroyChoicesImages()
     {
@@ -130,6 +139,15 @@ public class UIManager : SingletonMonobehaviour<UIManager>
             choiceImagesList.Add(newChoiceImage);
         }
 
+    }
+
+    public void EndGameUI()
+    {
+        GetComponent<UI_WinScreen>().MainCameraEnabled(false);
+        GetComponent<UI_WinScreen>().WinCameraEnabled(true);
+        DisplayEndScreen(true);
+        DisplayGameScreen(false);
+        GetComponent<UI_WinScreen>().SetPlayerNameText(PlayerManager.Instance.GetLastPlayer().GetPlayerName());
     }
 
 }

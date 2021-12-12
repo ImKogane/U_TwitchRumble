@@ -15,6 +15,11 @@ public class InputManager : SingletonMonobehaviour<InputManager>
     {
         if (actionInputsEnabled) InputPlayerLocal();
         if (choiceInputsEnabled) ChoiceInputPlayerLocal();
+        
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GlobalManager.Instance.SetGamePause(true);
+        }
     }
     
     public void EnableActionInputs(bool value)

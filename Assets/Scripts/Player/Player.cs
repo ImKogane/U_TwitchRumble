@@ -45,6 +45,8 @@ public class Player : MonoBehaviour
     private Canvas _playerUIPrefab;
 
     private Vector3 _playerUIOffset;
+
+    private Quaternion PlayerBaseRotation;
     
     public Canvas playerCanvas;
 
@@ -83,6 +85,7 @@ public class Player : MonoBehaviour
         playerHealthBar.maxValue = _playerLife;
         playerHealthBar.minValue = 0;
         playerHealthBar.value = _playerLife;
+        PlayerBaseRotation = this.transform.rotation;
         
         //Random player model system
         playerModel.sharedMesh = PlayerManager.Instance.SkinSystem.GetRandomSkin();
@@ -291,6 +294,11 @@ public class Player : MonoBehaviour
     public void CanvasVisibility(bool visibility)
     {
         playerCanvas.enabled = visibility;
+    }
+
+    public void ResetPlayerRotation()
+    {
+        this.transform.rotation = PlayerBaseRotation;
     }
     
     
