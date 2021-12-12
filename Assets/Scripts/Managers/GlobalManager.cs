@@ -35,6 +35,8 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
         UIManager.Instance.UpdateTurnCount(turnCount);
         UIManager.Instance.DisplayGameScreen(true);
         UIManager.Instance.DisplayEndScreen(false);
+
+        GoogleSheetManager.Instance.StartGoogleSheetSaving();
     }
 
     #endregion
