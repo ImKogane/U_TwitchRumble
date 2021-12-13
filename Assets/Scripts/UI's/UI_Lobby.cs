@@ -15,7 +15,7 @@ public class UI_Lobby : MonoBehaviour
     
     void Start()
     {
-        UIManager.Instance.uiLobby = this;
+        LobbyManager.Instance.uiLobby = this;
         
         PlayButton.SetActive(false);
         ErrorText.SetActive(true);

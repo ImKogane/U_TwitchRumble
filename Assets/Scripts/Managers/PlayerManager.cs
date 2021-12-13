@@ -42,7 +42,7 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
 
         if (PlayerList.Count >= 2)
         {
-            UIManager.Instance.EnablePlayButton();
+            LobbyManager.Instance.uiLobby.EnablePlayButton();
         }
         
         Tile tileOfPlayer = LobbyManager.Instance.GetRandomLobbyTile();

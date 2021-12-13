@@ -27,9 +27,6 @@ public class UIManager : SingletonMonobehaviour<UIManager>
     public RectTransform choiceScreen;
     public List<Image> choiceImagesList;
 
-    public UI_Lobby uiLobby;
-    
-
     public override bool DestroyOnLoad => true;
 
     public void UpdateTimerBar(float value)
@@ -118,7 +115,7 @@ public class UIManager : SingletonMonobehaviour<UIManager>
         choiceImagesList.Clear();
         
     }
-    
+
     public void UpdateChoiceCardsImage()
     {
         DestroyChoicesImages();
@@ -129,13 +126,14 @@ public class UIManager : SingletonMonobehaviour<UIManager>
         {
             return;
         }
-        
-        for(int i = 0; i < ScriptableManager.Instance._turnChoiceList[currentIndexChoice].choiceList.Count; i++)
+
+        for (int i = 0; i < ScriptableManager.Instance._turnChoiceList[currentIndexChoice].choiceList.Count; i++)
         {
             Image newChoiceImage = new GameObject().AddComponent<Image>();
 
             newChoiceImage.transform.parent = choiceScreen;
-            newChoiceImage.sprite = ScriptableManager.Instance._turnChoiceList[currentIndexChoice].choiceList[i]._cardSprite;
+            newChoiceImage.sprite =
+                ScriptableManager.Instance._turnChoiceList[currentIndexChoice].choiceList[i]._cardSprite;
             //newChoiceImage.SetNativeSize();
             newChoiceImage.preserveAspect = true;
 
@@ -144,11 +142,6 @@ public class UIManager : SingletonMonobehaviour<UIManager>
 
     }
 
-    public void EnablePlayButton()
-    {
-        uiLobby.EnablePlayButton();
-    }
-    
     public void EndGameUI()
     {
         GetComponent<UI_WinScreen>().MainCameraEnabled(false);

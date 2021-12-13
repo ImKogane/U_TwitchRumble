@@ -14,6 +14,8 @@ public class LobbyManager : SingletonMonobehaviour<LobbyManager>
     public PlayerManager PlayerManager;
 
     public List<Tile> LobbyTileList = new List<Tile>();
+    
+    public UI_Lobby uiLobby;
 
     public override bool DestroyOnLoad => false;
 

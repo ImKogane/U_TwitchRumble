@@ -8044,6 +8044,7 @@ MonoBehaviour:
   ChoiceCommande: '!card'
   channelName: 
   maxCharacterInNames: 12
+  numberMaxOfPlayer: 0
   _UIMainMenu: {fileID: 0}
 --- !u!4 &1097726312
 Transform:
@@ -10498,6 +10499,7 @@ MonoBehaviour:
   - {fileID: 655854434}
   - {fileID: 1396451065}
   - {fileID: 1154889584}
+  uiLobby: {fileID: 0}
 --- !u!4 &1400307709
 Transform:
   m_ObjectHideFlags: 0
@@ -12543,7 +12545,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1675661585
 RectTransform:
   m_ObjectHideFlags: 0
