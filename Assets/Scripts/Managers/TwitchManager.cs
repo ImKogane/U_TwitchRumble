@@ -32,6 +32,7 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
     public string channelName;
     
     public int maxCharacterInNames;
+    private int numberMaxOfPlayer;
 
     [SerializeField]
     private UI_MainMenu _UIMainMenu;
@@ -45,6 +46,8 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
 
     private void Start() // Use datas store in PlayerPrefs
     {
+        numberMaxOfPlayer = GoogleSheetManager.Instance.VariablesGetFromSheet[0];
+
         //PanelConnexion.SetActive(true);
         if (PlayerPrefs.HasKey("PasswordInput")) { PasswordInput.text = PlayerPrefs.GetString("PasswordInput"); }
         if (PlayerPrefs.HasKey("ChannelNameInput")) { ChannelNameInput.text = PlayerPrefs.GetString("ChannelNameInput"); }
@@ -135,11 +138,11 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
         // Tcheck if game didn't start. 
         if (messageOfPlayer == JoinCommande && canJoinedGame) //Connection du joueur twitch dans le jeu 
         {
-            if (!PlayerManager.Instance.AllPlayersName.Contains(nameOfPlayer))
+            if (!PlayerManager.Instance.AllPlayersName.Contains(nameOfPlayer) && PlayerManager.Instance.AllPlayersName.Count < numberMaxOfPlayer)
             {
                 PlayerManager.Instance.AllPlayersName.Add(nameOfPlayer);
                 Debug.Log("COMMAND : " + nameOfPlayer + " join the game !");
-                ShowAllPlayersInGame();
+                PlayerManager.Instance.SpawnPlayerOnLobby(nameOfPlayer);
             }
         }
 
@@ -150,7 +153,6 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
             {
                 PlayerManager.Instance.AllPlayersName.Remove(nameOfPlayer);
                 Debug.Log("COMMAND : " + nameOfPlayer + " quit the game !");
-                ShowAllPlayersInGame();
             }
 
             if (playersCanMakeActions)
@@ -247,18 +249,6 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
         else
         {
             return namePlayer;
-        }
-    }
-
-    public void ShowAllPlayersInGame()
-    {
-        string List = LobbyManager.Instance.PlayerList.text = "";
-        
-
-        foreach (string item in PlayerManager.Instance.AllPlayersName)
-        {
-            Debug.Log("Try");
-            LobbyManager.Instance.PlayerList.text += item + " - ";
         }
     }
 

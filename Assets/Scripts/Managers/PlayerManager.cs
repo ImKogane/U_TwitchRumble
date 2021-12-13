@@ -24,19 +24,25 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
         SceneManager.LoadScene("Antonin_Scene");
     }
 
-    public void SpawnAllPlayerOnBoard()
+    public void SetAllPlayerOnBoard()
     {
-        foreach (string item in AllPlayersName)
+        foreach (Player item in PlayerList)
         {
-            GameObject objinstantiate = Instantiate(prefabOfPlayer);
-
-            Player player = objinstantiate.GetComponent<Player>();
-            PlayerList.Add(player);
-
             Tile tileOfPlayer = BoardManager.Instance.GetRandomAvailableTile();
-
-            player.SpawnPlayerInGame(tileOfPlayer, item);
+            item.transform.position = tileOfPlayer.transform.position;
         }
+    }
+    
+    public void SpawnPlayerOnLobby(string playerName)
+    {
+        GameObject objinstantiate = Instantiate(prefabOfPlayer);
+
+        Player player = objinstantiate.GetComponent<Player>();
+        PlayerList.Add(player);
+
+        Tile tileOfPlayer = LobbyManager.Instance.GetRandomLobbyTile();
+
+        player.SpawnPlayerInGame(tileOfPlayer, playerName);
     }
 
     public Player ReturnPlayerWithName(string name)

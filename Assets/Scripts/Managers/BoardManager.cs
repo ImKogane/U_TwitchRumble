@@ -97,7 +97,7 @@ public class BoardManager : SingletonMonobehaviour<BoardManager>
 
         
         
-        PlayerManager.Instance.SpawnAllPlayerOnBoard();
+        PlayerManager.Instance.SetAllPlayerOnBoard();
         Debug.Log("Player Management : " + PlayerManager.Instance);
     }
 
