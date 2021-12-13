@@ -100,8 +100,7 @@ public class ScenesManager : SingletonMonobehaviour<ScenesManager>
 
         AsyncOperations.Clear();
 
-
-        Debug.Log(AudioManager.Instance);
+        
         AudioManager.Instance.PlayBGMusic(_musicToPlayWhenLevelLoaded);
 
     }

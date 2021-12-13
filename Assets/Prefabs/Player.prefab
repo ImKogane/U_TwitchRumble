@@ -1692,7 +1692,7 @@ Animator:
   m_GameObject: {fileID: 7984710894443702818}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 8368c50e82b03ee4e8563d57bd5c5b20, type: 3}
-  m_Controller: {fileID: 9100000, guid: 01a58424aeb91244a90f83ad050c4dfb, type: 2}
+  m_Controller: {fileID: 9100000, guid: 05690c1fc8e7a2e488481a9cb17cc01b, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1715,7 +1715,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentTile: {fileID: 0}
   playerMovement: {fileID: 918737186891934907}
-  playerAnimator: {fileID: 0}
+  _animator: {fileID: 0}
   playerModel: {fileID: 4869730117634527052}
   namePlayer: 
   playerWeapon: {fileID: 0}
@@ -1745,7 +1745,7 @@ MonoBehaviour:
   RotationOfPlayer: {x: 0, y: 0}
   CurrentPlayer: {fileID: 941451258311421410}
   movePrecision: 0
-  playerAnimator: {fileID: 0}
+  _animator: {fileID: 0}
 --- !u!1 &8028029919027752019
 GameObject:
   m_ObjectHideFlags: 0

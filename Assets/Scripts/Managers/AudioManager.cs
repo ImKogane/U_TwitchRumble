@@ -16,6 +16,10 @@ public class AudioManager : SingletonMonobehaviour<AudioManager>
     [SerializeField] private AudioSource _musicAudioSource;
     [SerializeField] private AudioSource _ambianceAudioSource;
 
+    public float _defaultSFXVolume = .5f;
+    public float _defaultMusicVolume = .5f;
+    public float _defaultAmbienceVolume = .5f;
+    
     public void MusicVolumeChanged(float value)
     {
         float dbValue = _audioCurve.Evaluate(value);

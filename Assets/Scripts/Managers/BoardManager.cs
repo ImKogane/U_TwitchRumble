@@ -236,4 +236,16 @@ public class BoardManager : SingletonMonobehaviour<BoardManager>
     {
         return new Vector2Int(vector.y, vector.x);
     }
+
+    public List<Vector2Int> GetAllTilesCoords()
+    {
+        List<Vector2Int> tempList = new List<Vector2Int>();
+
+        foreach (Tile tile in tilesList)
+        {
+            tempList.Add(new Vector2Int(tile.tileRow, tile.tileColumn));
+        }
+
+        return tempList;
+    }
 }

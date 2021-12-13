@@ -180,9 +180,7 @@ public class Player : MonoBehaviour
         CurrentTile.currentPlayer = null;
 
         isDead = true;
-        
-        EndOfDeath.Invoke();
-        
+
         GlobalManager.Instance.DestroyAllCommandsOfPlayer(this);
         
         Destroy(playerCanvas.gameObject);
@@ -202,7 +200,9 @@ public class Player : MonoBehaviour
 
         yield return new WaitForSeconds(currentAnimationInfo.clip.length);
         
+        EndOfDeath.Invoke();
         KillPlayer();
+
     }
 
     public void ManageAllDebuffs()

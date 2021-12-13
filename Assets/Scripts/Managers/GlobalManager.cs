@@ -170,6 +170,7 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
                 break;
             
             case(EnumClass.GameState.GameEnd):
+                EndGame();
                 break;
         }
     }
@@ -186,7 +187,7 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
         }
         else
         {
-            EndGame();
+            StartState(EnumClass.GameState.GameEnd);
         }
 
     }
@@ -307,42 +308,17 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
         }
     }
     
-    public  void EndGame()
+    public void EndGame()
     {
-        StartState(EnumClass.GameState.GameEnd);
         UIManager.Instance.EndGameUI();
 
+        //TODO : mettre dans une seule méthode !!
+        
         PlayerManager.Instance.GetLastPlayer().transform.position = WinPoint.position;
         PlayerManager.Instance.GetLastPlayer().ResetPlayerRotation();
         PlayerManager.Instance.GetLastPlayer().CanvasVisibility(false);
+        PlayerManager.Instance.GetLastPlayer()._animator.SetBool("IsFalling", false);
         PlayerManager.Instance.PlayerList.Clear();
-    }
-
-    public void BuildNewSave()
-    {
-        SaveData newSave = new SaveData();
-        newSave._currentTurn = turnCount;
-        newSave._currentGameState = currentGameState;
-
-        for(int i = 0; i < PlayerManager.Instance.PlayerList.Count; i++)
-        {
-            Player currentPlayer = PlayerManager.Instance.PlayerList[i];
-            newSave._playerNames.Add(currentPlayer.namePlayer);
-            newSave._playerHealth.Add(currentPlayer._playerLife);
-            if(currentPlayer.playerWeapon != null) newSave._playerWeapons.Add(currentPlayer.playerWeapon.weaponType);
-            if(currentPlayer.playerWeaponBuff != null) newSave._playerWeaponBuffs.Add(currentPlayer.playerWeaponBuff.weaponBuffType);
-            if(currentPlayer.playerMoveBuff != null) newSave._playerMovementBuffs.Add(currentPlayer.playerMoveBuff.movementBuffType);
-            newSave._playerTiles.Add(new Vector2Int(currentPlayer.CurrentTile.tileRow, currentPlayer.CurrentTile.tileColumn));
-        }
-
-        for(int i = 0; i < BoardManager.Instance.tilesList.Count; i++)
-        {
-            Tile currentTile = BoardManager.Instance.tilesList[i];
-            newSave._tilesCoords.Add(new Vector2Int(currentTile.tileRow, currentTile.tileColumn));
-            newSave._tilesPositions.Add(currentTile.transform.position);
-        }
-
-        SaveSystem.SaveDatas(newSave, "save");
     }
 
     public void SetGamePause(bool state)

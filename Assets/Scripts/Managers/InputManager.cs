@@ -68,11 +68,6 @@ public class InputManager : SingletonMonobehaviour<InputManager>
             MoveCommand(PlayerManager.Instance.PlayerList[0], EnumClass.Direction.Left);
         }
 
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            GlobalManager.Instance.BuildNewSave();
-        }
-        
         //Action d'attaque.
         if (Input.GetKeyDown(KeyCode.A))
         {

@@ -305,7 +305,7 @@ public class PlayerMovement : MonoBehaviour
         .Append(transform.DOMove(transform.position + Vector3.up * offsetGoUp, delayGoUp))
         .Append(transform.DOMove(transform.position - Vector3.up * offsetGoDown, delayGoDown));
         
-        _animator.SetTrigger("IsFalling");
+        _animator.SetBool("IsFalling", true);
         
         //Attendre d'etre dans l'eau.
         yield return new WaitForSeconds(delayGoUp + delayGoDown);
