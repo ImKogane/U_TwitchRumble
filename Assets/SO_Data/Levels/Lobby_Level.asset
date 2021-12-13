@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: Lobby_Level
   m_EditorClassIdentifier: 
   LevelsToCharge:
+  - PlayersScene
   - ConnexionTwitch
+  _levelMusic: {fileID: 0}

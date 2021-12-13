@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 using Random = UnityEngine.Random;
 
 public class GlobalManager : SingletonMonobehaviour<GlobalManager>
@@ -35,7 +36,9 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
         buffTimerDuration = GoogleSheetManager.Instance.VariablesGetFromSheet[4];
 
         turnCount = 1;
-        StartState(EnumClass.GameState.ChoseBuffTurn);
+
+        StartState(EnumClass.GameState.IntroTurn);
+
         UIManager.Instance.UpdateTurnCount(turnCount);
         UIManager.Instance.DisplayGameScreen(true);
         UIManager.Instance.DisplayEndScreen(false);
@@ -116,12 +119,31 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
 
         StartState(EnumClass.GameState.WaitingTurn);
     }
-    
-    
+
+    private IEnumerator IntroTurnCoroutine()
+    {
+        UIManager.Instance.DisplayPhaseTitle("Preparation phase !");
+        UIManager.Instance.DisplayPhaseDescription("Identify your player and be ready to fight !");
+
+        foreach (var item in PlayerManager.Instance.PlayerList)
+        {
+            item.gameObject.transform.DOMove(item.CurrentTile.transform.position, 1.5f).SetEase(Ease.OutSine);
+            yield return new WaitForSeconds(1.5f);
+        }
+
+        for (int i = 0; i < 10; i++)
+        {
+            UIManager.Instance.DisplayPhaseTitle(i.ToString());
+            yield return new WaitForSeconds(1);
+        }
+
+        StartState(EnumClass.GameState.ChoseBuffTurn);
+    }
+
     #endregion
 
     #region ActionsInGame Handling
-    
+
     public void AddActionInGameToList(CommandInGame ActionToAdd)
     {
         //Ici on devra trier si le propri�taire de l'action que l'on ajoute a la liste n'avait pas deja une action dans la liste avant de remettre son action. 
@@ -167,6 +189,10 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
             
             case(EnumClass.GameState.ChoseBuffTurn):
                 StartCoroutine(BuffChoiceCoroutine());
+                break;
+
+            case (EnumClass.GameState.IntroTurn):
+                StartCoroutine(IntroTurnCoroutine());
                 break;
             
             case(EnumClass.GameState.GameEnd):
