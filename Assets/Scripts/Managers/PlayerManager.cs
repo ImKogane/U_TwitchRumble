@@ -18,23 +18,19 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
 
     public override bool DestroyOnLoad => false;
 
-    public void PlayGame()
-    {
-        TwitchManager.Instance.canJoinedGame = false;
-        SceneManager.LoadScene("Antonin_Scene");
-    }
-
     public void SetAllPlayerOnBoard()
     {
         foreach (Player item in PlayerList)
         {
             Tile tileOfPlayer = BoardManager.Instance.GetRandomAvailableTile();
-            item.transform.position = tileOfPlayer.transform.position;
+            item.transform.position = tileOfPlayer.transform.position + (Vector3.up * 25);
         }
     }
     
     public void SpawnPlayerOnLobby(string playerName)
     {
+        ScenesManager.Instance.SetActiveScene("PlayersScene");
+
         GameObject objinstantiate = Instantiate(prefabOfPlayer);
 
         Player player = objinstantiate.GetComponent<Player>();
