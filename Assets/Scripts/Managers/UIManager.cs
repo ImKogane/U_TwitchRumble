@@ -27,6 +27,9 @@ public class UIManager : SingletonMonobehaviour<UIManager>
     public RectTransform choiceScreen;
     public List<Image> choiceImagesList;
 
+    public UI_Lobby uiLobby;
+    
+
     public override bool DestroyOnLoad => true;
 
     public void UpdateTimerBar(float value)
@@ -141,6 +144,11 @@ public class UIManager : SingletonMonobehaviour<UIManager>
 
     }
 
+    public void EnablePlayButton()
+    {
+        uiLobby.EnablePlayButton();
+    }
+    
     public void EndGameUI()
     {
         GetComponent<UI_WinScreen>().MainCameraEnabled(false);
@@ -149,5 +157,5 @@ public class UIManager : SingletonMonobehaviour<UIManager>
         DisplayGameScreen(false);
         GetComponent<UI_WinScreen>().SetPlayerNameText(PlayerManager.Instance.GetLastPlayer().GetPlayerName());
     }
-
+    
 }

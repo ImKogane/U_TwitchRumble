@@ -15,22 +15,41 @@ public class Trap : MonoBehaviour
     [NonSerialized]
     public MeshRenderer meshRenderer;
 
-    public Material fadeMaterial;
+    private Material fadeMaterial;
+
+    private Animator _animator;
+
+    private Player _hitPlayer;
     
     private void Start()
     {
         meshRenderer = GetComponent<MeshRenderer>();
+        _animator = GetComponent<Animator>();
         fadeMaterial = new Material(meshRenderer.material);
         meshRenderer.material = fadeMaterial;
     }
 
-    public void Trigger(Player targetPlayer)
+    public IEnumerator Trigger(Player targetPlayer)
     {
-        //PLayAnimation
-        targetPlayer.ReceiveDamage(trapDamages);
+        _hitPlayer = targetPlayer;
+        _animator.SetTrigger("IsTriggered");
+
+        float duration = _animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
+
+        yield return new WaitForSeconds(duration);
+
         StartCoroutine(DestroyCoroutine());
     }
 
+    public void DealDamages()
+    {
+        if (_hitPlayer)
+        {
+            _hitPlayer.ReceiveDamage(trapDamages);
+        }
+    }
+    
+    
     IEnumerator DestroyCoroutine()
     {
         float alpha = meshRenderer.material.color.a;

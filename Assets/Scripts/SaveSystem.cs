@@ -2,35 +2,12 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Xml.Linq;
-using System.Xml.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 
 public class SaveSystem 
 {
-    /*OLD SYSTEM
-    public static void SaveDatas(object item, string dest)
-    {
-        string path = Path.Combine(Application.persistentDataPath, dest + ".xml");
-        XmlSerializer serializer = new XmlSerializer(item.GetType());
-        StreamWriter writer = new StreamWriter(path);
-        serializer.Serialize(writer.BaseStream, item);
-        writer.Close();
-        Debug.Log("New save at :" + Application.persistentDataPath + "/" + dest + ".xml");
-    }
-
-    public static T LoadDatas<T>(string dest)
-    {
-        string path = Path.Combine(Application.persistentDataPath, dest);
-        XmlSerializer serializer = new XmlSerializer(typeof(T));
-        StreamReader reader = new StreamReader(path);
-        T deserialized = (T)serializer.Deserialize(reader.BaseStream);
-        reader.Close();
-        return deserialized;
-    }
-    */
 
     [SerializeField] private string _saveFilepath;
     [SerializeField] private string _saveFileExtension;
@@ -44,28 +21,27 @@ public class SaveSystem
     
     public async void SaveData()
     {
-        //SaveData data = StartCoroutine(GetDataCoroutine());
+        SaveData data = GetData();
         
-        //await WriteData(data);
+        await WriteData(data);
         
     }
     
-    public IEnumerator<SaveData> GetDataCoroutine()
+    public SaveData GetData()
     {
-        
-        
-        
-        
+
         SaveData data = new SaveData()
         {
-            _currentGameState = GlobalManager.Instance.GetCurrentGameState(),
             _currentTurn = GlobalManager.Instance.GetCurrentTurn(),
             _tilesCoords = BoardManager.Instance.GetAllTilesCoords(),
+            _tilesPositions = BoardManager.Instance.GetAllTilesPositions(),
+            _playerNames = PlayerManager.Instance.AllPlayersName,
+            _playerHealth = PlayerManager.Instance.GetAllPlayerHealth(),
+            _playerTiles = PlayerManager.Instance.GetAllPlayerTiles(),
             
         };
 
-        return null;
-
+        return data;
     }
 
     private async Task WriteData(SaveData data)

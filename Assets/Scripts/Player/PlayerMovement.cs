@@ -265,7 +265,7 @@ public class PlayerMovement : MonoBehaviour
 
         for (int i = 0; i < nextDestination.trapList.Count; i++)
         {
-            nextDestination.trapList[i].Trigger(CurrentPlayer);
+            StartCoroutine(nextDestination.trapList[i].Trigger(CurrentPlayer));
         }
 
         if (CurrentPlayer.playerMoveBuff != null)

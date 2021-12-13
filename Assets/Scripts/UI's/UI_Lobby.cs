@@ -13,21 +13,18 @@ public class UI_Lobby : MonoBehaviour
     [SerializeField] GameObject PlayButton;
     [SerializeField] GameObject ErrorText;
     
-    // Start is called before the first frame update
     void Start()
     {
+        UIManager.Instance.uiLobby = this;
+        
         PlayButton.SetActive(false);
-        ErrorText.SetActive(true);  
+        ErrorText.SetActive(true);
     }
-
-    // Update is called once per frame
-    void Update()
+    
+    public void EnablePlayButton()
     {
-        if (PlayerManager.Instance.AllPlayersName.Count >= 2)
-        {
-            PlayButton.SetActive(true);
-            ErrorText.SetActive(false);
-        }
+        PlayButton.SetActive(true);
+        ErrorText.SetActive(false);
     }
     
     public void LaunchGame()
