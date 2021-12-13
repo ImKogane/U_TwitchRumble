@@ -32,7 +32,7 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
     public string channelName;
     
     public int maxCharacterInNames;
-    private int numberMaxOfPlayer;
+    public int numberMaxOfPlayer;
 
     [SerializeField]
     private UI_MainMenu _UIMainMenu;
@@ -46,8 +46,6 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
 
     private void Start() // Use datas store in PlayerPrefs
     {
-        numberMaxOfPlayer = GoogleSheetManager.Instance.VariablesGetFromSheet[0];
-
         //PanelConnexion.SetActive(true);
         if (PlayerPrefs.HasKey("PasswordInput")) { PasswordInput.text = PlayerPrefs.GetString("PasswordInput"); }
         if (PlayerPrefs.HasKey("ChannelNameInput")) { ChannelNameInput.text = PlayerPrefs.GetString("ChannelNameInput"); }

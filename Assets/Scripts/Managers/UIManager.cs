@@ -51,7 +51,7 @@ public class UIManager : SingletonMonobehaviour<UIManager>
 
     IEnumerator DisplayPhaseDescriptionCoroutine(string newTurnDescription)
     {
-        phaseDescription.enabled = true;
+        phaseDescription.gameObject.SetActive(true);
         phaseDescription.text = newTurnDescription;
 
         for (int i = 0; i <= phaseDescription.text.Length; i++)

@@ -95,8 +95,6 @@ public class BoardManager : SingletonMonobehaviour<BoardManager>
 
         ScenesManager.Instance.SetActiveScene("PlayersScene");
 
-        
-        
         PlayerManager.Instance.SetAllPlayerOnBoard();
         Debug.Log("Player Management : " + PlayerManager.Instance);
     }

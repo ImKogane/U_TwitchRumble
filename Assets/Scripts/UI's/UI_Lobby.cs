@@ -34,12 +34,6 @@ public class UI_Lobby : MonoBehaviour
     {
         TwitchManager.Instance.canJoinedGame = false;
     }
-
-    public void BackToMenu(string menuSceneName)
-    {
-        TwitchManager.Instance.canJoinedGame = false;
-        SceneManager.LoadScene(menuSceneName, LoadSceneMode.Single);
-    }
     
     public void ShowHelp(bool state)
     {

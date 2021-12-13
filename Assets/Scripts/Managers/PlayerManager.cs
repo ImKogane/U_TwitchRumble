@@ -24,7 +24,10 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
         {
             Tile tileOfPlayer = BoardManager.Instance.GetRandomAvailableTile();
             item.transform.position = tileOfPlayer.transform.position + (Vector3.up * 25);
+            item.CurrentTile = tileOfPlayer;
         }
+
+        GlobalManager.Instance.LaunchGame();
     }
     
     public void SpawnPlayerOnLobby(string playerName)

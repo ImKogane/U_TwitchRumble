@@ -19,6 +19,8 @@ public class LobbyManager : SingletonMonobehaviour<LobbyManager>
 
     void Start()
     {
+        TwitchManager.Instance.numberMaxOfPlayer = GoogleSheetManager.Instance.VariablesGetFromSheet[0];
+
         //Spawn the streamer as the local player
         string LocalPlayerName = TwitchManager.Instance.channelName;
         PlayerManager.Instance.AllPlayersName.Add(LocalPlayerName);

@@ -239,8 +239,11 @@ public class Player : MonoBehaviour
     
     public void UpdatePlayerCanvas()
     {
-        playerCanvas.transform.LookAt(playerCanvas.transform.position + Camera.main.transform.rotation * Vector3.back, Camera.main.transform.rotation * Vector3.up);
-        playerCanvas.transform.position = transform.position + _playerUIOffset;
+        if (Camera.main)
+        {
+            playerCanvas.transform.LookAt(playerCanvas.transform.position + Camera.main.transform.rotation * Vector3.back, Camera.main.transform.rotation * Vector3.up);
+            playerCanvas.transform.position = transform.position + _playerUIOffset;
+        }
     }
 
     public void ReceiveAChoice(SO_Choice choice)

@@ -31,6 +31,12 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
 
     private void Start()
     {
+        
+
+    }
+
+    public void LaunchGame()
+    {
         //Set up variable with google sheet datas.
         actionsTimerDuration = GoogleSheetManager.Instance.VariablesGetFromSheet[3];
         buffTimerDuration = GoogleSheetManager.Instance.VariablesGetFromSheet[4];
@@ -46,7 +52,6 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
         AudioManager.Instance.EnableAmbienceSounds(true);
         UIManager.Instance.DisplayPauseScreen(false);
         GoogleSheetManager.Instance.StartGoogleSheetSaving();
-
     }
 
     #endregion
@@ -124,16 +129,19 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
     {
         UIManager.Instance.DisplayPhaseTitle("Preparation phase !");
         UIManager.Instance.DisplayPhaseDescription("Identify your player and be ready to fight !");
+        UIManager.Instance.DisplayChoiceScreen(false);
 
         foreach (var item in PlayerManager.Instance.PlayerList)
         {
-            item.gameObject.transform.DOMove(item.CurrentTile.transform.position, 1.5f).SetEase(Ease.OutSine);
-            yield return new WaitForSeconds(1.5f);
+            Debug.Log("Player : " + item);
+            Debug.Log("Tile of this player : " + item.CurrentTile);
+            item.gameObject.transform.DOMove(item.CurrentTile.transform.position, 1).SetEase(Ease.OutSine);
+            yield return new WaitForSeconds(1);
         }
 
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 11; i++)
         {
-            UIManager.Instance.DisplayPhaseTitle(i.ToString());
+            UIManager.Instance.DisplayPhaseTitle((11-i).ToString());
             yield return new WaitForSeconds(1);
         }
 
