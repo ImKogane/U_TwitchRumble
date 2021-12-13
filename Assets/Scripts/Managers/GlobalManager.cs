@@ -29,12 +29,6 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
 
     #region Unity Basic Events
 
-    private void Start()
-    {
-        
-
-    }
-
     public void LaunchGame()
     {
         //Set up variable with google sheet datas.
@@ -139,9 +133,9 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
             yield return new WaitForSeconds(1);
         }
 
-        for (int i = 0; i < 11; i++)
+        for (int i = 0; i < 10; i++)
         {
-            UIManager.Instance.DisplayPhaseTitle((11-i).ToString());
+            UIManager.Instance.DisplayPhaseTitle((10-i).ToString());
             yield return new WaitForSeconds(1);
         }
 
