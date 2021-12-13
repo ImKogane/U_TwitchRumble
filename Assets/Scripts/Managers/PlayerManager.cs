@@ -17,6 +17,7 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
     public List<Player> PlayerList = new List<Player>();
 
     public override bool DestroyOnLoad => false;
+    
 
     public void PlayGame()
     {
@@ -40,6 +41,11 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
         Player player = objinstantiate.GetComponent<Player>();
         PlayerList.Add(player);
 
+        if (PlayerList.Count >= 2)
+        {
+            UIManager.Instance.EnablePlayButton();
+        }
+        
         Tile tileOfPlayer = LobbyManager.Instance.GetRandomLobbyTile();
 
         player.SpawnPlayerInGame(tileOfPlayer, playerName);
@@ -80,6 +86,30 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
         {
             return null;
         }
+    }
+
+    public List<int> GetAllPlayerHealth()
+    {
+        List<int> tempList = new List<int>();
+
+        foreach (Player player in PlayerList)
+        {
+            tempList.Add(player._playerLife);
+        }
+
+        return tempList;
+    }
+
+    public List<Vector2Int> GetAllPlayerTiles()
+    {
+        List<Vector2Int> tempList = new List<Vector2Int>();
+
+        foreach (var player in PlayerList)
+        {
+            tempList.Add(new Vector2Int(player.CurrentTile.tileRow, player.CurrentTile.tileColumn));
+        }
+
+        return tempList;
     }
     
     

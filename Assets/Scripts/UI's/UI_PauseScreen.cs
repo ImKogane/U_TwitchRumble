@@ -13,6 +13,9 @@ public class UI_PauseScreen : MonoBehaviour
     float _defaultSFXVolume;
     float _defaultMusicVolume;
     float _defaultAmbienceVolume;
+
+    public GameObject _quitPanel;
+    
     
     private void Start()
     {
@@ -42,13 +45,18 @@ public class UI_PauseScreen : MonoBehaviour
         GlobalManager.Instance.SetGamePause(false);
     }
 
-    public void QuitGame()
+    public void SetQuitPanelActive(bool value)
     {
-        //Ask if player want to save the game
-        
-        Application.Quit();
+        _quitPanel.SetActive(value);
     }
 
+    
+    
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+    
     public void GoToMenu()
     {
         GlobalManager.Instance.SetGamePause(false);

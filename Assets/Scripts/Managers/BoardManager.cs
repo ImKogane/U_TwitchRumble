@@ -248,4 +248,17 @@ public class BoardManager : SingletonMonobehaviour<BoardManager>
 
         return tempList;
     }
+
+    public List<Vector3> GetAllTilesPositions()
+    {
+        List<Vector3> tempList = new List<Vector3>();
+
+        foreach (Tile tile in tilesList)
+        {
+            tempList.Add(tile.gameObject.transform.position);
+        }
+
+        return tempList;
+    }
+    
 }
