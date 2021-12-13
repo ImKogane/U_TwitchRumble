@@ -139,7 +139,7 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
             {
                 PlayerManager.Instance.AllPlayersName.Add(nameOfPlayer);
                 Debug.Log("COMMAND : " + nameOfPlayer + " join the game !");
-                ShowAllPlayersInGame();
+                PlayerManager.Instance.SpawnPlayerOnLobby(nameOfPlayer);
             }
         }
 
@@ -150,7 +150,6 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
             {
                 PlayerManager.Instance.AllPlayersName.Remove(nameOfPlayer);
                 Debug.Log("COMMAND : " + nameOfPlayer + " quit the game !");
-                ShowAllPlayersInGame();
             }
 
             if (playersCanMakeActions)
@@ -247,18 +246,6 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
         else
         {
             return namePlayer;
-        }
-    }
-
-    public void ShowAllPlayersInGame()
-    {
-        string List = LobbyManager.Instance.PlayerList.text = "";
-        
-
-        foreach (string item in PlayerManager.Instance.AllPlayersName)
-        {
-            Debug.Log("Try");
-            LobbyManager.Instance.PlayerList.text += item + " - ";
         }
     }
 
