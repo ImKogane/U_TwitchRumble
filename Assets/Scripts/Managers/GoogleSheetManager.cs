@@ -12,7 +12,7 @@ using System.IO;
 using System.Threading;
 using System.Linq;
 using System.Dynamic;
-
+using System.Threading.Tasks;
 
 public class GoogleSheetManager : SingletonMonobehaviour<GoogleSheetManager>
 {
@@ -30,37 +30,39 @@ public class GoogleSheetManager : SingletonMonobehaviour<GoogleSheetManager>
 
     public List<int> VariablesGetFromSheet = new List<int>();
 
-    private void Start()
+    private async void Start()
     {
         ConnectToGoogleAPI();
-        SetValidCurrentLine(GetSheetRange("Stats!A:A"));
+        var cellsFull = await GetSheetRange("Stats!A:A");
+        SetValidCurrentLine(cellsFull);
         GetVariablesOfGame();
     }
 
-    public void StartGoogleSheetSaving()
+    public async void StartGoogleSheetSaving()
     {
-        SetDateTimeInfosInSheet();
-        SetPlayersListToSheet();
+        await SetDateTimeInfosInSheet();
+        await SetPlayersListToSheet();
     }
 
-    public void SetDateTimeInfosInSheet()
+    public async Task SetDateTimeInfosInSheet()
     {
         List<string> datasToStore = new List<string>();
         datasToStore.Add(DateTime.Now.Hour.ToString() + ":" + DateTime.Now.Minute.ToString());
         datasToStore.Add(DateTime.Now.Day.ToString() + "/" + DateTime.Now.Month.ToString());
         datasToStore.Add(DateTime.Now.Year.ToString());
 
-        SetACell("Datas of the game :", 0, currentLine);
+        await SetACell("Datas of the game :", 0, currentLine);
+
 
         foreach (string info in datasToStore)
         {
-            SetACell(info, currentColumn, currentLine);
+            await SetACell(info, currentColumn, currentLine);
         }
     }
 
-    public void GetVariablesOfGame()
+    public async void GetVariablesOfGame()
     {
-        IList<IList<object>> listOfDatas = GetSheetRange("Params!2:2");
+        IList<IList<object>> listOfDatas = await GetSheetRange("Params!2:2");
 
         foreach (var item in listOfDatas)
         {
@@ -73,17 +75,19 @@ public class GoogleSheetManager : SingletonMonobehaviour<GoogleSheetManager>
         }
     }
 
-    public void SetPlayersListToSheet()
+    public async Task SetPlayersListToSheet()
     {
         List<string> playersName = PlayerManager.Instance.AllPlayersName;
 
-        SetACell(playersName.Count.ToString(), currentColumn, currentLine);
+        Debug.Log(currentColumn);
+        await SetACell(playersName.Count.ToString(), currentColumn, currentLine);
 
-        SetACell("Noms des joueurs :", 0, currentLine + 1);
+
+        await SetACell ("Noms des joueurs :", 0, currentLine + 1);
 
         for (int i = 0; i < playersName.Count; i++)
         {
-            SetACell(playersName[i], i + 1, currentLine + 1);
+            await SetACell(playersName[i], i + 1, currentLine + 1);
         }
     }
 
@@ -103,11 +107,11 @@ public class GoogleSheetManager : SingletonMonobehaviour<GoogleSheetManager>
 
     #region OwnFunctions
 
-    public IList<IList<object>> GetSheetRange(String sheetNameAndRange)
+    public async Task<IList<IList<object>>> GetSheetRange(String sheetNameAndRange)
     {
         SpreadsheetsResource.ValuesResource.GetRequest request = service.Spreadsheets.Values.Get(_spreadSheetID, sheetNameAndRange);
 
-        ValueRange response = request.Execute();
+        ValueRange response = await request.ExecuteAsync();
 
         IList<IList<object>> values = response.Values;
 
@@ -140,7 +144,7 @@ public class GoogleSheetManager : SingletonMonobehaviour<GoogleSheetManager>
         Debug.Log(currentLine);
     }
 
-    public void SetACell(string DataToSave, int column, int line)
+    public async Task SetACell(string DataToSave, int column, int line)
     {
         string nameOfPage = "Stats!"+AllLetters[column] + line.ToString();
         Debug.Log("CellToStoreDatas :" + nameOfPage);
@@ -155,29 +159,9 @@ public class GoogleSheetManager : SingletonMonobehaviour<GoogleSheetManager>
         SpreadsheetsResource.ValuesResource.UpdateRequest request = service.Spreadsheets.Values.Update(values, _spreadSheetID, nameOfPage);
         request.ValueInputOption = valueInputOption;
 
-        request.Execute();
-
         currentColumn++;
-    }
 
-    public void SetSheetRange()
-    {
-        IList<IList<object>> values = new List<IList<object>> { new List<object> { "Coucou 1 !", "Coucou 2 !" } };
-
-        var valuesRange = new ValueRange();
-
-        valuesRange.Range = "A1A2";
-        valuesRange.Values = values;
-
-        var batchUpdateRequest = new BatchUpdateValuesRequest();
-
-        IList<ValueRange> listValueRange = new List<ValueRange> { valuesRange };
-        batchUpdateRequest.Data = listValueRange;
-        batchUpdateRequest.ValueInputOption = "RAW";
-
-        SpreadsheetsResource.ValuesResource.BatchUpdateRequest request = service.Spreadsheets.Values.BatchUpdate(batchUpdateRequest, _spreadSheetID);
-
-        request.Execute();
+        await request.ExecuteAsync();
     }
 
     #endregion
