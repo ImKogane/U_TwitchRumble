@@ -1163,6 +1163,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2143165187}
+        m_TargetAssemblyTypeName: UI_MainMenu, Assembly-CSharp
+        m_MethodName: ButtonClick_Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &136910708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14460,7 +14472,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SettingsCanvas: {fileID: 1726032611}
   ConnectionCanvas: {fileID: 472656668}
-  TwitchManager: {fileID: 6122260}
   PlayButton: {fileID: 136910705}
   ConnectButton: {fileID: 1886628209}
 --- !u!4 &2143165188

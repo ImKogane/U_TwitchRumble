@@ -255,8 +255,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40cb1a901501bc04dae49783976410cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actionsTimerDuration: 10
-  buffTimerDuration: 10
+  actionsTimerDuration: 5
+  buffTimerDuration: 5
   WinPoint: {fileID: 525586681}
   _turnsToMakeChoice: 010000000300000005000000
 --- !u!4 &758945550

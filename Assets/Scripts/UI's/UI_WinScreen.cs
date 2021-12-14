@@ -21,14 +21,13 @@ public class UI_WinScreen : MonoBehaviour
 
     public void PlayAgain()
     {
-        TwitchManager.Instance.canJoinedGame = true;
-        SceneManager.LoadScene(LobbySceneName, LoadSceneMode.Single);
+        TwitchManager.Instance.SetPlayersCanJoin(true);
         AudioManager.Instance.EnableAmbienceSounds(false);
     }
     
     public void BackToMenu()
     {
-        SceneManager.LoadScene(MainMenuSceneName, LoadSceneMode.Single);
+        TwitchManager.Instance.SetPlayersCanJoin(false);
         AudioManager.Instance.EnableAmbienceSounds(false);
     }
 

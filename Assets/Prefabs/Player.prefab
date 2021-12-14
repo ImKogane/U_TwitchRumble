@@ -1744,7 +1744,7 @@ MonoBehaviour:
   InitialRotation: {x: 0, y: 0, z: 0, w: 1}
   RotationOfPlayer: {x: 0, y: 0}
   CurrentPlayer: {fileID: 941451258311421410}
-  movePrecision: 0
+  CanJumpObstacle: 0
   _animator: {fileID: 0}
 --- !u!1 &8028029919027752019
 GameObject:

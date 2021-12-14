@@ -26,6 +26,11 @@ public class UI_Lobby : MonoBehaviour
         PlayButton.SetActive(true);
         ErrorText.SetActive(false);
     }
+
+    public void ButtonClick_Menu()
+    {
+        PlayerManager.Instance.ResetPlayerManager();
+    }
     
     public void LaunchGame()
     {

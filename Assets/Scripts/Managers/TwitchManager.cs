@@ -142,6 +142,14 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
                 Debug.Log("COMMAND : " + nameOfPlayer + " join the game !");
                 PlayerManager.Instance.SpawnPlayerOnLobby(nameOfPlayer);
             }
+            else
+            {
+                Debug.LogError("Nope, le join marche pas !");
+            }
+        }
+        else
+        {
+            Debug.LogError("Nope, le join v2 marche pas !");
         }
 
 
@@ -248,6 +256,30 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
         {
             return namePlayer;
         }
+    }
+
+    /// <summary>
+    /// Check if the twitch client is connected to a channel
+    /// </summary>
+    public bool IsConnected()
+    {
+        if (bConnexionIsDone)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Set if players can join game with chat commands
+    /// </summary>
+    /// <param name="state"></param>
+    public void SetPlayersCanJoin(bool state)
+    {
+        canJoinedGame = state;
     }
 
 }

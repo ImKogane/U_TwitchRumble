@@ -10,16 +10,29 @@ public class UI_MainMenu : MonoBehaviour
     
     [SerializeField] private GameObject SettingsCanvas;
     [SerializeField] private GameObject ConnectionCanvas;
-    [SerializeField] private TwitchManager TwitchManager;
     [SerializeField] private GameObject PlayButton;
     [SerializeField] private GameObject ConnectButton;
 
     // Start is called before the first frame update
 
-    public void OpenLobby()
+    public void Start()
     {
-        TwitchManager.Instance.canJoinedGame = true;
-        SceneManager.LoadScene("ConnexionTwitch", LoadSceneMode.Single);
+        StartCoroutine(LateStart(1));
+        
+    }
+
+    IEnumerator LateStart(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        if (TwitchManager.Instance.IsConnected())
+        {
+            DisplayPlayButton();
+        }
+    }
+
+    public void ButtonClick_Play()
+    {
+        TwitchManager.Instance.SetPlayersCanJoin(true);
     }
     
     public void OpenSettings()

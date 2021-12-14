@@ -72,6 +72,7 @@ public class UI_PauseScreen : MonoBehaviour
     public void GoToMenu()
     {
         GlobalManager.Instance.SetGamePause(false);
+        PlayerManager.Instance.ResetPlayerManager();
     }
     
     void SetupAudioValues()

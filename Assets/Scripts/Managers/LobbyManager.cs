@@ -17,7 +17,7 @@ public class LobbyManager : SingletonMonobehaviour<LobbyManager>
     
     public UI_Lobby uiLobby;
 
-    public override bool DestroyOnLoad => false;
+    public override bool DestroyOnLoad => true;
 
     void Start()
     {
@@ -28,7 +28,6 @@ public class LobbyManager : SingletonMonobehaviour<LobbyManager>
         PlayerManager.Instance.AllPlayersName.Add(LocalPlayerName);
         PlayerManager.Instance.SpawnPlayerOnLobby(LocalPlayerName);
         
-        TwitchManager.Instance.canJoinedGame = true;
     }
     
     
