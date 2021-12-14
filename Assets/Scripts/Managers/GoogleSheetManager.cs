@@ -19,7 +19,7 @@ public class GoogleSheetManager : SingletonMonobehaviour<GoogleSheetManager>
     public override bool DestroyOnLoad => false;
 
     private string _spreadSheetID = "1stc2jb4ra-qVqIeG2AlY8yNqKGgHYvGI3ImMrKeryic";
-    private string _jsonPath = "/StreamingAssetsCredentials/twitchrumble-abb198867ed9.json";
+    private string _jsonPath = "twitchrumble-abb198867ed9.json";
 
     private List<string> AllLetters= new List<string>() {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
     
@@ -93,7 +93,7 @@ public class GoogleSheetManager : SingletonMonobehaviour<GoogleSheetManager>
 
     public void ConnectToGoogleAPI()
     {
-        String fullJsonPath = Application.dataPath + _jsonPath;
+        String fullJsonPath = Application.streamingAssetsPath + "/" + _jsonPath;
 
         Stream jsonCreds = (Stream)File.Open(fullJsonPath, FileMode.Open);
 

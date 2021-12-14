@@ -24,7 +24,7 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
         foreach (Player item in PlayerList)
         {
             Tile tileOfPlayer = BoardManager.Instance.GetRandomAvailableTile();
-            item.transform.position = tileOfPlayer.transform.position + (Vector3.up * 25);
+            item.transform.position = tileOfPlayer.transform.position + (Vector3.up * 35);
             item.CurrentTile = tileOfPlayer;
         }
 
@@ -110,6 +110,10 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
 
         return tempList;
     }
-    
-    
+
+    public void ResetPlayerManager()
+    {
+        PlayerList.Clear();
+        AllPlayersName.Clear();
+    }
 }

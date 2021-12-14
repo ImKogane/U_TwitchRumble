@@ -99,6 +99,10 @@ public class ChargingUI : MonoBehaviour
                 normalizedTime += Time.deltaTime / durationOfFadeIn;
                 yield return null;
             }
+
+            tempColor = _backGroundImage.color;
+            tempColor.a = 1;
+            _backGroundImage.color = tempColor;
         }
         else
         {
@@ -107,7 +111,8 @@ public class ChargingUI : MonoBehaviour
             _backGroundImage.color = tempColor;
             firstFadeIn = false;
         }
-        
+
+
 
         normalizedTime = 0;
 
@@ -117,6 +122,7 @@ public class ChargingUI : MonoBehaviour
             canvasGroup.alpha = Mathf.Clamp01(normalizedTime / durationOfFadeIn);
 
             normalizedTime += Time.deltaTime / durationOfFadeIn;
+            Debug.Log(canvasGroup.alpha);
             yield return null;
         }
 
