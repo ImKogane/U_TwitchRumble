@@ -17,6 +17,7 @@ public class UI_MainMenu : MonoBehaviour
 
     public void Start()
     {
+        TwitchManager.Instance.SetCanReadCommand(false);
         StartCoroutine(LateStart(1));
         
     }

@@ -28,6 +28,8 @@ public class LobbyManager : SingletonMonobehaviour<LobbyManager>
         PlayerManager.Instance.AllPlayersName.Add(LocalPlayerName);
         PlayerManager.Instance.SpawnPlayerOnLobby(LocalPlayerName);
         
+        TwitchManager.Instance.SetCanReadCommand(true);
+        
     }
     
     

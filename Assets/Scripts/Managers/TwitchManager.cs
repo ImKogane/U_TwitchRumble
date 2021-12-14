@@ -41,6 +41,7 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
     [System.NonSerialized] public bool canJoinedGame = false;
     [System.NonSerialized] public bool playersCanMakeActions = false;
     [System.NonSerialized] public bool playersCanMakeChoices = false;
+    public bool canReadCommands = false;
 
     public override bool DestroyOnLoad => false;
 
@@ -92,8 +93,8 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
                 PanelConnexion.SetActive(false);
                 //PanelLobby.SetActive(true);
             }
-
-            if (message.Contains("PRIVMSG"))
+            
+            if (message.Contains("PRIVMSG") && canReadCommands)
             {
                 //Get the USER of the message.
                 int splitPointU = message.IndexOf("!", 1);
@@ -110,7 +111,7 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
             }
             else
             {
-                Debug.Log("DEBUG : " + message);
+                //Debug.Log("DEBUG : " + message);
             }
         }
     }
@@ -129,8 +130,14 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
         
     }
 
+    /// <summary>
+    /// Analyse player message to see if the message contains commands for the game
+    /// </summary>
+    /// <param name="nameOfPlayer"> Player to analyse command</param>
+    /// <param name="messageOfPlayer"> Message to analyse </param>
     public void AnalyseChatCommand(string nameOfPlayer, string messageOfPlayer)
     {
+        
         nameOfPlayer = CutPlayerName(nameOfPlayer);
 
         // Tcheck if game didn't start. 
@@ -272,6 +279,11 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
     public void SetPlayersCanJoin(bool state)
     {
         canJoinedGame = state;
+    }
+    
+    public void SetCanReadCommand(bool state)
+    {
+        canReadCommands = state;
     }
 
 }
