@@ -160,7 +160,11 @@ public class Player : MonoBehaviour
 
     public void ReceiveDamage(int damage)
     {
-        _animator.SetTrigger("GetHit");
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+        {
+            _animator.SetTrigger("GetHit");
+        }
+        
         _playerLife -= damage;
         playerHealthBar.value = _playerLife;
         

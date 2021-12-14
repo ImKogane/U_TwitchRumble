@@ -15,10 +15,57 @@ public static class SaveSystem
     private static string _saveFileName = "save";
 
     private static Stopwatch _stopWatch = new Stopwatch();
-    
-    public static void LoadData(SaveData data)
+
+    public static System.Action gameSaved;
+    public static System.Action gameLoaded;
+
+    public static async void LoadData()
     {
+        string directoryPath = Path.Combine(Application.persistentDataPath, _saveFilepath);
+        string filePath = Path.Combine(directoryPath, _saveFileName + _saveFileExtension);
         
+        if (File.Exists(filePath))
+        {
+            Debug.Log("Data found, loading...");
+            SaveData dataToLoad = await ReadData(filePath);
+        }
+        else
+        {
+            Debug.Log("No data found");
+        }
+
+    }
+
+    public static async Task<SaveData> ReadData(string filePath)
+    {
+        SaveData newSaveData;
+
+        byte[] bytesArray; 
+        
+        using (FileStream filestream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+        {
+            bytesArray= new byte[filestream.Length];
+            
+            await filestream.ReadAsync(bytesArray, 0, bytesArray.Length);
+            
+        }
+
+        newSaveData = await Task.Run(() =>
+        {
+            string fileString = Encoding.Unicode.GetString(bytesArray);
+            return JsonUtility.FromJson<SaveData>(fileString);
+        });
+        
+        return newSaveData;
+
+    }
+
+    public static bool CheckSaveFile()
+    {
+        string directoryPath = Path.Combine(Application.persistentDataPath, _saveFilepath);
+        string filePath = Path.Combine(directoryPath, _saveFileName + _saveFileExtension);
+
+        return File.Exists(filePath);
     }
     
     public static async void SaveData()
@@ -137,8 +184,6 @@ public static class SaveSystem
         }
 
         string filePath = Path.Combine(directoryPath, _saveFileName + _saveFileExtension);
-
-        string jsonData = JsonUtility.ToJson(data);
 
         byte[] bytes = await Task.Run(() =>
         {

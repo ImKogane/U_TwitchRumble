@@ -134,7 +134,6 @@ public class UIManager : SingletonMonobehaviour<UIManager>
             newChoiceImage.transform.parent = choiceScreen;
             newChoiceImage.sprite =
                 ScriptableManager.Instance._turnChoiceList[currentIndexChoice].choiceList[i]._cardSprite;
-            //newChoiceImage.SetNativeSize();
             newChoiceImage.preserveAspect = true;
 
             choiceImagesList.Add(newChoiceImage);
