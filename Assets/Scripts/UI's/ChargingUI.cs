@@ -8,12 +8,14 @@ public class ChargingUI : MonoBehaviour
 {
     public float durationOfFadeIn = 1.5f;
     public float durationOfFadeOut = 1.5f;
+    public float durationOfFadeOutBar = 1.5f;
 
     private float compteur = 0;
 
     [Header("UI variables")]
     public Slider slider;
 
+    public CanvasGroup canvasGroupBackGround;
     public CanvasGroup canvasGroup;
 
     public Image _backGroundImage;
@@ -43,11 +45,11 @@ public class ChargingUI : MonoBehaviour
 
         cam.gameObject.SetActive(false);
 
-        while (normalizedTime <= durationOfFadeOut)
+        while (normalizedTime <= durationOfFadeOutBar)
         {
-            canvasGroup.alpha = (1 - Mathf.Clamp01(normalizedTime / durationOfFadeOut));
+            canvasGroup.alpha = (1 - Mathf.Clamp01(normalizedTime / durationOfFadeOutBar));
 
-            normalizedTime += Time.deltaTime / durationOfFadeOut;
+            normalizedTime += Time.deltaTime / durationOfFadeOutBar;
             yield return null;
         }
 
@@ -56,15 +58,14 @@ public class ChargingUI : MonoBehaviour
         //BackGround fade Out
         while (normalizedTime <= durationOfFadeOut)
         {
-            var tempColor = _backGroundImage.color;
-            tempColor.a = 1 - Mathf.Clamp01(normalizedTime / durationOfFadeOut);
-            _backGroundImage.color = tempColor;
+            canvasGroupBackGround.alpha = (1 - Mathf.Clamp01(normalizedTime / durationOfFadeOut));
 
             normalizedTime += Time.deltaTime / durationOfFadeOut;
             yield return null;
         }
 
         canvasGroup.alpha = 0;
+        canvasGroupBackGround.alpha = 0;
 
         compteur = 0;
         slider.value = 0;
@@ -85,47 +86,22 @@ public class ChargingUI : MonoBehaviour
 
         if (!firstFadeIn)
         {
-            var tempColor = _backGroundImage.color;
-            tempColor.a = 0;
-            _backGroundImage.color = tempColor;
-
             //BackGround fade In
             while (normalizedTime <= durationOfFadeIn)
             {
-                tempColor = _backGroundImage.color;
-                tempColor.a = Mathf.Clamp01(normalizedTime / durationOfFadeIn);
-                _backGroundImage.color = tempColor;
-
+                canvasGroupBackGround.alpha = Mathf.Clamp01(normalizedTime / durationOfFadeIn);
+                canvasGroup.alpha = Mathf.Clamp01(normalizedTime / durationOfFadeIn);
                 normalizedTime += Time.deltaTime / durationOfFadeIn;
                 yield return null;
             }
-
-            tempColor = _backGroundImage.color;
-            tempColor.a = 1;
-            _backGroundImage.color = tempColor;
         }
         else
         {
-            var tempColor = _backGroundImage.color;
-            tempColor.a = 1;
-            _backGroundImage.color = tempColor;
+            canvasGroupBackGround.alpha =  1;
             firstFadeIn = false;
         }
 
-
-
-        normalizedTime = 0;
-
-        //Logo fade In
-        while (normalizedTime <= durationOfFadeIn)
-        {
-            canvasGroup.alpha = Mathf.Clamp01(normalizedTime / durationOfFadeIn);
-
-            normalizedTime += Time.deltaTime / durationOfFadeIn;
-            Debug.Log(canvasGroup.alpha);
-            yield return null;
-        }
-
+        canvasGroupBackGround.alpha = 1;
         canvasGroup.alpha = 1;
 
         StartCoroutine(ScenesManager.Instance.AfterFadeIn(ScenesOfNextLevel));

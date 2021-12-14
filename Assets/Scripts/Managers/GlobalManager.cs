@@ -15,6 +15,7 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
 
     [SerializeField] private float actionsTimerDuration;
     [SerializeField] private float buffTimerDuration;
+    [SerializeField] private float startTimerDuration;
     [SerializeField] private Transform WinPoint;
     private float currentTimer;
 
@@ -29,15 +30,13 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
 
     #region Unity Basic Events
 
-    public void LaunchGame()
+    public IEnumerator LaunchGame()
     {
         //Set up variable with google sheet datas.
         actionsTimerDuration = GoogleSheetManager.Instance.VariablesGetFromSheet[3];
         buffTimerDuration = GoogleSheetManager.Instance.VariablesGetFromSheet[4];
 
         turnCount = 1;
-
-        StartState(EnumClass.GameState.IntroTurn);
 
         UIManager.Instance.UpdateTurnCount(turnCount);
         UIManager.Instance.DisplayGameScreen(true);
@@ -46,6 +45,20 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
         AudioManager.Instance.EnableAmbienceSounds(true);
         UIManager.Instance.DisplayPauseScreen(false);
         GoogleSheetManager.Instance.StartGoogleSheetSaving();
+
+        //Timer wait before start
+        currentTimer = startTimerDuration;
+        UIManager.Instance.ActivateTimerBar(true);
+
+        while (currentTimer > 0)
+        {
+            yield return null;
+            currentTimer -= Time.deltaTime;
+            UIManager.Instance.UpdateTimerBar(currentTimer / startTimerDuration);
+        }
+
+        //Start game
+        StartState(EnumClass.GameState.IntroTurn);
     }
 
     #endregion
@@ -55,7 +68,7 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
     IEnumerator ActionsChoiceCoroutine()
     {
         UIManager.Instance.DisplayPhaseTitle("[Make actions]");
-        UIManager.Instance.DisplayPhaseDescription("Attack with the command [!attack].\nMove with commands [!left][!right][!top][!down]. ");
+        UIManager.Instance.DisplayPhaseDescription("Attack with the command [!attack].\nMove with commands [!left] [!right] [!top] [!down]. ");
         //UIManager.Instance.DisplayAllPlayersUI(PlayerManager.Instance.PlayerList, true);
 
         TwitchManager.Instance.playersCanMakeActions = true;
@@ -71,8 +84,7 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
             currentTimer -= Time.deltaTime;
             UIManager.Instance.UpdateTimerBar(currentTimer/actionsTimerDuration);
         }
-        
-        
+
         //UIManager.Instance.DisplayAllPlayersUI(PlayerManager.Instance.PlayerList, false);
         UIManager.Instance.ActivateTimerBar(false);
         InputManager.Instance.EnableActionInputs(false);
@@ -86,7 +98,7 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
     IEnumerator BuffChoiceCoroutine()
     {
         UIManager.Instance.DisplayPhaseTitle("[Choose a boost]");
-        UIManager.Instance.DisplayPhaseDescription("Make a choice with commands [!choice1][!choice2][!choice3]");
+        UIManager.Instance.DisplayPhaseDescription("Make a choice with commands [!choice1] [!choice2] [!choice3]");
         UIManager.Instance.ActivateTimerBar(true);
 
         UIManager.Instance.UpdateChoiceCardsImage();

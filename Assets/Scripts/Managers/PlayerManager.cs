@@ -28,7 +28,7 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
             item.CurrentTile = tileOfPlayer;
         }
 
-        GlobalManager.Instance.LaunchGame();
+        StartCoroutine(GlobalManager.Instance.LaunchGame());
     }
     
     public void SpawnPlayerOnLobby(string playerName)
