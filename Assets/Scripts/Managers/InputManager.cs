@@ -84,15 +84,19 @@ public class InputManager : SingletonMonobehaviour<InputManager>
         {
             case EnumClass.Direction.Up:
                 ActionToDo = new CommandMoving(player, new Vector2Int(0, 1));
+                player.DisplayCommandTxt("[Up]");
                 break;
             case EnumClass.Direction.Down:
                 ActionToDo = new CommandMoving(player, new Vector2Int(0, -1));
+                player.DisplayCommandTxt("[Down]");
                 break;
             case EnumClass.Direction.Right:
                 ActionToDo = new CommandMoving(player, new Vector2Int(1, 0));
+                player.DisplayCommandTxt("[Right]");
                 break;
             case EnumClass.Direction.Left:
                 ActionToDo = new CommandMoving(player, new Vector2Int(-1, 0));
+                player.DisplayCommandTxt("[Left]");
                 break;
             default:
                 break;
@@ -106,6 +110,7 @@ public class InputManager : SingletonMonobehaviour<InputManager>
         GlobalManager.Instance.RemoveAttackCommandOfPlayer(player);
         CommandAttack ActionToDo = new CommandAttack(player);
         GlobalManager.Instance.AddActionInGameToList(ActionToDo);
+        player.DisplayCommandTxt("[Attack]");
     }
 
     public void ChoiceCommand(Player player, int choiceIndex)

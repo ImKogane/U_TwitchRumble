@@ -61,6 +61,8 @@ public class Player : MonoBehaviour
     private GameObject _weaponGO;
     private ParticleSystem _weaponVFX;
 
+    public Image feedbackTxtPrefab;
+
     public void SpawnPlayerInGame(Tile TileForStart, string nameP)
     {
         LoadPlayerData();
@@ -329,6 +331,34 @@ public class Player : MonoBehaviour
     {
         this.transform.rotation = PlayerBaseRotation;
     }
-    
-    
+
+    public void DisplayCommandTxt(string message)
+    {
+        StartCoroutine(DisplayCommandTxtCorout(message));
+    }
+
+    public IEnumerator DisplayCommandTxtCorout(string message)
+    {
+        int stepNumber = 100;
+        float secondsOfAction = 2;
+        float maxPosY = 3;
+        float maxPosZ = 3;
+        float maxAlpha = 1;
+
+        Image obj = Instantiate(feedbackTxtPrefab, playerCanvas.transform);
+        obj.transform.position = new Vector3(obj.transform.position.x, obj.transform.position.y + 2, obj.transform.position.z);
+
+        CanvasGroup canvasGroup = obj.GetComponent<CanvasGroup>();
+        TextMeshProUGUI txt = obj.GetComponentInChildren<TextMeshProUGUI>();
+        txt.text = message;
+
+        for (int i = 0; i < stepNumber; i++)
+        {
+            obj.transform.position = new Vector3(obj.transform.position.x, obj.transform.position.y + (maxPosY/stepNumber), obj.transform.position.z + (maxPosZ / stepNumber));
+            canvasGroup.alpha -= maxAlpha / stepNumber;
+            yield return new WaitForSeconds(secondsOfAction/stepNumber);
+        }
+
+        Destroy(obj.gameObject);
+    }
 }

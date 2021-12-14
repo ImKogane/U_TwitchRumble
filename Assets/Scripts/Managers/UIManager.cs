@@ -41,11 +41,13 @@ public class UIManager : SingletonMonobehaviour<UIManager>
 
     public void DisplayPhaseTitle(string turnName)
     {
+        phaseTitle.gameObject.SetActive(true);
         phaseTitle.text = turnName;
     }
 
     public void DisplayPhaseDescription(string newTurnDescription)
     {
+        phaseTitle.gameObject.SetActive(true);
         StartCoroutine(DisplayPhaseDescriptionCoroutine(newTurnDescription));
     }
 
@@ -61,8 +63,6 @@ public class UIManager : SingletonMonobehaviour<UIManager>
         }
 
         yield return new WaitForSeconds(waitingDurationAfterPhaseDescription);
-        
-        phaseDescription.enabled = false;
     }
 
     public void DisplayEndScreen(bool value)
