@@ -142,14 +142,6 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
                 Debug.Log("COMMAND : " + nameOfPlayer + " join the game !");
                 PlayerManager.Instance.SpawnPlayerOnLobby(nameOfPlayer);
             }
-            else
-            {
-                Debug.LogError("Nope, le join marche pas !");
-            }
-        }
-        else
-        {
-            Debug.LogError("Nope, le join v2 marche pas !");
         }
 
 

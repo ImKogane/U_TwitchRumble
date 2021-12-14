@@ -54,8 +54,8 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
     
     IEnumerator ActionsChoiceCoroutine()
     {
-        UIManager.Instance.DisplayPhaseTitle("Choose your action(s)");
-        UIManager.Instance.DisplayPhaseDescription("Attack with the command !attack and move with the command !left/!right/!top/!down. Be carefull you can only do once each type of action.");
+        UIManager.Instance.DisplayPhaseTitle("[Make actions]");
+        UIManager.Instance.DisplayPhaseDescription("Attack with the command [!attack]. \n Move with commands [!left][!right][!top][!down]. ");
         //UIManager.Instance.DisplayAllPlayersUI(PlayerManager.Instance.PlayerList, true);
 
         TwitchManager.Instance.playersCanMakeActions = true;
@@ -85,8 +85,8 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
     
     IEnumerator BuffChoiceCoroutine()
     {
-        UIManager.Instance.DisplayPhaseTitle("Choose a boost");
-        UIManager.Instance.DisplayPhaseDescription("Your decision will greatly affect the way you play");
+        UIManager.Instance.DisplayPhaseTitle("[Choose a boost]");
+        UIManager.Instance.DisplayPhaseDescription("Make a choice with commands [!choice1][!choice2][!choice3]");
         UIManager.Instance.ActivateTimerBar(true);
 
         UIManager.Instance.UpdateChoiceCardsImage();
@@ -121,8 +121,8 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
 
     private IEnumerator IntroTurnCoroutine()
     {
-        UIManager.Instance.DisplayPhaseTitle("Preparation phase !");
-        UIManager.Instance.DisplayPhaseDescription("Identify your player and be ready to fight !");
+        UIManager.Instance.DisplayPhaseTitle("[Preparation phase]");
+        UIManager.Instance.DisplayPhaseDescription("Players are dropped on the map, get ready for the fight.");
         UIManager.Instance.DisplayChoiceScreen(false);
 
         foreach (var item in PlayerManager.Instance.PlayerList)
