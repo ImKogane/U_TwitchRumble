@@ -129,6 +129,7 @@ public class Player : MonoBehaviour
         {
             if (!tile.hasObstacle)
             {
+                StartCoroutine(tile.ReturnToClassicColor());
                 if (tile.hasPlayer)
                 {
                     if (tile.currentPlayer != null && !tile.currentPlayer.AlreadyAttackThisTurn)
@@ -144,7 +145,7 @@ public class Player : MonoBehaviour
                 }
                 else
                 {
-                    tile.gameObject.GetComponentInChildren<MeshRenderer>().material = materialForTryCell;
+                    //tile.gameObject.GetComponentInChildren<MeshRenderer>().material.SetColor("_BaseColor", Color.red);
                 }
             }
         }

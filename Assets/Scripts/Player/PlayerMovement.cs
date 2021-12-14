@@ -21,9 +21,8 @@ public class PlayerMovement : MonoBehaviour
 
     public Player CurrentPlayer;
 
-    [SerializeField] private float movePrecision;
+    private float movePrecision;
 
-    [NonSerialized]
     public bool CanJumpObstacle = false;
 
     bool UpdateRotOfUI = false;

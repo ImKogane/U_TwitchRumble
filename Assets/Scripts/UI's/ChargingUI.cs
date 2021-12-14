@@ -6,7 +6,8 @@ using TMPro;
 
 public class ChargingUI : MonoBehaviour
 {
-    public float durationOfFade = 1.5f;
+    public float durationOfFadeIn = 1.5f;
+    public float durationOfFadeOut = 1.5f;
 
     private float compteur = 0;
 
@@ -38,26 +39,28 @@ public class ChargingUI : MonoBehaviour
     {
         float normalizedTime = 0;
 
+        canvasGroup.alpha = 1;
+
         cam.gameObject.SetActive(false);
 
-        while (normalizedTime <= durationOfFade)
+        while (normalizedTime <= durationOfFadeOut)
         {
-            canvasGroup.alpha = (1 - Mathf.Clamp01(normalizedTime / durationOfFade));
+            canvasGroup.alpha = (1 - Mathf.Clamp01(normalizedTime / durationOfFadeOut));
 
-            normalizedTime += Time.deltaTime / durationOfFade;
+            normalizedTime += Time.deltaTime / durationOfFadeOut;
             yield return null;
         }
 
         normalizedTime = 0;
 
         //BackGround fade Out
-        while (normalizedTime <= durationOfFade)
+        while (normalizedTime <= durationOfFadeOut)
         {
             var tempColor = _backGroundImage.color;
-            tempColor.a = 1 - Mathf.Clamp01(normalizedTime / durationOfFade);
+            tempColor.a = 1 - Mathf.Clamp01(normalizedTime / durationOfFadeOut);
             _backGroundImage.color = tempColor;
 
-            normalizedTime += Time.deltaTime / durationOfFade;
+            normalizedTime += Time.deltaTime / durationOfFadeOut;
             yield return null;
         }
 
@@ -87,13 +90,13 @@ public class ChargingUI : MonoBehaviour
             _backGroundImage.color = tempColor;
 
             //BackGround fade In
-            while (normalizedTime <= durationOfFade)
+            while (normalizedTime <= durationOfFadeIn)
             {
                 tempColor = _backGroundImage.color;
-                tempColor.a = Mathf.Clamp01(normalizedTime / durationOfFade);
+                tempColor.a = Mathf.Clamp01(normalizedTime / durationOfFadeIn);
                 _backGroundImage.color = tempColor;
 
-                normalizedTime += Time.deltaTime / durationOfFade;
+                normalizedTime += Time.deltaTime / durationOfFadeIn;
                 yield return null;
             }
         }
@@ -109,13 +112,15 @@ public class ChargingUI : MonoBehaviour
         normalizedTime = 0;
 
         //Logo fade In
-        while (normalizedTime <= durationOfFade)
+        while (normalizedTime <= durationOfFadeIn)
         {
-            canvasGroup.alpha = Mathf.Clamp01(normalizedTime / durationOfFade);
+            canvasGroup.alpha = Mathf.Clamp01(normalizedTime / durationOfFadeIn);
 
-            normalizedTime += Time.deltaTime / durationOfFade;
+            normalizedTime += Time.deltaTime / durationOfFadeIn;
             yield return null;
         }
+
+        canvasGroup.alpha = 1;
 
         StartCoroutine(ScenesManager.Instance.AfterFadeIn(ScenesOfNextLevel));
     }

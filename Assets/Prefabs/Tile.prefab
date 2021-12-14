@@ -50,6 +50,11 @@ MonoBehaviour:
   hasPlayer: 0
   currentPlayer: {fileID: 0}
   trapList: []
+  AttackColorChangesList:
+  - {r: 1, g: 0, b: 0, a: 0}
+  - {r: 1, g: 0.495283, b: 0.495283, a: 0}
+  - {r: 1, g: 1, b: 1, a: 0}
+  waitBetweenEachColor: 1
 --- !u!1001 &7220852004748569562
 PrefabInstance:
   m_ObjectHideFlags: 0

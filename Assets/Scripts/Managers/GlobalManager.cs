@@ -133,9 +133,9 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
             yield return new WaitForSeconds(1);
         }
 
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 5; i++)
         {
-            UIManager.Instance.DisplayPhaseTitle((10-i).ToString());
+            UIManager.Instance.DisplayPhaseTitle((5-i).ToString());
             yield return new WaitForSeconds(1);
         }
 
@@ -205,6 +205,13 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
     
     public void EndActionTurn()
     {
+        StartCoroutine(WaitingBeforeLaunchState());
+    }
+
+    public IEnumerator WaitingBeforeLaunchState()
+    {
+        yield return new WaitForSeconds(3);
+
         int remainingPlayers = PlayerManager.Instance.GetPlayerCount();
 
         if (remainingPlayers > 1)
@@ -217,7 +224,6 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
         {
             StartState(EnumClass.GameState.GameEnd);
         }
-
     }
 
     void CheckNextTurn(int nextTurn)
