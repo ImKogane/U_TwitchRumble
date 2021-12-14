@@ -67,7 +67,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trapDamages: 15
   fadeDuration: 1
-  fadeMaterial: {fileID: 0}
 --- !u!1 &2060351809491659440
 GameObject:
   m_ObjectHideFlags: 0

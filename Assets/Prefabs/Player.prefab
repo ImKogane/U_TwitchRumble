@@ -1720,7 +1720,7 @@ MonoBehaviour:
   namePlayer: 
   playerWeapon: {fileID: 0}
   playerWeaponBuff: {fileID: 0}
-  playerMoveBuff: {fileID: 11400000, guid: 0c48bf8b66182d7458cdfb6cde8148de, type: 2}
+  playerMoveBuff: {fileID: 11400000, guid: 52ae23007aaba5441a08b33279672aca, type: 2}
   _playerData: {fileID: 11400000, guid: 04ec05f7a48915d4baa7139c3d0e7b81, type: 2}
   materialForTryCell: {fileID: 2100000, guid: 8a18584c6e7d0c843a222c09e20e5f61, type: 2}
   _playerLife: 100

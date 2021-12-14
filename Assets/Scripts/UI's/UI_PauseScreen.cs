@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,7 +16,7 @@ public class UI_PauseScreen : MonoBehaviour
     float _defaultAmbienceVolume;
 
     public GameObject _quitPanel;
-    
+    public TMP_Text _loadingText;
     
     private void Start()
     {
@@ -50,6 +51,17 @@ public class UI_PauseScreen : MonoBehaviour
         _quitPanel.SetActive(value);
     }
 
+    public void SaveGame()
+    {
+        StartCoroutine(SaveCoroutine());
+        
+    }
+
+    IEnumerator SaveCoroutine()
+    {
+        SaveSystem.SaveData();
+        yield return null;
+    }
     
     
     public void QuitGame()

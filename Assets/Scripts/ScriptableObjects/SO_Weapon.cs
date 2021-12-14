@@ -5,6 +5,7 @@ using UnityEditor.Animations;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "SO/Weapon Data")]
+[System.Serializable]
 public class SO_Weapon : SO_Choice
 {
     [Header("Weapon Type (used for saves)")]
