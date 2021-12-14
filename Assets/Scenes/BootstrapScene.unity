@@ -1039,7 +1039,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0da4239bea630449a8ed3479a22dadb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  durationOfFade: 0.75
+  durationOfFadeIn: 1
+  durationOfFadeOut: 1
   slider: {fileID: 238725077}
   canvasGroup: {fileID: 1483815735}
   _backGroundImage: {fileID: 1520394907}
