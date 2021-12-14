@@ -40,7 +40,7 @@ public class Player : MonoBehaviour
     GameObject _trapPrefab;
     
     [Header("UI variables")]
-    private Canvas _playerUIPrefab;
+    public Canvas _playerUIPrefab;
 
     private Vector3 _playerUIOffset;
 
