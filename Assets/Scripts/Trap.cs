@@ -13,7 +13,7 @@ public class Trap : MonoBehaviour
     public Tile currentTile;
 
     [NonSerialized]
-    public MeshRenderer meshRenderer;
+    public SkinnedMeshRenderer meshRenderer;
 
     private Material fadeMaterial;
 
@@ -23,7 +23,7 @@ public class Trap : MonoBehaviour
     
     private void Start()
     {
-        meshRenderer = GetComponent<MeshRenderer>();
+        meshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
         _animator = GetComponent<Animator>();
         fadeMaterial = new Material(meshRenderer.material);
         meshRenderer.material = fadeMaterial;

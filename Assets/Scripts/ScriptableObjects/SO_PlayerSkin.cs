@@ -41,6 +41,27 @@ public class SO_PlayerSkin : ScriptableObject
         }
         return 0;
     }
+
+    public Mesh GetMeshAtIndex(int index)
+    {
+        if (index < PlayerMeshSkins.Count)
+        {
+            return PlayerMeshSkins[index];
+        }
+
+        return GetRandomSkin();
+    }
+
+    public Material GetMaterialAtIndex(int index)
+    {
+        if (index < PlayerMaterials.Count)
+        {
+            return PlayerMaterials[index];
+        }
+
+        return GetRandomMaterial();
+    }
+    
     
     /// <summary>
     /// Get random material from the material list

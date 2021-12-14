@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
 
     public Animator _animator;
     
-    [SerializeField] private SkinnedMeshRenderer playerModel;
+    public SkinnedMeshRenderer playerModel;
 
     public string namePlayer;
 
