@@ -8,10 +8,6 @@ public abstract class SO_BuffMoving : SO_Choice
 {
     public EnumClass.MovementBuffType movementBuffType;
     
-    public virtual void StartAChoice(Player ownerOfBuff)
-    {
-        
-    }
 
     public virtual void ApplyMoveBuff(Player ownerOfBuff)
     {
