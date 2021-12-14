@@ -1725,8 +1725,10 @@ MonoBehaviour:
   materialForTryCell: {fileID: 2100000, guid: 8a18584c6e7d0c843a222c09e20e5f61, type: 2}
   _playerLife: 100
   _playerDamages: 25
+  _playerUIPrefab: {fileID: 0}
   playerCanvas: {fileID: 0}
   isDead: 0
+  feedbackTxtPrefab: {fileID: 7337063305915384298, guid: 3d080abe2c6d11446b8bea7c2395b368, type: 3}
 --- !u!114 &918737186891934907
 MonoBehaviour:
   m_ObjectHideFlags: 0
