@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Animations;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "SO/Weapon Data")]
@@ -21,7 +20,7 @@ public class SO_Weapon : SO_Choice
 
     [Header("Animation")]
 
-    public AnimatorController _weaponAnimatorController;
+    public RuntimeAnimatorController _weaponAnimatorController;
 
     [Header("Events Called")]
     public SO_GameEvent _onHitEventSFX;

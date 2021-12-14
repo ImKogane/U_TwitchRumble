@@ -780,9 +780,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Loading ...
-
-'
+  m_text: Loading ...
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cc6a1b3a8096c324b8072005da848ea3, type: 2}
   m_sharedMaterial: {fileID: 8834744684709791011, guid: cc6a1b3a8096c324b8072005da848ea3, type: 2}
@@ -1025,7 +1023,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 5
   m_TargetDisplay: 0
 --- !u!114 &1986532969
 MonoBehaviour:
