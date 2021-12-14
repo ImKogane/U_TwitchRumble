@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Debuff
 {
-
     public int duration;
     public Player ownerOfDebuff;
     

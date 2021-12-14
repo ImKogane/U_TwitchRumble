@@ -1720,7 +1720,7 @@ MonoBehaviour:
   namePlayer: 
   playerWeapon: {fileID: 0}
   playerWeaponBuff: {fileID: 0}
-  playerMoveBuff: {fileID: 11400000, guid: 52ae23007aaba5441a08b33279672aca, type: 2}
+  playerMoveBuff: {fileID: 0}
   _playerData: {fileID: 11400000, guid: 04ec05f7a48915d4baa7139c3d0e7b81, type: 2}
   materialForTryCell: {fileID: 2100000, guid: 8a18584c6e7d0c843a222c09e20e5f61, type: 2}
   _playerLife: 100
@@ -1744,7 +1744,7 @@ MonoBehaviour:
   InitialRotation: {x: 0, y: 0, z: 0, w: 1}
   RotationOfPlayer: {x: 0, y: 0}
   CurrentPlayer: {fileID: 941451258311421410}
-  movePrecision: 0
+  CanJumpObstacle: 0
   _animator: {fileID: 0}
 --- !u!1 &8028029919027752019
 GameObject:

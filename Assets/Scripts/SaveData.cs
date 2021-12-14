@@ -34,17 +34,52 @@ public struct TileData
     public int _tileTrapCount;
 }
 
+[System.Serializable]
+public struct WeaponData
+{
+    public EnumClass.WeaponType _weaponType;
+    
+    public WeaponData(SO_Weapon weapon)
+    {
+        _weaponType = weapon.weaponType;
+    }
+}
+
+
+[System.Serializable]
+public struct WeaponBuffData
+{
+    public EnumClass.WeaponBuffType _weaponBuffType;
+    
+    public WeaponBuffData(SO_BuffWeapon weaponBuff)
+    {
+        _weaponBuffType = weaponBuff.weaponBuffType;
+    }
+}
+
+
+[System.Serializable]
+public struct MovementBuffData
+{
+    public EnumClass.MovementBuffType _movementBuffType;
+    
+    public MovementBuffData(SO_BuffMoving _moveBuff)
+    {
+        _movementBuffType = _moveBuff.movementBuffType;
+    }
+}
 
 [System.Serializable]
 public struct PlayerData
 {
     public string _playerName;
     public Vector2Int _playerTile;
-    public List<Debuff> _playerDebuffs;
+    public List<int> _durationOfActiveBurningDebuff;
+    public List<int> _durationOfActiveFreezeDebuff;
     public int _playerHealth;
-    public SO_Weapon _playerWeapon;
-    public SO_BuffWeapon _playerWeaponBuff;
-    public SO_BuffMoving _playerMovementBuff;
+    public WeaponData _weaponData;
+    public WeaponBuffData _weaponBuffData;
+    public MovementBuffData _movementBuffData;
     public int _materialIndex;
     public int _skinnedMeshIndex;
 }
