@@ -55,7 +55,7 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
     IEnumerator ActionsChoiceCoroutine()
     {
         UIManager.Instance.DisplayPhaseTitle("[Make actions]");
-        UIManager.Instance.DisplayPhaseDescription("Attack with the command [!attack]. \n Move with commands [!left][!right][!top][!down]. ");
+        UIManager.Instance.DisplayPhaseDescription("Attack with the command [!attack].\nMove with commands [!left][!right][!top][!down]. ");
         //UIManager.Instance.DisplayAllPlayersUI(PlayerManager.Instance.PlayerList, true);
 
         TwitchManager.Instance.playersCanMakeActions = true;
@@ -130,13 +130,7 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
             Debug.Log("Player : " + item);
             Debug.Log("Tile of this player : " + item.CurrentTile);
             item.gameObject.transform.DOMove(item.CurrentTile.transform.position, 1).SetEase(Ease.OutSine);
-            yield return new WaitForSeconds(1);
-        }
-
-        for (int i = 0; i < 5; i++)
-        {
-            UIManager.Instance.DisplayPhaseTitle((5-i).ToString());
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(2);
         }
 
         StartState(EnumClass.GameState.ChoseBuffTurn);
@@ -158,13 +152,13 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
     {
         if (ListCommandsInGame.Count > 0)
         {
-            UIManager.Instance.DisplayPhaseTitle("Phase d'action");
-            UIManager.Instance.DisplayPhaseDescription("Déroulement des actions choisies précédemment");
+            UIManager.Instance.DisplayPhaseTitle("[Action Phase]");
+            UIManager.Instance.DisplayPhaseDescription("Wait, all actions are running.");
             ListCommandsInGame[0].LaunchActionInGame();
         }
         else
         {
-            Debug.Log("Personne n'a choisi d'action pendant ce tour !");
+            Debug.Log("Personne n'a choisi d'action pendant ce tour ?");
             EndActionTurn();
         }
         
