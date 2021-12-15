@@ -69,7 +69,9 @@ public class Player : MonoBehaviour
 
     public void SpawnPlayerInGame(Tile TileForStart, string nameP)
     {
-        LoadPlayerData();
+        InjectDatasFromSO();
+
+        playerMovement.SetUpPlayerMovment(this);
 
         CurrentTile = TileForStart;
         namePlayer = nameP;
@@ -104,7 +106,7 @@ public class Player : MonoBehaviour
         
     }
     
-    public void LoadPlayerData()
+    public void InjectDatasFromSO()
     {
         _maxHealth = _playerData._lifeOfPlayer;
         _playerDamages = _playerData._attackPlayer;

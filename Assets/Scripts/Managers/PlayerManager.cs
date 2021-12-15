@@ -121,18 +121,20 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
     public void LoadPlayer(PlayerData playerData)
     {
         Player newPlayer = Instantiate(prefabOfPlayer).GetComponent<Player>();
-        newPlayer.LoadPlayerData();
+        newPlayer.InjectDatasFromSO();
         
-        PlayerMovement newPlayerMovement = newPlayer.GetComponent<PlayerMovement>();
+        PlayerMovement newPlayerMovement = newPlayer.gameObject.GetComponent<PlayerMovement>();
 
         newPlayer.namePlayer = playerData._playerName;
         newPlayer._currentHealth = playerData._playerHealth;
         newPlayer.SetPlayerUI();
 
         newPlayerMovement.CurrentPlayer = newPlayer;
-        Tile playerTile = BoardManager.Instance.GetTileAtPos(playerData._playerTile);
+        Tile playerTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(playerData._playerTile.y, playerData._playerTile.x));
         newPlayerMovement.SetNewTile(playerTile);
         newPlayer.transform.position = newPlayer.CurrentTile.transform.position;
+
+        newPlayerMovement.SetUpPlayerMovment(newPlayer);
         newPlayerMovement.RotatePlayerWithvector(playerData._playerRotation);
 
         newPlayer.playerModel.sharedMesh =

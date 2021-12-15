@@ -1715,7 +1715,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentTile: {fileID: 0}
   playerMovement: {fileID: 918737186891934907}
-  _animator: {fileID: 0}
+  _animator: {fileID: 3703252163889179362}
   playerModel: {fileID: 4869730117634527052}
   namePlayer: 
   playerWeapon: {fileID: 0}
@@ -1749,7 +1749,7 @@ MonoBehaviour:
   RotationOfPlayer: {x: 0, y: 0}
   CurrentPlayer: {fileID: 941451258311421410}
   CanJumpObstacle: 0
-  _animator: {fileID: 0}
+  _animator: {fileID: 3703252163889179362}
   FoostepsEvents:
   - {fileID: 11400000, guid: b117c067a81a7df4482fbacc2b90d478, type: 2}
   - {fileID: 11400000, guid: 684450a3ef671f845a942e3a10be59df, type: 2}

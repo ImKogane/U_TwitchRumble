@@ -120,6 +120,7 @@ public static class SaveSystem
 
             tempPlayerData._playerRotation = player.playerMovement.RotationOfPlayer;
             tempPlayerData._playerTile = player.CurrentTile.GetCoord();
+            Debug.Log("POS OF PLAYER WHEN SAVE : " + tempPlayerData._playerTile);
             tempPlayerData._playerChoices = player._choicesMade;
             
             tempPlayerData._materialIndex =

@@ -26,7 +26,7 @@ public class Tile : MonoBehaviour
 
     public Vector2Int GetCoord()
     {
-        return new Vector2Int(tileRow, tileColumn);
+        return new Vector2Int(tileColumn, tileRow);
     }
 
     public bool GetHasObstacle()

@@ -94,7 +94,7 @@ public class BoardManager : SingletonMonobehaviour<BoardManager>
 
         #region Holes placement
 
-        List<Tile> tilesWithHole = GetRandomTiles(testHoleNumber);
+        List<Tile> tilesWithHole = GetRandomTiles(holeNumber);
 
         foreach (var tile in tilesWithHole)
         {
@@ -106,7 +106,7 @@ public class BoardManager : SingletonMonobehaviour<BoardManager>
         
         #region Obstacle Placement
         
-        List<Tile> tilesWithObstacle = GetRandomTiles(testObstaclesNumber);
+        List<Tile> tilesWithObstacle = GetRandomTiles(obstacleNumber);
 
         foreach (var tile in tilesWithObstacle)
         {
@@ -142,7 +142,7 @@ public class BoardManager : SingletonMonobehaviour<BoardManager>
                 if(CheckPlacementAvailable(tempTile) && tempAmount < tilesAmount)
                 {
                     tempTileList.Add(tempTile);
-                    ++tempAmount;
+                    tempAmount++;
                 }
 
             } while (tempTileList.Contains(tempTile));
@@ -155,7 +155,7 @@ public class BoardManager : SingletonMonobehaviour<BoardManager>
 
     public void LoadTile(TileData tileData)
     {
-        Tile newTile = Instantiate(tilePrefab, tileData._tileTransform.Position,  Quaternion.Euler(tileData._tileTransform.Rotation), gameBoard.transform).GetComponent<Tile>();
+       Tile newTile = Instantiate(tilePrefab, tileData._tileTransform.Position,  Quaternion.Euler(tileData._tileTransform.Rotation), gameBoard.transform).GetComponent<Tile>();
 
         newTile.transform.localScale = tileData._tileTransform.Scale;
 

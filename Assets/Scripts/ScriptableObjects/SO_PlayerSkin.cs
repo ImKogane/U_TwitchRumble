@@ -26,20 +26,26 @@ public class SO_PlayerSkin : ScriptableObject
 
     public int GetSkinIndex(Mesh mesh)
     {
-        if (PlayerMeshSkins.IndexOf(mesh) != null)
+        int index = PlayerMeshSkins.FindIndex((m) => { return m == mesh; });
+
+        if (index < 0)
         {
-            return PlayerMeshSkins.IndexOf(mesh);
+            return 0;
         }
-        return 0;
+
+        return index;
     }
 
     public int GetMaterialIndex(Material material)
     {
-        if (PlayerMaterials.IndexOf(material) != null)
+        int index = PlayerMaterials.FindIndex((m) => { return m == material; });
+
+        if (index < 0)
         {
-            return PlayerMaterials.IndexOf(material);
+            return 0;
         }
-        return 0;
+
+        return index;
     }
 
     public Mesh GetMeshAtIndex(int index)

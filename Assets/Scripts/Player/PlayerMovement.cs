@@ -30,8 +30,10 @@ public class PlayerMovement : MonoBehaviour
 
     public List<SO_GameEvent> FoostepsEvents;
     
-    private void Start()
+
+    public void SetUpPlayerMovment(Player player)
     {
+        CurrentPlayer = player;
         InitialRotation = transform.rotation;
         RotateDownDirection();
         canMove = true;

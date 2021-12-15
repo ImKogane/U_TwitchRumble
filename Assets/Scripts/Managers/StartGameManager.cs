@@ -21,6 +21,10 @@ public class StartGameManager : SingletonMonobehaviour<StartGameManager>
         {
             _uiLobby.ShowLoadGameWindow();
         }
+        else
+        {
+            LobbyManager.Instance.SpawnLocalPlayer();
+        }
     }
 
     public void SetLoadSavedGame(bool value)
@@ -80,10 +84,11 @@ public class StartGameManager : SingletonMonobehaviour<StartGameManager>
         foreach (PlayerData playerData in playerDatas)
         {
             PlayerManager.Instance.LoadPlayer(playerData);
+            Debug.Log(playerData._playerName + " [" + playerData._playerTile + "]");
+            Debug.Log(playerData._playerName + " [" + playerData._playerRotation + "]");
         }
 
         StartCoroutine(GlobalManager.Instance.LoadSavedTurn(dataToLoad._currentTurn));
-
     }
     
 
