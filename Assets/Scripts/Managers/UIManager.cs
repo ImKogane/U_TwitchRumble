@@ -192,7 +192,7 @@ public class UIManager : SingletonMonobehaviour<UIManager>
         for (int i = 0; i < stepNumber; i++)
         {
             canvasGroup.alpha -= maxAlpha / stepNumber ;
-            yield return new WaitForSeconds((secondsOfAction/4) / stepNumber);
+            yield return new WaitForSeconds((secondsOfAction/5) / stepNumber);
         }
 
         Destroy(obj.gameObject);
