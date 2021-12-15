@@ -112,15 +112,25 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
             currentTimer -= Time.deltaTime;
             UIManager.Instance.UpdateTimerBar(currentTimer/buffTimerDuration);
         }
-        
-        UIManager.Instance.ActivateTimerBar(false);
-        UIManager.Instance.DisplayChoiceScreen(false);
-        
+
         TwitchManager.Instance.playersCanMakeChoices = false;
         InputManager.Instance.EnableChoiceInputs(false);
 
-        CheckAllPlayersGetChoice();
-        
+        bool allPlayersHaveCommands = DoesAllPlayersHaveChoice();
+
+        if (!allPlayersHaveCommands)
+        {
+            CheckAllPlayersGetChoice();
+            yield return new WaitForSeconds(3);
+        }
+        else
+        {
+            yield return new WaitForSeconds(2);
+        }
+
+        UIManager.Instance.ActivateTimerBar(false);
+        UIManager.Instance.DisplayChoiceScreen(false);
+
         StartAllActionsInGame();
 
         ScriptableManager.Instance.IncreaseChoiceIndexCompteur();
@@ -336,6 +346,20 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
                 InputManager.Instance.ChoiceCommand(player, ScriptableManager.Instance.GetRandomIndexChoice());
             }
         }
+    }
+
+    public bool DoesAllPlayersHaveChoice()
+    {
+        foreach (var player in PlayerManager.Instance.PlayerList)
+        {
+            List<CommandInGame> playerCommands = FindPlayerCommands(player);
+
+            if (playerCommands.Count == 0)
+            {
+                return false;
+            }
+        }
+        return true;
     }
     
     public void InsertCommandInList(int index, CommandInGame command)

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 using TMPro;
 public class UIManager : SingletonMonobehaviour<UIManager>
 {
@@ -162,7 +163,7 @@ public class UIManager : SingletonMonobehaviour<UIManager>
         //Variables of position
         int stepNumber = 100;
         float secondsOfAction = 2;
-        float maxPosY = 600;
+        float maxPosY = 500;
         float maxPosZ = 3;
         float maxAlpha = 1;
 
@@ -170,23 +171,28 @@ public class UIManager : SingletonMonobehaviour<UIManager>
         Image obj = Instantiate(feedbackTxtPrefab, gameScreen.transform);
 
         //Position of spawn
-        List<float> positionXOfMessage = new List<float>() { obj.rectTransform.position.x - 200, obj.rectTransform.position.x , obj.rectTransform.position.x + 200 };
-        obj.rectTransform.position = new Vector3(positionXOfMessage[indexChoice], obj.rectTransform.position.y - 624.3f, obj.rectTransform.position.z);
+        List<float> positionXOfMessage = new List<float>() { obj.rectTransform.position.x - 500, obj.rectTransform.position.x , obj.rectTransform.position.x + 500 };
+        obj.rectTransform.position = new Vector3(positionXOfMessage[indexChoice], obj.rectTransform.position.y - 625, obj.rectTransform.position.z);
 
         //Transparence variables
         CanvasGroup canvasGroup = obj.GetComponent<CanvasGroup>();
 
         //Display text 
         TextMeshProUGUI txt = obj.GetComponentInChildren<TextMeshProUGUI>();
-        string messageToDisplay = namePlayer + "\n[Choice" + indexChoice+1 + "]";
+        string messageToDisplay = namePlayer + "\n[Choice" + (indexChoice+1).ToString() + "]";
         txt.text = messageToDisplay;
 
-        //Go up and opacity fade out
+        //Go up 
         for (int i = 0; i < stepNumber; i++)
         {
-            obj.rectTransform.position = new Vector3(obj.rectTransform.position.x, obj.rectTransform.position.y + (maxPosY / stepNumber), obj.rectTransform.position.z + (maxPosZ / stepNumber));
-            //canvasGroup.alpha -= maxAlpha / stepNumber;
             yield return new WaitForSeconds(secondsOfAction / stepNumber);
+            obj.rectTransform.position = new Vector3(obj.rectTransform.position.x, obj.rectTransform.position.y + (maxPosY / stepNumber), obj.rectTransform.position.z + (maxPosZ / stepNumber));
+        }
+
+        for (int i = 0; i < stepNumber; i++)
+        {
+            canvasGroup.alpha -= maxAlpha / stepNumber ;
+            yield return new WaitForSeconds((secondsOfAction/4) / stepNumber);
         }
 
         Destroy(obj.gameObject);
