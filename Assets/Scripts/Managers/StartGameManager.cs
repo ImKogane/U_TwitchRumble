@@ -74,10 +74,10 @@ public class StartGameManager : SingletonMonobehaviour<StartGameManager>
 
         foreach (PlayerData playerData in playerDatas)
         {
-            //PlayerManager.Instance.LoadPlayer(playerData)
+            PlayerManager.Instance.LoadPlayer(playerData);
         }
 
-        GlobalManager.Instance.LoadSavedTurn(dataToLoad._currentTurn);
+        StartCoroutine(GlobalManager.Instance.LoadSavedTurn(dataToLoad._currentTurn));
 
     }
     

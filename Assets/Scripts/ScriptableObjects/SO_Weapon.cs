@@ -29,4 +29,5 @@ public class SO_Weapon : SO_Choice
     {
         _onHitEventSFX.Raise();
     }
+
 }

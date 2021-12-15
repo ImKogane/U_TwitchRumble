@@ -31,12 +31,13 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
     #region Coroutines
     public IEnumerator LaunchNewGameCoroutine()
     {
+        turnCount = 1;
+        
         //Set up variable with google sheet datas.
         actionsTimerDuration = GoogleSheetManager.Instance.VariablesGetFromSheet[3];
         buffTimerDuration = GoogleSheetManager.Instance.VariablesGetFromSheet[4];
 
-        turnCount = 1;
-
+        
         UIManager.Instance.UpdateTurnCount(turnCount);
         UIManager.Instance.DisplayGameScreen(true);
         UIManager.Instance.DisplayEndScreen(false);
@@ -175,9 +176,30 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
     
     #endregion
 
-    public void LoadSavedTurn(int turn)
+    public IEnumerator LoadSavedTurn(int turn)
     {
+        turnCount = turn;
         
+        UIManager.Instance.UpdateTurnCount(turnCount);
+        UIManager.Instance.DisplayGameScreen(true);
+        UIManager.Instance.DisplayEndScreen(false);
+
+        AudioManager.Instance.EnableAmbienceSounds(true);
+        UIManager.Instance.DisplayPauseScreen(false);
+        GoogleSheetManager.Instance.StartGoogleSheetSaving();
+
+        //Timer wait before start
+        currentTimer = startTimerDuration;
+        UIManager.Instance.ActivateTimerBar(true);
+
+        while (currentTimer > 0)
+        {
+            yield return null;
+            currentTimer -= Time.deltaTime;
+            UIManager.Instance.UpdateTimerBar(currentTimer / startTimerDuration);
+        }
+
+        CheckNextTurn();
     }
     
     #region GameState Handling
@@ -226,7 +248,7 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
         {
             turnCount++;
             UIManager.Instance.UpdateTurnCount(turnCount);
-            CheckNextTurn(turnCount);
+            CheckNextTurn();
         }
         else
         {
@@ -234,7 +256,7 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
         }
     }
 
-    void CheckNextTurn(int nextTurn)
+    void CheckNextTurn()
     {
         foreach (int choice in _turnsToMakeChoice)
         {

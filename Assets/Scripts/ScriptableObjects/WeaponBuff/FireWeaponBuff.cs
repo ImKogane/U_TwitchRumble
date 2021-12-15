@@ -6,7 +6,6 @@ using UnityEngine;
 public class FireWeaponBuff : SO_BuffWeapon
 {
     public int duration = 1;
-    public int dotDamages = 15;
 
     public override void ApplyWeaponBuff(Player playerAffect, Player playerAttacking)
     {
@@ -19,6 +18,6 @@ public class FireWeaponBuff : SO_BuffWeapon
             }
         }
 
-        playerAffect.debuffList.Add(new BurningDebuff(duration, playerAffect, dotDamages));
+        playerAffect.debuffList.Add(new BurningDebuff(duration, playerAffect));
     }
 }
