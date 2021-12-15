@@ -167,6 +167,7 @@ MonoBehaviour:
   maxCharacterInNames: 12
   numberMaxOfPlayer: 0
   _UIMainMenu: {fileID: 2143165187}
+  canReadCommands: 0
 --- !u!4 &6122261
 Transform:
   m_ObjectHideFlags: 0
@@ -1104,8 +1105,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 531.8, y: 59.1}
-  m_SizeDelta: {x: 175, y: 50}
+  m_AnchoredPosition: {x: 587.19995, y: 32}
+  m_SizeDelta: {x: 275, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &136910707
 MonoBehaviour:
@@ -13247,8 +13248,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 558.6, y: 59}
-  m_SizeDelta: {x: 225, y: 50}
+  m_AnchoredPosition: {x: 614, y: 32}
+  m_SizeDelta: {x: 275, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1886628211
 MonoBehaviour:

@@ -135,9 +135,12 @@ public class InputManager : SingletonMonobehaviour<InputManager>
         {
             currentChoice.ApplyChoice(player);
         }
+
         
         player._choicesMade.Add(choiceIndex);
         
+        UIManager.Instance.DisplayChoiceTxt("[" + player.namePlayer + "]", choiceIndex);
+
     }
 
     

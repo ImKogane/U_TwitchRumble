@@ -157,8 +157,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 538, y: -60.640106}
-  m_SizeDelta: {x: 996.79, y: 100}
+  m_AnchoredPosition: {x: 652, y: -60.640106}
+  m_SizeDelta: {x: 1211.91, y: 100}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &10928011
 MonoBehaviour:
@@ -2647,6 +2647,7 @@ MonoBehaviour:
   waitingDurationAfterPhaseDescription: 7
   choiceScreen: {fileID: 1570607044}
   choiceImagesList: []
+  feedbackTxtPrefab: {fileID: 3674147666465289810, guid: 24eebbef98f2b87489b3d5f024835ed6, type: 3}
 --- !u!4 &914106354
 Transform:
   m_ObjectHideFlags: 0
