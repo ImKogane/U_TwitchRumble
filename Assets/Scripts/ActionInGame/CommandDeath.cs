@@ -24,6 +24,6 @@ public class CommandDeath : CommandInGame
 
     public override void DestroyCommand()
     {
-        OwnerPlayer.EndOfDeath -= EndActionInGame;
+        
     }
 }

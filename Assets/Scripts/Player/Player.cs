@@ -185,16 +185,19 @@ public class Player : MonoBehaviour
 
     public void KillPlayer()
     {
-        Debug.Log($"{namePlayer} is dead !");
-        
         PlayerManager.Instance.AllPlayersName.Remove(namePlayer);
         PlayerManager.Instance.PlayerList.Remove(this);
 
         CurrentTile.hasPlayer = false;
         CurrentTile.currentPlayer = null;
+        
+        playerMovement.EndOfMoving.Invoke();
+        EndOfAttack.Invoke();
+        EndOfDeath.Invoke();
 
         isDead = true;
-
+        Debug.Log($"{namePlayer} is dead !");
+        
         GlobalManager.Instance.DestroyAllCommandsOfPlayer(this);
         
         Destroy(playerCanvas.gameObject);
@@ -210,7 +213,6 @@ public class Player : MonoBehaviour
 
         yield return new WaitForSeconds(currentAnimationInfo.clip.length);
         
-        EndOfDeath.Invoke();
         KillPlayer();
 
     }
@@ -306,6 +308,7 @@ public class Player : MonoBehaviour
     [ContextMenu("Play Weapon VFX")]
     public void PlayWeaponVFX()
     {
+        Debug.Log("On devrait jouer le VFX");
         _weaponVFX.Play();
     }
     public IEnumerator SetupTrapCoroutine()

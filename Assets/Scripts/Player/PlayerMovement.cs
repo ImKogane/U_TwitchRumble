@@ -310,9 +310,6 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(delayGoUp + delayGoDown);
 
         CurrentPlayer.isDead = true;
-
-        EndOfMoving.Invoke();
-
         CurrentPlayer.KillPlayer();
     }
     #endregion
