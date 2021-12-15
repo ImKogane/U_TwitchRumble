@@ -17,6 +17,8 @@ public class LobbyManager : SingletonMonobehaviour<LobbyManager>
     
     public UI_Lobby uiLobby;
 
+    private int compteurBot = 1;
+
     public override bool DestroyOnLoad => true;
 
     void Start()
@@ -29,7 +31,6 @@ public class LobbyManager : SingletonMonobehaviour<LobbyManager>
         PlayerManager.Instance.SpawnPlayerOnLobby(LocalPlayerName);
         
         TwitchManager.Instance.SetCanReadCommand(true);
-        
     }
     
     
@@ -45,5 +46,14 @@ public class LobbyManager : SingletonMonobehaviour<LobbyManager>
 
         return tileToReturn;
     }
-    
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            PlayerManager.Instance.SpawnPlayerOnLobby("[BOT" + compteurBot + "]");
+            compteurBot++;
+        }
+    }
+
 }

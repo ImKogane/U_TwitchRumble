@@ -27,6 +27,8 @@ public class UIManager : SingletonMonobehaviour<UIManager>
     public RectTransform choiceScreen;
     public List<Image> choiceImagesList;
 
+    public Image feedbackTxtPrefab;
+
     public override bool DestroyOnLoad => true;
 
     public void UpdateTimerBar(float value)
@@ -149,5 +151,45 @@ public class UIManager : SingletonMonobehaviour<UIManager>
         DisplayGameScreen(false);
         GetComponent<UI_WinScreen>().SetPlayerNameText(PlayerManager.Instance.GetLastPlayer().GetPlayerName());
     }
-    
+
+    public void DisplayChoiceTxt(string namePlayer, int indexChoice)
+    {
+        StartCoroutine(DisplayChoiceTxtCorout(namePlayer, indexChoice));
+    }
+
+    private IEnumerator DisplayChoiceTxtCorout(string namePlayer, int indexChoice)
+    {
+        //Variables of position
+        int stepNumber = 100;
+        float secondsOfAction = 2;
+        float maxPosY = 600;
+        float maxPosZ = 3;
+        float maxAlpha = 1;
+
+
+        Image obj = Instantiate(feedbackTxtPrefab, gameScreen.transform);
+
+        //Position of spawn
+        List<float> positionXOfMessage = new List<float>() { obj.rectTransform.position.x - 200, obj.rectTransform.position.x , obj.rectTransform.position.x + 200 };
+        obj.rectTransform.position = new Vector3(positionXOfMessage[indexChoice], obj.rectTransform.position.y - 624.3f, obj.rectTransform.position.z);
+
+        //Transparence variables
+        CanvasGroup canvasGroup = obj.GetComponent<CanvasGroup>();
+
+        //Display text 
+        TextMeshProUGUI txt = obj.GetComponentInChildren<TextMeshProUGUI>();
+        string messageToDisplay = namePlayer + "\n[Choice" + indexChoice+1 + "]";
+        txt.text = messageToDisplay;
+
+        //Go up and opacity fade out
+        for (int i = 0; i < stepNumber; i++)
+        {
+            obj.rectTransform.position = new Vector3(obj.rectTransform.position.x, obj.rectTransform.position.y + (maxPosY / stepNumber), obj.rectTransform.position.z + (maxPosZ / stepNumber));
+            //canvasGroup.alpha -= maxAlpha / stepNumber;
+            yield return new WaitForSeconds(secondsOfAction / stepNumber);
+        }
+
+        Destroy(obj.gameObject);
+    }
+
 }

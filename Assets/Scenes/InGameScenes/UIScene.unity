@@ -2647,6 +2647,7 @@ MonoBehaviour:
   waitingDurationAfterPhaseDescription: 7
   choiceScreen: {fileID: 1570607044}
   choiceImagesList: []
+  feedbackTxtPrefab: {fileID: 3674147666465289810, guid: 24eebbef98f2b87489b3d5f024835ed6, type: 3}
 --- !u!4 &914106354
 Transform:
   m_ObjectHideFlags: 0
