@@ -1723,10 +1723,12 @@ MonoBehaviour:
   playerMoveBuff: {fileID: 0}
   _playerData: {fileID: 11400000, guid: 04ec05f7a48915d4baa7139c3d0e7b81, type: 2}
   materialForTryCell: {fileID: 2100000, guid: 8a18584c6e7d0c843a222c09e20e5f61, type: 2}
-  _playerLife: 100
+  _currentHealth: 0
+  _maxHealth: 100
   _playerDamages: 25
   _playerUIPrefab: {fileID: 0}
   playerCanvas: {fileID: 0}
+  _choicesMade: 
   isDead: 0
   feedbackTxtPrefab: {fileID: 7337063305915384298, guid: 3d080abe2c6d11446b8bea7c2395b368, type: 3}
 --- !u!114 &918737186891934907
@@ -1748,6 +1750,10 @@ MonoBehaviour:
   CurrentPlayer: {fileID: 941451258311421410}
   CanJumpObstacle: 0
   _animator: {fileID: 0}
+  FoostepsEvents:
+  - {fileID: 11400000, guid: b117c067a81a7df4482fbacc2b90d478, type: 2}
+  - {fileID: 11400000, guid: 684450a3ef671f845a942e3a10be59df, type: 2}
+  - {fileID: 11400000, guid: 01be4fdb10fc1df43b12a7c61cec5457, type: 2}
 --- !u!1 &8028029919027752019
 GameObject:
   m_ObjectHideFlags: 0

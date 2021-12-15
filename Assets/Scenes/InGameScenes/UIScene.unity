@@ -180,9 +180,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Attack with the command [!attack].
-
-    Move with commands [!left][!right][!top][!down]. '
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c4d64075da088aa45bbfb69052b98c72, type: 2}
   m_sharedMaterial: {fileID: 8834744684709791011, guid: c4d64075da088aa45bbfb69052b98c72, type: 2}
@@ -5195,7 +5193,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Phase Title
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c4d64075da088aa45bbfb69052b98c72, type: 2}
   m_sharedMaterial: {fileID: 8834744684709791011, guid: c4d64075da088aa45bbfb69052b98c72, type: 2}

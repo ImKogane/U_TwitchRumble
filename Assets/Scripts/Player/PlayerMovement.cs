@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using DG.Tweening;
 using UnityEngine.Rendering.UI;
+using Random = UnityEngine.Random;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -26,6 +27,8 @@ public class PlayerMovement : MonoBehaviour
     public bool CanJumpObstacle = false;
 
     public Animator _animator;
+
+    public List<SO_GameEvent> FoostepsEvents;
     
     private void Start()
     {
@@ -311,4 +314,10 @@ public class PlayerMovement : MonoBehaviour
         CurrentPlayer.KillPlayer();
     }
     #endregion
+
+    public void PlayFoostepSound()
+    {
+        int index = Random.Range(0, FoostepsEvents.Count - 1);
+        FoostepsEvents[index].Raise();
+    }
 }
