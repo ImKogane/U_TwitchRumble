@@ -317,7 +317,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void PlayFoostepSound()
     {
-        int index =  Random.Range(0, FoostepsEvents.Count-1);
+        int index = Random.Range(0, FoostepsEvents.Count - 1);
         FoostepsEvents[index].Raise();
     }
 }
