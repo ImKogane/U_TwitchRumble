@@ -203,12 +203,8 @@ public class Player : MonoBehaviour
 
     public IEnumerator DeathCoroutine()
     {
-        while (!_animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
-        {
-            yield return null;
-        }
-        
-        _animator.SetTrigger("IsDead");
+
+        _animator.SetBool("IsDead", true);
         
         AnimatorClipInfo currentAnimationInfo = _animator.GetCurrentAnimatorClipInfo(0)[0];
 
