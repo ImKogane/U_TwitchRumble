@@ -24,7 +24,7 @@ public static class SaveSystem
         string directoryPath = Path.Combine(Application.persistentDataPath, _saveFilepath);
         string filePath = Path.Combine(directoryPath, _saveFileName + _saveFileExtension);
 
-        SaveData dataToLoad = new SaveData();
+        SaveData dataToLoad;
             
         if (File.Exists(filePath))
         {
@@ -45,7 +45,7 @@ public static class SaveSystem
     {
         SaveData newSaveData;
 
-        byte[] bytesArray; 
+        byte[] bytesArray;
         
         using (FileStream filestream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
         {
@@ -97,7 +97,7 @@ public static class SaveSystem
             PlayerData tempPlayerData;
             
             tempPlayerData._playerName = player.namePlayer;
-            tempPlayerData._playerHealth = player._playerLife;
+            tempPlayerData._playerHealth = player._currentHealth;
             tempPlayerData._durationOfActiveBurningDebuff = new List<int>();
             tempPlayerData._durationOfActiveFreezeDebuff = new List<int>();
 
@@ -118,33 +118,9 @@ public static class SaveSystem
                 }
             }
 
+            tempPlayerData._playerRotation = player.playerMovement.RotationOfPlayer;
             tempPlayerData._playerTile = player.CurrentTile.GetCoord();
-            if (player.playerWeapon != null)
-            {
-                tempPlayerData._weaponData = new WeaponData(player.playerWeapon);
-            }
-            else
-            {
-                tempPlayerData._weaponData = new WeaponData();
-            }
-
-            if (player.playerMoveBuff != null)
-            {
-                tempPlayerData._weaponBuffData = new WeaponBuffData(player.playerWeaponBuff);
-            }
-            else
-            {
-                tempPlayerData._weaponBuffData = new WeaponBuffData();
-            }
-
-            if (player.playerWeaponBuff != null)
-            {
-                tempPlayerData._movementBuffData = new MovementBuffData(player.playerMoveBuff);
-            }
-            else
-            {
-                tempPlayerData._movementBuffData = new MovementBuffData();
-            }
+            tempPlayerData._playerChoices = player._choicesMade;
             
             tempPlayerData._materialIndex =
                 PlayerManager.Instance.SkinSystem.GetMaterialIndex(player.playerModel.material);
@@ -195,9 +171,6 @@ public static class SaveSystem
             string jsonData = JsonUtility.ToJson(data);
             return Encoding.Unicode.GetBytes(jsonData);
         });
-        
-        
-        //File.WriteAllText(filePath, jsonData);
 
         using (FileStream filestream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.Write))
         {

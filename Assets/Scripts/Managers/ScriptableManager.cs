@@ -35,4 +35,17 @@ public class ScriptableManager : SingletonMonobehaviour<ScriptableManager>
         }
         return 0;
     }
+
+    public SO_Choice GetChoiceFromIndex(int compteur, int index)
+    {
+        if (compteur < _turnChoiceList.Count)
+        {
+            if (index < _turnChoiceList[compteur].choiceList.Count)
+            {
+                return ScriptableManager.Instance._turnChoiceList[compteur].choiceList[index];
+            }
+        }
+
+        return null;
+    }
 }

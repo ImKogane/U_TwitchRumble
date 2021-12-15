@@ -94,7 +94,7 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
 
         foreach (Player player in PlayerList)
         {
-            tempList.Add(player._playerLife);
+            tempList.Add(player._currentHealth);
         }
 
         return tempList;
@@ -117,4 +117,52 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
         PlayerList.Clear();
         AllPlayersName.Clear();
     }
+
+    public void LoadPlayer(PlayerData playerData)
+    {
+        Player newPlayer = Instantiate(prefabOfPlayer).GetComponent<Player>();
+
+        PlayerMovement newPlayerMovement = newPlayer.GetComponent<PlayerMovement>();
+
+        newPlayer.namePlayer = playerData._playerName;
+        newPlayer._currentHealth = playerData._playerHealth;
+        
+        newPlayerMovement.SetNewTile(BoardManager.Instance.GetTileAtPos(playerData._playerTile));
+        newPlayer.transform.position = newPlayer.CurrentTile.transform.position;
+        newPlayerMovement.RotatePlayerWithvector(playerData._playerRotation);
+
+        newPlayer.playerModel.sharedMesh =
+            SkinSystem.GetMeshAtIndex(playerData._skinnedMeshIndex);
+        newPlayer.playerModel.material =
+            SkinSystem.GetMaterialAtIndex(playerData._materialIndex);
+
+        if (playerData._durationOfActiveFreezeDebuff.Count > 0)
+        {
+            foreach (var freezeDebuffDuration in playerData._durationOfActiveFreezeDebuff)
+            {
+                newPlayer.debuffList.Add(new FreezeDebuff(freezeDebuffDuration, newPlayer));
+            }
+        }
+
+        if (playerData._durationOfActiveBurningDebuff.Count > 0)
+        {
+            foreach (var burningDebuffDuration in playerData._durationOfActiveBurningDebuff)
+            {
+                newPlayer.debuffList.Add(new BurningDebuff(burningDebuffDuration, newPlayer));
+            }
+        }
+
+        if (playerData._playerChoices.Count > 0)
+        {
+            for (int i = 0; i < playerData._playerChoices.Count; i++)
+            {
+                SO_Choice newChoice = ScriptableManager.Instance.GetChoiceFromIndex(i, playerData._playerChoices[i]);
+                newChoice.ApplyChoice(newPlayer);
+            }
+        }
+        
+        newPlayer.LoadPlayerData();
+        newPlayer.SetPlayerUI();
+    }
+    
 }

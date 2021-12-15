@@ -33,7 +33,9 @@ public class Player : MonoBehaviour
     
     public Material materialForTryCell;
 
-    public int _playerLife = 100;
+    public int _currentHealth;
+    public int _maxHealth = 100;
+    
 
     public int _playerDamages = 25;
 
@@ -56,6 +58,8 @@ public class Player : MonoBehaviour
 
     public List<Debuff> debuffList = new List<Debuff>();
 
+    public List<int> _choicesMade = new List<int>();
+
     public bool isDead = false;
 
     private GameObject _weaponGO;
@@ -66,27 +70,18 @@ public class Player : MonoBehaviour
     public void SpawnPlayerInGame(Tile TileForStart, string nameP)
     {
         LoadPlayerData();
-        
+
         CurrentTile = TileForStart;
         namePlayer = nameP;
         CurrentTile.currentPlayer = this;
         CurrentTile.hasPlayer = true;
         transform.position = CurrentTile.transform.position;
-
-        playerCanvas = Instantiate(_playerUIPrefab);
-        playerHealthBar = playerCanvas.GetComponentInChildren<Slider>();
-        playerNameText = playerCanvas.GetComponentInChildren<TMP_Text>();
-
+        
         _animator = GetComponent<Animator>();
-        
-        playerCanvas.worldCamera = Camera.main;
-        playerCanvas.transform.position = transform.position;
-        playerNameText.text = namePlayer;
-        playerHealthBar.maxValue = _playerLife;
-        playerHealthBar.minValue = 0;
-        playerHealthBar.value = _playerLife;
-        PlayerBaseRotation = this.transform.rotation;
-        
+        PlayerBaseRotation = transform.rotation;
+        _currentHealth = _maxHealth;
+        SetPlayerUI();
+
         //Random player model system
         playerModel.sharedMesh = PlayerManager.Instance.SkinSystem.GetRandomSkin();
         playerModel.material = PlayerManager.Instance.SkinSystem.GetRandomMaterial();
@@ -95,9 +90,23 @@ public class Player : MonoBehaviour
         UpdatePlayerCanvas();
     }
 
-    private void LoadPlayerData()
+    public void SetPlayerUI()
     {
-        _playerLife = _playerData._lifeOfPlayer;
+        playerCanvas = Instantiate(_playerUIPrefab);
+        playerHealthBar = playerCanvas.GetComponentInChildren<Slider>();
+        playerNameText = playerCanvas.GetComponentInChildren<TMP_Text>();
+        playerCanvas.worldCamera = Camera.main;
+        playerCanvas.transform.position = transform.position;
+        playerNameText.text = namePlayer;
+        playerHealthBar.maxValue = _currentHealth;
+        playerHealthBar.minValue = 0;
+        playerHealthBar.value = _currentHealth;
+        
+    }
+    
+    public void LoadPlayerData()
+    {
+        _maxHealth = _playerData._lifeOfPlayer;
         _playerDamages = _playerData._attackPlayer;
         _playerUIPrefab = _playerData._playerUIPrefab;
         _playerUIOffset = _playerData._playerUIOffset;
@@ -163,10 +172,10 @@ public class Player : MonoBehaviour
             _animator.SetTrigger("GetHit");
         }
         
-        _playerLife -= damage;
-        playerHealthBar.value = _playerLife;
+        _currentHealth -= damage;
+        playerHealthBar.value = _currentHealth;
         
-        if (_playerLife <= 0)
+        if (_currentHealth <= 0)
         {
             GlobalManager.Instance.InsertCommandInList(1, new CommandDeath(this));
         }

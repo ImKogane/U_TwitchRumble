@@ -74,12 +74,11 @@ public struct PlayerData
 {
     public string _playerName;
     public Vector2Int _playerTile;
+    public Vector2Int _playerRotation;
     public List<int> _durationOfActiveBurningDebuff;
     public List<int> _durationOfActiveFreezeDebuff;
     public int _playerHealth;
-    public WeaponData _weaponData;
-    public WeaponBuffData _weaponBuffData;
-    public MovementBuffData _movementBuffData;
+    public List<int> _playerChoices;
     public int _materialIndex;
     public int _skinnedMeshIndex;
 }

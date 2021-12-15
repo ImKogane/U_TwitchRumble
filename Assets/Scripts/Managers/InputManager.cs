@@ -129,14 +129,20 @@ public class InputManager : SingletonMonobehaviour<InputManager>
             return;
         }
 
-        SO_Choice currentChoice = ScriptableManager.Instance._turnChoiceList[currentIndexChoice].choiceList[choiceIndex];
-
+        SO_Choice currentChoice = ScriptableManager.Instance.GetChoiceFromIndex(currentIndexChoice, choiceIndex);
+        
         if (currentChoice)
         {
             currentChoice.ApplyChoice(player);
         }
 
+        
+        player._choicesMade.Add(choiceIndex);
+        
         UIManager.Instance.DisplayChoiceTxt("[" + player.namePlayer + "]", choiceIndex);
+
     }
 
+    
+    
 }

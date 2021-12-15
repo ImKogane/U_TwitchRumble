@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class BurningDebuff : Debuff
 {
-    public int damages;
+    public int damages = 15;
 
-    public BurningDebuff(int newDuration, Player playerOwner, int burnDamages) : base(newDuration, playerOwner)
+    public BurningDebuff(int newDuration, Player playerOwner) : base(newDuration, playerOwner)
     {
-        damages = burnDamages;
     }
 
     public override void OnPlayerReceiveDebuff()
