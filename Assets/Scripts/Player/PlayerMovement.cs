@@ -25,15 +25,12 @@ public class PlayerMovement : MonoBehaviour
 
     public bool CanJumpObstacle = false;
 
-    bool UpdateRotOfUI = false;
-
     public Animator _animator;
     
     private void Start()
     {
         InitialRotation = transform.rotation;
         RotateDownDirection();
-        EndOfMoving += () => { UpdateRotOfUI = false; };
         canMove = true;
         _animator = GetComponent<Animator>();
     }
@@ -120,8 +117,6 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        UpdateRotOfUI = true;
-        
         if (CurrentPlayer.CurrentTile)
         {
             Debug.Log("Current Tile : [" + CurrentPlayer.CurrentTile.tileRow + "," + CurrentPlayer.CurrentTile.tileColumn + "]");

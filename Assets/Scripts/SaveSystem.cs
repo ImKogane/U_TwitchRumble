@@ -19,21 +19,26 @@ public static class SaveSystem
     public static System.Action gameSaved;
     public static System.Action gameLoaded;
 
-    public static async void LoadData()
+    public static async Task<SaveData> LoadData()
     {
         string directoryPath = Path.Combine(Application.persistentDataPath, _saveFilepath);
         string filePath = Path.Combine(directoryPath, _saveFileName + _saveFileExtension);
-        
+
+        SaveData dataToLoad = new SaveData();
+            
         if (File.Exists(filePath))
         {
             Debug.Log("Data found, loading...");
-            SaveData dataToLoad = await ReadData(filePath);
+            dataToLoad = await ReadData(filePath);
         }
         else
         {
+            dataToLoad = new SaveData();
             Debug.Log("No data found");
         }
 
+        return dataToLoad;
+        
     }
 
     public static async Task<SaveData> ReadData(string filePath)

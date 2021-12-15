@@ -112,8 +112,10 @@ public class Player : MonoBehaviour
         AnimatorClipInfo currentAnimationInfo = _animator.GetCurrentAnimatorClipInfo(0)[0];
 
         yield return new WaitForSeconds(currentAnimationInfo.clip.length);
-
+        
         //Attack function is launch in animation events inside the animation.
+        
+        EndOfAttack.Invoke();
     }
 
     public void Attack()
@@ -145,10 +147,6 @@ public class Player : MonoBehaviour
                         }
                     }
                 }
-                else
-                {
-                    //tile.gameObject.GetComponentInChildren<MeshRenderer>().material.SetColor("_BaseColor", Color.red);
-                }
             }
         }
 
@@ -156,8 +154,6 @@ public class Player : MonoBehaviour
         {
             player.AlreadyAttackThisTurn = false;
         }
-
-        EndOfAttack.Invoke();
     }
 
     public void ReceiveDamage(int damage)

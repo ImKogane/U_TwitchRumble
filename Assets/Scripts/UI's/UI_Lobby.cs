@@ -14,14 +14,17 @@ public class UI_Lobby : MonoBehaviour
     [SerializeField] GameObject ErrorText;
 
     [SerializeField] private GameObject _loadGamePanel;
-    
+
     void Start()
     {
         LobbyManager.Instance.uiLobby = this;
-        
-        _loadGamePanel.SetActive(SaveSystem.CheckSaveFile());
         PlayButton.SetActive(false);
         ErrorText.SetActive(true);
+    }
+
+    public void ShowLoadGameWindow()
+    {
+        _loadGamePanel.SetActive(true);
     }
     
     public void EnablePlayButton()
@@ -30,21 +33,11 @@ public class UI_Lobby : MonoBehaviour
         ErrorText.SetActive(false);
     }
 
-    public void LoadGame()
-    {
-        SaveSystem.LoadData();
-    }
-    
     public void ButtonClick_Menu()
     {
         PlayerManager.Instance.ResetPlayerManager();
     }
-    
-    public void LaunchGame()
-    {
-        TwitchManager.Instance.canJoinedGame = false;
-    }
-    
+
     public void ShowHelp(bool state)
     {
         if (state == true)

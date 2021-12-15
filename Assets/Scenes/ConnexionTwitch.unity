@@ -3285,9 +3285,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1872679306}
-        m_TargetAssemblyTypeName: UI_Lobby, Assembly-CSharp
-        m_MethodName: LoadGame
+      - m_Target: {fileID: 1578033824}
+        m_TargetAssemblyTypeName: StartGameManager, Assembly-CSharp
+        m_MethodName: SetLoadSavedGame
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1578033824}
+        m_TargetAssemblyTypeName: StartGameManager, Assembly-CSharp
+        m_MethodName: LaunchGameLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3295,7 +3307,7 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &399328768
 MonoBehaviour:
@@ -4319,7 +4331,7 @@ RectTransform:
   - {fileID: 1489515999}
   - {fileID: 87971099}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -7782,7 +7794,7 @@ Transform:
   - {fileID: 490995164}
   - {fileID: 1402484805}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &954984617
 GameObject:
@@ -9515,6 +9527,7 @@ MonoBehaviour:
   maxCharacterInNames: 12
   numberMaxOfPlayer: 0
   _UIMainMenu: {fileID: 0}
+  canReadCommands: 0
 --- !u!4 &1097726312
 Transform:
   m_ObjectHideFlags: 0
@@ -13461,6 +13474,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4684897327074620, guid: 275ce8159925c14489d0467d0e9ac9c0, type: 3}
   m_PrefabInstance: {fileID: 1996037849}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1578033823
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1578033825}
+  - component: {fileID: 1578033824}
+  m_Layer: 0
+  m_Name: StartGameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1578033824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1578033823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de10d6a9417ae60499737990d825f173, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _uiLobby: {fileID: 1872679306}
+  _gameLevel: {fileID: 11400000, guid: 9afa1ff3d1844c54aa67cbd1ef3d9a29, type: 2}
+--- !u!4 &1578033825
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1578033823}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -18.415888, y: 2.7332911, z: -2.9177485}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1607344524
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14312,30 +14370,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1872679306}
-        m_TargetAssemblyTypeName: UI_Lobby, Assembly-CSharp
-        m_MethodName: LaunchGame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 11400000, guid: 9afa1ff3d1844c54aa67cbd1ef3d9a29, type: 2}
-        m_TargetAssemblyTypeName: SO_level, Assembly-CSharp
-        m_MethodName: ChargeLevel
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 431452956}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
@@ -14352,6 +14386,30 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1578033824}
+        m_TargetAssemblyTypeName: StartGameManager, Assembly-CSharp
+        m_MethodName: SetLoadSavedGame
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1578033824}
+        m_TargetAssemblyTypeName: StartGameManager, Assembly-CSharp
+        m_MethodName: LaunchGameLevel
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

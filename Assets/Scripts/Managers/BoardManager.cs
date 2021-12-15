@@ -22,9 +22,16 @@ public class BoardManager : SingletonMonobehaviour<BoardManager>
     [SerializeField] private int testHoleNumber;
     [SerializeField] private int testObstaclesNumber;
 
+    public GameObject _trapPrefab;
+    
     public override bool DestroyOnLoad => true;
 
     void Start()
+    {
+        StartGameManager.Instance.LaunchGame(); //Pas beau de mettre ça ici, mais peut pas faire autrement pour l'instant
+    }
+
+    public void SetupBoard()
     {
         //Set up variable with google sheet datas.
         testHoleNumber = GoogleSheetManager.Instance.VariablesGetFromSheet[1];
@@ -38,15 +45,14 @@ public class BoardManager : SingletonMonobehaviour<BoardManager>
             tileWidth = tileRenderer.bounds.size.x;
         }
         
+        ResetTiles();
         CreateBoard(testBoardSizeX, testBoardSizeZ, testHoleNumber,testObstaclesNumber);
     }
 
     public void CreateBoard(int sizeX, int sizeZ, int holeNumber, int obstacleNumber)
     {
         #region Basic Board Creation
-
-        ScenesManager.Instance.SetActiveScene("BoardScene");
-
+        
         gameBoard = new GameObject("GameBoard");
 
         for (int i = 0; i < sizeX; i++)
@@ -93,10 +99,10 @@ public class BoardManager : SingletonMonobehaviour<BoardManager>
 
         #endregion
 
-        ScenesManager.Instance.SetActiveScene("PlayersScene");
+        //ScenesManager.Instance.SetActiveScene("PlayersScene");
 
-        PlayerManager.Instance.SetAllPlayerOnBoard();
-        Debug.Log("Player Management : " + PlayerManager.Instance);
+        //PlayerManager.Instance.SetAllPlayerOnBoard();
+        Debug.Log("Normalement on a bien setup le board");
     }
 
     private List<Tile> GetRandomTiles(int tilesAmount)
@@ -130,6 +136,31 @@ public class BoardManager : SingletonMonobehaviour<BoardManager>
         return tempTileList;
     }
 
+    public void LoadTile(TileData tileData)
+    {
+        Tile newTile = Instantiate(tilePrefab).GetComponent<Tile>();
+        
+        newTile.transform.position = tileData._tileTransform.Position;
+        newTile.transform.rotation = Quaternion.Euler(tileData._tileTransform.Rotation);
+        newTile.transform.localScale = tileData._tileTransform.Scale;
+
+        newTile.tileColumn = tileData._tileCoords.x;
+        newTile.tileRow = tileData._tileCoords.y;
+
+        newTile.hasObstacle = tileData._hasObstacle;
+        if (newTile.hasObstacle)
+        {
+            Instantiate(obstaclePrefab, newTile.transform.position, Quaternion.identity, gameBoard.transform);
+        }
+
+        for (int i = 0; i < tileData._tileTrapCount; i++)
+        {
+            Trap newTrap = Instantiate(_trapPrefab, newTile.transform.position, Quaternion.identity, gameBoard.transform).GetComponent<Trap>();
+            newTile.trapList.Add(newTrap);
+        }
+        
+    }
+    
     private bool CheckPlacementAvailable(Tile tile)
     {
         int xPos = tile.GetCoord().x;
@@ -257,6 +288,16 @@ public class BoardManager : SingletonMonobehaviour<BoardManager>
         }
 
         return tempList;
+    }
+
+    public void ResetTiles()
+    {
+        if (tilesList.Count < 1) return;
+        
+        for (int i = tilesList.Count; i >= 0; i--)
+        {
+            Destroy(tilesList[i].gameObject);
+        }
     }
     
 }

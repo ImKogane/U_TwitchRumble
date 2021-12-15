@@ -28,9 +28,8 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
 
     public override bool DestroyOnLoad => true;
 
-    #region Unity Basic Events
-
-    public IEnumerator LaunchGame()
+    #region Coroutines
+    public IEnumerator LaunchNewGameCoroutine()
     {
         //Set up variable with google sheet datas.
         actionsTimerDuration = GoogleSheetManager.Instance.VariablesGetFromSheet[3];
@@ -61,9 +60,7 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
         StartState(EnumClass.GameState.IntroTurn);
     }
 
-    #endregion
     
-    #region Coroutines
     
     IEnumerator ActionsChoiceCoroutine()
     {
@@ -177,6 +174,11 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
     }
     
     #endregion
+
+    public void LoadSavedTurn(int turn)
+    {
+        
+    }
     
     #region GameState Handling
     

@@ -18,7 +18,6 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
 
     public override bool DestroyOnLoad => false;
     
-
     public void SetAllPlayerOnBoard()
     {
         foreach (Player item in PlayerList)
@@ -26,9 +25,11 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
             Tile tileOfPlayer = BoardManager.Instance.GetRandomAvailableTile();
             item.transform.position = tileOfPlayer.transform.position + (Vector3.up * 35);
             item.CurrentTile = tileOfPlayer;
+            tileOfPlayer.currentPlayer = item;
+            tileOfPlayer.hasPlayer = true;
         }
 
-        StartCoroutine(GlobalManager.Instance.LaunchGame());
+        //StartCoroutine(GlobalManager.Instance.LaunchNewGameCoroutine());
     }
     
     public void SpawnPlayerOnLobby(string playerName)
@@ -42,7 +43,7 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
 
         if (PlayerList.Count >= 2)
         {
-            LobbyManager.Instance.uiLobby.EnablePlayButton();
+            StartGameManager.Instance.EnableGameStart();
         }
         
         Tile tileOfPlayer = LobbyManager.Instance.GetRandomLobbyTile();
