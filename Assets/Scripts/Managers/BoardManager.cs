@@ -31,7 +31,7 @@ public class BoardManager : SingletonMonobehaviour<BoardManager>
         StartGameManager.Instance.LaunchGame(); //Pas beau de mettre ça ici, mais peut pas faire autrement pour l'instant
     }
 
-    public void SetupBoard()
+    public void SetupNewBoard()
     {
         //Set up variable with google sheet datas.
         testHoleNumber = GoogleSheetManager.Instance.VariablesGetFromSheet[1];
@@ -46,14 +46,31 @@ public class BoardManager : SingletonMonobehaviour<BoardManager>
         }
         
         ResetTiles();
+        gameBoard = new GameObject("GameBoard");
         CreateBoard(testBoardSizeX, testBoardSizeZ, testHoleNumber,testObstaclesNumber);
     }
 
+    public void SetupCustomBoard()
+    {
+        //Set up variable with google sheet datas.
+        testHoleNumber = GoogleSheetManager.Instance.VariablesGetFromSheet[1];
+        testObstaclesNumber = GoogleSheetManager.Instance.VariablesGetFromSheet[2];
+
+        MeshRenderer tileRenderer = tilePrefab.GetComponentInChildren<MeshRenderer>();
+        
+        if (tileRenderer)
+        {
+            tileLength = tileRenderer.bounds.size.z;
+            tileWidth = tileRenderer.bounds.size.x;
+        }
+        
+        gameBoard = new GameObject("GameBoard");
+        ResetTiles();
+    }
+    
     public void CreateBoard(int sizeX, int sizeZ, int holeNumber, int obstacleNumber)
     {
         #region Basic Board Creation
-        
-        gameBoard = new GameObject("GameBoard");
 
         for (int i = 0; i < sizeX; i++)
         {
@@ -138,16 +155,15 @@ public class BoardManager : SingletonMonobehaviour<BoardManager>
 
     public void LoadTile(TileData tileData)
     {
-        Tile newTile = Instantiate(tilePrefab).GetComponent<Tile>();
-        
-        newTile.transform.position = tileData._tileTransform.Position;
-        newTile.transform.rotation = Quaternion.Euler(tileData._tileTransform.Rotation);
+        Tile newTile = Instantiate(tilePrefab, tileData._tileTransform.Position,  Quaternion.Euler(tileData._tileTransform.Rotation), gameBoard.transform).GetComponent<Tile>();
+
         newTile.transform.localScale = tileData._tileTransform.Scale;
 
         newTile.tileColumn = tileData._tileCoords.x;
         newTile.tileRow = tileData._tileCoords.y;
 
         newTile.hasObstacle = tileData._hasObstacle;
+        
         if (newTile.hasObstacle)
         {
             Instantiate(obstaclePrefab, newTile.transform.position, Quaternion.identity, gameBoard.transform);
@@ -159,6 +175,7 @@ public class BoardManager : SingletonMonobehaviour<BoardManager>
             newTile.trapList.Add(newTrap);
         }
         
+        tilesList.Add(newTile);
     }
     
     private bool CheckPlacementAvailable(Tile tile)

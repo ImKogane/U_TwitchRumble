@@ -75,6 +75,12 @@ public class UI_Settings : MonoBehaviour
         musicVolumeSlider.value = musicVolumeValue;
         sfxVolumeSlider.value = sfxVolumeValue;
         _ambienceVolumeSlider.value = ambienceVolumeValue;
+        
+        AudioManager.Instance.MusicVolumeChanged(musicVolumeValue);
+        AudioManager.Instance.SFXVolumeChanged(sfxVolumeValue);
+        AudioManager.Instance.AmbienceVolumeChanged(ambienceVolumeValue);
+        
+        
     }
     
 }

@@ -111,5 +111,9 @@ public class UI_PauseScreen : MonoBehaviour
         _musicVolumeSlider.value = musicVolumeValue;
         _sfxVolumeSlider.value = sfxVolumeValue;
         _ambienceVolumeSlider.value = ambienceVolumeValue;
+        
+        AudioManager.Instance.MusicVolumeChanged(musicVolumeValue);
+        AudioManager.Instance.SFXVolumeChanged(sfxVolumeValue);
+        AudioManager.Instance.AmbienceVolumeChanged(ambienceVolumeValue);
     }
 }

@@ -121,13 +121,17 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
     public void LoadPlayer(PlayerData playerData)
     {
         Player newPlayer = Instantiate(prefabOfPlayer).GetComponent<Player>();
-
+        newPlayer.LoadPlayerData();
+        
         PlayerMovement newPlayerMovement = newPlayer.GetComponent<PlayerMovement>();
 
         newPlayer.namePlayer = playerData._playerName;
         newPlayer._currentHealth = playerData._playerHealth;
-        
-        newPlayerMovement.SetNewTile(BoardManager.Instance.GetTileAtPos(playerData._playerTile));
+        newPlayer.SetPlayerUI();
+
+        newPlayerMovement.CurrentPlayer = newPlayer;
+        Tile playerTile = BoardManager.Instance.GetTileAtPos(playerData._playerTile);
+        newPlayerMovement.SetNewTile(playerTile);
         newPlayer.transform.position = newPlayer.CurrentTile.transform.position;
         newPlayerMovement.RotatePlayerWithvector(playerData._playerRotation);
 
@@ -161,8 +165,8 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
             }
         }
         
-        newPlayer.LoadPlayerData();
-        newPlayer.SetPlayerUI();
+        PlayerList.Add(newPlayer);
+        
     }
     
 }
