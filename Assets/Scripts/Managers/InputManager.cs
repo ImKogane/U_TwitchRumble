@@ -126,7 +126,7 @@ public class InputManager : SingletonMonobehaviour<InputManager>
         }
 
         SO_Choice currentChoice = ScriptableManager.Instance.GetChoiceFromIndex(currentIndexChoice, choiceIndex);
-        
+
         if (currentChoice)
         {
             currentChoice.ApplyChoice(player);
@@ -134,13 +134,9 @@ public class InputManager : SingletonMonobehaviour<InputManager>
 
         player._choicesMade.Add(choiceIndex);
 
-        
-        UIManager.Instance.DisplayChoiceTxt("[" + player._name + "]", choiceIndex);
-        
-
         if (choiceInputsEnabled) //Just to block display UI for players who will have a random choice.
         {
-            UIManager.Instance.DisplayChoiceTxt("[" + player.namePlayer + "]", choiceIndex);
+            UIManager.Instance.DisplayChoiceTxt("[" + player._name + "]", choiceIndex);
         }
     }
 

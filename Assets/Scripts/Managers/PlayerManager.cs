@@ -87,7 +87,7 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
     {
         List<int> tempList = new List<int>();
 
-        foreach (Player player in PlayerList)
+        foreach (Player player in _listPlayers)
         {
             tempList.Add(player._currentHealth);
         }
@@ -99,7 +99,7 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
     {
         List<Vector2Int> tempList = new List<Vector2Int>();
 
-        foreach (var player in PlayerList)
+        foreach (var player in _listPlayers)
         {
             tempList.Add(new Vector2Int(player._currentTile.tileRow, player._currentTile.tileColumn));
         }
@@ -119,8 +119,6 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
         Player newPlayer = Instantiate(_prefabOfPlayer).GetComponent<Player>();
         newPlayer.InjectDatasFromSO();
         
-        PlayerMovement newPlayerMovement = newPlayer.gameObject.GetComponent<PlayerMovement>();
-
         newPlayer._name = playerData._playerName;
 
         newPlayer._currentHealth = playerData._playerHealth;
@@ -138,9 +136,9 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
         newPlayerMovement.RotatePlayerWithvector(playerData._playerRotation);
 
         newPlayer._skinnedMeshComponent.sharedMesh =
-            SkinSystem.GetMeshAtIndex(playerData._skinnedMeshIndex);
+            _skinSystem.GetMeshAtIndex(playerData._skinnedMeshIndex);
         newPlayer._skinnedMeshComponent.material =
-            SkinSystem.GetMaterialAtIndex(playerData._materialIndex);
+            _skinSystem.GetMaterialAtIndex(playerData._materialIndex);
 
 
         //Set up debuff of player

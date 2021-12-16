@@ -124,9 +124,9 @@ public static class SaveSystem
             tempPlayerData._playerChoices = player._choicesMade;
             
             tempPlayerData._materialIndex =
-                PkinSystem.GetMaterialIndex(player.playerModel.material);
+                PlayerManager.Instance._skinSystem.GetMaterialIndex(player._skinnedMeshComponent.material);
             tempPlayerData._skinnedMeshIndex =
-                PlayerManager.Instance._skinSystem.GetSkinIndex(player.playerModel.sharedMesh);
+                PlayerManager.Instance._skinSystem.GetSkinIndex(player._skinnedMeshComponent.sharedMesh);
             
             tempPlayersDatas.Add(tempPlayerData);
         }

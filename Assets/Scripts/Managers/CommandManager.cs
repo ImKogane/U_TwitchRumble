@@ -50,7 +50,7 @@ public class CommandManager : SingletonMonobehaviour<CommandManager>
 
         foreach (CommandInGame command in _listCommandsInGame)
         {
-            if (command.OwnerPlayer == ownerOfCommands)
+            if (command._ownerPlayer == ownerOfCommands)
             {
                 listToReturn.Add(command);
             }

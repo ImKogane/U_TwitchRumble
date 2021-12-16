@@ -1713,24 +1713,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c21d9d6aacb27a247858a378b726e918, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentTile: {fileID: 0}
-  playerMovement: {fileID: 918737186891934907}
-  _animator: {fileID: 3703252163889179362}
-  playerModel: {fileID: 4869730117634527052}
-  namePlayer: 
-  playerWeapon: {fileID: 0}
-  playerWeaponBuff: {fileID: 0}
-  playerMoveBuff: {fileID: 0}
-  _playerData: {fileID: 11400000, guid: 04ec05f7a48915d4baa7139c3d0e7b81, type: 2}
-  materialForTryCell: {fileID: 2100000, guid: 8a18584c6e7d0c843a222c09e20e5f61, type: 2}
-  _currentHealth: 0
+  _name: 
+  _currentHealth: 100
   _maxHealth: 100
-  _playerDamages: 25
-  _playerUIPrefab: {fileID: 0}
-  playerCanvas: {fileID: 0}
+  _attackDamages: 25
+  _isDead: 0
+  _currentWeapon: {fileID: 0}
+  _currentWeaponBuff: {fileID: 0}
+  _currentMoveBuff: {fileID: 0}
+  _playerMovementComponent: {fileID: 918737186891934907}
+  _animatorComponent: {fileID: 3703252163889179362}
+  _skinnedMeshComponent: {fileID: 4869730117634527052}
+  _playerDataSO: {fileID: 11400000, guid: 04ec05f7a48915d4baa7139c3d0e7b81, type: 2}
+  _currentTile: {fileID: 0}
+  _trapPrefab: {fileID: 1408787611811494607, guid: 9dfa11f36ddeab34da286dbac284de35, type: 3}
   _choicesMade: 
-  isDead: 0
-  feedbackTxtPrefab: {fileID: 7337063305915384298, guid: 3d080abe2c6d11446b8bea7c2395b368, type: 3}
+  _uiPrefab: {fileID: 0}
+  _uiOffset: {x: 0, y: 0, z: 0}
+  _infosCanvas: {fileID: 0}
+  _feedbackTxtPrefab: {fileID: 7337063305915384298, guid: 3d080abe2c6d11446b8bea7c2395b368, type: 3}
 --- !u!114 &918737186891934907
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -274,97 +274,7 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
 
     #endregion
     
-    public List<CommandInGame> FindPlayerCommands(Player ownerOfCommands)
-    {
-        List<CommandInGame> listToReturn = new List<CommandInGame>();
-
-        foreach (CommandInGame command in ListCommandsInGame)
-        {
-            if (command._ownerPlayer == ownerOfCommands)
-            {
-                listToReturn.Add(command);
-            }
-        }
-
-        return listToReturn;
-    }
-
-    public void DestroyAllCommandsOfPlayer(Player ownerOfCommands)
-    {
-        List<CommandInGame> listToDestroy = FindPlayerCommands(ownerOfCommands);
-
-        for (int i = 0; i < listToDestroy.Count; i++)
-        {
-            listToDestroy[i].DestroyCommand();
-
-            if (ListCommandsInGame.Contains(listToDestroy[i]))
-            {
-                ListCommandsInGame.Remove(listToDestroy[i]);
-            }
-        }
-    }
-
-    public void DestroyAllCommandsOfDeadPlayer(Player ownerOfCommands)
-    {
-        DestroyAllCommandsOfPlayer(ownerOfCommands);
-
-        if (ListCommandsInGame.Count > 0)
-        {
-            ListCommandsInGame[0].LaunchActionInGame();
-        }
-        else
-        {
-            if (GetCurrentGameState() == EnumClass.GameState.ActionTurn) EndActionTurn();
-            Debug.Log("TECHNIQUE 1 DE FIN DE TOUR");
-        }
-    } 
-
-    public void ManageEndOfCommand(CommandInGame command)
-    {
-        if (ListCommandsInGame.Count > 0 && ListCommandsInGame[0] == command) //Somme nous bien l'action a la base de la liste
-        {
-            ListCommandsInGame.Remove(command); //On s'enleve de la liste. 
-
-            if (ListCommandsInGame.Count > 0)
-            {
-                ListCommandsInGame[0].LaunchActionInGame(); //On lance la prochaine action. 
-
-                Debug.Log("Next Action");
-            }
-            else
-            {
-                if (GetCurrentGameState() == EnumClass.GameState.ActionTurn) EndActionTurn();
-            }
-        }
-    }
-
-    public void RemoveMoveCommandOfPlayer(Player ownerOfCommands)
-    {
-        List<CommandInGame> AllCommandsOfPlayer = FindPlayerCommands(ownerOfCommands);
-
-        for (int i = 0; i < AllCommandsOfPlayer.Count; i++)
-        {
-            if (ListCommandsInGame.Contains(AllCommandsOfPlayer[i]) && AllCommandsOfPlayer[i] is CommandMoving)
-            {
-                AllCommandsOfPlayer[i].DestroyCommand();
-                ListCommandsInGame.Remove(AllCommandsOfPlayer[i]);
-            }
-        }
-    }
-
-    public void RemoveAttackCommandOfPlayer(Player ownerOfCommands)
-    {
-        List<CommandInGame> AllCommandsOfPlayer = FindPlayerCommands(ownerOfCommands);
-
-        for (int i = 0; i < AllCommandsOfPlayer.Count; i++)
-        {
-            if (ListCommandsInGame.Contains(AllCommandsOfPlayer[i]) && AllCommandsOfPlayer[i] is CommandAttack)
-            {
-                AllCommandsOfPlayer[i].DestroyCommand();
-                ListCommandsInGame.Remove(AllCommandsOfPlayer[i]);
-            }
-        }
-    }
+    
 
 
     #region Choices
@@ -410,7 +320,7 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
 
         //TODO : mettre dans une seule méthode !!
         
-        PlayerManager.Instance.GetLastPlayer().transform.position = WinPoint.position;
+        PlayerManager.Instance.GetLastPlayer().transform.position = _winPoint.position;
         PlayerManager.Instance.GetLastPlayer().ResetPlayerRotation();
         PlayerManager.Instance.GetLastPlayer().CanvasVisibility(false);
         PlayerManager.Instance.GetLastPlayer()._animatorComponent.SetBool("IsFalling", false);
@@ -420,7 +330,7 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
         endGamePlayer.transform.position = _winPoint.position;
         endGamePlayer.ResetPlayerRotation();
         endGamePlayer.CanvasVisibility(false);
-        endGamePlayer._animator.SetBool("IsFalling", false);
+        endGamePlayer._animatorComponent.SetBool("IsFalling", false);
         PlayerManager.Instance._listPlayers.Clear();
 
     }
