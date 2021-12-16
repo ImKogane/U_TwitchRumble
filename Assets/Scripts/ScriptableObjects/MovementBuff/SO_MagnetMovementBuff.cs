@@ -19,7 +19,6 @@ public class SO_MagnetMovementBuff : SO_BuffMoving
 
         if (VectorAttirance.x != 0) //Left and Right
         {
-            Debug.Log("LEFT AND RIGHT MAGNETISE");
             for (int i = 15; i >= 2; i--)
             {
                 Tile currentTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(startTile.tileRow + (i * VectorAttirance.x), startTile.tileColumn));
@@ -28,7 +27,6 @@ public class SO_MagnetMovementBuff : SO_BuffMoving
                 {
                     if (currentTile.hasPlayer)
                     {
-                        Debug.Log($"New MagneticCommand place in List, owner : {ownerOfBuff.name}, vector : {VectorAttirance}, playerAffect : {currentTile.currentPlayer.name}");
                         MagneticCommand magneticCommand = new MagneticCommand(ownerOfBuff, VectorAttirance, currentTile);
                         CommandManager.Instance._listCommandsInGame.Insert(1, magneticCommand);
                     }
@@ -39,7 +37,6 @@ public class SO_MagnetMovementBuff : SO_BuffMoving
 
         if (VectorAttirance.y != 0) //Up and Down
         {
-            Debug.Log("UP AND DOWN MAGNETISE");
             for (int i = 15; i >= 2; i--)
             {
                 Tile currentTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(startTile.tileRow, startTile.tileColumn + (i * VectorAttirance.y)));
@@ -47,7 +44,6 @@ public class SO_MagnetMovementBuff : SO_BuffMoving
                 {
                     if (currentTile.hasPlayer)
                     {
-                        Debug.Log($"New MagneticCommand place in List, owner : {ownerOfBuff.name}, vector : {VectorAttirance}, playerAffect : {currentTile.currentPlayer.name}");
                         MagneticCommand magneticCommand = new MagneticCommand(ownerOfBuff, VectorAttirance, currentTile);
                         CommandManager.Instance._listCommandsInGame.Insert(1, magneticCommand);
                     }

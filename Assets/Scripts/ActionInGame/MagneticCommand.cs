@@ -22,7 +22,6 @@ public class MagneticCommand : CommandInGame
 
     public override void LaunchActionInGame()
     {
-        Debug.Log("Vecteur attirance"+ _vectorAttirance + "Affected Player : " + _affectedPlayer);
         //If the target player is no longer on the tile, we stop
         if (_affectedTile.currentPlayer == null)
         {
@@ -33,12 +32,10 @@ public class MagneticCommand : CommandInGame
         {
             if (_affectedTile.currentPlayer)
             {
-                Debug.Log("Player found on affected tile.");
                 _affectedPlayer = _affectedTile.currentPlayer;
             }
             else
             {
-                Debug.Log("Player NOT found on affected tile.");
                 EndActionInGame();
                 return;
             }
@@ -47,7 +44,6 @@ public class MagneticCommand : CommandInGame
         //If either the attracting player or the affected player is dead, we stop
         if (_ownerPlayer._isDead || _affectedPlayer._isDead) 
         {
-            Debug.Log("One of the both players are dead");
             EndActionInGame();
             return;
         }
@@ -55,7 +51,6 @@ public class MagneticCommand : CommandInGame
         //If both players are no longer on the same row or column, we stop
         if (!BoardManager.Instance.TileSameLineAndSameColumn(_ownerPlayer._currentTile, _affectedTile))
         {
-            Debug.Log("Player are not still in same positions");
             EndActionInGame();
             return;
         }
@@ -70,9 +65,7 @@ public class MagneticCommand : CommandInGame
         _currentMovementPlayer.RotatePlayerWithvector(_vectorAttirance * -1);
 
         _vectorAttirance = NormalizeTheVector(_vectorAttirance);
-        
-        Debug.Log("Vecteur normalize = " + _vectorAttirance);
-        
+
         if (_vectorAttirance.x != 0) //Left and Right directions
         {
             //Move the player with a pushed effect
@@ -123,10 +116,6 @@ public class MagneticCommand : CommandInGame
         {
             _affectedPlayer._playerMovementComponent.EndOfMoving -= EndActionInGame;
         }
-        else
-        {
-            Debug.Log("BUG OF MAGNETISE BECAUSE NULL REF");
-        }
-        
+
     }
 }

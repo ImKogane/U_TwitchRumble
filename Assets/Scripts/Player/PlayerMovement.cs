@@ -111,11 +111,6 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        if (_currentPlayer._currentTile)
-        {
-            Debug.Log("Current Tile : [" + _currentPlayer._currentTile.tileRow + "," + _currentPlayer._currentTile.tileColumn + "]");
-        }
-
         Tile NextTile = null;
 
         //Avancer en X 
@@ -130,10 +125,6 @@ public class PlayerMovement : MonoBehaviour
             NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(_currentPlayer._currentTile.tileRow, _currentPlayer._currentTile.tileColumn + _rotationOfPlayer.y));
             CheckBeforeMoveToATile(NextTile, isPushed);
         }
-        else
-        {
-            Debug.Log("Le joueur est pas orienté en X ou en Z");
-        }
     }
 
     public void CheckBeforeMoveToATile(Tile nextTile, bool isPushed = false)
@@ -144,14 +135,10 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        Debug.Log("Cellule ciblée : [" + nextTile.tileRow + "," + nextTile.tileColumn + "]");
-
         if (nextTile.hasObstacle)
         {
-            Debug.Log("Cellule ciblée est occupé par un obstacle.");
             if (_canJumpObstacle)
             {
-                Debug.Log("Vous sautez au dessus d'un obstacle.");
                 JumpAnObstacle();
             }
             EndOfMoving.Invoke();
@@ -160,7 +147,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (nextTile.hasPlayer)
         {
-            Debug.Log("Cellule ciblée est occupé par un joueur.");
             EndOfMoving.Invoke();
             return;
         }
@@ -170,7 +156,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void GoToATile(Tile nextTile, bool isPushed = false)
     {
-        Debug.Log("Tile detecté, le mouvement peut etre fait !");
 
         ResetMyTile();
 
@@ -269,8 +254,6 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator FallInWaterCoroutine()
     {
-        Debug.Log("Aucune Tile detectée, vous plongez dans l'océan.");
-
         float offset = 5;
 
         //Avancer jusqu'au milieu du trou.

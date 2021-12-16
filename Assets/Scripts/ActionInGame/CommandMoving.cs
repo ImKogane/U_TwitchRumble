@@ -23,11 +23,9 @@ public class CommandMoving : CommandInGame
     //Rotate the player so he's facing the direction he's moving to
     public override void LaunchActionInGame()
     {
-        Debug.Log("LAUNCH ACTIONS IN GAME! MOVING");
-        
+
         if (_ownerPlayer._isDead) //Safety check
         {
-            Debug.Log("BUG POSSIBLE ?");
             EndActionInGame();
             return;
         }

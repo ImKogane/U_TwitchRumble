@@ -75,8 +75,7 @@ public class GoogleSheetManager : SingletonMonobehaviour<GoogleSheetManager>
     public async Task SetPlayersListToSheet()
     {
         List<string> playersName = PlayerManager.Instance._listPlayersNames;
-
-        Debug.Log(_currentColumn);
+        
         await SetACell(playersName.Count.ToString(), _currentColumn, _currentLine);
 
 
@@ -99,8 +98,6 @@ public class GoogleSheetManager : SingletonMonobehaviour<GoogleSheetManager>
         {
             for (int i = 0; i < item.Count; i++)
             {
-                //VariablesGetFromSheet.Add((int)item[i]);
-                Debug.Log("Datas get from sheet : " + item[i]);
                 _variablesGetFromSheet.Add(Convert.ToInt32(item[i]));
             }
         }
@@ -120,7 +117,6 @@ public class GoogleSheetManager : SingletonMonobehaviour<GoogleSheetManager>
         }
         else
         {
-            Debug.Log("No data found.");
             return null;
         }
     }
@@ -136,17 +132,14 @@ public class GoogleSheetManager : SingletonMonobehaviour<GoogleSheetManager>
                 {
                     _currentLine++;
                 }
-                Debug.Log(_currentLine);
             }
         }
         _currentLine ++;
-        Debug.Log(_currentLine);
     }
 
     public async Task SetACell(string DataToSave, int column, int line)
     {
         string nameOfPage = "Stats!"+_allLettersList[column] + line.ToString();
-        Debug.Log("CellToStoreDatas :" + nameOfPage);
 
         ValueRange values = new ValueRange();
 

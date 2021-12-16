@@ -121,13 +121,11 @@ public class Player : MonoBehaviour
     public void StartAttackAnimation()
     {
         _animatorComponent.CrossFade("Attack", 0, 0);
-        Debug.Log("START ANIM");
     }
 
     //Method called by an animation event inside all Attack animations
     public void Attack()
     {
-        Debug.Log("LAUNCH ATTACK FUNCTION");
         if (_currentWeapon == null) //Safety check
         {
             return;
@@ -168,7 +166,6 @@ public class Player : MonoBehaviour
         }
 
         _endOfAttackAction.Invoke(); //Tells the Attack Command it ended
-        Debug.Log("LAUNCH EVENT OF END ATTACK");
     }
 
     //Remove health, play animation and can trigger death system with animation

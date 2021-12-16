@@ -89,7 +89,6 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
 
             if (message.Contains("Your host is"))
             {
-                Debug.Log("CONNEXION ? " + message);
                 PanelConnexion.SetActive(false);
             }
             
@@ -103,8 +102,6 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
                 //Get the MESSAGE.
                 int splitPointM = message.IndexOf(":", 1);
                 string messageOfUser = message.Substring(splitPointM + 1);
-
-                Debug.Log("MESSAGE of " + NameOfUser + " : " + messageOfUser);
 
                 AnalyseChatCommand(NameOfUser, messageOfUser);
             }
@@ -141,7 +138,6 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
             if (!PlayerManager.Instance._listPlayersNames.Contains(nameOfPlayer) && PlayerManager.Instance._listPlayersNames.Count < numberMaxOfPlayer)
             {
                 PlayerManager.Instance._listPlayersNames.Add(nameOfPlayer);
-                Debug.Log("COMMAND : " + nameOfPlayer + " join the game !");
                 PlayerManager.Instance.SpawnPlayerOnLobby(nameOfPlayer);
             }
         }
@@ -152,7 +148,6 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
             if (messageOfPlayer == QuitCommande) //Deconnection du joueur twitch du jeu. 
             {
                 PlayerManager.Instance._listPlayersNames.Remove(nameOfPlayer);
-                Debug.Log("COMMAND : " + nameOfPlayer + " quit the game !");
             }
 
             if (playersCanMakeActions)
@@ -163,27 +158,22 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
 
                 if (messageOfPlayer == AttackCommande) //Attack
                 {
-                    Debug.Log("COMMAND : " + nameOfPlayer + " attack !");
                     InputManager.Instance.AttackCommand(currentplayer);
                 }
                 if (messageOfPlayer == LeftCommande) //MoveLeft
                 {
-                    Debug.Log("COMMAND : " + nameOfPlayer + " move to the left !");
                     InputManager.Instance.MoveCommand(currentplayer, EnumClass.Direction.Left);
                 }
                 if (messageOfPlayer == RightCommande) //MoveRight
                 {
-                    Debug.Log("COMMAND : " + nameOfPlayer + " move to the right !");
                     InputManager.Instance.MoveCommand(currentplayer, EnumClass.Direction.Right);
                 }
                 if (messageOfPlayer == UpCommande) //MoveTop
                 {
-                    Debug.Log("COMMAND : " + nameOfPlayer + " move to the top !");
                     InputManager.Instance.MoveCommand(currentplayer, EnumClass.Direction.Up);
                 }
                 if (messageOfPlayer == DownCommande) //MoveDown
                 {
-                    Debug.Log("COMMAND : " + nameOfPlayer + " move to the down !");
                     InputManager.Instance.MoveCommand(currentplayer, EnumClass.Direction.Down);
                 }
             }
@@ -219,14 +209,11 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
                         {
                             numberOfCommand--;
 
-                            Debug.Log("COMMAND : " + nameOfPlayer + " choose choice " + numberOfCommand);
-
                             InputManager.Instance.ChoiceCommand(currentplayer, numberOfCommand);
                         }
                     }
                     else 
                     {
-                        Debug.Log("Number of command is not valid !");
                         return; 
                     }
                 }

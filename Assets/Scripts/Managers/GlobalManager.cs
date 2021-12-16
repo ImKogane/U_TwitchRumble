@@ -158,8 +158,6 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
         //All the players will be dropped on the board
         foreach (var item in PlayerManager.Instance._listPlayers)
         {
-            Debug.Log("Player : " + item);
-            Debug.Log("Tile of this player : " + item._currentTile);
             item.gameObject.transform.DOMove(item._currentTile.transform.position, 1).SetEase(Ease.OutSine);
 
             yield return new WaitForSeconds(2);

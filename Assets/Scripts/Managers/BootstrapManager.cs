@@ -94,7 +94,6 @@ public class BootstrapManager : SingletonMonobehaviour<BootstrapManager>
         foreach (var scene in scenesToLoad)
         {
             _asyncOperations.Add(SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive));
-            Debug.Log($"{scene} - ToLoad - AddToAsyncOp");
         }
     }
 
@@ -103,7 +102,6 @@ public class BootstrapManager : SingletonMonobehaviour<BootstrapManager>
         foreach (var scene in scenesToUnload)
         {
             _asyncOperations.Add(SceneManager.UnloadSceneAsync(scene));
-            Debug.Log($"{scene} - ToUnload - AddToAsyncOp");
         }
     }
 
@@ -114,7 +112,6 @@ public class BootstrapManager : SingletonMonobehaviour<BootstrapManager>
         for (int i = 0; i < SceneManager.sceneCount; i++)
         {
             ListOfOpenedScene.Add(SceneManager.GetSceneAt(i).name);
-            Debug.Log("Scene already open : " + SceneManager.GetSceneAt(i).name);
         }
 
         return ListOfOpenedScene;

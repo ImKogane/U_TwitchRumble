@@ -16,24 +16,20 @@ public class CommandManager : SingletonMonobehaviour<CommandManager>
             
             if (_listCommandsInGame.Contains(command))
             {
-                Debug.Log(command + "REMOVE FROM LIST COMMAND BECAUSE EXECUTE");
                 _listCommandsInGame.Remove(command); //On s'enleve de la liste. 
             }
             
             if (_listCommandsInGame.Count > 0)
             {
-                Debug.Log(command + "LAUNCH COMMAND IN INDEX 0 ");
                 _listCommandsInGame[0].LaunchActionInGame(); //On lance la prochaine action. 
             }
             else
             {
-                Debug.Log(command + "NO COMMAND IN LIST SO LETS DO THE NEXT STATE OF GAME");
                 if (GlobalManager.Instance.GetCurrentGameState() == EnumClass.GameState.ActionTurn) GlobalManager.Instance.EndActionTurn();
             }
         }
         else if (_listCommandsInGame.Count == 0)
         {
-            Debug.Log("BUG DETECT CAR PLUS DACTIONS DANS LA LISTE");
             if (GlobalManager.Instance.GetCurrentGameState() == EnumClass.GameState.ActionTurn) GlobalManager.Instance.EndActionTurn();
         }
     }
@@ -42,14 +38,12 @@ public class CommandManager : SingletonMonobehaviour<CommandManager>
     {
         if (_listCommandsInGame.Count > 0)
         {
-            Debug.Log("START ALL ACTIONS !");
             UIManager.Instance.DisplayPhaseTitle("[Action Phase]");
             UIManager.Instance.DisplayPhaseDescription("Wait, all actions are running.");
             _listCommandsInGame[0].LaunchActionInGame();
         }
         else
         {
-            Debug.Log("NO ACTIONS IN LIST !");
             GlobalManager.Instance.EndActionTurn();
         }
     }
