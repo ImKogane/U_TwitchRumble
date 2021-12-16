@@ -27,6 +27,7 @@ public class UI_WinScreen : MonoBehaviour
     
     public void BackToMenu()
     {
+        PlayerManager.Instance.ResetPlayerManager();
         TwitchManager.Instance.SetPlayersCanJoin(false);
         AudioManager.Instance.EnableAmbienceSounds(false);
     }

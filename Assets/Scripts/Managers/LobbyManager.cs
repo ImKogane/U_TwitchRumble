@@ -9,15 +9,15 @@ using Random = UnityEngine.Random;
 public class LobbyManager : SingletonMonobehaviour<LobbyManager>
 {
     [Header("Reference UI Lobby")]
-    public TextMeshProUGUI PlayerList;
-    public GameObject CanvasLobby;
-    public PlayerManager PlayerManager;
+    public TextMeshProUGUI _playerList;
+    public GameObject _canvasLobby;
+    public PlayerManager _playerManager;
 
     public List<Tile> LobbyTileList = new List<Tile>();
     
     public UI_Lobby _uiLobby;
 
-    private int compteurBot = 1;
+    private int _compteurBot = 1;
 
     public override bool DestroyOnLoad => true;
 
@@ -60,8 +60,8 @@ public class LobbyManager : SingletonMonobehaviour<LobbyManager>
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
-            PlayerManager.Instance.SpawnPlayerOnLobby("[BOT" + compteurBot + "]");
-            compteurBot++;
+            PlayerManager.Instance.SpawnPlayerOnLobby("[BOT" + _compteurBot + "]");
+            _compteurBot++;
         }
     }
 

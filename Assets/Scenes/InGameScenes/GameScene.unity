@@ -354,15 +354,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _turnChoiceList:
-  - choiceList:
+  - _choiceList:
     - {fileID: 11400000, guid: f73f3e2f0fb2e7844830638ccaebdc71, type: 2}
     - {fileID: 11400000, guid: 8e04e1837ed367347a83fe2e663f357a, type: 2}
     - {fileID: 11400000, guid: 1c51868a45d99704db06152d8667e28e, type: 2}
-  - choiceList:
+  - _choiceList:
     - {fileID: 11400000, guid: f09e75a28efd6954d85355ccb9178c55, type: 2}
     - {fileID: 11400000, guid: cb6ab9c44cbb91b4fb4c68d99262f9e8, type: 2}
     - {fileID: 11400000, guid: e7d710274ef13fd4b91f6112c1458475, type: 2}
-  - choiceList:
+  - _choiceList:
     - {fileID: 11400000, guid: fd39718f08fbb044d8c84c7262137268, type: 2}
     - {fileID: 11400000, guid: 785906a775d82b54793dafe2025d0d5c, type: 2}
     - {fileID: 11400000, guid: 52ae23007aaba5441a08b33279672aca, type: 2}

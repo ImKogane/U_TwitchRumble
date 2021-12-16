@@ -83,30 +83,6 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
         }
     }
 
-    public List<int> GetAllPlayerHealth()
-    {
-        List<int> tempList = new List<int>();
-
-        foreach (Player player in _listPlayers)
-        {
-            tempList.Add(player._currentHealth);
-        }
-
-        return tempList;
-    }
-
-    public List<Vector2Int> GetAllPlayerTiles()
-    {
-        List<Vector2Int> tempList = new List<Vector2Int>();
-
-        foreach (var player in _listPlayers)
-        {
-            tempList.Add(new Vector2Int(player._currentTile.tileRow, player._currentTile.tileColumn));
-        }
-
-        return tempList;
-    }
-
     public void ResetPlayerManager()
     {
         _listPlayers.Clear();

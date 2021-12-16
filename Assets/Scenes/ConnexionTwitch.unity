@@ -12075,9 +12075,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7765b5f38a4811f43b067ea87423370f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerList: {fileID: 0}
-  CanvasLobby: {fileID: 431452956}
-  PlayerManager: {fileID: 314623835}
+  _playerList: {fileID: 0}
+  _canvasLobby: {fileID: 341703558}
+  _playerManager: {fileID: 314623835}
   LobbyTileList:
   - {fileID: 1995103721}
   - {fileID: 1696467250}
@@ -13439,7 +13439,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de10d6a9417ae60499737990d825f173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _uiLobby: {fileID: 1872679306}
   _gameLevel: {fileID: 11400000, guid: 9afa1ff3d1844c54aa67cbd1ef3d9a29, type: 2}
 --- !u!4 &1578033825
 Transform:

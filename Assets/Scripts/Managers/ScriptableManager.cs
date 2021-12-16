@@ -8,7 +8,7 @@ public class ScriptableManager : SingletonMonobehaviour<ScriptableManager>
     [System.Serializable]
     public class ListSoChoiceClass
     {
-        public List<SO_Choice> choiceList;
+        public List<SO_Choice> _choiceList;
     }
 
     private int _choiceIndexCompteur = 0;
@@ -29,7 +29,7 @@ public class ScriptableManager : SingletonMonobehaviour<ScriptableManager>
     {
         if (_turnChoiceList.Count > _choiceIndexCompteur)
         {
-            int rand = Random.Range(0, _turnChoiceList[_choiceIndexCompteur].choiceList.Count);
+            int rand = Random.Range(0, _turnChoiceList[_choiceIndexCompteur]._choiceList.Count);
             return rand;
         }
         return 0;
@@ -39,9 +39,9 @@ public class ScriptableManager : SingletonMonobehaviour<ScriptableManager>
     {
         if (compteur < _turnChoiceList.Count)
         {
-            if (index < _turnChoiceList[compteur].choiceList.Count)
+            if (index < _turnChoiceList[compteur]._choiceList.Count)
             {
-                return _turnChoiceList[compteur].choiceList[index];
+                return _turnChoiceList[compteur]._choiceList[index];
             }
         }
 
@@ -54,7 +54,7 @@ public class ScriptableManager : SingletonMonobehaviour<ScriptableManager>
         
         foreach (var listSoChoice in _turnChoiceList)
         {
-            int tempIndex = listSoChoice.choiceList.FindIndex((c) => { return c == choice; });
+            int tempIndex = listSoChoice._choiceList.FindIndex((c) => { return c == choice; });
 
             if (tempIndex >= 0)
             {

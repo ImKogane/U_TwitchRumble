@@ -22,13 +22,7 @@ public class BoardManager : SingletonMonobehaviour<BoardManager>
     public GameObject _trapPrefab;
     
     public override bool DestroyOnLoad => true;
-
-    void Start()
-    {
-        //On sait que cette methode ne devrait pas etre appelée ici, mais manque de temps pour trouver une nouvelle solution. 
-        //StartGameManager.Instance.LaunchGame(); 
-    }
-
+    
     #region SetUp Board
     public void SetupNewBoard()
     {

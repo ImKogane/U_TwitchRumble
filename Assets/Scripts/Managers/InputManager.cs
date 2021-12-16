@@ -119,7 +119,7 @@ public class InputManager : SingletonMonobehaviour<InputManager>
             return;
         }
 
-        if (ScriptableManager.Instance._turnChoiceList[currentIndexChoice].choiceList.Count <= choiceIndex)
+        if (ScriptableManager.Instance._turnChoiceList[currentIndexChoice]._choiceList.Count <= choiceIndex)
         {
             Debug.Log("Number of command is out of range !");
             return;

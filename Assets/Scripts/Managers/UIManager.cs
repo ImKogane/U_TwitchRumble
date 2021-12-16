@@ -130,13 +130,13 @@ public class UIManager : SingletonMonobehaviour<UIManager>
             return;
         }
 
-        for (int i = 0; i < ScriptableManager.Instance._turnChoiceList[currentIndexChoice].choiceList.Count; i++)
+        for (int i = 0; i < ScriptableManager.Instance._turnChoiceList[currentIndexChoice]._choiceList.Count; i++)
         {
             Image newChoiceImage = new GameObject().AddComponent<Image>();
 
             newChoiceImage.transform.parent = choiceScreen;
             newChoiceImage.sprite =
-                ScriptableManager.Instance._turnChoiceList[currentIndexChoice].choiceList[i]._cardSprite;
+                ScriptableManager.Instance._turnChoiceList[currentIndexChoice]._choiceList[i]._cardSprite;
             newChoiceImage.preserveAspect = true;
 
             choiceImagesList.Add(newChoiceImage);
