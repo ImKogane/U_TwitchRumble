@@ -79,7 +79,6 @@ public class BootstrapManager : SingletonMonobehaviour<BootstrapManager>
         foreach (var AOp in _asyncOperations)
         {
             yield return new WaitUntil(() => AOp.isDone);
-            Debug.Log($"WaitUntilChargementOfScenes");
             _chargementUI.AdaptSlider(1, _asyncOperations.Count);
         }
 
