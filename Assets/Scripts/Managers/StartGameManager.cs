@@ -9,9 +9,7 @@ public class StartGameManager : SingletonMonobehaviour<StartGameManager>
     public override bool DestroyOnLoad => false;
 
     private bool _loadingSavedGame = false;
-
-    [SerializeField]
-    private UI_Lobby _uiLobby;
+    
     [SerializeField]
     private SO_level _gameLevel;
 

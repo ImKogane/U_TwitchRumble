@@ -1746,15 +1746,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _walkMovementSpeed: 1.5
   _pushedMovementSpeed: 1.5
-  InitialRotation: {x: 0, y: 0, z: 0, w: 1}
-  RotationOfPlayer: {x: 0, y: 0}
-  CurrentPlayer: {fileID: 941451258311421410}
-  CanJumpObstacle: 0
-  _animator: {fileID: 3703252163889179362}
-  FoostepsEvents:
+  _foostepsEvents:
   - {fileID: 11400000, guid: b117c067a81a7df4482fbacc2b90d478, type: 2}
   - {fileID: 11400000, guid: 684450a3ef671f845a942e3a10be59df, type: 2}
   - {fileID: 11400000, guid: 01be4fdb10fc1df43b12a7c61cec5457, type: 2}
+  _canMove: 1
+  _canJumpObstacle: 0
+  _initialRotation: {x: 0, y: 0, z: 0, w: 0}
+  _rotationOfPlayer: {x: 0, y: 0}
+  _currentPlayer: {fileID: 941451258311421410}
+  _animator: {fileID: 3703252163889179362}
 --- !u!1 &8028029919027752019
 GameObject:
   m_ObjectHideFlags: 0

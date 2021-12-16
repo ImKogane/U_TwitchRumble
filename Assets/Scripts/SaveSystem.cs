@@ -102,7 +102,7 @@ public static class SaveSystem
                 }
             }
 
-            tempPlayerData._playerRotation = player._playerMovementComponent.RotationOfPlayer;
+            tempPlayerData._playerRotation = player._playerMovementComponent._rotationOfPlayer;
             tempPlayerData._playerTile = player._currentTile.GetCoord();
             tempPlayerData._playerChoices = player._choicesMade;
             

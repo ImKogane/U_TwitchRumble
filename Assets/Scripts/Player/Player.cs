@@ -135,7 +135,7 @@ public class Player : MonoBehaviour
         _currentWeapon.RaiseEvent(); //Raise event for additional FX is wanted
         
         //Fetch from the BoardManager the tiles affected by the weapon's attack
-        List<Tile> listTileAffect = BoardManager.Instance.GetAffectedTiles(_currentWeapon._listOfCellAffects, _currentTile, _playerMovementComponent.RotationOfPlayer);
+        List<Tile> listTileAffect = BoardManager.Instance.GetAffectedTiles(_currentWeapon._listOfCellAffects, _currentTile, _playerMovementComponent._rotationOfPlayer);
         List<Player> PlayersAffectByAttack = new List<Player>();
 
         foreach (Tile tile in listTileAffect)

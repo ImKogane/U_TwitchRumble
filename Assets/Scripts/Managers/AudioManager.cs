@@ -6,16 +6,23 @@ public class AudioManager : SingletonMonobehaviour<AudioManager>
 {
     public override bool DestroyOnLoad => false;
     
+    [Header("AudioMixer")]
     [SerializeField] private AudioMixer _audioMixer;
+    
+    [Header("Sounds Volume Curve")]
     [SerializeField] private AnimationCurve _audioCurve;
     
+    [Header("Audio Sources")]
     [SerializeField] private AudioSource _musicAudioSource;
     [SerializeField] private AudioSource _ambianceAudioSource;
 
+    [Header("Default Volume Values")]
     public float _defaultSFXVolume = .5f;
     public float _defaultMusicVolume = .5f;
     public float _defaultAmbienceVolume = .5f;
     
+    
+    #region ChangeVolumeValues
     public void MusicVolumeChanged(float value)
     {
         float dbValue = _audioCurve.Evaluate(value);
@@ -36,6 +43,7 @@ public class AudioManager : SingletonMonobehaviour<AudioManager>
         _audioMixer.SetFloat("ambienceVolume", dbValue);
         PlayerPrefs.SetFloat("ambienceVolume", value);
     }
+    #endregion
     
     public void PlayBGMusic(AudioClip newClip)
     {

@@ -128,7 +128,7 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
         PlayerMovement newPlayerMovement = newPlayer.gameObject.GetComponent<PlayerMovement>();
         Tile playerTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(playerData._playerTile.y, playerData._playerTile.x));
 
-        newPlayerMovement.CurrentPlayer = newPlayer;
+        newPlayerMovement._currentPlayer = newPlayer;
         newPlayerMovement.SetNewTile(playerTile);
 
         newPlayer.transform.position = newPlayer._currentTile.transform.position;

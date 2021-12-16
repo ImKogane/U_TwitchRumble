@@ -7,7 +7,7 @@ public class SO_SpringMovementBuff : SO_BuffMoving
 {
     public override void StartAChoice(Player ownerOfBuff)
     {
-        ownerOfBuff._playerMovementComponent.CanJumpObstacle = true;
+        ownerOfBuff._playerMovementComponent._canJumpObstacle = true;
     }
     
 }

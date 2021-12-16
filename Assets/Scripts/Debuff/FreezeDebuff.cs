@@ -9,20 +9,20 @@ public class FreezeDebuff : Debuff
     //Trigger FX + the player can't move (but still rotate) anymore
     public override void OnPlayerReceiveDebuff()
     {
-        _debuffVictim._playerMovementComponent.canMove = false;
+        _debuffVictim._playerMovementComponent._canMove = false;
     }
 
     //Refresh the movement freezing boolean
     public override void ApplyEffect()
     {
-        _debuffVictim._playerMovementComponent.canMove = false;
+        _debuffVictim._playerMovementComponent._canMove = false;
         //Play small FX
     }
 
     //The victim can move freely again
     public override void RemoveEffect()
     {
-        _debuffVictim._playerMovementComponent.canMove = true;
+        _debuffVictim._playerMovementComponent._canMove = true;
         base.RemoveEffect();
     }
 }

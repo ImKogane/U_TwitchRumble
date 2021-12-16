@@ -7,7 +7,7 @@ public class WindWeaponBuff : SO_BuffWeapon
 {
     public override void ApplyWeaponBuff(Player playerAffect, Player playerAttacking)
     {
-        Vector2Int rotOfPlayerAttacking = playerAttacking._playerMovementComponent.RotationOfPlayer;
+        Vector2Int rotOfPlayerAttacking = playerAttacking._playerMovementComponent._rotationOfPlayer;
         Vector2Int posPlayerAffect = new Vector2Int(playerAffect._currentTile.tileRow, playerAffect._currentTile.tileColumn);
         Vector2Int posPlayerAttacking = new Vector2Int(playerAttacking._currentTile.tileRow, playerAttacking._currentTile.tileColumn);
 
