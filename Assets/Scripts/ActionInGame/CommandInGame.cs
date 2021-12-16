@@ -25,21 +25,7 @@ public class CommandInGame
 
     public virtual void EndActionInGame()
     {
-        if (GlobalManager.Instance.ListCommandsInGame.Count > 0 && GlobalManager.Instance.ListCommandsInGame[0] == this) //Somme nous bien l'action a la base de la liste
-        {
-            GlobalManager.Instance.ListCommandsInGame.Remove(this); //On s'enleve de la liste. 
-
-            if (GlobalManager.Instance.ListCommandsInGame.Count > 0)
-            {
-                GlobalManager.Instance.ListCommandsInGame[0].LaunchActionInGame(); //On lance la prochaine action. 
-
-                Debug.Log("Next Action");
-            }
-            else
-            {
-                if (GlobalManager.Instance.GetCurrentGameState() == EnumClass.GameState.ActionTurn) GlobalManager.Instance.EndActionTurn();
-            }
-        }
+        GlobalManager.Instance.ManageEndOfCommand(this);
     }
 
     public virtual void DestroyCommand()

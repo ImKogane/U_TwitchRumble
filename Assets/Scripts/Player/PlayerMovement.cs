@@ -309,7 +309,6 @@ public class PlayerMovement : MonoBehaviour
         //Attendre d'etre dans l'eau.
         yield return new WaitForSeconds(delayGoUp + delayGoDown);
 
-        CurrentPlayer.isDead = true;
         CurrentPlayer.KillPlayer();
     }
     #endregion

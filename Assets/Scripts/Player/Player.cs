@@ -115,18 +115,10 @@ public class Player : MonoBehaviour
         _trapPrefab = _playerData._trapPrefab;
     }
     
-    public IEnumerator StartAttackCoroutine()
+    public void StartAttackAnimation()
     {
         //Play anim in the animator
         _animator.SetTrigger("IsAttacking");
-        
-        AnimatorClipInfo currentAnimationInfo = _animator.GetCurrentAnimatorClipInfo(0)[0];
-
-        yield return new WaitForSeconds(currentAnimationInfo.clip.length);
-        
-        //Attack function is launch in animation events inside the animation.
-        
-        EndOfAttack.Invoke();
     }
 
     public void Attack()
@@ -155,6 +147,7 @@ public class Player : MonoBehaviour
                             tile.currentPlayer.AlreadyAttackThisTurn = true;
                             PlayersAffectByAttack.Add(tile.currentPlayer);
                             tile.currentPlayer.ReceiveWeaponBuffEffect(this);
+
                         }
                     }
                 }
@@ -165,6 +158,8 @@ public class Player : MonoBehaviour
         {
             player.AlreadyAttackThisTurn = false;
         }
+
+        EndOfAttack.Invoke();
     }
 
     public void ReceiveDamage(int damage)
@@ -190,15 +185,12 @@ public class Player : MonoBehaviour
 
         CurrentTile.hasPlayer = false;
         CurrentTile.currentPlayer = null;
-        
-        playerMovement.EndOfMoving.Invoke();
-        EndOfAttack.Invoke();
-        EndOfDeath.Invoke();
 
         isDead = true;
+
         Debug.Log($"{namePlayer} is dead !");
         
-        GlobalManager.Instance.DestroyAllCommandsOfPlayer(this);
+        GlobalManager.Instance.DestroyAllCommandsOfDeadPlayer(this);
         
         Destroy(playerCanvas.gameObject);
         Destroy(gameObject);
@@ -206,15 +198,15 @@ public class Player : MonoBehaviour
 
     public IEnumerator DeathCoroutine()
     {
-
         _animator.SetBool("IsDead", true);
         
         AnimatorClipInfo currentAnimationInfo = _animator.GetCurrentAnimatorClipInfo(0)[0];
 
         yield return new WaitForSeconds(currentAnimationInfo.clip.length);
-        
-        KillPlayer();
 
+        EndOfDeath.Invoke();
+
+        KillPlayer();
     }
 
     public void ManageAllDebuffs()

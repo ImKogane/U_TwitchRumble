@@ -323,6 +323,40 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
         }
     }
 
+    public void DestroyAllCommandsOfDeadPlayer(Player ownerOfCommands)
+    {
+        DestroyAllCommandsOfPlayer(ownerOfCommands);
+
+        if (ListCommandsInGame.Count > 0)
+        {
+            ListCommandsInGame[0].LaunchActionInGame();
+        }
+        else
+        {
+            if (GetCurrentGameState() == EnumClass.GameState.ActionTurn) EndActionTurn();
+            Debug.Log("TECHNIQUE 1 DE FIN DE TOUR");
+        }
+    } 
+
+    public void ManageEndOfCommand(CommandInGame command)
+    {
+        if (ListCommandsInGame.Count > 0 && ListCommandsInGame[0] == command) //Somme nous bien l'action a la base de la liste
+        {
+            ListCommandsInGame.Remove(command); //On s'enleve de la liste. 
+
+            if (ListCommandsInGame.Count > 0)
+            {
+                ListCommandsInGame[0].LaunchActionInGame(); //On lance la prochaine action. 
+
+                Debug.Log("Next Action");
+            }
+            else
+            {
+                if (GetCurrentGameState() == EnumClass.GameState.ActionTurn) EndActionTurn();
+            }
+        }
+    }
+
     public void RemoveMoveCommandOfPlayer(Player ownerOfCommands)
     {
         List<CommandInGame> AllCommandsOfPlayer = FindPlayerCommands(ownerOfCommands);
