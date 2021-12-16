@@ -468,7 +468,7 @@ GameObject:
   - component: {fileID: 355449502}
   - component: {fileID: 355449501}
   m_Layer: 0
-  m_Name: ScenesManager
+  m_Name: BootstrapManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
