@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class CommandChoice : CommandInGame
 {
@@ -17,6 +14,7 @@ public class CommandChoice : CommandInGame
     public override void LaunchActionInGame()
     {
         _ownerPlayer.ReceiveAChoice(_choice);
+
         EndActionInGame();
     }
 }

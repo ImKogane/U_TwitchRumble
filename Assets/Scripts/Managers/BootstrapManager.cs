@@ -4,11 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class ScenesManager : SingletonMonobehaviour<ScenesManager>
+public class BootstrapManager : SingletonMonobehaviour<BootstrapManager>
 {
-
-    List<AsyncOperation> AsyncOperations = new List<AsyncOperation>();
-
     [Header("Non destructible scenes")]
     public List<string> _NeverDestroyScenes = new List<string>();
 
@@ -19,27 +16,27 @@ public class ScenesManager : SingletonMonobehaviour<ScenesManager>
     public ChargingUI _chargementUI;
 
     private AudioClip _musicToPlayWhenLevelLoaded;
-    
+    List<AsyncOperation> _asyncOperations = new List<AsyncOperation>();
+
     public override bool DestroyOnLoad => true;
-
-
 
     public void Start()
     {
         List<string> StartGameScenesNames = new List<string>();
         StartGameScenesNames.AddRange(_NeverDestroyScenes);
         StartGameScenesNames.AddRange(_startLevel.LevelsToCharge);
-        ChargeALevel(StartGameScenesNames, _startLevel._levelMusic);
+        StartChargeALevel(StartGameScenesNames, _startLevel._levelMusic);
     }
 
     #region Charge levels
-    public void ChargeALevel(List<string> ScenesOfNextLevel, AudioClip clip)
+    public void StartChargeALevel(List<string> ScenesOfNextLevel, AudioClip clip)
     {
         StartCoroutine(_chargementUI.FadeInCoroutine(ScenesOfNextLevel));
         _musicToPlayWhenLevelLoaded = clip;
     }
 
-    public IEnumerator AfterFadeIn(List<string> ScenesOfNextLevel)
+    //This function is call after the fade In of the canvas.
+    public IEnumerator ChargeLvl(List<string> ScenesOfNextLevel)
     {
         List<string> ScenesOfCurrentLevel = GetAllOpenedScenes();
 
@@ -73,44 +70,31 @@ public class ScenesManager : SingletonMonobehaviour<ScenesManager>
                 }
             }
         }
-        #endregion
-
-        #region debug log 
-        foreach (var item in ScenesToUnload)
-        {
-            Debug.Log("Scene to unload : " + item);
-        }
-        foreach (var item in ScenesToLoad)
-        {
-            Debug.Log("Scene to load : " + item);
-        }
-        #endregion
 
         //Add scenes to async operations. 
         AddUnloadToAsyncOp(ScenesToUnload);
         AddLoadToAsyncOp(ScenesToLoad);
 
         //Async operations for load and unload
-        foreach (var AOp in AsyncOperations)
+        foreach (var AOp in _asyncOperations)
         {
             yield return new WaitUntil(() => AOp.isDone);
             Debug.Log($"WaitUntilChargementOfScenes");
-            _chargementUI.AdaptSlider(1, AsyncOperations.Count);
+            _chargementUI.AdaptSlider(1, _asyncOperations.Count);
         }
 
-        AsyncOperations.Clear();
+        _asyncOperations.Clear();
 
-        
         AudioManager.Instance.PlayBGMusic(_musicToPlayWhenLevelLoaded);
-
     }
+    #endregion
 
     #region usefull functions
     private void AddLoadToAsyncOp(List<string> scenesToLoad)
     {
         foreach (var scene in scenesToLoad)
         {
-            AsyncOperations.Add(SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive));
+            _asyncOperations.Add(SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive));
             Debug.Log($"{scene} - ToLoad - AddToAsyncOp");
         }
     }
@@ -119,7 +103,7 @@ public class ScenesManager : SingletonMonobehaviour<ScenesManager>
     {
         foreach (var scene in scenesToUnload)
         {
-            AsyncOperations.Add(SceneManager.UnloadSceneAsync(scene));
+            _asyncOperations.Add(SceneManager.UnloadSceneAsync(scene));
             Debug.Log($"{scene} - ToUnload - AddToAsyncOp");
         }
     }

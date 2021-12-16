@@ -2454,11 +2454,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed9d67dc3230ec744ab358df3415c4da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerToInstantiate: 1
-  prefabOfPlayer: {fileID: 7984710894443702818, guid: fe1639c62a2b8884eac82f74322f8109, type: 3}
-  SkinSystem: {fileID: 11400000, guid: abef38fc6d0f48047b63c471e23d73e4, type: 2}
-  AllPlayersName: []
-  PlayerList: []
+  _prefabOfPlayer: {fileID: 7984710894443702818, guid: fe1639c62a2b8884eac82f74322f8109, type: 3}
+  _skinSystem: {fileID: 11400000, guid: abef38fc6d0f48047b63c471e23d73e4, type: 2}
+  _listPlayersNames: []
+  _listPlayers: []
 --- !u!4 &314623836
 Transform:
   m_ObjectHideFlags: 0
@@ -2471,7 +2470,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &318949791
 PrefabInstance:
@@ -4424,7 +4423,7 @@ RectTransform:
   - {fileID: 1489515999}
   - {fileID: 87971099}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -7818,7 +7817,7 @@ Transform:
   - {fileID: 490995164}
   - {fileID: 1402484805}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &954984617
 GameObject:
@@ -9507,65 +9506,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 56fca5d6e313a3c4e994b9c9f1bf97ae, type: 3}
   m_PrefabInstance: {fileID: 709652035}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1097726310
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1097726312}
-  - component: {fileID: 1097726311}
-  m_Layer: 0
-  m_Name: Twitchmanager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1097726311
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1097726310}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e795968a0cca2e04999848d1352d2326, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PasswordInput: {fileID: 0}
-  ChannelNameInput: {fileID: 0}
-  PanelConnexion: {fileID: 0}
-  AttackCommande: '!attack'
-  JoinCommande: '!join'
-  QuitCommande: '!quit'
-  LeftCommande: '!left'
-  RightCommande: '!right'
-  UpCommande: '!up'
-  DownCommande: '!down'
-  ChoiceCommande: '!card'
-  channelName: 
-  maxCharacterInNames: 12
-  numberMaxOfPlayer: 0
-  _UIMainMenu: {fileID: 0}
-  canReadCommands: 0
---- !u!4 &1097726312
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1097726310}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 631.5, y: 350.99884, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1100879992
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12190,7 +12130,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1401779188
 PrefabInstance:
@@ -13525,7 +13465,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1607344524
 PrefabInstance:
@@ -16116,7 +16056,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1897535027
 PrefabInstance:

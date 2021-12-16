@@ -104,7 +104,7 @@ public class ChargingUI : MonoBehaviour
         canvasGroupBackGround.alpha = 1;
         canvasGroup.alpha = 1;
 
-        StartCoroutine(ScenesManager.Instance.AfterFadeIn(ScenesOfNextLevel));
+        StartCoroutine(BootstrapManager.Instance.ChargeLvl(ScenesOfNextLevel));
     }
     #endregion
 }

@@ -10,7 +10,7 @@ public class SO_level : ScriptableObject
     
     public void ChargeLevel()
     {
-        ScenesManager.Instance.ChargeALevel(LevelsToCharge, _levelMusic);
+        BootstrapManager.Instance.StartChargeALevel(LevelsToCharge, _levelMusic);
     }
     
     

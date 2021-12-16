@@ -80,6 +80,7 @@ public class Player : MonoBehaviour
         //Random player model system
         _skinnedMeshComponent.sharedMesh = PlayerManager.Instance.SkinSystem.GetRandomSkin();
         _skinnedMeshComponent.material = PlayerManager.Instance.SkinSystem.GetRandomMaterial();
+
         // -------------------------
     }
 
@@ -185,7 +186,7 @@ public class Player : MonoBehaviour
         //Add a DeathCommand to the GlobalManager
         if (_currentHealth <= 0)
         {
-            GlobalManager.Instance.InsertCommandInList(1, new CommandDeath(this));
+            CommandManager.Instance.InsertCommandInList(1, new CommandDeath(this));
         }
     }
     
@@ -202,15 +203,18 @@ public class Player : MonoBehaviour
     //Main Death method : safely remove the player from the game
     public void KillPlayer()
     {
-        PlayerManager.Instance.AllPlayersName.Remove(_name);
-        PlayerManager.Instance.PlayerList.Remove(this);
+
+        PlayerManager.Instance._listPlayersNames.Remove(namePlayer);
+        PlayerManager.Instance._listPlayers.Remove(this);
+
 
         _currentTile.hasPlayer = false;
         _currentTile.currentPlayer = null;
 
         _isDead = true;
 
-        GlobalManager.Instance.DestroyAllCommandsOfDeadPlayer(this);
+
+        CommandManager.Instance.DestroyAllCommandsOfDeadPlayer(this);
         
         Destroy(_infosCanvas.gameObject);
         Destroy(gameObject);

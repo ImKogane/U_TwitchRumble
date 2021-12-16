@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.Remoting.Channels;
 using UnityEngine;
 
 public class InputManager : SingletonMonobehaviour<InputManager>
@@ -36,15 +32,15 @@ public class InputManager : SingletonMonobehaviour<InputManager>
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            ChoiceCommand(PlayerManager.Instance.PlayerList[0], 0);
+            ChoiceCommand(PlayerManager.Instance._listPlayers[0], 0);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            ChoiceCommand(PlayerManager.Instance.PlayerList[0], 1);
+            ChoiceCommand(PlayerManager.Instance._listPlayers[0], 1);
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            ChoiceCommand(PlayerManager.Instance.PlayerList[0], 2);
+            ChoiceCommand(PlayerManager.Instance._listPlayers[0], 2);
         }
     }
     
@@ -53,31 +49,31 @@ public class InputManager : SingletonMonobehaviour<InputManager>
         //Actions de déplacements. 
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            MoveCommand(PlayerManager.Instance.PlayerList[0], EnumClass.Direction.Up);
+            MoveCommand(PlayerManager.Instance._listPlayers[0], EnumClass.Direction.Up);
         }
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            MoveCommand(PlayerManager.Instance.PlayerList[0], EnumClass.Direction.Down);
+            MoveCommand(PlayerManager.Instance._listPlayers[0], EnumClass.Direction.Down);
         }
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            MoveCommand(PlayerManager.Instance.PlayerList[0], EnumClass.Direction.Right);
+            MoveCommand(PlayerManager.Instance._listPlayers[0], EnumClass.Direction.Right);
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            MoveCommand(PlayerManager.Instance.PlayerList[0], EnumClass.Direction.Left);
+            MoveCommand(PlayerManager.Instance._listPlayers[0], EnumClass.Direction.Left);
         }
 
         //Action d'attaque.
         if (Input.GetKeyDown(KeyCode.A))
         {
-            AttackCommand(PlayerManager.Instance.PlayerList[0]);
+            AttackCommand(PlayerManager.Instance._listPlayers[0]);
         }
     }
 
     public void MoveCommand(Player player, EnumClass.Direction direction)
     {
-        GlobalManager.Instance.RemoveMoveCommandOfPlayer(player);
+        CommandManager.Instance.RemoveMoveCommandOfPlayer(player);
 
         CommandMoving ActionToDo = null;
         switch (direction)
@@ -102,14 +98,14 @@ public class InputManager : SingletonMonobehaviour<InputManager>
                 break;
         }
 
-        GlobalManager.Instance.AddActionInGameToList(ActionToDo);
+        CommandManager.Instance.AddCommandToList(ActionToDo);
     }
 
     public void AttackCommand(Player player)
     {
-        GlobalManager.Instance.RemoveAttackCommandOfPlayer(player);
+        CommandManager.Instance.RemoveAttackCommandOfPlayer(player);
         CommandAttack ActionToDo = new CommandAttack(player);
-        GlobalManager.Instance.AddActionInGameToList(ActionToDo);
+        CommandManager.Instance.AddCommandToList(ActionToDo);
         player.DisplayCommandTxt("[Attack]");
     }
 
@@ -136,11 +132,16 @@ public class InputManager : SingletonMonobehaviour<InputManager>
             currentChoice.ApplyChoice(player);
         }
 
-        
         player._choicesMade.Add(choiceIndex);
+
         
         UIManager.Instance.DisplayChoiceTxt("[" + player._name + "]", choiceIndex);
+        
 
+        if (choiceInputsEnabled) //Just to block display UI for players who will have a random choice.
+        {
+            UIManager.Instance.DisplayChoiceTxt("[" + player.namePlayer + "]", choiceIndex);
+        }
     }
 
     

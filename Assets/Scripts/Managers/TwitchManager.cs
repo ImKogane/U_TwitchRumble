@@ -29,8 +29,8 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
     public string DownCommande;
     public string ChoiceCommande = "!card";
 
+    [Header("Parameters")]
     public string channelName;
-    
     public int maxCharacterInNames;
     public int numberMaxOfPlayer;
 
@@ -41,7 +41,7 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
     [System.NonSerialized] public bool canJoinedGame = false;
     [System.NonSerialized] public bool playersCanMakeActions = false;
     [System.NonSerialized] public bool playersCanMakeChoices = false;
-    public bool canReadCommands = false;
+    [System.NonSerialized] public bool canReadCommands = false;
 
     public override bool DestroyOnLoad => false;
 
@@ -91,7 +91,6 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
             {
                 Debug.Log("CONNEXION ? " + message);
                 PanelConnexion.SetActive(false);
-                //PanelLobby.SetActive(true);
             }
             
             if (message.Contains("PRIVMSG") && canReadCommands)
@@ -108,10 +107,6 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
                 Debug.Log("MESSAGE of " + NameOfUser + " : " + messageOfUser);
 
                 AnalyseChatCommand(NameOfUser, messageOfUser);
-            }
-            else
-            {
-                //Debug.Log("DEBUG : " + message);
             }
         }
     }
@@ -143,20 +138,20 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
         // Tcheck if game didn't start. 
         if (messageOfPlayer == JoinCommande && canJoinedGame) //Connection du joueur twitch dans le jeu 
         {
-            if (!PlayerManager.Instance.AllPlayersName.Contains(nameOfPlayer) && PlayerManager.Instance.AllPlayersName.Count < numberMaxOfPlayer)
+            if (!PlayerManager.Instance._listPlayersNames.Contains(nameOfPlayer) && PlayerManager.Instance._listPlayersNames.Count < numberMaxOfPlayer)
             {
-                PlayerManager.Instance.AllPlayersName.Add(nameOfPlayer);
+                PlayerManager.Instance._listPlayersNames.Add(nameOfPlayer);
                 Debug.Log("COMMAND : " + nameOfPlayer + " join the game !");
                 PlayerManager.Instance.SpawnPlayerOnLobby(nameOfPlayer);
             }
         }
 
 
-        if (PlayerManager.Instance.AllPlayersName.Contains(nameOfPlayer)) // S'assurer que le joueur est dans la liste des joueurs pour faire ces commandes. 
+        if (PlayerManager.Instance._listPlayersNames.Contains(nameOfPlayer)) // S'assurer que le joueur est dans la liste des joueurs pour faire ces commandes. 
         {
             if (messageOfPlayer == QuitCommande) //Deconnection du joueur twitch du jeu. 
             {
-                PlayerManager.Instance.AllPlayersName.Remove(nameOfPlayer);
+                PlayerManager.Instance._listPlayersNames.Remove(nameOfPlayer);
                 Debug.Log("COMMAND : " + nameOfPlayer + " quit the game !");
             }
 

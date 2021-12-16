@@ -23,13 +23,13 @@ public class LobbyManager : SingletonMonobehaviour<LobbyManager>
 
     void Start()
     {
-        TwitchManager.Instance.numberMaxOfPlayer = GoogleSheetManager.Instance.VariablesGetFromSheet[0];
+        TwitchManager.Instance.numberMaxOfPlayer = GoogleSheetManager.Instance._variablesGetFromSheet[0];
     }
 
     public void SpawnLocalPlayer()
     {
         string LocalPlayerName = TwitchManager.Instance.channelName;
-        PlayerManager.Instance.AllPlayersName.Add(LocalPlayerName);
+        PlayerManager.Instance._listPlayersNames.Add(LocalPlayerName);
         PlayerManager.Instance.SpawnPlayerOnLobby(LocalPlayerName);
         TwitchManager.Instance.SetCanReadCommand(true);
     }

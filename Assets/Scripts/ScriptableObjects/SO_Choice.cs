@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -17,11 +15,11 @@ public abstract class SO_Choice : ScriptableObject
 
     public virtual void ApplyChoice(Player targetPlayer)
     {
-        GlobalManager.Instance.DestroyAllCommandsOfPlayer(targetPlayer);
+        CommandManager.Instance.DestroyAllCommandsOfPlayer(targetPlayer);
 
         CommandInGame newCommand = new CommandChoice(targetPlayer, this);
 
-        GlobalManager.Instance.AddActionInGameToList(newCommand);
+        CommandManager.Instance.AddCommandToList(newCommand);
     }
 
 }

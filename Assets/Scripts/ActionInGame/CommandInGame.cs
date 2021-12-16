@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Events;
-using System;
+
 
 public class CommandInGame 
 {
@@ -29,7 +25,7 @@ public class CommandInGame
     //The Global Manager choose what to do when the command ends
     public virtual void EndActionInGame()
     {
-        GlobalManager.Instance.ManageEndOfCommand(this);
+        CommandManager.Instance.ManageEndOfCommand(this);
     }
 
     //What does the command needs to do when destroyed

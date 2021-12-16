@@ -92,7 +92,7 @@ public static class SaveSystem
         List<TileData> tempTilesDatas = new List<TileData>();
         
         
-        foreach (Player player in PlayerManager.Instance.PlayerList)
+        foreach (Player player in PlayerManager.Instance._listPlayers)
         {
             PlayerData tempPlayerData;
             
@@ -124,14 +124,14 @@ public static class SaveSystem
             tempPlayerData._playerChoices = player._choicesMade;
             
             tempPlayerData._materialIndex =
-                PlayerManager.Instance.SkinSystem.GetMaterialIndex(player._skinnedMeshComponent.material);
+                PkinSystem.GetMaterialIndex(player.playerModel.material);
             tempPlayerData._skinnedMeshIndex =
-                PlayerManager.Instance.SkinSystem.GetSkinIndex(player._skinnedMeshComponent.sharedMesh);
+                PlayerManager.Instance._skinSystem.GetSkinIndex(player.playerModel.sharedMesh);
             
             tempPlayersDatas.Add(tempPlayerData);
         }
 
-        foreach (Tile tile in BoardManager.Instance.tilesList)
+        foreach (Tile tile in BoardManager.Instance._listTiles)
         {
             TileData tempTileData;
 

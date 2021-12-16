@@ -245,7 +245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78c11b154c7dfc34e8347d11b0fcd31d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VariablesGetFromSheet: 
+  _variablesGetFromSheet: 
 --- !u!4 &164335233
 Transform:
   m_ObjectHideFlags: 0
@@ -483,7 +483,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 355449500}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 093d20136b52485469afb1ab08f9e40b, type: 3}
+  m_Script: {fileID: 11500000, guid: 33a26bd5115b47149a3624f05e58d0ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _NeverDestroyScenes:

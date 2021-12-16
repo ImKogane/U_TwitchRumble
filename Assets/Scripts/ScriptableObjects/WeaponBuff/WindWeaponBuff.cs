@@ -65,6 +65,6 @@ public class WindWeaponBuff : SO_BuffWeapon
         }
 
         CommandMoving moveCommand = new CommandMoving(playerAffect, direction, true);
-        GlobalManager.Instance.InsertCommandInList(1, moveCommand);
+        CommandManager.Instance.InsertCommandInList(1, moveCommand);
     }
 }
