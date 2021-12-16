@@ -167,7 +167,6 @@ public class UIManager : SingletonMonobehaviour<UIManager>
         float maxPosZ = 3;
         float maxAlpha = 1;
 
-
         Image obj = Instantiate(feedbackTxtPrefab, gameScreen.transform);
 
         //Position of spawn
