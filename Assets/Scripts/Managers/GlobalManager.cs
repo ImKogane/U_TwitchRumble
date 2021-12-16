@@ -8,7 +8,6 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
 {
     public override bool DestroyOnLoad => true;
 
-    public List<CommandInGame> _listCommandsInGame = new List<CommandInGame>();
     private EnumClass.GameState _currentGameState;
     private float _currentTimer;
     private int _turnCount;
@@ -135,7 +134,7 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
         UiManager.ActivateTimerBar(false);
         UiManager.DisplayChoiceScreen(false);
 
-        StartAllActionsInGame();
+        CommandManager.Instance.StartAllCommands();
         ScriptableManager.Instance.IncreaseChoiceIndexCompteur();
 
         StartState(EnumClass.GameState.WaitingTurn);
@@ -191,29 +190,6 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
 
     #endregion
 
-    #region ActionsInGame Handling
-
-    public void AddActionInGameToList(CommandInGame ActionToAdd)
-    {
-        _listCommandsInGame.Add(ActionToAdd);
-    }
-
-    public void StartAllActionsInGame()
-    {
-        if (_listCommandsInGame.Count > 0)
-        {
-            UIManager.Instance.DisplayPhaseTitle("[Action Phase]");
-            UIManager.Instance.DisplayPhaseDescription("Wait, all actions are running.");
-            _listCommandsInGame[0].LaunchActionInGame();
-        }
-        else
-        {
-            EndActionTurn();
-        }
-    }
-    
-    #endregion
-
     #region GameState Handling
     
     void StartState(EnumClass.GameState nextState)
@@ -228,7 +204,7 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
             
             case(EnumClass.GameState.ActionTurn):
                 PlayerManager.Instance.ManagePlayersDebuffs();
-                StartAllActionsInGame();
+                CommandManager.Instance.StartAllCommands();
                 break;
             
             case(EnumClass.GameState.ChoseBuffTurn):
@@ -295,113 +271,6 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
 
     #endregion
 
-    #region CommandInGame Handling
-    public List<CommandInGame> FindPlayerCommands(Player ownerOfCommands)
-    {
-        List<CommandInGame> listToReturn = new List<CommandInGame>();
-
-        foreach (CommandInGame command in _listCommandsInGame)
-        {
-            if (command.OwnerPlayer == ownerOfCommands)
-            {
-                listToReturn.Add(command);
-            }
-        }
-
-        return listToReturn;
-    }
-
-    public void DestroyAllCommandsOfPlayer(Player ownerOfCommands)
-    {
-        List<CommandInGame> listToDestroy = FindPlayerCommands(ownerOfCommands);
-
-        for (int i = 0; i < listToDestroy.Count; i++)
-        {
-            listToDestroy[i].DestroyCommand();
-
-            if (_listCommandsInGame.Contains(listToDestroy[i]))
-            {
-                _listCommandsInGame.Remove(listToDestroy[i]);
-            }
-        }
-    }
-
-    public void DestroyAllCommandsOfDeadPlayer(Player ownerOfCommands)
-    {
-        DestroyAllCommandsOfPlayer(ownerOfCommands);
-
-        if (_listCommandsInGame.Count > 0)
-        {
-            _listCommandsInGame[0].LaunchActionInGame();
-        }
-        else
-        {
-            if (GetCurrentGameState() == EnumClass.GameState.ActionTurn) EndActionTurn();
-            Debug.Log("TECHNIQUE 1 DE FIN DE TOUR");
-        }
-    } 
-
-    public void ManageEndOfCommand(CommandInGame command)
-    {
-        if (_listCommandsInGame.Count > 0 && _listCommandsInGame[0] == command) //Somme nous bien l'action a la base de la liste
-        {
-            _listCommandsInGame.Remove(command); //On s'enleve de la liste. 
-
-            if (_listCommandsInGame.Count > 0)
-            {
-                _listCommandsInGame[0].LaunchActionInGame(); //On lance la prochaine action. 
-
-                Debug.Log("Next Action");
-            }
-            else
-            {
-                if (GetCurrentGameState() == EnumClass.GameState.ActionTurn) EndActionTurn();
-            }
-        }
-    }
-
-    public void RemoveMoveCommandOfPlayer(Player ownerOfCommands)
-    {
-        List<CommandInGame> AllCommandsOfPlayer = FindPlayerCommands(ownerOfCommands);
-
-        for (int i = 0; i < AllCommandsOfPlayer.Count; i++)
-        {
-            if (_listCommandsInGame.Contains(AllCommandsOfPlayer[i]) && AllCommandsOfPlayer[i] is CommandMoving)
-            {
-                AllCommandsOfPlayer[i].DestroyCommand();
-                _listCommandsInGame.Remove(AllCommandsOfPlayer[i]);
-            }
-        }
-    }
-
-    public void RemoveAttackCommandOfPlayer(Player ownerOfCommands)
-    {
-        List<CommandInGame> AllCommandsOfPlayer = FindPlayerCommands(ownerOfCommands);
-
-        for (int i = 0; i < AllCommandsOfPlayer.Count; i++)
-        {
-            if (_listCommandsInGame.Contains(AllCommandsOfPlayer[i]) && AllCommandsOfPlayer[i] is CommandAttack)
-            {
-                AllCommandsOfPlayer[i].DestroyCommand();
-                _listCommandsInGame.Remove(AllCommandsOfPlayer[i]);
-            }
-        }
-    }
-
-    public void InsertCommandInList(int index, CommandInGame command)
-    {
-        if (_listCommandsInGame.Count > 1)
-        {
-            _listCommandsInGame.Insert(index, command);
-        }
-        else
-        {
-            _listCommandsInGame.Add(command);
-        }
-    }
-
-    #endregion
-
     #region Choices
     public int GetRandomChoiceIndex()
     {
@@ -413,7 +282,7 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
     {
         foreach (var player in PlayerManager.Instance._listPlayers)
         {
-            List<CommandInGame> playerCommands = FindPlayerCommands(player);
+            List<CommandInGame> playerCommands = CommandManager.Instance.FindPlayerCommands(player);
 
             if (playerCommands.Count == 0)
             {
@@ -426,7 +295,7 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
     {
         foreach (var player in PlayerManager.Instance._listPlayers)
         {
-            List<CommandInGame> playerCommands = FindPlayerCommands(player);
+            List<CommandInGame> playerCommands = CommandManager.Instance.FindPlayerCommands(player);
 
             if (playerCommands.Count == 0)
             {

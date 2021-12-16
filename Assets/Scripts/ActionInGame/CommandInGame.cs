@@ -21,7 +21,7 @@ public class CommandInGame
 
     public virtual void EndActionInGame()
     {
-        GlobalManager.Instance.ManageEndOfCommand(this);
+        CommandManager.Instance.ManageEndOfCommand(this);
     }
 
     public virtual void DestroyCommand()

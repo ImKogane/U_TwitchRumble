@@ -73,7 +73,7 @@ public class InputManager : SingletonMonobehaviour<InputManager>
 
     public void MoveCommand(Player player, EnumClass.Direction direction)
     {
-        GlobalManager.Instance.RemoveMoveCommandOfPlayer(player);
+        CommandManager.Instance.RemoveMoveCommandOfPlayer(player);
 
         CommandMoving ActionToDo = null;
         switch (direction)
@@ -98,14 +98,14 @@ public class InputManager : SingletonMonobehaviour<InputManager>
                 break;
         }
 
-        GlobalManager.Instance.AddActionInGameToList(ActionToDo);
+        CommandManager.Instance.AddCommandToList(ActionToDo);
     }
 
     public void AttackCommand(Player player)
     {
-        GlobalManager.Instance.RemoveAttackCommandOfPlayer(player);
+        CommandManager.Instance.RemoveAttackCommandOfPlayer(player);
         CommandAttack ActionToDo = new CommandAttack(player);
-        GlobalManager.Instance.AddActionInGameToList(ActionToDo);
+        CommandManager.Instance.AddCommandToList(ActionToDo);
         player.DisplayCommandTxt("[Attack]");
     }
 

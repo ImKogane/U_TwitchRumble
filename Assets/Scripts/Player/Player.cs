@@ -174,7 +174,7 @@ public class Player : MonoBehaviour
         
         if (_currentHealth <= 0)
         {
-            GlobalManager.Instance.InsertCommandInList(1, new CommandDeath(this));
+            CommandManager.Instance.InsertCommandInList(1, new CommandDeath(this));
         }
     }
 
@@ -189,8 +189,8 @@ public class Player : MonoBehaviour
         isDead = true;
 
         Debug.Log($"{namePlayer} is dead !");
-        
-        GlobalManager.Instance.DestroyAllCommandsOfDeadPlayer(this);
+
+        CommandManager.Instance.DestroyAllCommandsOfDeadPlayer(this);
         
         Destroy(playerCanvas.gameObject);
         Destroy(gameObject);

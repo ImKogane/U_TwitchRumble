@@ -29,7 +29,7 @@ public class SO_MagnetMovementBuff : SO_BuffMoving
                     {
                         Debug.Log($"New MagneticCommand place in List, owner : {ownerOfBuff.name}, vector : {VectorAttirance}, playerAffect : {currentTile.currentPlayer.name}");
                         MagneticCommand magneticCommand = new MagneticCommand(ownerOfBuff, VectorAttirance, currentTile);
-                        GlobalManager.Instance._listCommandsInGame.Insert(1, magneticCommand);
+                        CommandManager.Instance._listCommandsInGame.Insert(1, magneticCommand);
                     }
                 }
 
@@ -47,7 +47,7 @@ public class SO_MagnetMovementBuff : SO_BuffMoving
                     {
                         Debug.Log($"New MagneticCommand place in List, owner : {ownerOfBuff.name}, vector : {VectorAttirance}, playerAffect : {currentTile.currentPlayer.name}");
                         MagneticCommand magneticCommand = new MagneticCommand(ownerOfBuff, VectorAttirance, currentTile);
-                        GlobalManager.Instance._listCommandsInGame.Insert(1, magneticCommand);
+                        CommandManager.Instance._listCommandsInGame.Insert(1, magneticCommand);
                     }
                 }
             }
