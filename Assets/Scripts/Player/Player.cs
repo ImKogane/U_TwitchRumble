@@ -120,13 +120,14 @@ public class Player : MonoBehaviour
     //Play the attack animation, which has the Attack animation Event in it
     public void StartAttackAnimation()
     {
-        _animatorComponent.SetTrigger("IsAttacking");
+        _animatorComponent.CrossFade("Attack", 0, 0);
+        Debug.Log("START ANIM");
     }
 
     //Method called by an animation event inside all Attack animations
     public void Attack()
     {
-        
+        Debug.Log("LAUNCH ATTACK FUNCTION");
         if (_currentWeapon == null) //Safety check
         {
             return;
@@ -167,6 +168,7 @@ public class Player : MonoBehaviour
         }
 
         _endOfAttackAction.Invoke(); //Tells the Attack Command it ended
+        Debug.Log("LAUNCH EVENT OF END ATTACK");
     }
 
     //Remove health, play animation and can trigger death system with animation
@@ -201,16 +203,13 @@ public class Player : MonoBehaviour
     //Main Death method : safely remove the player from the game
     public void KillPlayer()
     {
-
         PlayerManager.Instance._listPlayersNames.Remove(_name);
         PlayerManager.Instance._listPlayers.Remove(this);
-
-
+        
         _currentTile.hasPlayer = false;
         _currentTile.currentPlayer = null;
 
         _isDead = true;
-
 
         CommandManager.Instance.DestroyAllCommandsOfDeadPlayer(this);
         

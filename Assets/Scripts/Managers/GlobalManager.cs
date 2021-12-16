@@ -233,13 +233,11 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
     
     public void EndActionTurn()
     {
-        StartCoroutine(WaitingBeforeLaunchState());
+        WaitingBeforeLaunchState();
     }
 
-    public IEnumerator WaitingBeforeLaunchState()
+    public void WaitingBeforeLaunchState()
     {
-        yield return new WaitForSeconds(3);
-
         int remainingPlayers = PlayerManager.Instance.GetPlayerCount();
 
         if (remainingPlayers > 1)

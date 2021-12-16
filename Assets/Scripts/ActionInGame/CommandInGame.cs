@@ -13,7 +13,7 @@ public class CommandInGame
     //What the command will do when called
     public virtual void LaunchActionInGame()
     {
-       
+
     }
 
     //To which Action the Command is asked to finish itself

@@ -22,26 +22,42 @@ public class MagneticCommand : CommandInGame
 
     public override void LaunchActionInGame()
     {
+        Debug.Log("Vecteur attirance"+ _vectorAttirance + "Affected Player : " + _affectedPlayer);
         //If the target player is no longer on the tile, we stop
         if (_affectedTile.currentPlayer == null)
         {
             EndActionInGame();
+            return;
         }
         else
         {
-            _affectedPlayer = _affectedTile.currentPlayer;
+            if (_affectedTile.currentPlayer)
+            {
+                Debug.Log("Player found on affected tile.");
+                _affectedPlayer = _affectedTile.currentPlayer;
+            }
+            else
+            {
+                Debug.Log("Player NOT found on affected tile.");
+                EndActionInGame();
+                return;
+            }
         }
         
         //If either the attracting player or the affected player is dead, we stop
         if (_ownerPlayer._isDead || _affectedPlayer._isDead) 
         {
+            Debug.Log("One of the both players are dead");
             EndActionInGame();
+            return;
         }
         
         //If both players are no longer on the same row or column, we stop
         if (!BoardManager.Instance.TileSameLineAndSameColumn(_ownerPlayer._currentTile, _affectedTile))
         {
+            Debug.Log("Player are not still in same positions");
             EndActionInGame();
+            return;
         }
 
         SubscribeEndToEvent();
@@ -52,6 +68,10 @@ public class MagneticCommand : CommandInGame
         PlayerMovement _currentMovementPlayer = _affectedTile.currentPlayer._playerMovementComponent;
 
         _currentMovementPlayer.RotatePlayerWithvector(_vectorAttirance * -1);
+
+        _vectorAttirance = NormalizeTheVector(_vectorAttirance);
+        
+        Debug.Log("Vecteur normalize = " + _vectorAttirance);
         
         if (_vectorAttirance.x != 0) //Left and Right directions
         {
@@ -65,9 +85,48 @@ public class MagneticCommand : CommandInGame
         }
     }
 
+    public Vector2Int NormalizeTheVector(Vector2Int vector)
+    {
+        Vector2Int vectorToReturn = vector;
+        
+        if (vector.x != 0)
+        {
+            if (vector.x > 1)
+            {
+                vectorToReturn.x = 1;
+            }
+            if (vector.x < -1)
+            {
+                vectorToReturn.x = -1;
+            }
+        }
+        
+        if (vector.y != 0)
+        {
+            if (vector.y > 1)
+            {
+                vectorToReturn.y = 1;
+            }
+            if (vector.y < -1)
+            {
+                vectorToReturn.y = -1;
+            }
+        }
+
+        return vectorToReturn;
+    }
+
     //Unsubscribe the method for a safe removal
     public override void DestroyCommand()
     {
-        _affectedPlayer._playerMovementComponent.EndOfMoving -= EndActionInGame;
+        if (_affectedPlayer &&  _affectedPlayer._playerMovementComponent)
+        {
+            _affectedPlayer._playerMovementComponent.EndOfMoving -= EndActionInGame;
+        }
+        else
+        {
+            Debug.Log("BUG OF MAGNETISE BECAUSE NULL REF");
+        }
+        
     }
 }
