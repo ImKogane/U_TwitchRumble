@@ -143,20 +143,20 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
         // Tcheck if game didn't start. 
         if (messageOfPlayer == JoinCommande && canJoinedGame) //Connection du joueur twitch dans le jeu 
         {
-            if (!PlayerManager.Instance.AllPlayersName.Contains(nameOfPlayer) && PlayerManager.Instance.AllPlayersName.Count < numberMaxOfPlayer)
+            if (!PlayerManager.Instance._listPlayersNames.Contains(nameOfPlayer) && PlayerManager.Instance._listPlayersNames.Count < numberMaxOfPlayer)
             {
-                PlayerManager.Instance.AllPlayersName.Add(nameOfPlayer);
+                PlayerManager.Instance._listPlayersNames.Add(nameOfPlayer);
                 Debug.Log("COMMAND : " + nameOfPlayer + " join the game !");
                 PlayerManager.Instance.SpawnPlayerOnLobby(nameOfPlayer);
             }
         }
 
 
-        if (PlayerManager.Instance.AllPlayersName.Contains(nameOfPlayer)) // S'assurer que le joueur est dans la liste des joueurs pour faire ces commandes. 
+        if (PlayerManager.Instance._listPlayersNames.Contains(nameOfPlayer)) // S'assurer que le joueur est dans la liste des joueurs pour faire ces commandes. 
         {
             if (messageOfPlayer == QuitCommande) //Deconnection du joueur twitch du jeu. 
             {
-                PlayerManager.Instance.AllPlayersName.Remove(nameOfPlayer);
+                PlayerManager.Instance._listPlayersNames.Remove(nameOfPlayer);
                 Debug.Log("COMMAND : " + nameOfPlayer + " quit the game !");
             }
 

@@ -36,15 +36,15 @@ public class InputManager : SingletonMonobehaviour<InputManager>
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            ChoiceCommand(PlayerManager.Instance.PlayerList[0], 0);
+            ChoiceCommand(PlayerManager.Instance._listPlayers[0], 0);
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            ChoiceCommand(PlayerManager.Instance.PlayerList[0], 1);
+            ChoiceCommand(PlayerManager.Instance._listPlayers[0], 1);
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            ChoiceCommand(PlayerManager.Instance.PlayerList[0], 2);
+            ChoiceCommand(PlayerManager.Instance._listPlayers[0], 2);
         }
     }
     
@@ -53,25 +53,25 @@ public class InputManager : SingletonMonobehaviour<InputManager>
         //Actions de déplacements. 
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
-            MoveCommand(PlayerManager.Instance.PlayerList[0], EnumClass.Direction.Up);
+            MoveCommand(PlayerManager.Instance._listPlayers[0], EnumClass.Direction.Up);
         }
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            MoveCommand(PlayerManager.Instance.PlayerList[0], EnumClass.Direction.Down);
+            MoveCommand(PlayerManager.Instance._listPlayers[0], EnumClass.Direction.Down);
         }
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            MoveCommand(PlayerManager.Instance.PlayerList[0], EnumClass.Direction.Right);
+            MoveCommand(PlayerManager.Instance._listPlayers[0], EnumClass.Direction.Right);
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            MoveCommand(PlayerManager.Instance.PlayerList[0], EnumClass.Direction.Left);
+            MoveCommand(PlayerManager.Instance._listPlayers[0], EnumClass.Direction.Left);
         }
 
         //Action d'attaque.
         if (Input.GetKeyDown(KeyCode.A))
         {
-            AttackCommand(PlayerManager.Instance.PlayerList[0]);
+            AttackCommand(PlayerManager.Instance._listPlayers[0]);
         }
     }
 

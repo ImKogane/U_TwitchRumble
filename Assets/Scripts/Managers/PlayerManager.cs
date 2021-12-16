@@ -1,26 +1,21 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PlayerManager : SingletonMonobehaviour<PlayerManager>
 {
-    public int PlayerToInstantiate = 1;
-
-    public GameObject prefabOfPlayer;
+    public GameObject _prefabOfPlayer;
     
-    public SO_PlayerSkin SkinSystem;
+    public SO_PlayerSkin _skinSystem;
     
-    public List<string> AllPlayersName = new List<string>();
+    public List<string> _listPlayersNames = new List<string>();
     
-    public List<Player> PlayerList = new List<Player>();
+    public List<Player> _listPlayers = new List<Player>();
 
     public override bool DestroyOnLoad => false;
     
     public void SetAllPlayerOnBoard()
     {
-        foreach (Player item in PlayerList)
+        foreach (Player item in _listPlayers)
         {
             Tile tileOfPlayer = BoardManager.Instance.GetRandomAvailableTile();
             item.transform.position = tileOfPlayer.transform.position + (Vector3.up * 35);
@@ -28,20 +23,18 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
             tileOfPlayer.currentPlayer = item;
             tileOfPlayer.hasPlayer = true;
         }
-
-        //StartCoroutine(GlobalManager.Instance.LaunchNewGameCoroutine());
     }
     
     public void SpawnPlayerOnLobby(string playerName)
     {
         BootstrapManager.Instance.SetActiveScene("PlayersScene");
 
-        GameObject objinstantiate = Instantiate(prefabOfPlayer);
+        GameObject objinstantiate = Instantiate(_prefabOfPlayer);
 
         Player player = objinstantiate.GetComponent<Player>();
-        PlayerList.Add(player);
+        _listPlayers.Add(player);
 
-        if (PlayerList.Count >= 2)
+        if (_listPlayers.Count >= 2)
         {
             StartGameManager.Instance.EnableGameStart();
         }
@@ -53,7 +46,7 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
 
     public Player ReturnPlayerWithName(string name)
     {
-        foreach (Player player in PlayerList)
+        foreach (Player player in _listPlayers)
         {
             if (player.namePlayer == name)
             {
@@ -65,7 +58,7 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
 
     public void ManagePlayersDebuffs()
     {
-        foreach (var player in PlayerList)
+        foreach (var player in _listPlayers)
         {
             player.ManageAllDebuffs();
         }
@@ -73,14 +66,14 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
     
     public int GetPlayerCount()
     {
-        return PlayerList.Count;
+        return _listPlayers.Count;
     }
 
     public Player GetLastPlayer()
     {
         if (GetPlayerCount() == 1)
         {
-            return PlayerList[0];
+            return _listPlayers[0];
         }
         else
         {
@@ -88,60 +81,36 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
         }
     }
 
-    public List<int> GetAllPlayerHealth()
-    {
-        List<int> tempList = new List<int>();
-
-        foreach (Player player in PlayerList)
-        {
-            tempList.Add(player._currentHealth);
-        }
-
-        return tempList;
-    }
-
-    public List<Vector2Int> GetAllPlayerTiles()
-    {
-        List<Vector2Int> tempList = new List<Vector2Int>();
-
-        foreach (var player in PlayerList)
-        {
-            tempList.Add(new Vector2Int(player.CurrentTile.tileRow, player.CurrentTile.tileColumn));
-        }
-
-        return tempList;
-    }
-
     public void ResetPlayerManager()
     {
-        PlayerList.Clear();
-        AllPlayersName.Clear();
+        _listPlayers.Clear();
+        _listPlayersNames.Clear();
     }
 
     public void LoadPlayer(PlayerData playerData)
     {
-        Player newPlayer = Instantiate(prefabOfPlayer).GetComponent<Player>();
+        //Set up player
+        Player newPlayer = Instantiate(_prefabOfPlayer).GetComponent<Player>();
         newPlayer.InjectDatasFromSO();
-        
-        PlayerMovement newPlayerMovement = newPlayer.gameObject.GetComponent<PlayerMovement>();
-
         newPlayer.namePlayer = playerData._playerName;
         newPlayer._currentHealth = playerData._playerHealth;
         newPlayer.SetPlayerUI();
 
-        newPlayerMovement.CurrentPlayer = newPlayer;
+        //Set up playerMov and his tile
+        PlayerMovement newPlayerMovement = newPlayer.gameObject.GetComponent<PlayerMovement>();
         Tile playerTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(playerData._playerTile.y, playerData._playerTile.x));
+
+        newPlayerMovement.CurrentPlayer = newPlayer;
         newPlayerMovement.SetNewTile(playerTile);
         newPlayer.transform.position = newPlayer.CurrentTile.transform.position;
-
         newPlayerMovement.SetUpPlayerMovment(newPlayer);
         newPlayerMovement.RotatePlayerWithvector(playerData._playerRotation);
 
-        newPlayer.playerModel.sharedMesh =
-            SkinSystem.GetMeshAtIndex(playerData._skinnedMeshIndex);
-        newPlayer.playerModel.material =
-            SkinSystem.GetMaterialAtIndex(playerData._materialIndex);
+        //Set up skin of player
+        newPlayer.playerModel.sharedMesh = _skinSystem.GetMeshAtIndex(playerData._skinnedMeshIndex);
+        newPlayer.playerModel.material = _skinSystem.GetMaterialAtIndex(playerData._materialIndex);
 
+        //Set up debuff of player
         if (playerData._durationOfActiveFreezeDebuff.Count > 0)
         {
             foreach (var freezeDebuffDuration in playerData._durationOfActiveFreezeDebuff)
@@ -167,7 +136,6 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
             }
         }
         
-        PlayerList.Add(newPlayer);
-        
+        _listPlayers.Add(newPlayer);
     }
 }

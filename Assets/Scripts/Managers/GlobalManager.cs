@@ -151,7 +151,7 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
         UiManager.DisplayChoiceScreen(false);
 
         //All th eplayers will be dropped on the board
-        foreach (var item in PlayerManager.Instance.PlayerList)
+        foreach (var item in PlayerManager.Instance._listPlayers)
         {
             item.gameObject.transform.DOMove(item.CurrentTile.transform.position, 1).SetEase(Ease.OutSine);
             yield return new WaitForSeconds(2);
@@ -411,7 +411,7 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
 
     private void CheckAllPlayersGetChoice()
     {
-        foreach (var player in PlayerManager.Instance.PlayerList)
+        foreach (var player in PlayerManager.Instance._listPlayers)
         {
             List<CommandInGame> playerCommands = FindPlayerCommands(player);
 
@@ -424,7 +424,7 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
 
     public bool DoesAllPlayersHaveChoice()
     {
-        foreach (var player in PlayerManager.Instance.PlayerList)
+        foreach (var player in PlayerManager.Instance._listPlayers)
         {
             List<CommandInGame> playerCommands = FindPlayerCommands(player);
 
@@ -449,7 +449,7 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
         endGamePlayer.ResetPlayerRotation();
         endGamePlayer.CanvasVisibility(false);
         endGamePlayer._animator.SetBool("IsFalling", false);
-        PlayerManager.Instance.PlayerList.Clear();
+        PlayerManager.Instance._listPlayers.Clear();
     }
 
     public void SetGamePause(bool state)

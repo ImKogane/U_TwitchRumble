@@ -85,8 +85,8 @@ public class Player : MonoBehaviour
         SetPlayerUI();
 
         //Random player model system
-        playerModel.sharedMesh = PlayerManager.Instance.SkinSystem.GetRandomSkin();
-        playerModel.material = PlayerManager.Instance.SkinSystem.GetRandomMaterial();
+        playerModel.sharedMesh = PlayerManager.Instance._skinSystem.GetRandomSkin();
+        playerModel.material = PlayerManager.Instance._skinSystem.GetRandomMaterial();
         // -------------------------
 
         UpdatePlayerCanvas();
@@ -180,8 +180,8 @@ public class Player : MonoBehaviour
 
     public void KillPlayer()
     {
-        PlayerManager.Instance.AllPlayersName.Remove(namePlayer);
-        PlayerManager.Instance.PlayerList.Remove(this);
+        PlayerManager.Instance._listPlayersNames.Remove(namePlayer);
+        PlayerManager.Instance._listPlayers.Remove(this);
 
         CurrentTile.hasPlayer = false;
         CurrentTile.currentPlayer = null;

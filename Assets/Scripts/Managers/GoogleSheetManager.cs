@@ -74,7 +74,7 @@ public class GoogleSheetManager : SingletonMonobehaviour<GoogleSheetManager>
     }
     public async Task SetPlayersListToSheet()
     {
-        List<string> playersName = PlayerManager.Instance.AllPlayersName;
+        List<string> playersName = PlayerManager.Instance._listPlayersNames;
 
         Debug.Log(_currentColumn);
         await SetACell(playersName.Count.ToString(), _currentColumn, _currentLine);
