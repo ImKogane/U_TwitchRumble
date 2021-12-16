@@ -18,7 +18,7 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
         foreach (Player item in _listPlayers)
         {
             Tile tileOfPlayer = BoardManager.Instance.GetRandomAvailableTile();
-            item.transform.position = tileOfPlayer.transform.position + (Vector3.up * 35);
+            item.transform.position = tileOfPlayer.transform.position + (Vector3.up * 45);
             item.CurrentTile = tileOfPlayer;
             tileOfPlayer.currentPlayer = item;
             tileOfPlayer.hasPlayer = true;

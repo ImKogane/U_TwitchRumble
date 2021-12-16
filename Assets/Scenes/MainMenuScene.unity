@@ -165,9 +165,8 @@ MonoBehaviour:
   ChoiceCommande: '!choice'
   channelName: 
   maxCharacterInNames: 12
-  numberMaxOfPlayer: 0
+  numberMaxOfPlayer: 15
   _UIMainMenu: {fileID: 2143165187}
-  canReadCommands: 0
 --- !u!4 &6122261
 Transform:
   m_ObjectHideFlags: 0

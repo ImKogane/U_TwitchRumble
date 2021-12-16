@@ -150,7 +150,7 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
         UiManager.DisplayPhaseDescription(_phaseIntroParagraph);
         UiManager.DisplayChoiceScreen(false);
 
-        //All th eplayers will be dropped on the board
+        //All the players will be dropped on the board
         foreach (var item in PlayerManager.Instance._listPlayers)
         {
             item.gameObject.transform.DOMove(item.CurrentTile.transform.position, 1).SetEase(Ease.OutSine);
