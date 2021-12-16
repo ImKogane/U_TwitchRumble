@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class InputManager : SingletonMonobehaviour<InputManager>
 {
-    private bool actionInputsEnabled;
-    private bool choiceInputsEnabled;
+    private bool _actionInputsEnabled;
+    private bool _choiceInputsEnabled;
 
     public override bool DestroyOnLoad => false;
 
     void Update()
     {
-        if (actionInputsEnabled) InputPlayerLocal();
-        if (choiceInputsEnabled) ChoiceInputPlayerLocal();
+        if (_actionInputsEnabled) InputPlayerLocal();
+        if (_choiceInputsEnabled) ChoiceInputPlayerLocal();
         
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -20,12 +20,12 @@ public class InputManager : SingletonMonobehaviour<InputManager>
     
     public void EnableActionInputs(bool value)
     {
-        actionInputsEnabled = value;
+        _actionInputsEnabled = value;
     }
 
     public void EnableChoiceInputs(bool value)
     {
-        choiceInputsEnabled = value;
+        _choiceInputsEnabled = value;
     }
 
     void ChoiceInputPlayerLocal()
@@ -132,7 +132,7 @@ public class InputManager : SingletonMonobehaviour<InputManager>
             currentChoice.ApplyChoice(player);
         }
 
-        if (choiceInputsEnabled) //Just to block display UI for players who will have a random choice.
+        if (_choiceInputsEnabled) //Just to block display UI for players who will have a random choice.
         {
             UIManager.Instance.DisplayChoiceTxt("[" + player._name + "]", choiceIndex);
         }

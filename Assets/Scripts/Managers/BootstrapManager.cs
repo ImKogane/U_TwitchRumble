@@ -29,32 +29,32 @@ public class BootstrapManager : SingletonMonobehaviour<BootstrapManager>
     }
 
     #region Charge levels
-    public void StartChargeALevel(List<string> ScenesOfNextLevel, AudioClip clip)
+    public void StartChargeALevel(List<string> scenesOfNextLevel, AudioClip clip)
     {
-        StartCoroutine(_chargementUI.FadeInCoroutine(ScenesOfNextLevel));
+        StartCoroutine(_chargementUI.FadeInCoroutine(scenesOfNextLevel));
         _musicToPlayWhenLevelLoaded = clip;
     }
 
     //This function is call after the fade In of the canvas.
-    public IEnumerator ChargeLvl(List<string> ScenesOfNextLevel)
+    public IEnumerator ChargeLvl(List<string> scenesOfNextLevel)
     {
-        List<string> ScenesOfCurrentLevel = GetAllOpenedScenes();
+        List<string> scenesOfCurrentLevel = GetAllOpenedScenes();
 
         List<string> ScenesToUnload = new List<string>();
-        ScenesToUnload.AddRange(ScenesOfCurrentLevel);
+        ScenesToUnload.AddRange(scenesOfCurrentLevel);
 
         List<string> ScenesToLoad = new List<string>();
-        ScenesToLoad.AddRange(ScenesOfNextLevel);
+        ScenesToLoad.AddRange(scenesOfNextLevel);
 
         //Remove communes scenes 
-        for (int i = 0; i < ScenesOfCurrentLevel.Count; i++)
+        for (int i = 0; i < scenesOfCurrentLevel.Count; i++)
         {
-            for (int y = 0; y < ScenesOfNextLevel.Count; y++)
+            for (int y = 0; y < scenesOfNextLevel.Count; y++)
             {
-                if (ScenesOfNextLevel[y] == ScenesOfCurrentLevel[i])
+                if (scenesOfNextLevel[y] == scenesOfCurrentLevel[i])
                 {
-                    ScenesToUnload.Remove(ScenesOfNextLevel[y]);
-                    ScenesToLoad.Remove(ScenesOfNextLevel[y]);
+                    ScenesToUnload.Remove(scenesOfNextLevel[y]);
+                    ScenesToLoad.Remove(scenesOfNextLevel[y]);
                 }
             }
         }
