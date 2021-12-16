@@ -34,7 +34,7 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
     
     public void SpawnPlayerOnLobby(string playerName)
     {
-        ScenesManager.Instance.SetActiveScene("PlayersScene");
+        BootstrapManager.Instance.SetActiveScene("PlayersScene");
 
         GameObject objinstantiate = Instantiate(prefabOfPlayer);
 

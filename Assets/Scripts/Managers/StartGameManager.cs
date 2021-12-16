@@ -57,9 +57,9 @@ public class StartGameManager : SingletonMonobehaviour<StartGameManager>
     
     private void StartNewGame()
     {
-        ScenesManager.Instance.SetActiveScene("BoardScene");
+        BootstrapManager.Instance.SetActiveScene("BoardScene");
         BoardManager.Instance.SetupNewBoard();
-        ScenesManager.Instance.SetActiveScene("PlayersScene");
+        BootstrapManager.Instance.SetActiveScene("PlayersScene");
         PlayerManager.Instance.SetAllPlayerOnBoard();
         StartCoroutine(GlobalManager.Instance.LaunchNewGameCoroutine());
     }
@@ -72,7 +72,7 @@ public class StartGameManager : SingletonMonobehaviour<StartGameManager>
         List<TileData> tileDatas = dataToLoad._tilesDatas;
 
         
-        ScenesManager.Instance.SetActiveScene("BoardScene");
+        BootstrapManager.Instance.SetActiveScene("BoardScene");
         BoardManager.Instance.SetupCustomBoard();
         
         foreach (TileData tileData in tileDatas)
@@ -80,7 +80,7 @@ public class StartGameManager : SingletonMonobehaviour<StartGameManager>
             BoardManager.Instance.LoadTile(tileData);
         }
 
-        ScenesManager.Instance.SetActiveScene("PlayersScene");
+        BootstrapManager.Instance.SetActiveScene("PlayersScene");
         foreach (PlayerData playerData in playerDatas)
         {
             PlayerManager.Instance.LoadPlayer(playerData);
