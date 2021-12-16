@@ -170,5 +170,4 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
         PlayerList.Add(newPlayer);
         
     }
-    
 }

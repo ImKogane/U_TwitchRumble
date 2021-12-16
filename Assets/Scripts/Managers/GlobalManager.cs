@@ -9,131 +9,136 @@ using Random = UnityEngine.Random;
 
 public class GlobalManager : SingletonMonobehaviour<GlobalManager>
 {
-    public List<CommandInGame> ListCommandsInGame = new List<CommandInGame>();
-
-    private EnumClass.GameState currentGameState;
-
-    [SerializeField] private float actionsTimerDuration;
-    [SerializeField] private float buffTimerDuration;
-    [SerializeField] private float startTimerDuration;
-    [SerializeField] private Transform WinPoint;
-    private float currentTimer;
-
-    //public SO_PanelChoice[] panelChoiceArray;
-
-    public List<int> _turnsToMakeChoice = new List<int>();
-
-    private int turnCount;
-    
-
     public override bool DestroyOnLoad => true;
+
+    public List<CommandInGame> _listCommandsInGame = new List<CommandInGame>();
+    private EnumClass.GameState _currentGameState;
+    private float _currentTimer;
+    private int _turnCount;
+
+    [Header("Expose Variables")]
+    [SerializeField] private float _actionsTimerDuration;
+    [SerializeField] private float _buffTimerDuration;
+    [SerializeField] private float _startTimerDuration;
+    [SerializeField] private Transform _winPoint;
+    public List<int> _listTurnsToMakeChoice = new List<int>();
+
+    [Header("Text Game Variables")]
+    public string _phaseActionsTitle;
+    public string _phaseActionsParagraph;
+    public string _phaseChoiceTitle;
+    public string _phaseChoiceParagraph;
+    public string _phaseIntroTitle;
+    public string _phaseIntroParagraph;
+
 
     #region Coroutines
     public IEnumerator LaunchNewGameCoroutine()
     {
-        turnCount = 1;
+        //Get ref to managers
+        UIManager UiManager = UIManager.Instance;
+        GoogleSheetManager GoogleManager = GoogleSheetManager.Instance;
+
+        _turnCount = 1;
         
         //Set up variable with google sheet datas.
-        actionsTimerDuration = GoogleSheetManager.Instance.VariablesGetFromSheet[3];
-        buffTimerDuration = GoogleSheetManager.Instance.VariablesGetFromSheet[4];
+        _actionsTimerDuration = GoogleManager._variablesGetFromSheet[3];
+        _buffTimerDuration = GoogleManager._variablesGetFromSheet[4];
 
-        
-        UIManager.Instance.UpdateTurnCount(turnCount);
-        UIManager.Instance.DisplayGameScreen(true);
-        UIManager.Instance.DisplayEndScreen(false);
+        //Saving datas with async methods. 
+        GoogleManager.StartGoogleSheetSaving();
+
+        //Manage UI to display
+        UiManager.UpdateTurnCount(_turnCount);
+        UiManager.DisplayGameScreen(true);
+        UiManager.DisplayEndScreen(false);
+        UiManager.DisplayPauseScreen(false);
 
         AudioManager.Instance.EnableAmbienceSounds(true);
-        UIManager.Instance.DisplayPauseScreen(false);
-        GoogleSheetManager.Instance.StartGoogleSheetSaving();
 
-        //Timer wait before start
-        currentTimer = startTimerDuration;
-        UIManager.Instance.ActivateTimerBar(true);
-
-        while (currentTimer > 0)
+        //Manage timer
+        _currentTimer = _startTimerDuration;
+        UiManager.ActivateTimerBar(true);
+        while (_currentTimer > 0)
         {
             yield return null;
-            currentTimer -= Time.deltaTime;
-            UIManager.Instance.UpdateTimerBar(currentTimer / startTimerDuration);
+            _currentTimer -= Time.deltaTime;
+            UiManager.UpdateTimerBar(_currentTimer / _startTimerDuration);
         }
 
         //Start game
         StartState(EnumClass.GameState.IntroTurn);
     }
 
-    
-    
     IEnumerator ActionsChoiceCoroutine()
     {
-        UIManager.Instance.DisplayPhaseTitle("[Make actions]");
-        UIManager.Instance.DisplayPhaseDescription("Attack with the command [!attack].\nMove with commands [!left] [!right] [!top] [!down]. ");
-        //UIManager.Instance.DisplayAllPlayersUI(PlayerManager.Instance.PlayerList, true);
+        //Get ref to managers
+        UIManager UiManager = UIManager.Instance;
 
+        //Manage UI to display
+        UiManager.DisplayPhaseTitle(_phaseActionsTitle);
+        UiManager.DisplayPhaseDescription(_phaseActionsParagraph);
+        UiManager.ActivateTimerBar(true);
+
+        //Players can make actions.
         TwitchManager.Instance.playersCanMakeActions = true;
-
-        currentTimer = actionsTimerDuration;
-
         InputManager.Instance.EnableActionInputs(true);
-        UIManager.Instance.ActivateTimerBar(true);
 
-        while (currentTimer > 0)
+        //Manage timer
+        _currentTimer = _actionsTimerDuration;
+        while (_currentTimer > 0)
         {
             yield return null;
-            currentTimer -= Time.deltaTime;
-            UIManager.Instance.UpdateTimerBar(currentTimer/actionsTimerDuration);
+            _currentTimer -= Time.deltaTime;
+            UIManager.Instance.UpdateTimerBar(_currentTimer/_actionsTimerDuration);
         }
 
-        //UIManager.Instance.DisplayAllPlayersUI(PlayerManager.Instance.PlayerList, false);
-        UIManager.Instance.ActivateTimerBar(false);
-        InputManager.Instance.EnableActionInputs(false);
+        UiManager.ActivateTimerBar(false);
 
+        //Players can't make actions.
+        InputManager.Instance.EnableActionInputs(false);
         TwitchManager.Instance.playersCanMakeActions = false;
 
         StartState(EnumClass.GameState.ActionTurn);
-        
     }
     
     IEnumerator BuffChoiceCoroutine()
     {
-        UIManager.Instance.DisplayPhaseTitle("[Choose a boost]");
-        UIManager.Instance.DisplayPhaseDescription("Make a choice with commands [!choice1] [!choice2] [!choice3]");
-        UIManager.Instance.ActivateTimerBar(true);
+        //Get ref to managers
+        UIManager UiManager = UIManager.Instance;
 
-        UIManager.Instance.UpdateChoiceCardsImage();
-        UIManager.Instance.DisplayChoiceScreen(true);
+        //Manage UI to display
+        UiManager.DisplayPhaseTitle(_phaseChoiceTitle);
+        UiManager.DisplayPhaseDescription(_phaseChoiceParagraph);
+        UiManager.ActivateTimerBar(true);
+        UiManager.UpdateChoiceCardsImage();
+        UiManager.DisplayChoiceScreen(true);
         
+        //Players can make choices
         InputManager.Instance.EnableChoiceInputs(true);
         TwitchManager.Instance.playersCanMakeChoices = true;
 
-        currentTimer = buffTimerDuration;
-
-        while (currentTimer > 0)
+        //Manage timer
+        _currentTimer = _buffTimerDuration;
+        while (_currentTimer > 0)
         {
             yield return null;
-            currentTimer -= Time.deltaTime;
-            UIManager.Instance.UpdateTimerBar(currentTimer/buffTimerDuration);
+            _currentTimer -= Time.deltaTime;
+            UiManager.UpdateTimerBar(_currentTimer/_buffTimerDuration);
         }
 
+        //Players stop make choices
         TwitchManager.Instance.playersCanMakeChoices = false;
         InputManager.Instance.EnableChoiceInputs(false);
 
-        bool allPlayersHaveCommands = DoesAllPlayersHaveChoice();
+        //Be sure that everybody have a choice
+        CheckAllPlayersGetChoice();
+        yield return new WaitForSeconds(2);
 
-        if (!allPlayersHaveCommands)
-        {
-            CheckAllPlayersGetChoice();
-            yield return new WaitForSeconds(3);
-        }
-        else
-        {
-            yield return new WaitForSeconds(2);
-        }
-
-        UIManager.Instance.ActivateTimerBar(false);
-        UIManager.Instance.DisplayChoiceScreen(false);
+        UiManager.ActivateTimerBar(false);
+        UiManager.DisplayChoiceScreen(false);
 
         StartAllActionsInGame();
-
         ScriptableManager.Instance.IncreaseChoiceIndexCompteur();
 
         StartState(EnumClass.GameState.WaitingTurn);
@@ -141,19 +146,50 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
 
     private IEnumerator IntroTurnCoroutine()
     {
-        UIManager.Instance.DisplayPhaseTitle("[Preparation phase]");
-        UIManager.Instance.DisplayPhaseDescription("Players are dropped on the map, get ready for the fight.");
-        UIManager.Instance.DisplayChoiceScreen(false);
+        //Get ref to managers
+        UIManager UiManager = UIManager.Instance;
 
+        UiManager.DisplayPhaseTitle(_phaseIntroTitle);
+        UiManager.DisplayPhaseDescription(_phaseIntroParagraph);
+        UiManager.DisplayChoiceScreen(false);
+
+        //All th eplayers will be dropped on the board
         foreach (var item in PlayerManager.Instance.PlayerList)
         {
-            Debug.Log("Player : " + item);
-            Debug.Log("Tile of this player : " + item.CurrentTile);
             item.gameObject.transform.DOMove(item.CurrentTile.transform.position, 1).SetEase(Ease.OutSine);
             yield return new WaitForSeconds(2);
         }
 
         StartState(EnumClass.GameState.ChoseBuffTurn);
+    }
+
+    public IEnumerator LoadSavedTurn(int turn)
+    {
+        //Get ref to managers
+        UIManager UiManager = UIManager.Instance;
+
+        _turnCount = turn;
+
+        //Manage UI display
+        UiManager.UpdateTurnCount(_turnCount);
+        UiManager.DisplayGameScreen(true);
+        UiManager.DisplayEndScreen(false);
+        UiManager.DisplayPauseScreen(false);
+        UiManager.ActivateTimerBar(true);
+
+        AudioManager.Instance.EnableAmbienceSounds(true);
+        GoogleSheetManager.Instance.StartGoogleSheetSaving();
+
+        //Manage Timer
+        _currentTimer = _startTimerDuration;
+        while (_currentTimer > 0)
+        {
+            yield return null;
+            _currentTimer -= Time.deltaTime;
+            UIManager.Instance.UpdateTimerBar(_currentTimer / _startTimerDuration);
+        }
+
+        CheckNextTurn();
     }
 
     #endregion
@@ -162,63 +198,32 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
 
     public void AddActionInGameToList(CommandInGame ActionToAdd)
     {
-        //Ici on devra trier si le propri�taire de l'action que l'on ajoute a la liste n'avait pas deja une action dans la liste avant de remettre son action. 
-        
-        Debug.Log(ActionToAdd + "have been added to the list of actions");
-        ListCommandsInGame.Add(ActionToAdd);
+        _listCommandsInGame.Add(ActionToAdd);
     }
 
     public void StartAllActionsInGame()
     {
-        if (ListCommandsInGame.Count > 0)
+        if (_listCommandsInGame.Count > 0)
         {
             UIManager.Instance.DisplayPhaseTitle("[Action Phase]");
             UIManager.Instance.DisplayPhaseDescription("Wait, all actions are running.");
-            ListCommandsInGame[0].LaunchActionInGame();
+            _listCommandsInGame[0].LaunchActionInGame();
         }
         else
         {
-            Debug.Log("Personne n'a choisi d'action pendant ce tour ?");
             EndActionTurn();
         }
-        
     }
     
     #endregion
 
-    public IEnumerator LoadSavedTurn(int turn)
-    {
-        turnCount = turn;
-        
-        UIManager.Instance.UpdateTurnCount(turnCount);
-        UIManager.Instance.DisplayGameScreen(true);
-        UIManager.Instance.DisplayEndScreen(false);
-
-        AudioManager.Instance.EnableAmbienceSounds(true);
-        UIManager.Instance.DisplayPauseScreen(false);
-        GoogleSheetManager.Instance.StartGoogleSheetSaving();
-
-        //Timer wait before start
-        currentTimer = startTimerDuration;
-        UIManager.Instance.ActivateTimerBar(true);
-
-        while (currentTimer > 0)
-        {
-            yield return null;
-            currentTimer -= Time.deltaTime;
-            UIManager.Instance.UpdateTimerBar(currentTimer / startTimerDuration);
-        }
-
-        CheckNextTurn();
-    }
-    
     #region GameState Handling
     
     void StartState(EnumClass.GameState nextState)
     {
-        currentGameState = nextState;
+        _currentGameState = nextState;
         
-        switch (currentGameState)
+        switch (_currentGameState)
         {
             case(EnumClass.GameState.WaitingTurn):
                 StartCoroutine(ActionsChoiceCoroutine());
@@ -256,8 +261,8 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
 
         if (remainingPlayers > 1)
         {
-            turnCount++;
-            UIManager.Instance.UpdateTurnCount(turnCount);
+            _turnCount++;
+            UIManager.Instance.UpdateTurnCount(_turnCount);
             CheckNextTurn();
         }
         else
@@ -268,9 +273,9 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
 
     void CheckNextTurn()
     {
-        foreach (int choice in _turnsToMakeChoice)
+        foreach (int choice in _listTurnsToMakeChoice)
         {
-            if (choice == turnCount)
+            if (choice == _turnCount)
             {
                 StartState(EnumClass.GameState.ChoseBuffTurn);
                 return;
@@ -283,21 +288,22 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
 
     public EnumClass.GameState GetCurrentGameState()
     {
-        return currentGameState;
+        return _currentGameState;
     }
 
     public int GetCurrentTurn()
     {
-        return turnCount;
+        return _turnCount;
     }
 
     #endregion
-    
+
+    #region CommandInGame Handling
     public List<CommandInGame> FindPlayerCommands(Player ownerOfCommands)
     {
         List<CommandInGame> listToReturn = new List<CommandInGame>();
 
-        foreach (CommandInGame command in ListCommandsInGame)
+        foreach (CommandInGame command in _listCommandsInGame)
         {
             if (command.OwnerPlayer == ownerOfCommands)
             {
@@ -316,9 +322,9 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
         {
             listToDestroy[i].DestroyCommand();
 
-            if (ListCommandsInGame.Contains(listToDestroy[i]))
+            if (_listCommandsInGame.Contains(listToDestroy[i]))
             {
-                ListCommandsInGame.Remove(listToDestroy[i]);
+                _listCommandsInGame.Remove(listToDestroy[i]);
             }
         }
     }
@@ -327,9 +333,9 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
     {
         DestroyAllCommandsOfPlayer(ownerOfCommands);
 
-        if (ListCommandsInGame.Count > 0)
+        if (_listCommandsInGame.Count > 0)
         {
-            ListCommandsInGame[0].LaunchActionInGame();
+            _listCommandsInGame[0].LaunchActionInGame();
         }
         else
         {
@@ -340,13 +346,13 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
 
     public void ManageEndOfCommand(CommandInGame command)
     {
-        if (ListCommandsInGame.Count > 0 && ListCommandsInGame[0] == command) //Somme nous bien l'action a la base de la liste
+        if (_listCommandsInGame.Count > 0 && _listCommandsInGame[0] == command) //Somme nous bien l'action a la base de la liste
         {
-            ListCommandsInGame.Remove(command); //On s'enleve de la liste. 
+            _listCommandsInGame.Remove(command); //On s'enleve de la liste. 
 
-            if (ListCommandsInGame.Count > 0)
+            if (_listCommandsInGame.Count > 0)
             {
-                ListCommandsInGame[0].LaunchActionInGame(); //On lance la prochaine action. 
+                _listCommandsInGame[0].LaunchActionInGame(); //On lance la prochaine action. 
 
                 Debug.Log("Next Action");
             }
@@ -363,10 +369,10 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
 
         for (int i = 0; i < AllCommandsOfPlayer.Count; i++)
         {
-            if (ListCommandsInGame.Contains(AllCommandsOfPlayer[i]) && AllCommandsOfPlayer[i] is CommandMoving)
+            if (_listCommandsInGame.Contains(AllCommandsOfPlayer[i]) && AllCommandsOfPlayer[i] is CommandMoving)
             {
                 AllCommandsOfPlayer[i].DestroyCommand();
-                ListCommandsInGame.Remove(AllCommandsOfPlayer[i]);
+                _listCommandsInGame.Remove(AllCommandsOfPlayer[i]);
             }
         }
     }
@@ -377,14 +383,28 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
 
         for (int i = 0; i < AllCommandsOfPlayer.Count; i++)
         {
-            if (ListCommandsInGame.Contains(AllCommandsOfPlayer[i]) && AllCommandsOfPlayer[i] is CommandAttack)
+            if (_listCommandsInGame.Contains(AllCommandsOfPlayer[i]) && AllCommandsOfPlayer[i] is CommandAttack)
             {
                 AllCommandsOfPlayer[i].DestroyCommand();
-                ListCommandsInGame.Remove(AllCommandsOfPlayer[i]);
+                _listCommandsInGame.Remove(AllCommandsOfPlayer[i]);
             }
         }
     }
+    public void InsertCommandInList(int index, CommandInGame command)
+    {
+        if (_listCommandsInGame.Count > 1)
+        {
+            _listCommandsInGame.Insert(index, command);
+        }
+        else
+        {
+            _listCommandsInGame.Add(command);
+        }
+    }
 
+    #endregion
+
+    #region Choices
     public int GetRandomChoiceIndex()
     {
         int index = (int) Random.Range(0, 3);
@@ -417,29 +437,20 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
         }
         return true;
     }
-    
-    public void InsertCommandInList(int index, CommandInGame command)
-    {
-        if (ListCommandsInGame.Count>1)
-        {
-            ListCommandsInGame.Insert(index, command);
-        }
-        else
-        {
-            ListCommandsInGame.Add(command);
-        }
-    }
-    
+
+    #endregion
+
+    #region EndGame/PauseGame
     public void EndGame()
     {
         UIManager.Instance.EndGameUI();
 
-        //TODO : mettre dans une seule méthode !!
-        
-        PlayerManager.Instance.GetLastPlayer().transform.position = WinPoint.position;
-        PlayerManager.Instance.GetLastPlayer().ResetPlayerRotation();
-        PlayerManager.Instance.GetLastPlayer().CanvasVisibility(false);
-        PlayerManager.Instance.GetLastPlayer()._animator.SetBool("IsFalling", false);
+        //Manage the last player for victory ending.
+        Player endGamePlayer = PlayerManager.Instance.GetLastPlayer();
+        endGamePlayer.transform.position = _winPoint.position;
+        endGamePlayer.ResetPlayerRotation();
+        endGamePlayer.CanvasVisibility(false);
+        endGamePlayer._animator.SetBool("IsFalling", false);
         PlayerManager.Instance.PlayerList.Clear();
     }
 
@@ -455,6 +466,6 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
             Time.timeScale = 1;
             UIManager.Instance.DisplayPauseScreen(state);
         }
-        
     }
+    #endregion
 }

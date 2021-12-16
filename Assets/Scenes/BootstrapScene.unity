@@ -245,7 +245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78c11b154c7dfc34e8347d11b0fcd31d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VariablesGetFromSheet: 
+  _variablesGetFromSheet: 
 --- !u!4 &164335233
 Transform:
   m_ObjectHideFlags: 0

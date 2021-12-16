@@ -138,9 +138,11 @@ public class InputManager : SingletonMonobehaviour<InputManager>
 
         
         player._choicesMade.Add(choiceIndex);
-        
-        UIManager.Instance.DisplayChoiceTxt("[" + player.namePlayer + "]", choiceIndex);
 
+        if (choiceInputsEnabled) //Just to block display UI for players who will have a random choice.
+        {
+            UIManager.Instance.DisplayChoiceTxt("[" + player.namePlayer + "]", choiceIndex);
+        }
     }
 
     

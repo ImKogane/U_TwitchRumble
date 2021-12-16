@@ -34,8 +34,8 @@ public class BoardManager : SingletonMonobehaviour<BoardManager>
     public void SetupNewBoard()
     {
         //Set up variable with google sheet datas.
-        testHoleNumber = GoogleSheetManager.Instance.VariablesGetFromSheet[1];
-        testObstaclesNumber = GoogleSheetManager.Instance.VariablesGetFromSheet[2];
+        testHoleNumber = GoogleSheetManager.Instance._variablesGetFromSheet[1];
+        testObstaclesNumber = GoogleSheetManager.Instance._variablesGetFromSheet[2];
 
         MeshRenderer tileRenderer = tilePrefab.GetComponentInChildren<MeshRenderer>();
         
@@ -53,8 +53,8 @@ public class BoardManager : SingletonMonobehaviour<BoardManager>
     public void SetupCustomBoard()
     {
         //Set up variable with google sheet datas.
-        testHoleNumber = GoogleSheetManager.Instance.VariablesGetFromSheet[1];
-        testObstaclesNumber = GoogleSheetManager.Instance.VariablesGetFromSheet[2];
+        testHoleNumber = GoogleSheetManager.Instance._variablesGetFromSheet[1];
+        testObstaclesNumber = GoogleSheetManager.Instance._variablesGetFromSheet[2];
 
         MeshRenderer tileRenderer = tilePrefab.GetComponentInChildren<MeshRenderer>();
         
