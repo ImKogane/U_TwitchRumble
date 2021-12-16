@@ -40,9 +40,7 @@ public class Player : MonoBehaviour
     public Image _feedbackTxtPrefab;
     private Slider _healthBar;
     private TMP_Text _nameText;
-    
-    
-    
+
     private Quaternion _baseRotation;
     bool _alreadyAttackedThisTurn = false;
     public Action _endOfAttackAction;
@@ -93,7 +91,7 @@ public class Player : MonoBehaviour
         _infosCanvas.worldCamera = Camera.main;
         _infosCanvas.transform.position = transform.position;
         _nameText.text = _name;
-        _healthBar.maxValue = _currentHealth;
+        _healthBar.maxValue = _maxHealth;
         _healthBar.minValue = 0;
         _healthBar.value = _currentHealth;
         
@@ -255,6 +253,7 @@ public class Player : MonoBehaviour
         }
     }
     
+    //Get debuff from enemy player's attack
     public void ReceiveWeaponBuffEffect(Player attackingPlayer)
     {
         if (attackingPlayer._currentWeaponBuff != null)
@@ -275,6 +274,7 @@ public class Player : MonoBehaviour
 
     #region UI Management
 
+    //Rotate the player UI toward main Camera
     public void UpdatePlayerCanvas()
     {
         if (Camera.main)
@@ -283,12 +283,13 @@ public class Player : MonoBehaviour
             _infosCanvas.transform.position = transform.position + _uiOffset;
         }
     }
-
+    
     public void DisplayCommandTxt(string message)
     {
         StartCoroutine(DisplayCommandTxtCorout(message));
     }
 
+    //Display choice indicator
     public IEnumerator DisplayCommandTxtCorout(string message)
     {
         int stepNumber = 100;
@@ -323,6 +324,7 @@ public class Player : MonoBehaviour
 
     #region Choices System
 
+    //Distribute the choice into its corresponding variable
     public void ReceiveAChoice(SO_Choice choice)
     {
         choice.StartAChoice(this);
@@ -344,6 +346,7 @@ public class Player : MonoBehaviour
         }
     }
 
+    //Display the new weapon in the player's hands and set reference to its VFX
     public void SetupWeapon()
     {
         _animatorComponent.runtimeAnimatorController = _currentWeapon._weaponAnimatorController;
@@ -362,6 +365,17 @@ public class Player : MonoBehaviour
 
     #region Trap System
 
+    //Start the trap placing animation, which contains an Animation Event to set the trap on the current tile
+    public IEnumerator SetupTrapCoroutine()
+    {
+        _animatorComponent.SetTrigger("IsPlacingTrap");
+        AnimatorClipInfo currentAnimationInfo = _animatorComponent.GetCurrentAnimatorClipInfo(0)[0];
+
+        yield return new WaitForSeconds(currentAnimationInfo.clip.length);
+
+    }
+    
+    //Main function called by an animation Event, finish by ending the command
     public void SetATrap()
     {
         GameObject newTrapGO = GameObject.Instantiate(_trapPrefab, _currentTile.transform.position, Quaternion.identity);
@@ -371,18 +385,11 @@ public class Player : MonoBehaviour
             _currentTile.trapList.Add(trapComponent);
             trapComponent.currentTile = _currentTile;
         }
-    }
-    
-    public IEnumerator SetupTrapCoroutine()
-    {
-        _animatorComponent.SetTrigger("IsPlacingTrap");
-        AnimatorClipInfo currentAnimationInfo = _animatorComponent.GetCurrentAnimatorClipInfo(0)[0];
-
-        yield return new WaitForSeconds(currentAnimationInfo.clip.length);
         
         _endOfAttackAction.Invoke();
-        
     }
+    
+    
 
     #endregion
     

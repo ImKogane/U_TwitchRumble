@@ -15,7 +15,7 @@ public class LobbyManager : SingletonMonobehaviour<LobbyManager>
 
     public List<Tile> LobbyTileList = new List<Tile>();
     
-    public UI_Lobby uiLobby;
+    public UI_Lobby _uiLobby;
 
     private int compteurBot = 1;
 
@@ -24,6 +24,16 @@ public class LobbyManager : SingletonMonobehaviour<LobbyManager>
     void Start()
     {
         TwitchManager.Instance.numberMaxOfPlayer = GoogleSheetManager.Instance._variablesGetFromSheet[0];
+        
+        if (SaveSystem.CheckSaveFile())
+        {
+            _uiLobby.ShowLoadGameWindow(true);
+        }
+        else
+        {
+            _uiLobby.ShowLoadGameWindow(false);
+            SpawnLocalPlayer();
+        }
     }
 
     public void SpawnLocalPlayer()

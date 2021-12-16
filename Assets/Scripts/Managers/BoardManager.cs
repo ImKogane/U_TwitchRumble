@@ -1,7 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.SceneManagement;
-using System.Configuration;
 using UnityEngine;
 
 public class BoardManager : SingletonMonobehaviour<BoardManager>
@@ -29,7 +26,7 @@ public class BoardManager : SingletonMonobehaviour<BoardManager>
     void Start()
     {
         //On sait que cette methode ne devrait pas etre appelée ici, mais manque de temps pour trouver une nouvelle solution. 
-        StartGameManager.Instance.LaunchGame(); 
+        //StartGameManager.Instance.LaunchGame(); 
     }
 
     #region SetUp Board

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using DG.Tweening;
-using UnityEngine.Rendering.UI;
 using Random = UnityEngine.Random;
 
 public class PlayerMovement : MonoBehaviour

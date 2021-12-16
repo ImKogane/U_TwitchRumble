@@ -14,7 +14,8 @@ public class CommandChoice : CommandInGame
     public override void LaunchActionInGame()
     {
         _ownerPlayer.ReceiveAChoice(_choice);
-
+        int choiceIndex = ScriptableManager.Instance.FindChoiceIndex(_choice);
+        _ownerPlayer._choicesMade.Add(choiceIndex);
         EndActionInGame();
     }
 }

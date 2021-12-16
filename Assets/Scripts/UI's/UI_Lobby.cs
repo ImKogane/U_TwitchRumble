@@ -15,16 +15,31 @@ public class UI_Lobby : MonoBehaviour
 
     [SerializeField] private GameObject _loadGamePanel;
 
+    private StartGameManager _startGameManager;
+    
     void Start()
     {
-        LobbyManager.Instance.uiLobby = this;
+        LobbyManager.Instance._uiLobby = this;
         PlayButton.SetActive(false);
         ErrorText.SetActive(true);
+        _startGameManager = StartGameManager.Instance;
     }
 
-    public void ShowLoadGameWindow()
+    public void StartNewGame()
     {
-        _loadGamePanel.SetActive(true);
+        _startGameManager.SetLoadSavedGame(false);
+        _startGameManager.LaunchGameLevel();
+    }
+
+    public void LoadSavedGame()
+    {
+        _startGameManager.SetLoadSavedGame(true);
+        _startGameManager.LaunchGameLevel();
+    }
+    
+    public void ShowLoadGameWindow(bool value)
+    {
+        _loadGamePanel.SetActive(value);
     }
     
     public void EnablePlayButton()

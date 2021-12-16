@@ -47,4 +47,22 @@ public class ScriptableManager : SingletonMonobehaviour<ScriptableManager>
 
         return null;
     }
+
+    public int FindChoiceIndex(SO_Choice choice)
+    {
+        int index = 0;
+        
+        foreach (var listSoChoice in _turnChoiceList)
+        {
+            int tempIndex = listSoChoice.choiceList.FindIndex((c) => { return c == choice; });
+
+            if (tempIndex >= 0)
+            {
+                index = tempIndex;
+                break;
+            }
+        }
+        
+        return index;
+    }
 }

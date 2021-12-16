@@ -14,18 +14,6 @@ public class StartGameManager : SingletonMonobehaviour<StartGameManager>
     private UI_Lobby _uiLobby;
     [SerializeField]
     private SO_level _gameLevel;
-    
-    private void Start()
-    {
-        if (SaveSystem.CheckSaveFile())
-        {
-            _uiLobby.ShowLoadGameWindow();
-        }
-        else
-        {
-            LobbyManager.Instance.SpawnLocalPlayer();
-        }
-    }
 
     public void SetLoadSavedGame(bool value)
     {
@@ -42,11 +30,6 @@ public class StartGameManager : SingletonMonobehaviour<StartGameManager>
         {
             StartNewGame();
         }
-    }
-    
-    public void EnableGameStart()
-    {
-        _uiLobby.EnablePlayButton();
     }
 
     public void LaunchGameLevel()
@@ -67,10 +50,8 @@ public class StartGameManager : SingletonMonobehaviour<StartGameManager>
     private async void LoadGame()
     {
         SaveData dataToLoad = await SaveSystem.LoadData();
-
         List<PlayerData> playerDatas = dataToLoad._playersDatas;
         List<TileData> tileDatas = dataToLoad._tilesDatas;
-
         
         BootstrapManager.Instance.SetActiveScene("BoardScene");
         BoardManager.Instance.SetupCustomBoard();
@@ -84,8 +65,6 @@ public class StartGameManager : SingletonMonobehaviour<StartGameManager>
         foreach (PlayerData playerData in playerDatas)
         {
             PlayerManager.Instance.LoadPlayer(playerData);
-            Debug.Log(playerData._playerName + " [" + playerData._playerTile + "]");
-            Debug.Log(playerData._playerName + " [" + playerData._playerRotation + "]");
         }
 
         StartCoroutine(GlobalManager.Instance.LoadSavedTurn(dataToLoad._currentTurn));

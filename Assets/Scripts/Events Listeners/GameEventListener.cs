@@ -1,16 +1,10 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class GameEventListener : MonoBehaviour
 {
-    //The GameEvent we will listen
-    public SO_GameEvent _gameEvent;
-    
-    //The event we will trigger when the _gameEvent will be called
-    public UnityEvent _unityEvent;
+    public SO_GameEvent _gameEvent;//The GameEvent we will listen
+    public UnityEvent _unityEvent;//The event we will trigger when the _gameEvent will be called
 
     //Immediately register to the GameEvent
     private void OnEnable()

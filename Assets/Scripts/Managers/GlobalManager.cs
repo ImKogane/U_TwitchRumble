@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,6 +28,11 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
     public string _phaseIntroTitle;
     public string _phaseIntroParagraph;
 
+
+    private void Start()
+    {
+        StartGameManager.Instance.LaunchGame();
+    }
 
     #region Coroutines
     public IEnumerator LaunchNewGameCoroutine()
@@ -168,6 +174,7 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
         UIManager UiManager = UIManager.Instance;
 
         _turnCount = turn;
+        AdaptChoiceIndexCompteurToLoadedTurn(_turnCount);
 
         //Manage UI display
         UiManager.UpdateTurnCount(_turnCount);
@@ -309,6 +316,17 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
             }
         }
         return true;
+    }
+
+    private void AdaptChoiceIndexCompteurToLoadedTurn(int turn)
+    {
+        foreach (int choiceTurn in _listTurnsToMakeChoice)
+        {
+            if (turn > choiceTurn)
+            {
+                ScriptableManager.Instance.IncreaseChoiceIndexCompteur();
+            }
+        }
     }
 
     #endregion

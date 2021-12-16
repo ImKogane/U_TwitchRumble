@@ -1,12 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
-using Debug = UnityEngine.Debug;
 
 public static class SaveSystem 
 {
@@ -14,11 +10,7 @@ public static class SaveSystem
     private static string _saveFileExtension = ".json";
     private static string _saveFileName = "save";
 
-    private static Stopwatch _stopWatch = new Stopwatch();
-
-    public static System.Action gameSaved;
-    public static System.Action gameLoaded;
-
+    //Check data path, and return the SaveData type object from parsing
     public static async Task<SaveData> LoadData()
     {
         string directoryPath = Path.Combine(Application.persistentDataPath, _saveFilepath);
@@ -28,23 +20,20 @@ public static class SaveSystem
             
         if (File.Exists(filePath))
         {
-            Debug.Log("Data found, loading...");
             dataToLoad = await ReadData(filePath);
         }
         else
         {
             dataToLoad = new SaveData();
-            Debug.Log("No data found");
         }
 
         return dataToLoad;
-        
     }
 
+    //Get Bytes array from file, make a string from it, and then parse it as a json int a SaveData type
     public static async Task<SaveData> ReadData(string filePath)
     {
         SaveData newSaveData;
-
         byte[] bytesArray;
         
         using (FileStream filestream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -62,9 +51,9 @@ public static class SaveSystem
         });
         
         return newSaveData;
-
     }
 
+    //Check if there's a file correponding to the path
     public static bool CheckSaveFile()
     {
         string directoryPath = Path.Combine(Application.persistentDataPath, _saveFilepath);
@@ -73,25 +62,20 @@ public static class SaveSystem
         return File.Exists(filePath);
     }
     
+    
     public static async void SaveData()
     {
-        _stopWatch.Restart();
-        Debug.Log($"[{_stopWatch.ElapsedMilliseconds} SaveData: start");
         SaveData data = GetData();
-        
         await WriteData(data);
-        Debug.Log($"[{_stopWatch.ElapsedMilliseconds} SaveData: stop");
-        
     }
     
+    //Get all the necessary infos from Managers singleton and store them in the SaveData struct
     public static SaveData GetData()
     {
-        Debug.Log($"[{_stopWatch.ElapsedMilliseconds} GetData: start");
-        
         List<PlayerData> tempPlayersDatas = new List<PlayerData>();
         List<TileData> tempTilesDatas = new List<TileData>();
         
-        
+        //We set the tempPlayersData with all the actives players in PlayerManager
         foreach (Player player in PlayerManager.Instance._listPlayers)
         {
             PlayerData tempPlayerData;
@@ -120,7 +104,6 @@ public static class SaveSystem
 
             tempPlayerData._playerRotation = player._playerMovementComponent.RotationOfPlayer;
             tempPlayerData._playerTile = player._currentTile.GetCoord();
-            Debug.Log("POS OF PLAYER WHEN SAVE : " + tempPlayerData._playerTile);
             tempPlayerData._playerChoices = player._choicesMade;
             
             tempPlayerData._materialIndex =
@@ -131,6 +114,7 @@ public static class SaveSystem
             tempPlayersDatas.Add(tempPlayerData);
         }
 
+        //We set the tempTilesDatas with all the actives tiles in BoardManager
         foreach (Tile tile in BoardManager.Instance._listTiles)
         {
             TileData tempTileData;
@@ -150,15 +134,12 @@ public static class SaveSystem
             _tilesDatas = tempTilesDatas
         };
 
-        Debug.Log($"[{_stopWatch.ElapsedMilliseconds} SaveData: stop");
-        
         return data;
     }
 
+    //Collect data from active in-game objects, store them in a new object and write it as a json
     private static async Task WriteData(SaveData data)
     {
-        Debug.Log($"[{_stopWatch.ElapsedMilliseconds} WriteData: start");
-        
         string directoryPath = Path.Combine(Application.persistentDataPath, _saveFilepath);
         if (!Directory.Exists(directoryPath))
         {
@@ -177,8 +158,6 @@ public static class SaveSystem
         {
             await filestream.WriteAsync(bytes, 0, bytes.Length);
         }
-        
-        Debug.Log($"[{_stopWatch.ElapsedMilliseconds} WriteData: start");
 
     }
 

@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
@@ -11,8 +8,7 @@ public class AudioManager : SingletonMonobehaviour<AudioManager>
     
     [SerializeField] private AudioMixer _audioMixer;
     [SerializeField] private AnimationCurve _audioCurve;
-
-    [SerializeField] private AudioSource _sfxAudioSource;
+    
     [SerializeField] private AudioSource _musicAudioSource;
     [SerializeField] private AudioSource _ambianceAudioSource;
 

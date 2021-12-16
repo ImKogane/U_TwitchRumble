@@ -38,7 +38,7 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
 
         if (_listPlayers.Count >= 2)
         {
-            StartGameManager.Instance.EnableGameStart();
+            LobbyManager.Instance._uiLobby.EnablePlayButton();
         }
         
         Tile tileOfPlayer = LobbyManager.Instance.GetRandomLobbyTile();
@@ -163,7 +163,7 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
             for (int i = 0; i < playerData._playerChoices.Count; i++)
             {
                 SO_Choice newChoice = ScriptableManager.Instance.GetChoiceFromIndex(i, playerData._playerChoices[i]);
-                newChoice.ApplyChoice(newPlayer);
+                newPlayer.ReceiveAChoice(newChoice);
             }
         }
         
