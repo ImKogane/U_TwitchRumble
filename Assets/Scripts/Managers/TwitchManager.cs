@@ -29,8 +29,8 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
     public string DownCommande;
     public string ChoiceCommande = "!card";
 
+    [Header("Parameters")]
     public string channelName;
-    
     public int maxCharacterInNames;
     public int numberMaxOfPlayer;
 
@@ -41,7 +41,7 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
     [System.NonSerialized] public bool canJoinedGame = false;
     [System.NonSerialized] public bool playersCanMakeActions = false;
     [System.NonSerialized] public bool playersCanMakeChoices = false;
-    public bool canReadCommands = false;
+    [System.NonSerialized] public bool canReadCommands = false;
 
     public override bool DestroyOnLoad => false;
 
@@ -91,7 +91,6 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
             {
                 Debug.Log("CONNEXION ? " + message);
                 PanelConnexion.SetActive(false);
-                //PanelLobby.SetActive(true);
             }
             
             if (message.Contains("PRIVMSG") && canReadCommands)
@@ -108,10 +107,6 @@ public class TwitchManager : SingletonMonobehaviour<TwitchManager>
                 Debug.Log("MESSAGE of " + NameOfUser + " : " + messageOfUser);
 
                 AnalyseChatCommand(NameOfUser, messageOfUser);
-            }
-            else
-            {
-                //Debug.Log("DEBUG : " + message);
             }
         }
     }
