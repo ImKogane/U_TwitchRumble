@@ -131,7 +131,7 @@ public static class SaveSystem
             tempPlayersDatas.Add(tempPlayerData);
         }
 
-        foreach (Tile tile in BoardManager.Instance.tilesList)
+        foreach (Tile tile in BoardManager.Instance._listTiles)
         {
             TileData tempTileData;
 

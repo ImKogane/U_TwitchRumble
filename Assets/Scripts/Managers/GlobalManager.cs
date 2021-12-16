@@ -387,6 +387,7 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
             }
         }
     }
+
     public void InsertCommandInList(int index, CommandInGame command)
     {
         if (_listCommandsInGame.Count > 1)

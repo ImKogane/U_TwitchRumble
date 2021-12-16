@@ -14,7 +14,6 @@ public class CommandChoice : CommandInGame
     public override void LaunchActionInGame()
     {
         OwnerPlayer.ReceiveAChoice(choice);
-        Debug.Log($"{OwnerPlayer} make a choice of : {choice}");
         EndActionInGame();
     }
 }

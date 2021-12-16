@@ -42,7 +42,7 @@ public class ScriptableManager : SingletonMonobehaviour<ScriptableManager>
         {
             if (index < _turnChoiceList[compteur].choiceList.Count)
             {
-                return ScriptableManager.Instance._turnChoiceList[compteur].choiceList[index];
+                return _turnChoiceList[compteur].choiceList[index];
             }
         }
 

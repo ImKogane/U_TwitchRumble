@@ -6,21 +6,21 @@ using UnityEngine;
 
 public class BoardManager : SingletonMonobehaviour<BoardManager>
 {
-    [SerializeField] private GameObject tilePrefab;
-    [SerializeField] private GameObject obstaclePrefab;
+    [SerializeField] private GameObject _tilePrefab;
+    [SerializeField] private GameObject _obstaclePrefab;
 
-    private GameObject gameBoard;
+    private GameObject _gameBoard;
     
     [HideInInspector]
-    public List<Tile> tilesList = new List<Tile>();
+    public List<Tile> _listTiles = new List<Tile>();
     
-    private float tileWidth;
-    private float tileLength;
+    private float _tileWidth;
+    private float _tileLength;
     
-    [SerializeField] private int testBoardSizeX;
-    [SerializeField] private int testBoardSizeZ;
-    [SerializeField] private int testHoleNumber;
-    [SerializeField] private int testObstaclesNumber;
+    [SerializeField] private int _boardSizeX;
+    [SerializeField] private int _boardSizeZ;
+    [SerializeField] private int _holeNumber;
+    [SerializeField] private int _obstaclesNumber;
 
     public GameObject _trapPrefab;
     
@@ -28,43 +28,45 @@ public class BoardManager : SingletonMonobehaviour<BoardManager>
 
     void Start()
     {
-        StartGameManager.Instance.LaunchGame(); //Pas beau de mettre ça ici, mais peut pas faire autrement pour l'instant
+        //On sait que cette methode ne devrait pas etre appelée ici, mais manque de temps pour trouver une nouvelle solution. 
+        StartGameManager.Instance.LaunchGame(); 
     }
 
+    #region SetUp Board
     public void SetupNewBoard()
     {
         //Set up variable with google sheet datas.
-        testHoleNumber = GoogleSheetManager.Instance._variablesGetFromSheet[1];
-        testObstaclesNumber = GoogleSheetManager.Instance._variablesGetFromSheet[2];
+        _holeNumber = GoogleSheetManager.Instance._variablesGetFromSheet[1];
+        _obstaclesNumber = GoogleSheetManager.Instance._variablesGetFromSheet[2];
 
-        MeshRenderer tileRenderer = tilePrefab.GetComponentInChildren<MeshRenderer>();
+        MeshRenderer tileRenderer = _tilePrefab.GetComponentInChildren<MeshRenderer>();
         
         if (tileRenderer)
         {
-            tileLength = tileRenderer.bounds.size.z;
-            tileWidth = tileRenderer.bounds.size.x;
+            _tileLength = tileRenderer.bounds.size.z;
+            _tileWidth = tileRenderer.bounds.size.x;
         }
         
         ResetTiles();
-        gameBoard = new GameObject("GameBoard");
-        CreateBoard(testBoardSizeX, testBoardSizeZ, testHoleNumber,testObstaclesNumber);
+        _gameBoard = new GameObject("GameBoard");
+        CreateBoard(_boardSizeX, _boardSizeZ, _holeNumber,_obstaclesNumber);
     }
 
     public void SetupCustomBoard()
     {
         //Set up variable with google sheet datas.
-        testHoleNumber = GoogleSheetManager.Instance._variablesGetFromSheet[1];
-        testObstaclesNumber = GoogleSheetManager.Instance._variablesGetFromSheet[2];
+        _holeNumber = GoogleSheetManager.Instance._variablesGetFromSheet[1];
+        _obstaclesNumber = GoogleSheetManager.Instance._variablesGetFromSheet[2];
 
-        MeshRenderer tileRenderer = tilePrefab.GetComponentInChildren<MeshRenderer>();
+        MeshRenderer tileRenderer = _tilePrefab.GetComponentInChildren<MeshRenderer>();
         
         if (tileRenderer)
         {
-            tileLength = tileRenderer.bounds.size.z;
-            tileWidth = tileRenderer.bounds.size.x;
+            _tileLength = tileRenderer.bounds.size.z;
+            _tileWidth = tileRenderer.bounds.size.x;
         }
         
-        gameBoard = new GameObject("GameBoard");
+        _gameBoard = new GameObject("GameBoard");
         ResetTiles();
     }
     
@@ -76,14 +78,14 @@ public class BoardManager : SingletonMonobehaviour<BoardManager>
         {
             for (int j = 0; j < sizeZ; j++)
             {
-                float tempPosZ = j * tileLength;
-                float tempPosX = i * tileWidth;
+                float tempPosZ = j * _tileLength;
+                float tempPosX = i * _tileWidth;
 
-                Tile newTile = Instantiate(tilePrefab, new Vector3(tempPosX, 0, tempPosZ), Quaternion.identity, gameBoard.transform).GetComponent<Tile>();
+                Tile newTile = Instantiate(_tilePrefab, new Vector3(tempPosX, 0, tempPosZ), Quaternion.identity, _gameBoard.transform).GetComponent<Tile>();
 
                 if (newTile)
                 {
-                    tilesList.Add(newTile);
+                    _listTiles.Add(newTile);
                     newTile.SetCoord(new Vector2Int(i, j));
                 }
                 
@@ -98,7 +100,7 @@ public class BoardManager : SingletonMonobehaviour<BoardManager>
 
         foreach (var tile in tilesWithHole)
         {
-            tilesList.Remove(tile);
+            _listTiles.Remove(tile);
             Destroy(tile.gameObject);
         }
 
@@ -111,51 +113,17 @@ public class BoardManager : SingletonMonobehaviour<BoardManager>
         foreach (var tile in tilesWithObstacle)
         {
             tile.SetHasObstacle(true);
-            Instantiate(obstaclePrefab, tile.transform.position, Quaternion.identity, gameBoard.transform);
+            Instantiate(_obstaclePrefab, tile.transform.position, Quaternion.identity, _gameBoard.transform);
         }
 
         #endregion
-
-        //ScenesManager.Instance.SetActiveScene("PlayersScene");
-
-        //PlayerManager.Instance.SetAllPlayerOnBoard();
-        Debug.Log("Normalement on a bien setup le board");
     }
+    #endregion
 
-    private List<Tile> GetRandomTiles(int tilesAmount)
-    {
-        int tempAmount = 0;
-
-        List<Tile> tempTileList = new List<Tile>();
-        
-        while (tempAmount < tilesAmount)
-        {
-           
-            int tempTileIndex;
-            Tile tempTile;
-
-            do
-            {
-                tempTileIndex = Random.Range(0, tilesList.Count);
-                tempTile = tilesList[tempTileIndex];
-                
-                if(CheckPlacementAvailable(tempTile) && tempAmount < tilesAmount)
-                {
-                    tempTileList.Add(tempTile);
-                    tempAmount++;
-                }
-
-            } while (tempTileList.Contains(tempTile));
-
-            
-        }
-
-        return tempTileList;
-    }
-
+    #region Loading Datas
     public void LoadTile(TileData tileData)
     {
-       Tile newTile = Instantiate(tilePrefab, tileData._tileTransform.Position,  Quaternion.Euler(tileData._tileTransform.Rotation), gameBoard.transform).GetComponent<Tile>();
+       Tile newTile = Instantiate(_tilePrefab, tileData._tileTransform.Position,  Quaternion.Euler(tileData._tileTransform.Rotation), _gameBoard.transform).GetComponent<Tile>();
 
         newTile.transform.localScale = tileData._tileTransform.Scale;
 
@@ -166,26 +134,59 @@ public class BoardManager : SingletonMonobehaviour<BoardManager>
         
         if (newTile.hasObstacle)
         {
-            Instantiate(obstaclePrefab, newTile.transform.position, Quaternion.identity, gameBoard.transform);
+            Instantiate(_obstaclePrefab, newTile.transform.position, Quaternion.identity, _gameBoard.transform);
         }
 
         for (int i = 0; i < tileData._tileTrapCount; i++)
         {
-            Trap newTrap = Instantiate(_trapPrefab, newTile.transform.position, Quaternion.identity, gameBoard.transform).GetComponent<Trap>();
+            Trap newTrap = Instantiate(_trapPrefab, newTile.transform.position, Quaternion.identity, _gameBoard.transform).GetComponent<Trap>();
             newTile.trapList.Add(newTrap);
         }
         
-        tilesList.Add(newTile);
+        _listTiles.Add(newTile);
     }
-    
+    #endregion
+
+    #region Usefull Functions 
+    private List<Tile> GetRandomTiles(int tilesAmount)
+    {
+        int tempAmount = 0;
+
+        List<Tile> tempTileList = new List<Tile>();
+
+        while (tempAmount < tilesAmount)
+        {
+
+            int tempTileIndex;
+            Tile tempTile;
+
+            do
+            {
+                tempTileIndex = Random.Range(0, _listTiles.Count);
+                tempTile = _listTiles[tempTileIndex];
+
+                if (CheckPlacementAvailable(tempTile) && tempAmount < tilesAmount)
+                {
+                    tempTileList.Add(tempTile);
+                    tempAmount++;
+                }
+
+            } while (tempTileList.Contains(tempTile));
+
+
+        }
+
+        return tempTileList;
+    }
+
     private bool CheckPlacementAvailable(Tile tile)
     {
         int xPos = tile.GetCoord().x;
         int zPos = tile.GetCoord().y;
         
-        if(xPos > 0 && xPos < testBoardSizeX-1)
+        if(xPos > 0 && xPos < _boardSizeX-1)
         {
-            if (zPos > 0 && zPos < testBoardSizeZ-1)
+            if (zPos > 0 && zPos < _boardSizeZ-1)
             {
                 
                 return true;
@@ -201,17 +202,16 @@ public class BoardManager : SingletonMonobehaviour<BoardManager>
         Tile tileToReturn = null;
 
         do{
-            int indexOfTile = Random.Range(0, tilesList.Count);
-            tileToReturn = tilesList[indexOfTile];
+            int indexOfTile = Random.Range(0, _listTiles.Count);
+            tileToReturn = _listTiles[indexOfTile];
         }while (tileToReturn.hasObstacle == true || tileToReturn.hasPlayer == true);
 
         return tileToReturn;
     }
 
-
     public Tile GetTileAtPos(Vector2Int Pos)
     {
-        foreach (Tile tile in tilesList)
+        foreach (Tile tile in _listTiles)
         {
             if (tile.tileRow == Pos.x && tile.tileColumn == Pos.y)
             {
@@ -283,38 +283,15 @@ public class BoardManager : SingletonMonobehaviour<BoardManager>
         return new Vector2Int(vector.y, vector.x);
     }
 
-    public List<Vector2Int> GetAllTilesCoords()
-    {
-        List<Vector2Int> tempList = new List<Vector2Int>();
-
-        foreach (Tile tile in tilesList)
-        {
-            tempList.Add(new Vector2Int(tile.tileRow, tile.tileColumn));
-        }
-
-        return tempList;
-    }
-
-    public List<Vector3> GetAllTilesPositions()
-    {
-        List<Vector3> tempList = new List<Vector3>();
-
-        foreach (Tile tile in tilesList)
-        {
-            tempList.Add(tile.gameObject.transform.position);
-        }
-
-        return tempList;
-    }
-
     public void ResetTiles()
     {
-        if (tilesList.Count < 1) return;
+        if (_listTiles.Count < 1) return;
         
-        for (int i = tilesList.Count; i >= 0; i--)
+        for (int i = _listTiles.Count; i >= 0; i--)
         {
-            Destroy(tilesList[i].gameObject);
+            Destroy(_listTiles[i].gameObject);
         }
     }
-    
+    #endregion
+
 }
