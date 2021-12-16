@@ -24,7 +24,7 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
         {
             Tile tileOfPlayer = BoardManager.Instance.GetRandomAvailableTile();
             item.transform.position = tileOfPlayer.transform.position + (Vector3.up * 35);
-            item.CurrentTile = tileOfPlayer;
+            item._currentTile = tileOfPlayer;
             tileOfPlayer.currentPlayer = item;
             tileOfPlayer.hasPlayer = true;
         }
@@ -55,7 +55,7 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
     {
         foreach (Player player in PlayerList)
         {
-            if (player.namePlayer == name)
+            if (player._name == name)
             {
                 return player;
             }
@@ -106,7 +106,7 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
 
         foreach (var player in PlayerList)
         {
-            tempList.Add(new Vector2Int(player.CurrentTile.tileRow, player.CurrentTile.tileColumn));
+            tempList.Add(new Vector2Int(player._currentTile.tileRow, player._currentTile.tileColumn));
         }
 
         return tempList;
@@ -125,28 +125,28 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
         
         PlayerMovement newPlayerMovement = newPlayer.gameObject.GetComponent<PlayerMovement>();
 
-        newPlayer.namePlayer = playerData._playerName;
+        newPlayer._name = playerData._playerName;
         newPlayer._currentHealth = playerData._playerHealth;
         newPlayer.SetPlayerUI();
 
         newPlayerMovement.CurrentPlayer = newPlayer;
         Tile playerTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(playerData._playerTile.y, playerData._playerTile.x));
         newPlayerMovement.SetNewTile(playerTile);
-        newPlayer.transform.position = newPlayer.CurrentTile.transform.position;
+        newPlayer.transform.position = newPlayer._currentTile.transform.position;
 
-        newPlayerMovement.SetUpPlayerMovment(newPlayer);
+        newPlayerMovement.SetUpPlayerMovement(newPlayer);
         newPlayerMovement.RotatePlayerWithvector(playerData._playerRotation);
 
-        newPlayer.playerModel.sharedMesh =
+        newPlayer._skinnedMeshComponent.sharedMesh =
             SkinSystem.GetMeshAtIndex(playerData._skinnedMeshIndex);
-        newPlayer.playerModel.material =
+        newPlayer._skinnedMeshComponent.material =
             SkinSystem.GetMaterialAtIndex(playerData._materialIndex);
 
         if (playerData._durationOfActiveFreezeDebuff.Count > 0)
         {
             foreach (var freezeDebuffDuration in playerData._durationOfActiveFreezeDebuff)
             {
-                newPlayer.debuffList.Add(new FreezeDebuff(freezeDebuffDuration, newPlayer));
+                newPlayer._debuffList.Add(new FreezeDebuff(freezeDebuffDuration, newPlayer));
             }
         }
 
@@ -154,7 +154,7 @@ public class PlayerManager : SingletonMonobehaviour<PlayerManager>
         {
             foreach (var burningDebuffDuration in playerData._durationOfActiveBurningDebuff)
             {
-                newPlayer.debuffList.Add(new BurningDebuff(burningDebuffDuration, newPlayer));
+                newPlayer._debuffList.Add(new BurningDebuff(burningDebuffDuration, newPlayer));
             }
         }
 

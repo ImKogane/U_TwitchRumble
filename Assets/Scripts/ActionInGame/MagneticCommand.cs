@@ -4,74 +4,72 @@ using UnityEngine;
 
 public class MagneticCommand : CommandInGame
 {
-    Vector2Int VectorAttirance;
-    Tile TyleToAffect;
-    Player playerToAffect;
+    Vector2Int _vectorAttirance;
+    Tile _affectedTile;
+    Player _affectedPlayer;
 
-    public MagneticCommand(Player OwnerOfAction, Vector2Int vectorAttirance, Tile tyleToAffect) : base(OwnerOfAction)
+    //Constructor
+    public MagneticCommand(Player OwnerOfAction, Vector2Int vectorAttirance, Tile affectedTile) : base(OwnerOfAction)
     {
-        OwnerPlayer = OwnerOfAction;
-        VectorAttirance = vectorAttirance;
-        TyleToAffect = tyleToAffect;
+        _ownerPlayer = OwnerOfAction;
+        _vectorAttirance = vectorAttirance;
+        _affectedTile = affectedTile;
     }
 
+    //Subscribe the command to the action ending management method
     public override void SubscribeEndToEvent()
     {
-        playerToAffect.playerMovement.EndOfMoving += EndActionInGame;
+        _affectedPlayer._playerMovementComponent.EndOfMoving += EndActionInGame;
     }
 
     public override void LaunchActionInGame()
     {
-        //Si la cible n'est plus sur sa case
-        if (TyleToAffect.currentPlayer == null)
+        //If the target player is no longer on the tile, we stop
+        if (_affectedTile.currentPlayer == null)
         {
-            Debug.Log("NO CURRENT PLAYER ON THE TILE TO MAGNETISE !");
             EndActionInGame();
         }
         else
         {
-            playerToAffect = TyleToAffect.currentPlayer;
+            _affectedPlayer = _affectedTile.currentPlayer;
         }
-        //Si l'un des joueurs est mort.
-        if (OwnerPlayer.isDead || playerToAffect.isDead) 
+        
+        //If either the attracting player or the affected player is dead, we stop
+        if (_ownerPlayer._isDead || _affectedPlayer._isDead) 
         {
-            Debug.Log("PLAYER OWNER OR PLAYER TO MAGNETISE IS DEAD!");
             EndActionInGame();
         }
-        //Si les deux joueurs ne sont plus sur la meme ligne. 
-        if (!BoardManager.Instance.TileSameLineAndSameColumn(OwnerPlayer.CurrentTile, TyleToAffect))
+        
+        //If both players are no longer on the same row or column, we stop
+        if (!BoardManager.Instance.TileSameLineAndSameColumn(_ownerPlayer._currentTile, _affectedTile))
         {
-            Debug.Log("PLAYER ARE NOT ON THE SAME LINE OR COLUMN ANYMORE !");
             EndActionInGame();
         }
-
 
         SubscribeEndToEvent();
 
-        Tile startTile = OwnerPlayer.CurrentTile;
+        Tile startTile = _ownerPlayer._currentTile;
 
-        //Get player infos.
-        PlayerMovement _currentMovementPlayer = TyleToAffect.currentPlayer.playerMovement;
+        //Get player infos
+        PlayerMovement _currentMovementPlayer = _affectedTile.currentPlayer._playerMovementComponent;
 
-        _currentMovementPlayer.RotatePlayerWithvector(VectorAttirance * -1);
-
-        Debug.Log($"MagneticCommandStart, owner : {OwnerPlayer.name}, vector : {VectorAttirance * -1}, playerAffect : {TyleToAffect.currentPlayer.name}");
-
-        if (VectorAttirance.x != 0) //Left and Right
+        _currentMovementPlayer.RotatePlayerWithvector(_vectorAttirance * -1);
+        
+        if (_vectorAttirance.x != 0) //Left and Right directions
         {
-            //Move the player.
-            _currentMovementPlayer.CheckBeforeMoveToATile(BoardManager.Instance.GetTileAtPos(new Vector2Int(TyleToAffect.tileRow + (-VectorAttirance.x), startTile.tileColumn)), true);
+            //Move the player with a pushed effect
+            _currentMovementPlayer.CheckBeforeMoveToATile(BoardManager.Instance.GetTileAtPos(new Vector2Int(_affectedTile.tileRow + (-_vectorAttirance.x), startTile.tileColumn)), true);
         }
-        if (VectorAttirance.y != 0) //Up and Down
+        if (_vectorAttirance.y != 0) //Up and Down directions
         {
-            //Move the player.
-            _currentMovementPlayer.CheckBeforeMoveToATile(BoardManager.Instance.GetTileAtPos(new Vector2Int(startTile.tileRow, TyleToAffect.tileColumn + (-VectorAttirance.y))), true);
+            //Move the player with a pushed effect
+            _currentMovementPlayer.CheckBeforeMoveToATile(BoardManager.Instance.GetTileAtPos(new Vector2Int(startTile.tileRow, _affectedTile.tileColumn + (-_vectorAttirance.y))), true);
         }
     }
 
+    //Unsubscribe the method for a safe removal
     public override void DestroyCommand()
     {
-        Debug.Log("Destroy CommandMagnetic");
-        playerToAffect.playerMovement.EndOfMoving -= EndActionInGame;
+        _affectedPlayer._playerMovementComponent.EndOfMoving -= EndActionInGame;
     }
 }

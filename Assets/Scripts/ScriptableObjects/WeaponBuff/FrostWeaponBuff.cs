@@ -9,6 +9,6 @@ public class FrostWeaponBuff : SO_BuffWeapon
 
     public override void ApplyWeaponBuff(Player playerAffect, Player playerAttacking)
     {
-        playerAffect.debuffList.Add(new FreezeDebuff(duration, playerAffect));
+        playerAffect._debuffList.Add(new FreezeDebuff(duration, playerAffect));
     }
 }

@@ -6,10 +6,13 @@ using UnityEngine.Events;
 
 public class GameEventListener : MonoBehaviour
 {
+    //The GameEvent we will listen
     public SO_GameEvent _gameEvent;
-
+    
+    //The event we will trigger when the _gameEvent will be called
     public UnityEvent _unityEvent;
 
+    //Immediately register to the GameEvent
     private void OnEnable()
     {
         if (_gameEvent)
@@ -18,6 +21,7 @@ public class GameEventListener : MonoBehaviour
         }
     }
 
+    //For safety : we don't listen to the event anymore if this component is deactivated
     private void OnDisable()
     {
         if (_gameEvent)
@@ -26,6 +30,7 @@ public class GameEventListener : MonoBehaviour
         }
     }
 
+    //Simply call the UnityEvent when the GameEvent is triggered
     public void OnEventRaised()
     {
         _unityEvent.Invoke();

@@ -96,37 +96,37 @@ public static class SaveSystem
         {
             PlayerData tempPlayerData;
             
-            tempPlayerData._playerName = player.namePlayer;
+            tempPlayerData._playerName = player._name;
             tempPlayerData._playerHealth = player._currentHealth;
             tempPlayerData._durationOfActiveBurningDebuff = new List<int>();
             tempPlayerData._durationOfActiveFreezeDebuff = new List<int>();
 
-            if (player.debuffList.Count > 0)
+            if (player._debuffList.Count > 0)
             {
-                foreach (var debuff in player.debuffList)
+                foreach (var debuff in player._debuffList)
                 {
                     switch (debuff)
                     {
                         case BurningDebuff burningDebuff:
-                            tempPlayerData._durationOfActiveBurningDebuff.Add(burningDebuff.duration);
+                            tempPlayerData._durationOfActiveBurningDebuff.Add(burningDebuff._duration);
                             break;
                         
                         case FreezeDebuff freezeDebuff:
-                            tempPlayerData._durationOfActiveFreezeDebuff.Add(freezeDebuff.duration);
+                            tempPlayerData._durationOfActiveFreezeDebuff.Add(freezeDebuff._duration);
                             break;
                     }
                 }
             }
 
-            tempPlayerData._playerRotation = player.playerMovement.RotationOfPlayer;
-            tempPlayerData._playerTile = player.CurrentTile.GetCoord();
+            tempPlayerData._playerRotation = player._playerMovementComponent.RotationOfPlayer;
+            tempPlayerData._playerTile = player._currentTile.GetCoord();
             Debug.Log("POS OF PLAYER WHEN SAVE : " + tempPlayerData._playerTile);
             tempPlayerData._playerChoices = player._choicesMade;
             
             tempPlayerData._materialIndex =
-                PlayerManager.Instance.SkinSystem.GetMaterialIndex(player.playerModel.material);
+                PlayerManager.Instance.SkinSystem.GetMaterialIndex(player._skinnedMeshComponent.material);
             tempPlayerData._skinnedMeshIndex =
-                PlayerManager.Instance.SkinSystem.GetSkinIndex(player.playerModel.sharedMesh);
+                PlayerManager.Instance.SkinSystem.GetSkinIndex(player._skinnedMeshComponent.sharedMesh);
             
             tempPlayersDatas.Add(tempPlayerData);
         }

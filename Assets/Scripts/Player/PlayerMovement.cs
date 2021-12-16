@@ -31,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
     public List<SO_GameEvent> FoostepsEvents;
     
 
-    public void SetUpPlayerMovment(Player player)
+    public void SetUpPlayerMovement(Player player)
     {
         CurrentPlayer = player;
         InitialRotation = transform.rotation;
@@ -40,11 +40,6 @@ public class PlayerMovement : MonoBehaviour
         _animator = GetComponent<Animator>();
     }
 
-    private void Update()
-    {
-        CurrentPlayer.UpdatePlayerCanvas();
-    }
-    
     #region RotatePlayer
 
     public void RotatePlayer(EnumClass.Direction DirectionOfMovement)
@@ -122,9 +117,9 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        if (CurrentPlayer.CurrentTile)
+        if (CurrentPlayer._currentTile)
         {
-            Debug.Log("Current Tile : [" + CurrentPlayer.CurrentTile.tileRow + "," + CurrentPlayer.CurrentTile.tileColumn + "]");
+            Debug.Log("Current Tile : [" + CurrentPlayer._currentTile.tileRow + "," + CurrentPlayer._currentTile.tileColumn + "]");
         }
 
         Tile NextTile = null;
@@ -132,13 +127,13 @@ public class PlayerMovement : MonoBehaviour
         //Avancer en X 
         if (RotationOfPlayer.x != 0)
         {
-            NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentPlayer.CurrentTile.tileRow + RotationOfPlayer.x, CurrentPlayer.CurrentTile.tileColumn));
+            NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentPlayer._currentTile.tileRow + RotationOfPlayer.x, CurrentPlayer._currentTile.tileColumn));
             CheckBeforeMoveToATile(NextTile, isPushed);
         }
         //Avancer en Z
         else if (RotationOfPlayer.y != 0)
         {
-            NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentPlayer.CurrentTile.tileRow, CurrentPlayer.CurrentTile.tileColumn + RotationOfPlayer.y));
+            NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentPlayer._currentTile.tileRow, CurrentPlayer._currentTile.tileColumn + RotationOfPlayer.y));
             CheckBeforeMoveToATile(NextTile, isPushed);
         }
         else
@@ -197,9 +192,9 @@ public class PlayerMovement : MonoBehaviour
         //Sauter en X
         if (RotationOfPlayer.x != 0)
         {
-            if (BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentPlayer.CurrentTile.tileRow + RotationOfPlayer.x * 2, CurrentPlayer.CurrentTile.tileColumn)))
+            if (BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentPlayer._currentTile.tileRow + RotationOfPlayer.x * 2, CurrentPlayer._currentTile.tileColumn)))
             {
-                NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentPlayer.CurrentTile.tileRow + RotationOfPlayer.x * 2, CurrentPlayer.CurrentTile.tileColumn));
+                NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentPlayer._currentTile.tileRow + RotationOfPlayer.x * 2, CurrentPlayer._currentTile.tileColumn));
                 GoToATile(NextTile);
                 return;
             }
@@ -207,9 +202,9 @@ public class PlayerMovement : MonoBehaviour
         //Sauter en Z
         else if (RotationOfPlayer.y != 0)
         {
-            if (BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentPlayer.CurrentTile.tileRow, CurrentPlayer.CurrentTile.tileColumn + RotationOfPlayer.y * 2)))
+            if (BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentPlayer._currentTile.tileRow, CurrentPlayer._currentTile.tileColumn + RotationOfPlayer.y * 2)))
             {
-                NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentPlayer.CurrentTile.tileRow , CurrentPlayer.CurrentTile.tileColumn + RotationOfPlayer.y * 2));
+                NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentPlayer._currentTile.tileRow , CurrentPlayer._currentTile.tileColumn + RotationOfPlayer.y * 2));
                 GoToATile(NextTile);
                 return;
                 
@@ -219,16 +214,16 @@ public class PlayerMovement : MonoBehaviour
 
     public void ResetMyTile()
     {
-        CurrentPlayer.CurrentTile.hasPlayer = false;
-        CurrentPlayer.CurrentTile.currentPlayer = null;
-        CurrentPlayer.CurrentTile = null;
+        CurrentPlayer._currentTile.hasPlayer = false;
+        CurrentPlayer._currentTile.currentPlayer = null;
+        CurrentPlayer._currentTile = null;
     }
 
     public void SetNewTile(Tile nextTile)
     {
-        CurrentPlayer.CurrentTile = nextTile;
-        CurrentPlayer.CurrentTile.currentPlayer = CurrentPlayer;
-        CurrentPlayer.CurrentTile.hasPlayer = true;
+        CurrentPlayer._currentTile = nextTile;
+        CurrentPlayer._currentTile.currentPlayer = CurrentPlayer;
+        CurrentPlayer._currentTile.hasPlayer = true;
     }
 
 
@@ -267,9 +262,9 @@ public class PlayerMovement : MonoBehaviour
             StartCoroutine(nextDestination.trapList[i].Trigger(CurrentPlayer));
         }
 
-        if (CurrentPlayer.playerMoveBuff != null)
+        if (CurrentPlayer._currentMoveBuff != null)
         {
-            CurrentPlayer.playerMoveBuff.ApplyMoveBuff(CurrentPlayer);
+            CurrentPlayer._currentMoveBuff.ApplyMoveBuff(CurrentPlayer);
         }
 
         EndOfMoving.Invoke();

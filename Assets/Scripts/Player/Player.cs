@@ -3,150 +3,158 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using TMPro;
-using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
-using Random = System.Random;
 
 public class Player : MonoBehaviour
 {
-    public Tile CurrentTile;
-
-    public PlayerMovement playerMovement;
-
-    public Animator _animator;
-    
-    public SkinnedMeshRenderer playerModel;
-
-    public string namePlayer;
-
-    public SO_Weapon playerWeapon = null;
-
-    public SO_BuffWeapon playerWeaponBuff = null;
-
-    public SO_BuffMoving playerMoveBuff = null;
-
-    public SO_PlayerData _playerData;
-
-    public Action EndOfAttack;
-
-    public Action EndOfDeath;
-    
-    public Material materialForTryCell;
-
+    [Header("Basic Infos")]
+    public string _name;
     public int _currentHealth;
     public int _maxHealth = 100;
+    public int _attackDamages = 25;
+    public bool _isDead = false;
     
+    [Header("Choice Scriptable Objects")]
+    public SO_Weapon _currentWeapon = null;
+    public SO_BuffWeapon _currentWeaponBuff = null;
+    public SO_BuffMoving _currentMoveBuff = null;
 
-    public int _playerDamages = 25;
-
-    GameObject _trapPrefab;
+    [Header("Owned Components")]
+    public PlayerMovement _playerMovementComponent;
+    public Animator _animatorComponent;
+    public SkinnedMeshRenderer _skinnedMeshComponent;
+    
+    [Header("Custom data to inject")]
+    public SO_PlayerData _playerDataSO;
+    
+    [Header("Core gameplay variables")]
+    public Tile _currentTile;
+    public GameObject _trapPrefab;
+    public List<Debuff> _debuffList = new List<Debuff>();
+    public List<int> _choicesMade = new List<int>();
     
     [Header("UI variables")]
-    public Canvas _playerUIPrefab;
-
-    private Vector3 _playerUIOffset;
-
-    private Quaternion PlayerBaseRotation;
+    public Canvas _uiPrefab;
+    public Vector3 _uiOffset;
+    public Canvas _infosCanvas;
+    public Image _feedbackTxtPrefab;
+    private Slider _healthBar;
+    private TMP_Text _nameText;
     
-    public Canvas playerCanvas;
-
-    private Slider playerHealthBar;
-
-    private TMP_Text playerNameText;
-
-    bool AlreadyAttackThisTurn = false;
-
-    public List<Debuff> debuffList = new List<Debuff>();
-
-    public List<int> _choicesMade = new List<int>();
-
-    public bool isDead = false;
-
+    
+    
+    private Quaternion _baseRotation;
+    bool _alreadyAttackedThisTurn = false;
+    public Action _endOfAttackAction;
+    public Action _endOfDeathAction;
     private GameObject _weaponGO;
     private ParticleSystem _weaponVFX;
 
-    public Image feedbackTxtPrefab;
-
-    public void SpawnPlayerInGame(Tile TileForStart, string nameP)
+    #region Basic Unity Events
+    void Update()
     {
-        InjectDatasFromSO();
+        UpdatePlayerCanvas();
+    }
+    
+    #endregion
+    
+    #region Setup
+    //Setup the player in a new game
+    public void SpawnPlayerInGame(Tile startingTile, string nameOfPlayer) 
+    {
+        if (_playerDataSO != null) InjectDatasFromSO(); //Inject custom data if needed
 
-        playerMovement.SetUpPlayerMovment(this);
+        _playerMovementComponent.SetUpPlayerMovement(this);
 
-        CurrentTile = TileForStart;
-        namePlayer = nameP;
-        CurrentTile.currentPlayer = this;
-        CurrentTile.hasPlayer = true;
-        transform.position = CurrentTile.transform.position;
+        _currentTile = startingTile;
+        _name = nameOfPlayer;
+        _currentTile.currentPlayer = this;
+        _currentTile.hasPlayer = true;
+        transform.position = _currentTile.transform.position;
         
-        _animator = GetComponent<Animator>();
-        PlayerBaseRotation = transform.rotation;
+        _animatorComponent = GetComponent<Animator>();
+        _baseRotation = transform.rotation;
         _currentHealth = _maxHealth;
         SetPlayerUI();
 
         //Random player model system
-        playerModel.sharedMesh = PlayerManager.Instance.SkinSystem.GetRandomSkin();
-        playerModel.material = PlayerManager.Instance.SkinSystem.GetRandomMaterial();
+        _skinnedMeshComponent.sharedMesh = PlayerManager.Instance.SkinSystem.GetRandomSkin();
+        _skinnedMeshComponent.material = PlayerManager.Instance.SkinSystem.GetRandomMaterial();
         // -------------------------
-
-        UpdatePlayerCanvas();
     }
 
+    //Set the new player canvas according to the received data
     public void SetPlayerUI()
     {
-        playerCanvas = Instantiate(_playerUIPrefab);
-        playerHealthBar = playerCanvas.GetComponentInChildren<Slider>();
-        playerNameText = playerCanvas.GetComponentInChildren<TMP_Text>();
-        playerCanvas.worldCamera = Camera.main;
-        playerCanvas.transform.position = transform.position;
-        playerNameText.text = namePlayer;
-        playerHealthBar.maxValue = _currentHealth;
-        playerHealthBar.minValue = 0;
-        playerHealthBar.value = _currentHealth;
+        _infosCanvas = Instantiate(_uiPrefab);
+        _healthBar = _infosCanvas.GetComponentInChildren<Slider>();
+        _nameText = _infosCanvas.GetComponentInChildren<TMP_Text>();
+        _infosCanvas.worldCamera = Camera.main;
+        _infosCanvas.transform.position = transform.position;
+        _nameText.text = _name;
+        _healthBar.maxValue = _currentHealth;
+        _healthBar.minValue = 0;
+        _healthBar.value = _currentHealth;
         
     }
     
+    //Set some data from SO
     public void InjectDatasFromSO()
     {
-        _maxHealth = _playerData._lifeOfPlayer;
-        _playerDamages = _playerData._attackPlayer;
-        _playerUIPrefab = _playerData._playerUIPrefab;
-        _playerUIOffset = _playerData._playerUIOffset;
-        _trapPrefab = _playerData._trapPrefab;
+        _maxHealth = _playerDataSO._lifeOfPlayer;
+        _attackDamages = _playerDataSO._attackPlayer;
+        _uiPrefab = _playerDataSO._playerUIPrefab;
+        _uiOffset = _playerDataSO._playerUIOffset;
+        _trapPrefab = _playerDataSO._trapPrefab;
     }
     
+    //Used to place correctly the player on endgame screen
+    public void ResetPlayerRotation()
+    {
+        transform.rotation = _baseRotation;
+    }
+    
+    #endregion
+
+    #region Attack System
+    
+    //Play the attack animation, which has the Attack animation Event in it
     public void StartAttackAnimation()
     {
-        //Play anim in the animator
-        _animator.SetTrigger("IsAttacking");
+        _animatorComponent.SetTrigger("IsAttacking");
     }
 
+    //Method called by an animation event inside all Attack animations
     public void Attack()
     {
-        if (playerWeapon == null)
+        
+        if (_currentWeapon == null) //Safety check
         {
             return;
         }
         
-        playerWeapon.RaiseEvent();
-        List<Tile> listTileAffect = BoardManager.Instance.GetAffectedTiles(playerWeapon._listOfCellAffects, CurrentTile, playerMovement.RotationOfPlayer);
+        _currentWeapon.RaiseEvent(); //Raise event for additional FX is wanted
+        
+        //Fetch from the BoardManager the tiles affected by the weapon's attack
+        List<Tile> listTileAffect = BoardManager.Instance.GetAffectedTiles(_currentWeapon._listOfCellAffects, _currentTile, _playerMovementComponent.RotationOfPlayer);
         List<Player> PlayersAffectByAttack = new List<Player>();
 
         foreach (Tile tile in listTileAffect)
         {
             if (!tile.hasObstacle)
             {
-                StartCoroutine(tile.ReturnToClassicColor());
+                StartCoroutine(tile.ReturnToClassicColor()); //Display the affected tiles
                 if (tile.hasPlayer)
                 {
-                    if (tile.currentPlayer != null && !tile.currentPlayer.AlreadyAttackThisTurn)
+                    if (tile.currentPlayer != null && !tile.currentPlayer._alreadyAttackedThisTurn)
                     {
-                        tile.currentPlayer.ReceiveDamage(_playerDamages);
+                        tile.currentPlayer.ReceiveDamage(_attackDamages);
                         if (tile.currentPlayer != null)
                         {
-                            tile.currentPlayer.AlreadyAttackThisTurn = true;
+                            //Safety check to avoid player beeing hit multiple times in the same attack
+                            tile.currentPlayer._alreadyAttackedThisTurn = true; 
                             PlayersAffectByAttack.Add(tile.currentPlayer);
-                            tile.currentPlayer.ReceiveWeaponBuffEffect(this);
+                            tile.currentPlayer.ReceiveWeaponBuffEffect(this); //Add debuff if possible
 
                         }
                     }
@@ -156,178 +164,120 @@ public class Player : MonoBehaviour
 
         foreach (Player player in PlayersAffectByAttack)
         {
-            player.AlreadyAttackThisTurn = false;
+            player._alreadyAttackedThisTurn = false;
         }
 
-        EndOfAttack.Invoke();
+        _endOfAttackAction.Invoke(); //Tells the Attack Command it ended
     }
 
+    //Remove health, play animation and can trigger death system with animation
     public void ReceiveDamage(int damage)
     {
-        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+        //Plays the hit animation if the player is not busy with another one
+        if (_animatorComponent.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
         {
-            _animator.SetTrigger("GetHit");
+            _animatorComponent.SetTrigger("GetHit");
         }
         
         _currentHealth -= damage;
-        playerHealthBar.value = _currentHealth;
+        _healthBar.value = _currentHealth;
         
+        //Add a DeathCommand to the GlobalManager
         if (_currentHealth <= 0)
         {
             GlobalManager.Instance.InsertCommandInList(1, new CommandDeath(this));
         }
     }
+    
+    //Activate the particle system located in the weapon Prefab
+    public void PlayWeaponVFX()
+    {
+        _weaponVFX.Play();
+    }
 
+    #endregion
+
+    #region Death System
+
+    //Main Death method : safely remove the player from the game
     public void KillPlayer()
     {
-        PlayerManager.Instance.AllPlayersName.Remove(namePlayer);
+        PlayerManager.Instance.AllPlayersName.Remove(_name);
         PlayerManager.Instance.PlayerList.Remove(this);
 
-        CurrentTile.hasPlayer = false;
-        CurrentTile.currentPlayer = null;
+        _currentTile.hasPlayer = false;
+        _currentTile.currentPlayer = null;
 
-        isDead = true;
+        _isDead = true;
 
-        Debug.Log($"{namePlayer} is dead !");
-        
         GlobalManager.Instance.DestroyAllCommandsOfDeadPlayer(this);
         
-        Destroy(playerCanvas.gameObject);
+        Destroy(_infosCanvas.gameObject);
         Destroy(gameObject);
     }
 
+    //Trigger the death animation, wait for it to end and then trigger the main Death method
     public IEnumerator DeathCoroutine()
     {
-        _animator.SetBool("IsDead", true);
+        _animatorComponent.SetBool("IsDead", true);
         
-        AnimatorClipInfo currentAnimationInfo = _animator.GetCurrentAnimatorClipInfo(0)[0];
+        AnimatorClipInfo currentAnimationInfo = _animatorComponent.GetCurrentAnimatorClipInfo(0)[0];
 
         yield return new WaitForSeconds(currentAnimationInfo.clip.length);
 
-        EndOfDeath.Invoke();
+        _endOfDeathAction.Invoke(); //Tells the action it just ended
 
         KillPlayer();
     }
 
+    #endregion
+    
+    #region Debuff System
+    
+    //At the very beginning of each Action GameState
     public void ManageAllDebuffs()
     {
-        for(int i = 0; i< debuffList.Count; i++)
+        for(int i = 0; i< _debuffList.Count; i++)
         {
-            if (debuffList[i].duration > 0)
+            if (_debuffList[i]._duration > 0)
             {
-                debuffList[i].ApplyEffect();
-                debuffList[i].duration--;
+                _debuffList[i].ApplyEffect();
+                _debuffList[i]._duration--;
             }
             else
             {
-                debuffList[i].RemoveEffect();
+                _debuffList[i].RemoveEffect();
             }
         }
     }
     
     public void ReceiveWeaponBuffEffect(Player attackingPlayer)
     {
-        if (attackingPlayer.playerWeaponBuff != null)
+        if (attackingPlayer._currentWeaponBuff != null)
         {
-            attackingPlayer.playerWeaponBuff.ApplyWeaponBuff(this, attackingPlayer);
+            attackingPlayer._currentWeaponBuff.ApplyWeaponBuff(this, attackingPlayer);
         }
 
-        if (debuffList.Count > 0)
+        if (_debuffList.Count > 0)
         {
-            foreach (var debuff in debuffList)
+            foreach (var debuff in _debuffList)
             {
                 debuff.OnPlayerReceiveDebuff();
             }
         }
     }
     
+    #endregion
+
+    #region UI Management
+
     public void UpdatePlayerCanvas()
     {
         if (Camera.main)
         {
-            playerCanvas.transform.LookAt(playerCanvas.transform.position + Camera.main.transform.rotation * Vector3.back, Camera.main.transform.rotation * Vector3.up);
-            playerCanvas.transform.position = transform.position + _playerUIOffset;
+            _infosCanvas.transform.LookAt(_infosCanvas.transform.position + Camera.main.transform.rotation * Vector3.back, Camera.main.transform.rotation * Vector3.up);
+            _infosCanvas.transform.position = transform.position + _uiOffset;
         }
-    }
-
-    public void ReceiveAChoice(SO_Choice choice)
-    {
-        choice.StartAChoice(this);
-
-        switch (choice)
-        {
-            case SO_Weapon weapon:
-                playerWeapon = weapon;
-                SetupWeapon();
-                break;
-
-            case SO_BuffWeapon buffWeapon:
-                playerWeaponBuff = buffWeapon;
-                break;
-
-            case SO_BuffMoving buffMove:
-                playerMoveBuff = buffMove;
-                break;
-        }
-    }
-
-    public void SetupWeapon()
-    {
-        _animator.runtimeAnimatorController = playerWeapon._weaponAnimatorController;
-        foreach(Transform childTransform in GetComponentsInChildren<Transform>())
-        {
-            if (childTransform.name == "Hand_R")
-            {
-                _weaponGO = Instantiate(playerWeapon._weaponPrefab, childTransform, false);
-            }
-        }
-
-        _weaponVFX = _weaponGO.GetComponentInChildren<ParticleSystem>();
-        Debug.Log(_weaponVFX);
-    }
-
-    public void SetATrap()
-    {
-        GameObject newTrapGO = GameObject.Instantiate(_trapPrefab, CurrentTile.transform.position, Quaternion.identity);
-        Trap trapComponent = newTrapGO.GetComponent<Trap>();
-        if (trapComponent)
-        {
-            CurrentTile.trapList.Add(trapComponent);
-            trapComponent.currentTile = CurrentTile;
-        }
-    }
-
-    [ContextMenu("Play Weapon VFX")]
-    public void PlayWeaponVFX()
-    {
-        Debug.Log("On devrait jouer le VFX");
-        _weaponVFX.Play();
-    }
-    public IEnumerator SetupTrapCoroutine()
-    {
-        _animator.SetTrigger("IsPlacingTrap");
-        AnimatorClipInfo currentAnimationInfo = _animator.GetCurrentAnimatorClipInfo(0)[0];
-
-        yield return new WaitForSeconds(currentAnimationInfo.clip.length);
-        
-        EndOfAttack.Invoke();
-        
-    }
-    
-    public String GetPlayerName()
-    {
-        return namePlayer;
-    }
-    
-    
-    public void CanvasVisibility(bool visibility)
-    {
-        playerCanvas.enabled = visibility;
-    }
-
-    public void ResetPlayerRotation()
-    {
-        this.transform.rotation = PlayerBaseRotation;
     }
 
     public void DisplayCommandTxt(string message)
@@ -343,7 +293,7 @@ public class Player : MonoBehaviour
         float maxPosZ = 3;
         float maxAlpha = 1;
 
-        Image obj = Instantiate(feedbackTxtPrefab, playerCanvas.transform);
+        Image obj = Instantiate(_feedbackTxtPrefab, _infosCanvas.transform);
         obj.transform.position = new Vector3(obj.transform.position.x, obj.transform.position.y + 2, obj.transform.position.z);
 
         CanvasGroup canvasGroup = obj.GetComponent<CanvasGroup>();
@@ -359,4 +309,77 @@ public class Player : MonoBehaviour
 
         Destroy(obj.gameObject);
     }
+    
+    public void CanvasVisibility(bool visibility)
+    {
+        _infosCanvas.enabled = visibility;
+    }
+    
+    #endregion
+
+    #region Choices System
+
+    public void ReceiveAChoice(SO_Choice choice)
+    {
+        choice.StartAChoice(this);
+
+        switch (choice)
+        {
+            case SO_Weapon weapon:
+                _currentWeapon = weapon;
+                SetupWeapon();
+                break;
+
+            case SO_BuffWeapon buffWeapon:
+                _currentWeaponBuff = buffWeapon;
+                break;
+
+            case SO_BuffMoving buffMove:
+                _currentMoveBuff = buffMove;
+                break;
+        }
+    }
+
+    public void SetupWeapon()
+    {
+        _animatorComponent.runtimeAnimatorController = _currentWeapon._weaponAnimatorController;
+        foreach(Transform childTransform in GetComponentsInChildren<Transform>())
+        {
+            if (childTransform.name == "Hand_R")
+            {
+                _weaponGO = Instantiate(_currentWeapon._weaponPrefab, childTransform, false);
+            }
+        }
+
+        _weaponVFX = _weaponGO.GetComponentInChildren<ParticleSystem>();
+    }
+
+    #endregion
+
+    #region Trap System
+
+    public void SetATrap()
+    {
+        GameObject newTrapGO = GameObject.Instantiate(_trapPrefab, _currentTile.transform.position, Quaternion.identity);
+        Trap trapComponent = newTrapGO.GetComponent<Trap>();
+        if (trapComponent)
+        {
+            _currentTile.trapList.Add(trapComponent);
+            trapComponent.currentTile = _currentTile;
+        }
+    }
+    
+    public IEnumerator SetupTrapCoroutine()
+    {
+        _animatorComponent.SetTrigger("IsPlacingTrap");
+        AnimatorClipInfo currentAnimationInfo = _animatorComponent.GetCurrentAnimatorClipInfo(0)[0];
+
+        yield return new WaitForSeconds(currentAnimationInfo.clip.length);
+        
+        _endOfAttackAction.Invoke();
+        
+    }
+
+    #endregion
+    
 }

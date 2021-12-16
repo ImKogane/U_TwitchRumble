@@ -87,13 +87,13 @@ public class UIManager : SingletonMonobehaviour<UIManager>
     {
         foreach (var player in playerList)
         {
-            player.playerCanvas.enabled = value;
+            player._infosCanvas.enabled = value;
         }
     }
 
     public void DisplayPlayerUI(Player player, bool value)
     {
-        player.playerCanvas.enabled = value;
+        player._infosCanvas.enabled = value;
     }
     
     public void UpdateTurnCount(int newCount)
@@ -150,7 +150,7 @@ public class UIManager : SingletonMonobehaviour<UIManager>
         GetComponent<UI_WinScreen>().WinCameraEnabled(true);
         DisplayEndScreen(true);
         DisplayGameScreen(false);
-        GetComponent<UI_WinScreen>().SetPlayerNameText(PlayerManager.Instance.GetLastPlayer().GetPlayerName());
+        GetComponent<UI_WinScreen>().SetPlayerNameText(PlayerManager.Instance.GetLastPlayer()._name);
     }
 
     public void DisplayChoiceTxt(string namePlayer, int indexChoice)

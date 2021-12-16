@@ -148,8 +148,8 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
         foreach (var item in PlayerManager.Instance.PlayerList)
         {
             Debug.Log("Player : " + item);
-            Debug.Log("Tile of this player : " + item.CurrentTile);
-            item.gameObject.transform.DOMove(item.CurrentTile.transform.position, 1).SetEase(Ease.OutSine);
+            Debug.Log("Tile of this player : " + item._currentTile);
+            item.gameObject.transform.DOMove(item._currentTile.transform.position, 1).SetEase(Ease.OutSine);
             yield return new WaitForSeconds(2);
         }
 
@@ -299,7 +299,7 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
 
         foreach (CommandInGame command in ListCommandsInGame)
         {
-            if (command.OwnerPlayer == ownerOfCommands)
+            if (command._ownerPlayer == ownerOfCommands)
             {
                 listToReturn.Add(command);
             }
@@ -439,7 +439,7 @@ public class GlobalManager : SingletonMonobehaviour<GlobalManager>
         PlayerManager.Instance.GetLastPlayer().transform.position = WinPoint.position;
         PlayerManager.Instance.GetLastPlayer().ResetPlayerRotation();
         PlayerManager.Instance.GetLastPlayer().CanvasVisibility(false);
-        PlayerManager.Instance.GetLastPlayer()._animator.SetBool("IsFalling", false);
+        PlayerManager.Instance.GetLastPlayer()._animatorComponent.SetBool("IsFalling", false);
         PlayerManager.Instance.PlayerList.Clear();
     }
 

@@ -4,26 +4,28 @@ using UnityEngine;
 
 public class CommandDeath : CommandInGame
 {
+    //Constructor
     public CommandDeath(Player OwnerOfAction) : base(OwnerOfAction)
     {
-        OwnerPlayer = OwnerOfAction;
+        _ownerPlayer = OwnerOfAction;
     }
 
+    //Subscribe the command to the action ending management method
     public override void SubscribeEndToEvent()
     {
-        OwnerPlayer.EndOfDeath += EndActionInGame;
+        _ownerPlayer._endOfDeathAction += EndActionInGame;
     }
 
+    //Calls the animation coroutine which lead to the player removal from game
     public override void LaunchActionInGame()
     {
         SubscribeEndToEvent();
-        Debug.Log("A Player is Dying");
-
-        OwnerPlayer.StartCoroutine(OwnerPlayer.DeathCoroutine());
+        _ownerPlayer.StartCoroutine(_ownerPlayer.DeathCoroutine());
     }
 
+    //Unsubscribe the method for a safe removal
     public override void DestroyCommand()
     {
-        OwnerPlayer.EndOfDeath -= EndActionInGame;
+        _ownerPlayer._endOfDeathAction -= EndActionInGame;
     }
 }

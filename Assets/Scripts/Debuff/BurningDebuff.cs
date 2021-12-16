@@ -4,20 +4,24 @@ using UnityEngine;
 
 public class BurningDebuff : Debuff
 {
-    public int damages = 15;
+    public int _damages = 15;
 
+    //Contructor
     public BurningDebuff(int newDuration, Player playerOwner) : base(newDuration, playerOwner)
     {
+        
     }
 
+    //Trigger fire FX
     public override void OnPlayerReceiveDebuff()
     {
-        //Play big FX
+        
     }
 
+    //Apply burn FX and damages
     public override void ApplyEffect()
     {
-       ownerOfDebuff.ReceiveDamage(damages);
+       _debuffVictim.ReceiveDamage(_damages);
     }
 
 }

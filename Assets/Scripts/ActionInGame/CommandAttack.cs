@@ -4,26 +4,28 @@ using UnityEngine;
 
 public class CommandAttack : CommandInGame
 {
+    //Constructor
     public CommandAttack(Player OwnerOfAction) : base(OwnerOfAction)
     {
-        OwnerPlayer = OwnerOfAction;
+        _ownerPlayer = OwnerOfAction;
     }
 
+    //Subscribe the command to the action ending management method
     public override void SubscribeEndToEvent()
     {
-        OwnerPlayer.EndOfAttack += EndActionInGame;
+        _ownerPlayer._endOfAttackAction += EndActionInGame;
     }
 
+    //Start the attack animation which has the Attack animation event in it
     public override void LaunchActionInGame()
     {
         SubscribeEndToEvent();
-        Debug.Log("Start attack Action");
-
-        OwnerPlayer.StartAttackAnimation();
+        _ownerPlayer.StartAttackAnimation();
     }
 
+    //Unsubscribe the method for a safe removal
     public override void DestroyCommand()
     {
-        OwnerPlayer.EndOfAttack -= EndActionInGame;
+        _ownerPlayer._endOfAttackAction -= EndActionInGame;
     }
 }

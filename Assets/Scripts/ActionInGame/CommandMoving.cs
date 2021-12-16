@@ -4,36 +4,40 @@ using UnityEngine;
 
 public class CommandMoving : CommandInGame
 {
-    Vector2Int DirectionOfMove;
-
-    private bool isPushed;
+    Vector2Int _moveDirection;
+    private bool _isPushed; //When the player gets pushed or pull because of an enemy buff effect
     
-    public CommandMoving(Player OwnerOfAction, Vector2Int direction, bool isPushedValue = false) : base(OwnerOfAction)
+    
+    //Constructor
+    public CommandMoving(Player OwnerOfAction, Vector2Int moveDirection, bool isPushedValue = false) : base(OwnerOfAction)
     {
-        OwnerPlayer = OwnerOfAction;
-        DirectionOfMove = direction;
-        isPushed = isPushedValue;
+        _ownerPlayer = OwnerOfAction;
+        _moveDirection = moveDirection;
+        _isPushed = isPushedValue;
     }
 
+    //Subscribe the command to the action ending management method
     public override void SubscribeEndToEvent()
     {
-        OwnerPlayer.playerMovement.EndOfMoving += EndActionInGame;
+        _ownerPlayer._playerMovementComponent.EndOfMoving += EndActionInGame;
     }
 
+    //Rotate the player so he's facing the direction he's moving to
     public override void LaunchActionInGame()
     {
-        if (OwnerPlayer.isDead)
+        if (_ownerPlayer._isDead) //Safety check
         {
             EndActionInGame();
         }
+        
         SubscribeEndToEvent();
-        Debug.Log("Start moving Action");
-        OwnerPlayer.playerMovement.RotatePlayerWithvector(DirectionOfMove);
-        OwnerPlayer.playerMovement.MakeMovement(isPushed);
+        _ownerPlayer._playerMovementComponent.RotatePlayerWithvector(_moveDirection);
+        _ownerPlayer._playerMovementComponent.MakeMovement(_isPushed);
     }
 
+    //Unsubscribe the method for a safe removal
     public override void DestroyCommand()
     {
-        OwnerPlayer.playerMovement.EndOfMoving -= EndActionInGame;
+        _ownerPlayer._playerMovementComponent.EndOfMoving -= EndActionInGame;
     }
 }

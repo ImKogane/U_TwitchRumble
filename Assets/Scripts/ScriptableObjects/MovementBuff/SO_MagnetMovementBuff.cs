@@ -15,7 +15,7 @@ public class SO_MagnetMovementBuff : SO_BuffMoving
 
     public void AttiranceOnSpecificSide(Vector2Int VectorAttirance, Player ownerOfBuff)
     {
-        Tile startTile = ownerOfBuff.CurrentTile;
+        Tile startTile = ownerOfBuff._currentTile;
 
         if (VectorAttirance.x != 0) //Left and Right
         {

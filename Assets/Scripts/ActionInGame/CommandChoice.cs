@@ -4,17 +4,19 @@ using UnityEngine;
 
 public class CommandChoice : CommandInGame
 {
-    SO_Choice choice;
+    SO_Choice _choice;
 
+    //Constructor
     public CommandChoice(Player ownerOfAction, SO_Choice choiceOfCommand) : base(ownerOfAction)
     {
-        OwnerPlayer = ownerOfAction;
-        choice = choiceOfCommand;
+        _ownerPlayer = ownerOfAction;
+        _choice = choiceOfCommand;
     }
+    
+    //Give to player a new choice effect according to the Scriptable Object
     public override void LaunchActionInGame()
     {
-        OwnerPlayer.ReceiveAChoice(choice);
-        Debug.Log($"{OwnerPlayer} make a choice of : {choice}");
+        _ownerPlayer.ReceiveAChoice(_choice);
         EndActionInGame();
     }
 }

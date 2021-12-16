@@ -9,15 +9,15 @@ public class FireWeaponBuff : SO_BuffWeapon
 
     public override void ApplyWeaponBuff(Player playerAffect, Player playerAttacking)
     {
-        foreach (var debuff in playerAffect.debuffList)
+        foreach (var debuff in playerAffect._debuffList)
         {
             if (debuff is BurningDebuff)
             {
-                debuff.duration = duration;
+                debuff._duration = duration;
                 return;
             }
         }
 
-        playerAffect.debuffList.Add(new BurningDebuff(duration, playerAffect));
+        playerAffect._debuffList.Add(new BurningDebuff(duration, playerAffect));
     }
 }
