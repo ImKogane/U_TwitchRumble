@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 5746394300765634574}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 3, z: 1}
+  m_LocalScale: {x: 1, y: 2, z: 1}
   m_Children:
   - {fileID: 7216068547653254678}
   m_Father: {fileID: 0}
@@ -49,6 +49,12 @@ MonoBehaviour:
   hasObstacle: 0
   hasPlayer: 0
   currentPlayer: {fileID: 0}
+  trapList: []
+  AttackColorChangesList:
+  - {r: 1, g: 0, b: 0, a: 0}
+  - {r: 1, g: 0.495283, b: 0.495283, a: 0}
+  - {r: 1, g: 1, b: 1, a: 0}
+  waitBetweenEachColor: 1
 --- !u!1001 &7220852004748569562
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -107,7 +113,7 @@ PrefabInstance:
     - target: {fileID: 23211266174801970, guid: 2039c3cc01700934082ddbe111167cb3, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 46a384b24c4e6a4498e3ecd7857c7853, type: 2}
+      objectReference: {fileID: 2100000, guid: 8d4c8eb36fda89c41b05fe6969ab8c5c, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2039c3cc01700934082ddbe111167cb3, type: 3}
 --- !u!4 &7216068547653254678 stripped

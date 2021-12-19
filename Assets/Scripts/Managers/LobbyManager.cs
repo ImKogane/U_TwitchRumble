@@ -1,41 +1,68 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
-public class LobbyManager : MonoBehaviour
+public class LobbyManager : SingletonMonobehaviour<LobbyManager>
 {
-    public static LobbyManager Instance;
-    
     [Header("Reference UI Lobby")]
-    public TextMeshProUGUI PlayerList;
-    public GameObject CanvasLobby;
-    public PlayerManager PlayerManager;
+    public TextMeshProUGUI _playerList;
+    public GameObject _canvasLobby;
+    public PlayerManager _playerManager;
+
+    public List<Tile> LobbyTileList = new List<Tile>();
     
-    private void Awake()
+    public UI_Lobby _uiLobby;
+
+    private int _compteurBot = 1;
+
+    public override bool DestroyOnLoad => true;
+
+    void Start()
     {
-        if (Instance == null)
+        TwitchManager.Instance.numberMaxOfPlayer = GoogleSheetManager.Instance._variablesGetFromSheet[0];
+        
+        if (SaveSystem.CheckSaveFile())
         {
-            Instance = this;
-            DontDestroyOnLoad(this.gameObject);
+            _uiLobby.ShowLoadGameWindow(true);
         }
         else
         {
-            Destroy(this.gameObject);
+            _uiLobby.ShowLoadGameWindow(false);
+            SpawnLocalPlayer();
         }
     }
-    
-   
-    
-    // Start is called before the first frame update
-    void Start()
+
+    public void SpawnLocalPlayer()
     {
-        
+        string localPlayerName = TwitchManager.Instance.channelName;
+        PlayerManager.Instance._listPlayersNames.Add(localPlayerName);
+        PlayerManager.Instance.SpawnPlayerOnLobby(localPlayerName);
+        TwitchManager.Instance.SetCanReadCommand(true);
+    }
+    
+    public Tile GetRandomLobbyTile()
+    {
+        Tile tileToReturn = null;
+
+        do{
+            int indexOfTile = Random.Range(0, LobbyTileList.Count);
+            tileToReturn = LobbyTileList[indexOfTile];
+        }while (tileToReturn.hasPlayer == true);
+
+        return tileToReturn;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            PlayerManager.Instance.SpawnPlayerOnLobby("[BOT" + _compteurBot + "]");
+            _compteurBot++;
+        }
     }
+
 }

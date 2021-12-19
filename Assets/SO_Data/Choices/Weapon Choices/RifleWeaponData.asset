@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 856097233caa89548a576e6fb71f071e, type: 3}
+  m_Name: RifleWeaponData
+  m_EditorClassIdentifier: 
+  _cardSprite: {fileID: 21300000, guid: 3afe3692c1d7aaf4c9a3e41a78f94276, type: 3}
+  weaponType: 2
+  _weaponPrefab: {fileID: 7779497602211829559, guid: ee37adc4880431a4c9358d0673d1ea2f, type: 3}
+  _listOfCellAffects:
+  - {x: 0, y: 1}
+  - {x: 0, y: 2}
+  - {x: 0, y: 3}
+  - {x: 0, y: 4}
+  _weaponAnimatorController: {fileID: 9100000, guid: 81779b41b039c7149a350ebefcf8cb79, type: 2}
+  _onHitEventSFX: {fileID: 11400000, guid: 1f92fb52b16c43241bb7eaa7921b2e72, type: 2}

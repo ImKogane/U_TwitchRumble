@@ -3,14 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 using TMPro;
-public class UIManager : MonoBehaviour
+public class UIManager : SingletonMonobehaviour<UIManager>
 {
-    public static UIManager Instance;
-
-    [SerializeField] private Canvas endScreen;
-    [SerializeField] private Canvas gameScreen;
+    [Header("UI Canvas references")]
+    [SerializeField] private GameObject endScreen;
+    [SerializeField] private GameObject gameScreen;
+    [SerializeField] private GameObject pauseScreen;
     
+    [Header("Other")]
     [SerializeField] private Slider timerBar;
 
     [SerializeField] private TMP_Text phaseTitle;
@@ -26,17 +28,9 @@ public class UIManager : MonoBehaviour
     public RectTransform choiceScreen;
     public List<Image> choiceImagesList;
 
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
-    }
+    public Image feedbackTxtPrefab;
+
+    public override bool DestroyOnLoad => true;
 
     public void UpdateTimerBar(float value)
     {
@@ -50,17 +44,19 @@ public class UIManager : MonoBehaviour
 
     public void DisplayPhaseTitle(string turnName)
     {
+        phaseTitle.gameObject.SetActive(true);
         phaseTitle.text = turnName;
     }
 
     public void DisplayPhaseDescription(string newTurnDescription)
     {
+        phaseTitle.gameObject.SetActive(true);
         StartCoroutine(DisplayPhaseDescriptionCoroutine(newTurnDescription));
     }
 
     IEnumerator DisplayPhaseDescriptionCoroutine(string newTurnDescription)
     {
-        phaseDescription.enabled = true;
+        phaseDescription.gameObject.SetActive(true);
         phaseDescription.text = newTurnDescription;
 
         for (int i = 0; i <= phaseDescription.text.Length; i++)
@@ -70,43 +66,47 @@ public class UIManager : MonoBehaviour
         }
 
         yield return new WaitForSeconds(waitingDurationAfterPhaseDescription);
-        
-        phaseDescription.enabled = false;
     }
 
     public void DisplayEndScreen(bool value)
     {
-        endScreen.enabled = value;
+        endScreen.SetActive(value); 
     }
 
     public void DisplayGameScreen(bool value)
     {
-        gameScreen.enabled = value;
+        gameScreen.SetActive(value);
+    }
+    
+    public void DisplayPauseScreen(bool value)
+    {
+        pauseScreen.SetActive(value);
     }
 
     public void DisplayAllPlayersUI(List<Player> playerList, bool value)
     {
         foreach (var player in playerList)
         {
-            player.playerCanvas.enabled = value;
+            player._infosCanvas.enabled = value;
         }
     }
 
     public void DisplayPlayerUI(Player player, bool value)
     {
-        player.playerCanvas.enabled = value;
+        player._infosCanvas.enabled = value;
     }
     
     public void UpdateTurnCount(int newCount)
     {
         turnCount.enabled = true;
-        turnCount.text = "Tour " + newCount.ToString();
+        turnCount.text = newCount.ToString();
     }
     
     public void DisplayChoiceScreen(bool value)
     {
         choiceScreen.gameObject.SetActive(value);
     }
+    
 
     void DestroyChoicesImages()
     {
@@ -118,27 +118,83 @@ public class UIManager : MonoBehaviour
         choiceImagesList.Clear();
         
     }
-    
+
     public void UpdateChoiceCardsImage()
     {
         DestroyChoicesImages();
-        
-        SO_PanelChoice panelChoice = GlobalManager.Instance.GetPanelChoiceOfThisTurn();
 
-        if (!panelChoice) return;
-        
-        for(int i = 0; i < panelChoice.choiceList.Count; i++)
+        int currentIndexChoice = ScriptableManager.Instance.GetChoiceIndexCompteur();
+
+        if (ScriptableManager.Instance._turnChoiceList.Count <= currentIndexChoice)
+        {
+            return;
+        }
+
+        for (int i = 0; i < ScriptableManager.Instance._turnChoiceList[currentIndexChoice]._choiceList.Count; i++)
         {
             Image newChoiceImage = new GameObject().AddComponent<Image>();
 
             newChoiceImage.transform.parent = choiceScreen;
-            newChoiceImage.sprite = panelChoice.choiceList[i].spriteOfChoice;
-            newChoiceImage.SetNativeSize();
+            newChoiceImage.sprite =
+                ScriptableManager.Instance._turnChoiceList[currentIndexChoice]._choiceList[i]._cardSprite;
             newChoiceImage.preserveAspect = true;
 
             choiceImagesList.Add(newChoiceImage);
         }
 
+    }
+
+    public void EndGameUI()
+    {
+        GetComponent<UI_WinScreen>().MainCameraEnabled(false);
+        GetComponent<UI_WinScreen>().WinCameraEnabled(true);
+        DisplayEndScreen(true);
+        DisplayGameScreen(false);
+        GetComponent<UI_WinScreen>().SetPlayerNameText(PlayerManager.Instance.GetLastPlayer()._name);
+    }
+
+    public void DisplayChoiceTxt(string namePlayer, int indexChoice)
+    {
+        StartCoroutine(DisplayChoiceTxtCorout(namePlayer, indexChoice));
+    }
+
+    private IEnumerator DisplayChoiceTxtCorout(string namePlayer, int indexChoice)
+    {
+        //Variables of position
+        int stepNumber = 100;
+        float secondsOfAction = 2;
+        float maxPosY = 500;
+        float maxPosZ = 3;
+        float maxAlpha = 1;
+
+        Image obj = Instantiate(feedbackTxtPrefab, gameScreen.transform);
+
+        //Position of spawn
+        List<float> positionXOfMessage = new List<float>() { obj.rectTransform.position.x - 500, obj.rectTransform.position.x , obj.rectTransform.position.x + 500 };
+        obj.rectTransform.position = new Vector3(positionXOfMessage[indexChoice], obj.rectTransform.position.y - 625, obj.rectTransform.position.z);
+
+        //Transparence variables
+        CanvasGroup canvasGroup = obj.GetComponent<CanvasGroup>();
+
+        //Display text 
+        TextMeshProUGUI txt = obj.GetComponentInChildren<TextMeshProUGUI>();
+        string messageToDisplay = namePlayer + "\n[Choice" + (indexChoice+1).ToString() + "]";
+        txt.text = messageToDisplay;
+
+        //Go up 
+        for (int i = 0; i < stepNumber; i++)
+        {
+            yield return new WaitForSeconds(secondsOfAction / stepNumber);
+            obj.rectTransform.position = new Vector3(obj.rectTransform.position.x, obj.rectTransform.position.y + (maxPosY / stepNumber), obj.rectTransform.position.z + (maxPosZ / stepNumber));
+        }
+
+        for (int i = 0; i < stepNumber; i++)
+        {
+            canvasGroup.alpha -= maxAlpha / stepNumber ;
+            yield return new WaitForSeconds((secondsOfAction/5) / stepNumber);
+        }
+
+        Destroy(obj.gameObject);
     }
 
 }

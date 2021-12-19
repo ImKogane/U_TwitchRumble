@@ -1,29 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class Debuff
 {
-
-    public int duration;
-    public Player ownerOfDebuff;
     
-    public Debuff(int newDuration, Player playerOwner)
+    public int _duration;
+    public Player _debuffVictim;
+    
+    //Constructor
+    public Debuff(int newDuration, Player newVictimOfDebuff)
     {
-        duration = newDuration;
-        ownerOfDebuff = playerOwner;
+        _duration = newDuration;
+        _debuffVictim = newVictimOfDebuff;
     }
 
+    //Called when the payer just get a debuff from a weapon hit
+    public virtual void OnPlayerReceiveDebuff()
+    {
+        
+    }
+    
+    //Called at the start of each Action phase to apply additionnal effect if needed
     public virtual void ApplyEffect()
     {
         
     }
 
+    //Remove this debuff from the player's debuff List
     public virtual void RemoveEffect()
     {
-        if (ownerOfDebuff.debuffList.Contains(this))
+        if (_debuffVictim._debuffList.Contains(this))
         {
-            ownerOfDebuff.debuffList.Remove(this);
+            _debuffVictim._debuffList.Remove(this);
         }
     }
     

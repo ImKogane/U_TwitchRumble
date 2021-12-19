@@ -1,19 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class BurningDebuff : Debuff
 {
-    public int damages;
-    
-    public BurningDebuff(int newDuration, Player playerOwner, int burnDamages) : base(newDuration, playerOwner)
+    public int _damages = 15;
+
+    //Contructor
+    public BurningDebuff(int newDuration, Player playerOwner) : base(newDuration, playerOwner)
     {
-        damages = burnDamages;
+        
     }
 
+    //Trigger fire FX
+    public override void OnPlayerReceiveDebuff()
+    {
+        
+    }
+
+    //Apply burn FX and damages
     public override void ApplyEffect()
     {
-       ownerOfDebuff.ReceiveDamage(damages);
+       _debuffVictim.ReceiveDamage(_damages);
     }
 
 }

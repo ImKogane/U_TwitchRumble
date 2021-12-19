@@ -7,10 +7,8 @@ using System.Threading;
 using UnityEngine.UI;
 using TMPro;
 
-public class TwitchManager : MonoBehaviour
+public class TwitchManager : SingletonMonobehaviour<TwitchManager>
 {
-    public static TwitchManager Instance;
-
     private TcpClient twitchClient;
     private StreamReader reader;
     private StreamWriter writter;
@@ -20,7 +18,6 @@ public class TwitchManager : MonoBehaviour
     public TMP_InputField ChannelNameInput;
     public GameObject PanelConnexion;
 
-    
 
     [Header("Commande of the game")]
     public string AttackCommande;
@@ -30,33 +27,23 @@ public class TwitchManager : MonoBehaviour
     public string RightCommande;
     public string UpCommande;
     public string DownCommande;
-    public string FirstChoiceCommande = "_card1";
-    public string SecondChoiceCommande = "_card2";
-    public string ThirdChoiceCommande = "_card3";
-    
-    
+    public string ChoiceCommande = "!card";
 
-
+    [Header("Parameters")]
+    public string channelName;
     public int maxCharacterInNames;
+    public int numberMaxOfPlayer;
 
+    [SerializeField]
+    private UI_MainMenu _UIMainMenu;
+    
     bool bConnexionIsDone = false;
     [System.NonSerialized] public bool canJoinedGame = false;
     [System.NonSerialized] public bool playersCanMakeActions = false;
     [System.NonSerialized] public bool playersCanMakeChoices = false;
-    
-    
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(this.gameObject);
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
-    }
+    [System.NonSerialized] public bool canReadCommands = false;
+
+    public override bool DestroyOnLoad => false;
 
     private void Start() // Use datas store in PlayerPrefs
     {
@@ -84,6 +71,8 @@ public class TwitchManager : MonoBehaviour
         if (twitchClient.Connected)
         {
             bConnexionIsDone = true;
+            _UIMainMenu.DisplayPlayButton();
+            channelName = CutPlayerName(ChannelNameInput.text);
         }
     }
 
@@ -100,12 +89,10 @@ public class TwitchManager : MonoBehaviour
 
             if (message.Contains("Your host is"))
             {
-                Debug.Log("CONNEXION ? " + message);
                 PanelConnexion.SetActive(false);
-                //PanelLobby.SetActive(true);
             }
-
-            if (message.Contains("PRIVMSG"))
+            
+            if (message.Contains("PRIVMSG") && canReadCommands)
             {
                 //Get the USER of the message.
                 int splitPointU = message.IndexOf("!", 1);
@@ -116,13 +103,7 @@ public class TwitchManager : MonoBehaviour
                 int splitPointM = message.IndexOf(":", 1);
                 string messageOfUser = message.Substring(splitPointM + 1);
 
-                Debug.Log("MESSAGE of " + NameOfUser + " : " + messageOfUser);
-
                 AnalyseChatCommand(NameOfUser, messageOfUser);
-            }
-            else
-            {
-                Debug.Log("DEBUG : " + message);
             }
         }
     }
@@ -141,28 +122,32 @@ public class TwitchManager : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Analyse player message to see if the message contains commands for the game
+    /// </summary>
+    /// <param name="nameOfPlayer"> Player to analyse command</param>
+    /// <param name="messageOfPlayer"> Message to analyse </param>
     public void AnalyseChatCommand(string nameOfPlayer, string messageOfPlayer)
     {
+        
         nameOfPlayer = CutPlayerName(nameOfPlayer);
 
         // Tcheck if game didn't start. 
         if (messageOfPlayer == JoinCommande && canJoinedGame) //Connection du joueur twitch dans le jeu 
         {
-            if (!PlayerManager.Instance.AllPlayersName.Contains(nameOfPlayer))
+            if (!PlayerManager.Instance._listPlayersNames.Contains(nameOfPlayer) && PlayerManager.Instance._listPlayersNames.Count < numberMaxOfPlayer)
             {
-                PlayerManager.Instance.AllPlayersName.Add(nameOfPlayer);
-                Debug.Log("COMMAND : " + nameOfPlayer + " join the game !");
-                ShowAllPlayersInGame();
+                PlayerManager.Instance._listPlayersNames.Add(nameOfPlayer);
+                PlayerManager.Instance.SpawnPlayerOnLobby(nameOfPlayer);
             }
         }
 
-        if (PlayerManager.Instance.AllPlayersName.Contains(nameOfPlayer)) // S'assurer que le joueur est dans la liste des joueurs pour faire ces commandes. 
+
+        if (PlayerManager.Instance._listPlayersNames.Contains(nameOfPlayer)) // S'assurer que le joueur est dans la liste des joueurs pour faire ces commandes. 
         {
             if (messageOfPlayer == QuitCommande) //Deconnection du joueur twitch du jeu. 
             {
-                PlayerManager.Instance.AllPlayersName.Remove(nameOfPlayer);
-                Debug.Log("COMMAND : " + nameOfPlayer + " quit the game !");
-                ShowAllPlayersInGame();
+                PlayerManager.Instance._listPlayersNames.Remove(nameOfPlayer);
             }
 
             if (playersCanMakeActions)
@@ -173,27 +158,22 @@ public class TwitchManager : MonoBehaviour
 
                 if (messageOfPlayer == AttackCommande) //Attack
                 {
-                    Debug.Log("COMMAND : " + nameOfPlayer + " attack !");
                     InputManager.Instance.AttackCommand(currentplayer);
                 }
                 if (messageOfPlayer == LeftCommande) //MoveLeft
                 {
-                    Debug.Log("COMMAND : " + nameOfPlayer + " move to the left !");
                     InputManager.Instance.MoveCommand(currentplayer, EnumClass.Direction.Left);
                 }
                 if (messageOfPlayer == RightCommande) //MoveRight
                 {
-                    Debug.Log("COMMAND : " + nameOfPlayer + " move to the right !");
                     InputManager.Instance.MoveCommand(currentplayer, EnumClass.Direction.Right);
                 }
                 if (messageOfPlayer == UpCommande) //MoveTop
                 {
-                    Debug.Log("COMMAND : " + nameOfPlayer + " move to the top !");
                     InputManager.Instance.MoveCommand(currentplayer, EnumClass.Direction.Up);
                 }
                 if (messageOfPlayer == DownCommande) //MoveDown
                 {
-                    Debug.Log("COMMAND : " + nameOfPlayer + " move to the down !");
                     InputManager.Instance.MoveCommand(currentplayer, EnumClass.Direction.Down);
                 }
             }
@@ -204,20 +184,38 @@ public class TwitchManager : MonoBehaviour
 
                 Player currentplayer = PlayerManager.Instance.ReturnPlayerWithName(nameOfPlayer);
 
-                if (messageOfPlayer == FirstChoiceCommande) //Weapon 1
+                if (messageOfPlayer.Contains(ChoiceCommande))
                 {
-                    Debug.Log("COMMAND : " + nameOfPlayer + " choose Weapon 1 !");
-                    InputManager.Instance.ChoiceCommand(currentplayer, 0);
-                }
-                if (messageOfPlayer == SecondChoiceCommande) //Weapon 2
-                {
-                    Debug.Log("COMMAND : " + nameOfPlayer + " choose Weapon 2 !");
-                    InputManager.Instance.ChoiceCommand(currentplayer, 1);
-                }
-                if (messageOfPlayer == ThirdChoiceCommande) //Weapon 3
-                {
-                    Debug.Log("COMMAND : " + nameOfPlayer + " choose Weapon 3 !");
-                    InputManager.Instance.ChoiceCommand(currentplayer, 2);
+                    //Enlever le text de la commande
+                    string numberOfCommandTxt = messageOfPlayer.Substring(ChoiceCommande.Length);
+
+                    string officialsNumber = string.Empty;
+
+                    //Chercher si nous possedons un/des chiffre dans notre nouveau string
+                    foreach (char cara in numberOfCommandTxt)
+                    {
+                        if (char.IsDigit(cara))
+                        {
+                            officialsNumber += cara;
+                        }
+                    }
+
+                    //Si le string n'est pas null on le transform en int
+                    if (officialsNumber.Length > 0)
+                    {
+                        int numberOfCommand = int.Parse(officialsNumber);
+
+                        if (numberOfCommand > 0)
+                        {
+                            numberOfCommand--;
+
+                            InputManager.Instance.ChoiceCommand(currentplayer, numberOfCommand);
+                        }
+                    }
+                    else 
+                    {
+                        return; 
+                    }
                 }
             }
         }        
@@ -241,16 +239,33 @@ public class TwitchManager : MonoBehaviour
         }
     }
 
-    public void ShowAllPlayersInGame()
+    /// <summary>
+    /// Check if the twitch client is connected to a channel
+    /// </summary>
+    public bool IsConnected()
     {
-        string List = LobbyManager.Instance.PlayerList.text = "";
-        
-
-        foreach (string item in PlayerManager.Instance.AllPlayersName)
+        if (bConnexionIsDone)
         {
-            Debug.Log("Try");
-            LobbyManager.Instance.PlayerList.text += item + "\n";
+            return true;
         }
+        else
+        {
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Set if players can join game with chat commands
+    /// </summary>
+    /// <param name="state"></param>
+    public void SetPlayersCanJoin(bool state)
+    {
+        canJoinedGame = state;
+    }
+    
+    public void SetCanReadCommand(bool state)
+    {
+        canReadCommands = state;
     }
 
 }

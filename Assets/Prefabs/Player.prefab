@@ -910,7 +910,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: -2777479634979631107, guid: 8368c50e82b03ee4e8563d57bd5c5b20, type: 3}
+  m_Mesh: {fileID: -6605361700306264710, guid: 17f56339b5d43e74c9277644ca89ea76, type: 3}
   m_Bones:
   - {fileID: 1262173373800977043}
   - {fileID: 776700917765848392}
@@ -1692,7 +1692,7 @@ Animator:
   m_GameObject: {fileID: 7984710894443702818}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 8368c50e82b03ee4e8563d57bd5c5b20, type: 3}
-  m_Controller: {fileID: 9100000, guid: 01a58424aeb91244a90f83ad050c4dfb, type: 2}
+  m_Controller: {fileID: 9100000, guid: 05690c1fc8e7a2e488481a9cb17cc01b, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1713,19 +1713,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c21d9d6aacb27a247858a378b726e918, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentTile: {fileID: 0}
-  playerMovement: {fileID: 918737186891934907}
-  playerAnimator: {fileID: 0}
-  namePlayer: 
-  trapPrefab: {fileID: 8343551848952941216, guid: d035de0456440e845b5a51bb28574255, type: 3}
-  typeOfWeapon: 0
-  materialForTryCell: {fileID: 2100000, guid: 8a18584c6e7d0c843a222c09e20e5f61, type: 2}
-  LifeOfPlayer: 100
-  AttackPlayer: 25
-  playerUIPrefab: {fileID: 6251927802403043066, guid: c5c313ac7b4455b478cdc8621676fc38, type: 3}
-  UIOffset: {x: 0, y: 2, z: 2}
-  playerCanvas: {fileID: 0}
-  isDead: 0
+  _name: 
+  _currentHealth: 100
+  _maxHealth: 100
+  _attackDamages: 25
+  _isDead: 0
+  _currentWeapon: {fileID: 0}
+  _currentWeaponBuff: {fileID: 0}
+  _currentMoveBuff: {fileID: 0}
+  _playerMovementComponent: {fileID: 918737186891934907}
+  _animatorComponent: {fileID: 3703252163889179362}
+  _skinnedMeshComponent: {fileID: 4869730117634527052}
+  _playerDataSO: {fileID: 11400000, guid: 04ec05f7a48915d4baa7139c3d0e7b81, type: 2}
+  _currentTile: {fileID: 0}
+  _trapPrefab: {fileID: 1408787611811494607, guid: 9dfa11f36ddeab34da286dbac284de35, type: 3}
+  _choicesMade: 
+  _uiPrefab: {fileID: 0}
+  _uiOffset: {x: 0, y: 0, z: 0}
+  _infosCanvas: {fileID: 0}
+  _feedbackTxtPrefab: {fileID: 7337063305915384298, guid: 3d080abe2c6d11446b8bea7c2395b368, type: 3}
 --- !u!114 &918737186891934907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1738,12 +1744,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a4cda72b802710409750314f3d5f312, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovmentSeconds: 1
-  InitialRotation: {x: 0, y: 0, z: 0, w: 1}
-  RotationOfPlayer: {x: 0, y: 0}
-  CurrentPlayer: {fileID: 941451258311421410}
-  movePrecision: 0
-  playerAnimator: {fileID: 0}
+  _walkMovementSpeed: 1.5
+  _pushedMovementSpeed: 1.5
+  _foostepsEvents:
+  - {fileID: 11400000, guid: b117c067a81a7df4482fbacc2b90d478, type: 2}
+  - {fileID: 11400000, guid: 684450a3ef671f845a942e3a10be59df, type: 2}
+  - {fileID: 11400000, guid: 01be4fdb10fc1df43b12a7c61cec5457, type: 2}
+  _canMove: 1
+  _canJumpObstacle: 0
+  _initialRotation: {x: 0, y: 0, z: 0, w: 0}
+  _rotationOfPlayer: {x: 0, y: 0}
+  _currentPlayer: {fileID: 941451258311421410}
+  _animator: {fileID: 3703252163889179362}
 --- !u!1 &8028029919027752019
 GameObject:
   m_ObjectHideFlags: 0

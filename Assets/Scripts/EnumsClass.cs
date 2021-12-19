@@ -17,7 +17,8 @@ public static class EnumClass
         WaitingTurn,
         ActionTurn,
         ChoseBuffTurn,
-        GameEnd
+        GameEnd,
+        IntroTurn
     }
 
     public enum WeaponType

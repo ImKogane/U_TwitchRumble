@@ -1,47 +1,34 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Events;
-using System;
+
 
 public class CommandInGame 
 {
-    public Player OwnerPlayer = null;
+    public Player _ownerPlayer = null;
 
+    //Constructor
     public CommandInGame(Player OwnerOfAction)
     {
-        OwnerPlayer = OwnerOfAction;
+        _ownerPlayer = OwnerOfAction;
     }
 
+    //What the command will do when called
     public virtual void LaunchActionInGame()
     {
-       
+
     }
 
+    //To which Action the Command is asked to finish itself
     public virtual void SubscribeEndToEvent()
     {
 
     }
 
+    //The Global Manager choose what to do when the command ends
     public virtual void EndActionInGame()
     {
-        if (GlobalManager.Instance.ListCommandsInGame.Count > 0 && GlobalManager.Instance.ListCommandsInGame[0] == this) //Somme nous bien l'action a la base de la liste
-        {
-            GlobalManager.Instance.ListCommandsInGame.Remove(this); //On s'enleve de la liste. 
-
-            if (GlobalManager.Instance.ListCommandsInGame.Count > 0)
-            {
-                GlobalManager.Instance.ListCommandsInGame[0].LaunchActionInGame(); //On lance la prochaine action. 
-
-                Debug.Log("Next Action");
-            }
-            else
-            {
-                if (GlobalManager.Instance.GetCurrentGameState() == EnumClass.GameState.ActionTurn) GlobalManager.Instance.EndActionTurn();
-            }
-        }
+        CommandManager.Instance.ManageEndOfCommand(this);
     }
 
+    //What does the command needs to do when destroyed
     public virtual void DestroyCommand()
     {
 

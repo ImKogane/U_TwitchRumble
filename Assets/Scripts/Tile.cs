@@ -13,6 +13,10 @@ public class Tile : MonoBehaviour
     public Player currentPlayer;
 
     public List<Trap> trapList;
+
+    [Header("Colors")]
+    public List<Color> AttackColorChangesList;
+    public float waitBetweenEachColor;
     
     public void SetCoord(Vector2Int newCoord)
     {
@@ -22,7 +26,7 @@ public class Tile : MonoBehaviour
 
     public Vector2Int GetCoord()
     {
-        return new Vector2Int(tileRow, tileColumn);
+        return new Vector2Int(tileColumn, tileRow);
     }
 
     public bool GetHasObstacle()
@@ -33,6 +37,17 @@ public class Tile : MonoBehaviour
     public void SetHasObstacle(bool newValue)
     {
         hasObstacle = newValue;
+    }
+
+    public IEnumerator ReturnToClassicColor()
+    {
+        MeshRenderer meshRend = gameObject.GetComponentInChildren<MeshRenderer>();
+
+        foreach (var item in AttackColorChangesList)
+        {
+            meshRend.material.SetColor("_BaseColor", item);
+            yield return new WaitForSeconds(waitBetweenEachColor);
+        }
     }
     
 }

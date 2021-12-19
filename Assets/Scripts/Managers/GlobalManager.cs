@@ -1,165 +1,210 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using DG.Tweening;
 using Random = UnityEngine.Random;
 
-public class GlobalManager : MonoBehaviour
+public class GlobalManager : SingletonMonobehaviour<GlobalManager>
 {
-    public static GlobalManager Instance;
+    public override bool DestroyOnLoad => true;
 
-    public List<CommandInGame> ListCommandsInGame = new List<CommandInGame>();
+    private EnumClass.GameState _currentGameState;
+    private float _currentTimer;
+    private int _turnCount;
 
-    private EnumClass.GameState currentGameState;
+    [Header("Expose Variables")]
+    [SerializeField] private float _actionsTimerDuration;
+    [SerializeField] private float _buffTimerDuration;
+    [SerializeField] private float _startTimerDuration;
+    [SerializeField] private Transform _winPoint;
+    public List<int> _listTurnsToMakeChoice = new List<int>();
 
-    [SerializeField] private int actionsTimerDuration;
-    [SerializeField] private int buffTimerDuration;
-    private int currentTimer;
+    [Header("Text Game Variables")]
+    public string _phaseActionsTitle;
+    public string _phaseActionsParagraph;
+    public string _phaseChoiceTitle;
+    public string _phaseChoiceParagraph;
+    public string _phaseIntroTitle;
+    public string _phaseIntroParagraph;
 
-    public SO_PanelChoice[] panelChoiceArray;
-
-    [Header("Win game system")]
-    [SerializeField] private GameObject MainCamera;
-    [SerializeField] private GameObject WinCamera;
-    [SerializeField] private Transform WinPoint;
-    [SerializeField] private Text PlayerNameText;
-    
-    private int turnCount;
-
-    #region Unity Basic Events
-    
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
-    }
 
     private void Start()
     {
-        turnCount = 1;
-        StartState(EnumClass.GameState.ChoseBuffTurn);
-        UIManager.Instance.UpdateTurnCount(turnCount);
-        UIManager.Instance.DisplayGameScreen(true);
-        UIManager.Instance.DisplayEndScreen(false);
-        WinCamera.SetActive(false);
+        StartGameManager.Instance.LaunchGame();
     }
 
-    #endregion
-    
     #region Coroutines
-    
+    public IEnumerator LaunchNewGameCoroutine()
+    {
+        //Get ref to managers
+        UIManager UiManager = UIManager.Instance;
+        GoogleSheetManager GoogleManager = GoogleSheetManager.Instance;
+
+        _turnCount = 1;
+        
+        //Set up variable with google sheet datas.
+        _actionsTimerDuration = GoogleManager._variablesGetFromSheet[3];
+        _buffTimerDuration = GoogleManager._variablesGetFromSheet[4];
+
+        //Saving datas with async methods. 
+        GoogleManager.StartGoogleSheetSaving();
+
+        //Manage UI to display
+        UiManager.UpdateTurnCount(_turnCount);
+        UiManager.DisplayGameScreen(true);
+        UiManager.DisplayEndScreen(false);
+        UiManager.DisplayPauseScreen(false);
+
+        AudioManager.Instance.EnableAmbienceSounds(true);
+
+        //Manage timer
+        _currentTimer = _startTimerDuration;
+        UiManager.ActivateTimerBar(true);
+        while (_currentTimer > 0)
+        {
+            yield return null;
+            _currentTimer -= Time.deltaTime;
+            UiManager.UpdateTimerBar(_currentTimer / _startTimerDuration);
+        }
+
+        //Start game
+        StartState(EnumClass.GameState.IntroTurn);
+    }
+
     IEnumerator ActionsChoiceCoroutine()
     {
-        UIManager.Instance.DisplayPhaseTitle("Phase du choix des actions");
-        UIManager.Instance.DisplayPhaseDescription("Choisissez votre prochain déplacement avec les flèches directionnelles, et A pour attaquer.");
-        //UIManager.Instance.DisplayAllPlayersUI(PlayerManager.Instance.PlayerList, true);
+        //Get ref to managers
+        UIManager UiManager = UIManager.Instance;
 
+        //Manage UI to display
+        UiManager.DisplayPhaseTitle(_phaseActionsTitle);
+        UiManager.DisplayPhaseDescription(_phaseActionsParagraph);
+        UiManager.ActivateTimerBar(true);
+
+        //Players can make actions.
         TwitchManager.Instance.playersCanMakeActions = true;
-
-        currentTimer = actionsTimerDuration;
-
         InputManager.Instance.EnableActionInputs(true);
-        UIManager.Instance.ActivateTimerBar(true);
 
-        while (currentTimer > 0)
+        //Manage timer
+        _currentTimer = _actionsTimerDuration;
+        while (_currentTimer > 0)
         {
-            yield return new WaitForSeconds(1);
-            currentTimer--;
-            UIManager.Instance.UpdateTimerBar((float)currentTimer/actionsTimerDuration);
+            yield return null;
+            _currentTimer -= Time.deltaTime;
+            UIManager.Instance.UpdateTimerBar(_currentTimer/_actionsTimerDuration);
         }
-        
-        
-        //UIManager.Instance.DisplayAllPlayersUI(PlayerManager.Instance.PlayerList, false);
-        UIManager.Instance.ActivateTimerBar(false);
-        InputManager.Instance.EnableActionInputs(false);
 
+        UiManager.ActivateTimerBar(false);
+
+        //Players can't make actions.
+        InputManager.Instance.EnableActionInputs(false);
         TwitchManager.Instance.playersCanMakeActions = false;
 
         StartState(EnumClass.GameState.ActionTurn);
-        
     }
     
     IEnumerator BuffChoiceCoroutine()
     {
-        UIManager.Instance.DisplayPhaseTitle("Phase d'amélioration");
-        UIManager.Instance.DisplayPhaseDescription("Votre décision affectera grandement votre manière de jouer");
-        UIManager.Instance.ActivateTimerBar(true);
+        //Get ref to managers
+        UIManager UiManager = UIManager.Instance;
 
-        UIManager.Instance.UpdateChoiceCardsImage();
-        UIManager.Instance.DisplayChoiceScreen(true);
+        //Manage UI to display
+        UiManager.DisplayPhaseTitle(_phaseChoiceTitle);
+        UiManager.DisplayPhaseDescription(_phaseChoiceParagraph);
+        UiManager.ActivateTimerBar(true);
+        UiManager.UpdateChoiceCardsImage();
+        UiManager.DisplayChoiceScreen(true);
         
+        //Players can make choices
         InputManager.Instance.EnableChoiceInputs(true);
         TwitchManager.Instance.playersCanMakeChoices = true;
 
-        currentTimer = buffTimerDuration;
-
-        while (currentTimer > 0)
+        //Manage timer
+        _currentTimer = _buffTimerDuration;
+        while (_currentTimer > 0)
         {
-            yield return new WaitForSeconds(1);
-            currentTimer--;
-            UIManager.Instance.UpdateTimerBar((float)currentTimer/buffTimerDuration);
+            yield return null;
+            _currentTimer -= Time.deltaTime;
+            UiManager.UpdateTimerBar(_currentTimer/_buffTimerDuration);
         }
-        
-        UIManager.Instance.ActivateTimerBar(false);
-        UIManager.Instance.DisplayChoiceScreen(false);
-        
+
+        //Players stop make choices
         TwitchManager.Instance.playersCanMakeChoices = false;
         InputManager.Instance.EnableChoiceInputs(false);
 
-        CheckPlayersChoicesInputs();
-        
-        StartAllActionsInGame();
-        
+        //Be sure that everybody have a choice
+        CheckAllPlayersGetChoice();
+        yield return new WaitForSeconds(2);
+
+        UiManager.ActivateTimerBar(false);
+        UiManager.DisplayChoiceScreen(false);
+
+        CommandManager.Instance.StartAllCommands();
+        ScriptableManager.Instance.IncreaseChoiceIndexCompteur();
+
         StartState(EnumClass.GameState.WaitingTurn);
     }
-    
-    
-    #endregion
 
-    #region ActionsInGame Handling
-    
-    public void AddActionInGameToList(CommandInGame ActionToAdd)
+    private IEnumerator IntroTurnCoroutine()
     {
-        //Ici on devra trier si le propri�taire de l'action que l'on ajoute a la liste n'avait pas deja une action dans la liste avant de remettre son action. 
-        
-        Debug.Log(ActionToAdd + "have been added to the list of actions");
-        ListCommandsInGame.Add(ActionToAdd);
+        //Get ref to managers
+        UIManager UiManager = UIManager.Instance;
+
+        UiManager.DisplayPhaseTitle(_phaseIntroTitle);
+        UiManager.DisplayPhaseDescription(_phaseIntroParagraph);
+        UiManager.DisplayChoiceScreen(false);
+
+        //All the players will be dropped on the board
+        foreach (var item in PlayerManager.Instance._listPlayers)
+        {
+            item.gameObject.transform.DOMove(item._currentTile.transform.position, 1).SetEase(Ease.OutSine);
+
+            yield return new WaitForSeconds(2);
+        }
+
+        StartState(EnumClass.GameState.ChoseBuffTurn);
     }
 
-    public void StartAllActionsInGame()
+    public IEnumerator LoadSavedTurn(int turn)
     {
-        if (ListCommandsInGame.Count > 0)
+        //Get ref to managers
+        UIManager UiManager = UIManager.Instance;
+
+        _turnCount = turn;
+        AdaptChoiceIndexCompteurToLoadedTurn(_turnCount);
+
+        //Manage UI display
+        UiManager.UpdateTurnCount(_turnCount);
+        UiManager.DisplayGameScreen(true);
+        UiManager.DisplayEndScreen(false);
+        UiManager.DisplayPauseScreen(false);
+        UiManager.ActivateTimerBar(true);
+
+        AudioManager.Instance.EnableAmbienceSounds(true);
+        GoogleSheetManager.Instance.StartGoogleSheetSaving();
+
+        //Manage Timer
+        _currentTimer = _startTimerDuration;
+        while (_currentTimer > 0)
         {
-            UIManager.Instance.DisplayPhaseTitle("Phase d'action");
-            UIManager.Instance.DisplayPhaseDescription("Déroulement des actions choisies précédemment");
-            ListCommandsInGame[0].LaunchActionInGame();
+            yield return null;
+            _currentTimer -= Time.deltaTime;
+            UIManager.Instance.UpdateTimerBar(_currentTimer / _startTimerDuration);
         }
-        else
-        {
-            Debug.Log("Personne n'a choisi d'action pendant ce tour !");
-            EndActionTurn();
-        }
-        
+
+        CheckNextTurn();
     }
-    
+
     #endregion
-    
+
     #region GameState Handling
     
     void StartState(EnumClass.GameState nextState)
     {
-        currentGameState = nextState;
+        _currentGameState = nextState;
         
-        switch (currentGameState)
+        switch (_currentGameState)
         {
             case(EnumClass.GameState.WaitingTurn):
                 StartCoroutine(ActionsChoiceCoroutine());
@@ -167,43 +212,49 @@ public class GlobalManager : MonoBehaviour
             
             case(EnumClass.GameState.ActionTurn):
                 PlayerManager.Instance.ManagePlayersDebuffs();
-                StartAllActionsInGame();
+                CommandManager.Instance.StartAllCommands();
                 break;
             
             case(EnumClass.GameState.ChoseBuffTurn):
                 StartCoroutine(BuffChoiceCoroutine());
                 break;
+
+            case (EnumClass.GameState.IntroTurn):
+                StartCoroutine(IntroTurnCoroutine());
+                break;
             
             case(EnumClass.GameState.GameEnd):
-                UIManager.Instance.DisplayEndScreen(false);
-                UIManager.Instance.DisplayEndScreen(true);
+                EndGame();
                 break;
         }
     }
     
     public void EndActionTurn()
     {
-        int RemainingPlayers = PlayerManager.Instance.GetPlayerCount();
+        WaitingBeforeLaunchState();
+    }
 
-        if (RemainingPlayers > 1)
+    public void WaitingBeforeLaunchState()
+    {
+        int remainingPlayers = PlayerManager.Instance.GetPlayerCount();
+
+        if (remainingPlayers > 1)
         {
-            turnCount++;
-            UIManager.Instance.UpdateTurnCount(turnCount);
-            CheckNextTurn(turnCount);
+            _turnCount++;
+            UIManager.Instance.UpdateTurnCount(_turnCount);
+            CheckNextTurn();
         }
         else
         {
-            EndGame();
-            
+            StartState(EnumClass.GameState.GameEnd);
         }
-
     }
 
-    void CheckNextTurn(int nextTurn)
+    void CheckNextTurn()
     {
-        foreach (SO_PanelChoice choice in panelChoiceArray)
+        foreach (int choice in _listTurnsToMakeChoice)
         {
-            if (choice.turnToTakeEffect == turnCount)
+            if (choice == _turnCount)
             {
                 StartState(EnumClass.GameState.ChoseBuffTurn);
                 return;
@@ -211,128 +262,105 @@ public class GlobalManager : MonoBehaviour
         }
 
         StartState(EnumClass.GameState.WaitingTurn);
-
     }
 
 
     public EnumClass.GameState GetCurrentGameState()
     {
-        return currentGameState;
+        return _currentGameState;
     }
 
     public int GetCurrentTurn()
     {
-        return turnCount;
+        return _turnCount;
     }
 
     #endregion
     
+    
 
-    public List<CommandInGame> FindPlayerCommands(Player ownerOfCommands)
-    {
-        List<CommandInGame> listToReturn = new List<CommandInGame>();
 
-        foreach (CommandInGame command in ListCommandsInGame)
-        {
-            if (command.OwnerPlayer == ownerOfCommands)
-            {
-                listToReturn.Add(command);
-            }
-        }
-
-        return listToReturn;
-    }
-
-    public void DestroyAllCommandsOfPlayer(Player ownerOfCommands)
-    {
-        List<CommandInGame> listToDestroy = FindPlayerCommands(ownerOfCommands);
-
-        for (int i = 0; i < listToDestroy.Count; i++)
-        {
-            listToDestroy[i].DestroyCommand();
-
-            if (ListCommandsInGame.Contains(listToDestroy[i]))
-            {
-                ListCommandsInGame.Remove(listToDestroy[i]);
-            }
-        }
-    }
-
-    public void RemoveMoveCommandOfPlayer(Player ownerOfCommands)
-    {
-        List<CommandInGame> AllCommandsOfPlayer = FindPlayerCommands(ownerOfCommands);
-
-        for (int i = 0; i < AllCommandsOfPlayer.Count; i++)
-        {
-            if (ListCommandsInGame.Contains(AllCommandsOfPlayer[i]) && AllCommandsOfPlayer[i] is CommandMoving)
-            {
-                AllCommandsOfPlayer[i].DestroyCommand();
-                ListCommandsInGame.Remove(AllCommandsOfPlayer[i]);
-            }
-        }
-    }
-
-    public void RemoveAttackCommandOfPlayer(Player ownerOfCommands)
-    {
-        List<CommandInGame> AllCommandsOfPlayer = FindPlayerCommands(ownerOfCommands);
-
-        for (int i = 0; i < AllCommandsOfPlayer.Count; i++)
-        {
-            if (ListCommandsInGame.Contains(AllCommandsOfPlayer[i]) && AllCommandsOfPlayer[i] is CommandAttack)
-            {
-                AllCommandsOfPlayer[i].DestroyCommand();
-                ListCommandsInGame.Remove(AllCommandsOfPlayer[i]);
-            }
-        }
-    }
-
+    #region Choices
     public int GetRandomChoiceIndex()
     {
         int index = (int) Random.Range(0, 3);
         return index;
     }
 
-    public SO_PanelChoice GetPanelChoiceOfThisTurn()
+    private void CheckAllPlayersGetChoice()
     {
-        foreach (var choicePanel in panelChoiceArray)
+        foreach (var player in PlayerManager.Instance._listPlayers)
         {
-            if (turnCount == choicePanel.turnToTakeEffect)
-            {
-                return choicePanel;
-            }
-        }
+            List<CommandInGame> playerCommands = CommandManager.Instance.FindPlayerCommands(player);
 
-        return null;
-    }
-    
-    
-    private void CheckPlayersChoicesInputs()
-    {
-        foreach (var player in PlayerManager.Instance.PlayerList)
-        {
-            List<CommandInGame> playerPreviousChoiceInput = FindPlayerCommands(player);
-
-            if (playerPreviousChoiceInput.Count == 0)
+            if (playerCommands.Count == 0)
             {
-                InputManager.Instance.ChoiceCommand(player, GetRandomChoiceIndex());
+                InputManager.Instance.ChoiceCommand(player, ScriptableManager.Instance.GetRandomIndexChoice());
             }
         }
     }
 
-    private void EndGame()
+    public bool DoesAllPlayersHaveChoice()
     {
-        MainCamera.SetActive(false);
-        WinCamera.SetActive(true);
-        UIManager.Instance.DisplayEndScreen(true);
-        UIManager.Instance.DisplayGameScreen(false);
-        PlayerNameText.text = PlayerManager.Instance.GetLastPlayer().GetPlayerName();
+        foreach (var player in PlayerManager.Instance._listPlayers)
+        {
+            List<CommandInGame> playerCommands = CommandManager.Instance.FindPlayerCommands(player);
 
-        PlayerManager.Instance.GetLastPlayer().transform.position = WinPoint.position;
+            if (playerCommands.Count == 0)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void AdaptChoiceIndexCompteurToLoadedTurn(int turn)
+    {
+        foreach (int choiceTurn in _listTurnsToMakeChoice)
+        {
+            if (turn > choiceTurn)
+            {
+                ScriptableManager.Instance.IncreaseChoiceIndexCompteur();
+            }
+        }
+    }
+
+    #endregion
+
+    #region EndGame/PauseGame
+    public void EndGame()
+    {
+        UIManager.Instance.EndGameUI();
+
+        //TODO : mettre dans une seule méthode !!
+        
+        PlayerManager.Instance.GetLastPlayer().transform.position = _winPoint.position;
+        PlayerManager.Instance.GetLastPlayer().ResetPlayerRotation();
         PlayerManager.Instance.GetLastPlayer().CanvasVisibility(false);
-        PlayerManager.Instance.PlayerList.Clear();
+        PlayerManager.Instance.GetLastPlayer()._animatorComponent.SetBool("IsFalling", false);
+
+        //Manage the last player for victory ending.
+        Player endGamePlayer = PlayerManager.Instance.GetLastPlayer();
+        endGamePlayer.transform.position = _winPoint.position;
+        endGamePlayer.ResetPlayerRotation();
+        endGamePlayer.CanvasVisibility(false);
+        endGamePlayer._animatorComponent.SetBool("IsFalling", false);
+        PlayerManager.Instance._listPlayers.Clear();
+
     }
-    
-    
-    
-    
+
+    public void SetGamePause(bool state)
+    {
+        if (state)
+        {
+            Time.timeScale = 0;
+            UIManager.Instance.DisplayPauseScreen(state);
+        }
+        else
+        {
+            Time.timeScale = 1;
+            UIManager.Instance.DisplayPauseScreen(state);
+        }
+    }
+    #endregion
 }

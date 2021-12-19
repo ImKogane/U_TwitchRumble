@@ -701,7 +701,7 @@ ModelImporter:
     second: 2Hand-Axe
   - first:
       74: 7400000
-    second: 2Hand-Axe-Jump
+    second: Hammer_Jump
   - first:
       74: 7400002
     second: 2Hand-Axe-Land
@@ -732,12 +732,24 @@ ModelImporter:
     resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: Motion
-    rigImportErrors: "Copied Avatar Rig Configuration mis-match. Transform hierarchy
-      does not match:\n\tTransform 'Pelvis' for human bone 'Hips' not found\n"
+    rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: 
-    animationRetargetingWarnings: 
+    animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
+      might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t'B_Spine' has translation animation that
+      will be discarded.\n\t'B_Neck' has translation animation that will be discarded.\n"
+    animationRetargetingWarnings: "\nRetargeting quality report for clip 'Take 001':\n\tLeftUpperArm
+      average position error 3.8 mm and maximum position error 6.0 mm at time 0:27
+      (79.4%) Frame 27\n\tLeftLowerArm average position error 3.9 mm and maximum
+      position error 5.9 mm at time 0:27 (79.4%) Frame 27\n\tLeftHand average position
+      error 3.8 mm and maximum position error 6.0 mm at time 0:27 (79.4%) Frame 27\n\tRightUpperArm
+      average position error 3.8 mm and maximum position error 6.0 mm at time 0:27
+      (79.4%) Frame 27\n\tRightLowerArm average position error 3.9 mm and maximum
+      position error 6.0 mm at time 0:27 (79.4%) Frame 27\n\tRightHand average position
+      error 3.8 mm and maximum position error 6.0 mm at time 0:27 (79.4%) Frame 27\n\tHead
+      average position error 3.8 mm and maximum position error 6.0 mm at time 0:27
+      (79.4%) Frame 27\n"
     animationDoRetargetingWarnings: 1
     importAnimatedCustomProperties: 0
     importConstraints: 0
@@ -750,7 +762,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: 2Hand-Axe-Jump
+      name: Hammer_Jump
       takeName: Take 001
       internalID: 7400000
       firstFrame: 1

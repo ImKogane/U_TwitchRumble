@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 856097233caa89548a576e6fb71f071e, type: 3}
+  m_Name: HammerWeaponData
+  m_EditorClassIdentifier: 
+  _cardSprite: {fileID: 21300000, guid: a35629bfbc29a2e41a7cf57996d8b23b, type: 3}
+  weaponType: 0
+  _weaponPrefab: {fileID: 4056109020764304341, guid: de4c3606f9cc0144dbedfcfe12b106d0, type: 3}
+  _listOfCellAffects:
+  - {x: 0, y: 1}
+  - {x: 0, y: 2}
+  - {x: -1, y: 1}
+  - {x: 1, y: 1}
+  _weaponAnimatorController: {fileID: 9100000, guid: 5a743250fc5f37645bb8df8be56d71ce, type: 2}
+  _onHitEventSFX: {fileID: 11400000, guid: a4b3f184768a26d40a3e689958e53661, type: 2}

@@ -3,46 +3,37 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using DG.Tweening;
-using UnityEngine.Rendering.UI;
+using Random = UnityEngine.Random;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [Header("Animations Values")]
+    public float _walkMovementSpeed = 1f;
+    public float _pushedMovementSpeed = 2f;
+    public List<SO_GameEvent> _foostepsEvents;
+    
+    [Header("Gameplay Values")]
+    public bool _canMove = true;
+    public bool _canJumpObstacle = false;
+    public Quaternion _initialRotation;
+    public Vector2Int _rotationOfPlayer;
+
+    [Header("Other Components")]
+    public Player _currentPlayer;
+    public Animator _animator;
+    
+    private bool isMoving;
     public Action EndOfMoving;
 
-    public float MovmentSeconds = 1f;
-
-    private bool isMoving;
-    [NonSerialized]
-    public bool canMove = true;
-
-    public Quaternion InitialRotation;
-    public Vector2Int RotationOfPlayer;
-
-    public Player CurrentPlayer;
-
-    [SerializeField] private float movePrecision;
-
-    [NonSerialized]
-    public bool CanJumpObstacle = false;
-
-    bool UpdateRotOfUI = false;
-
-    public Animator playerAnimator;
-    
-    private void Start()
+    public void SetUpPlayerMovement(Player player)
     {
-        InitialRotation = transform.rotation;
+        _currentPlayer = player;
+        _initialRotation = transform.rotation;
         RotateDownDirection();
-        EndOfMoving += () => { UpdateRotOfUI = false; };
-        canMove = true;
-        playerAnimator = GetComponent<Animator>();
+        _canMove = true;
+        _animator = GetComponent<Animator>();
     }
 
-    private void Update()
-    {
-        CurrentPlayer.UpdatePlayerCanvas();
-    }
-    
     #region RotatePlayer
 
     public void RotatePlayer(EnumClass.Direction DirectionOfMovement)
@@ -88,66 +79,55 @@ public class PlayerMovement : MonoBehaviour
 
     public void RotateUpDirection()
     {
-        RotationOfPlayer = new Vector2Int(0, 1);
-        gameObject.transform.rotation = InitialRotation;
+        _rotationOfPlayer = new Vector2Int(0, 1);
+        gameObject.transform.rotation = _initialRotation;
         gameObject.transform.Rotate(0, 180, 0);
     }
     public void RotateDownDirection()
     {
-        RotationOfPlayer = new Vector2Int(0, -1);
-        gameObject.transform.rotation = InitialRotation;
+        _rotationOfPlayer = new Vector2Int(0, -1);
+        gameObject.transform.rotation = _initialRotation;
     }
     public void RotateRightDirection()
     {
-        RotationOfPlayer = new Vector2Int(1, 0);
-        gameObject.transform.rotation = InitialRotation;
+        _rotationOfPlayer = new Vector2Int(1, 0);
+        gameObject.transform.rotation = _initialRotation;
         gameObject.transform.Rotate(0, -90, 0);
     }
     public void RotateLeftDirection()
     {
-        RotationOfPlayer = new Vector2Int(-1, 0);
-        gameObject.transform.rotation = InitialRotation;
+        _rotationOfPlayer = new Vector2Int(-1, 0);
+        gameObject.transform.rotation = _initialRotation;
         gameObject.transform.Rotate(0, 90, 0);
     }
     #endregion
 
     #region Movement
-    public void MakeMovement()
+    public void MakeMovement(bool isPushed = false)
     {
-        if (!canMove)
+        if (!_canMove && !isPushed)
         {
             EndOfMoving.Invoke();
             return;
-        }
-        
-        UpdateRotOfUI = true;
-        
-        if (CurrentPlayer.CurrentTile)
-        {
-            Debug.Log("Current Tile : [" + CurrentPlayer.CurrentTile.tileRow + "," + CurrentPlayer.CurrentTile.tileColumn + "]");
         }
 
         Tile NextTile = null;
 
         //Avancer en X 
-        if (RotationOfPlayer.x != 0)
+        if (_rotationOfPlayer.x != 0)
         {
-            NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentPlayer.CurrentTile.tileRow + RotationOfPlayer.x, CurrentPlayer.CurrentTile.tileColumn));
-            CheckBeforeMoveToATile(NextTile);
+            NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(_currentPlayer._currentTile.tileRow + _rotationOfPlayer.x, _currentPlayer._currentTile.tileColumn));
+            CheckBeforeMoveToATile(NextTile, isPushed);
         }
         //Avancer en Z
-        else if (RotationOfPlayer.y != 0)
+        else if (_rotationOfPlayer.y != 0)
         {
-            NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentPlayer.CurrentTile.tileRow, CurrentPlayer.CurrentTile.tileColumn + RotationOfPlayer.y));
-            CheckBeforeMoveToATile(NextTile);
-        }
-        else
-        {
-            Debug.Log("Le joueur est pas orienté en X ou en Z");
+            NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(_currentPlayer._currentTile.tileRow, _currentPlayer._currentTile.tileColumn + _rotationOfPlayer.y));
+            CheckBeforeMoveToATile(NextTile, isPushed);
         }
     }
 
-    public void CheckBeforeMoveToATile(Tile nextTile)
+    public void CheckBeforeMoveToATile(Tile nextTile, bool isPushed = false)
     {
         if (nextTile == null)
         {
@@ -155,14 +135,10 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        Debug.Log("Cellule ciblée : [" + nextTile.tileRow + "," + nextTile.tileColumn + "]");
-
         if (nextTile.hasObstacle)
         {
-            Debug.Log("Cellule ciblée est occupé par un obstacle.");
-            if (CanJumpObstacle)
+            if (_canJumpObstacle)
             {
-                Debug.Log("Vous sautez au dessus d'un obstacle.");
                 JumpAnObstacle();
             }
             EndOfMoving.Invoke();
@@ -171,21 +147,19 @@ public class PlayerMovement : MonoBehaviour
 
         if (nextTile.hasPlayer)
         {
-            Debug.Log("Cellule ciblée est occupé par un joueur.");
             EndOfMoving.Invoke();
             return;
         }
 
-        GoToATile(nextTile);
+        GoToATile(nextTile, isPushed);
     }
 
-    private void GoToATile(Tile nextTile)
+    private void GoToATile(Tile nextTile, bool isPushed = false)
     {
-        Debug.Log("Tile detecté, le mouvement peut etre fait !");
 
         ResetMyTile();
 
-        StartCoroutine(DotweenMovment(nextTile));
+        StartCoroutine(DotweenMovment(nextTile, isPushed));
 
         SetNewTile(nextTile);
     }
@@ -195,21 +169,21 @@ public class PlayerMovement : MonoBehaviour
         Tile NextTile = null;
 
         //Sauter en X
-        if (RotationOfPlayer.x != 0)
+        if (_rotationOfPlayer.x != 0)
         {
-            if (BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentPlayer.CurrentTile.tileRow + RotationOfPlayer.x * 2, CurrentPlayer.CurrentTile.tileColumn)))
+            if (BoardManager.Instance.GetTileAtPos(new Vector2Int(_currentPlayer._currentTile.tileRow + _rotationOfPlayer.x * 2, _currentPlayer._currentTile.tileColumn)))
             {
-                NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentPlayer.CurrentTile.tileRow + RotationOfPlayer.x * 2, CurrentPlayer.CurrentTile.tileColumn));
+                NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(_currentPlayer._currentTile.tileRow + _rotationOfPlayer.x * 2, _currentPlayer._currentTile.tileColumn));
                 GoToATile(NextTile);
                 return;
             }
         }
         //Sauter en Z
-        else if (RotationOfPlayer.y != 0)
+        else if (_rotationOfPlayer.y != 0)
         {
-            if (BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentPlayer.CurrentTile.tileRow, CurrentPlayer.CurrentTile.tileColumn + RotationOfPlayer.y * 2)))
+            if (BoardManager.Instance.GetTileAtPos(new Vector2Int(_currentPlayer._currentTile.tileRow, _currentPlayer._currentTile.tileColumn + _rotationOfPlayer.y * 2)))
             {
-                NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(CurrentPlayer.CurrentTile.tileRow , CurrentPlayer.CurrentTile.tileColumn + RotationOfPlayer.y * 2));
+                NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(_currentPlayer._currentTile.tileRow , _currentPlayer._currentTile.tileColumn + _rotationOfPlayer.y * 2));
                 GoToATile(NextTile);
                 return;
                 
@@ -219,47 +193,60 @@ public class PlayerMovement : MonoBehaviour
 
     public void ResetMyTile()
     {
-        CurrentPlayer.CurrentTile.hasPlayer = false;
-        CurrentPlayer.CurrentTile.currentPlayer = null;
-        CurrentPlayer.CurrentTile = null;
+        _currentPlayer._currentTile.hasPlayer = false;
+        _currentPlayer._currentTile.currentPlayer = null;
+        _currentPlayer._currentTile = null;
     }
 
     public void SetNewTile(Tile nextTile)
     {
-        CurrentPlayer.CurrentTile = nextTile;
-        CurrentPlayer.CurrentTile.currentPlayer = CurrentPlayer;
-        CurrentPlayer.CurrentTile.hasPlayer = true;
+        _currentPlayer._currentTile = nextTile;
+        _currentPlayer._currentTile.currentPlayer = _currentPlayer;
+        _currentPlayer._currentTile.hasPlayer = true;
     }
 
 
-    private IEnumerator DotweenMovment(Tile nextDestination)
+    private IEnumerator DotweenMovment(Tile nextDestination, bool isPushed)
     {
-        playerAnimator.SetBool("IsWalking", true);
-
-        Vector3 originalPosition = transform.position;
+        float moveTime;
+        Ease movementEase;
         
-        for (float i = 0.0f; i < 1f; i += Time.deltaTime / MovmentSeconds)
+        if (!isPushed)
         {
-            transform.position = Vector3.Lerp(originalPosition, nextDestination.transform.position, i);
-            yield return null;
+            _animator.SetBool("IsWalking", true);
+            moveTime = _walkMovementSpeed;
+            movementEase = Ease.InOutSine;
         }
-        
-        //transform.DOMove(nextDestination.transform.position, MovmentSeconds, false);
+        else
+        {
+            _animator.SetBool("IsPushed", true);
+            moveTime = _pushedMovementSpeed;
+            movementEase = Ease.OutQuint;
+        }
 
+        transform.DOMove(nextDestination.transform.position, moveTime, false).SetEase(movementEase);
+        yield return new WaitForSeconds(moveTime);
         
-        
-        //yield return new WaitForSeconds(MovmentSeconds);
-        
-        playerAnimator.SetBool("IsWalking", false);
+        if (!isPushed)
+        {
+            _animator.SetBool("IsWalking", false);
+        }
+        else
+        {
+            _animator.SetBool("IsPushed", false);
+        }
 
         for (int i = 0; i < nextDestination.trapList.Count; i++)
         {
-            nextDestination.trapList[i].Trigger(CurrentPlayer);
+            StartCoroutine(nextDestination.trapList[i].Trigger(_currentPlayer));
         }
 
-        if (CurrentPlayer.playerMoveBuff != null)
+        if (_currentPlayer._currentMoveBuff != null)
         {
-            CurrentPlayer.playerMoveBuff.ApplyMoveBuff();
+            if (!isPushed)
+            {
+                _currentPlayer._currentMoveBuff.ApplyMoveBuff(_currentPlayer);
+            }
         }
 
         EndOfMoving.Invoke();
@@ -267,22 +254,20 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator FallInWaterCoroutine()
     {
-        Debug.Log("Aucune Tile detectée, vous plongez dans l'océan.");
-
         float offset = 5;
 
         //Avancer jusqu'au milieu du trou.
-        if (RotationOfPlayer.x != 0)
+        if (_rotationOfPlayer.x != 0)
         {
-            transform.DOMove(new Vector3(transform.position.x + (offset * RotationOfPlayer.x), transform.position.y, transform.position.z), MovmentSeconds);
+            transform.DOMove(new Vector3(transform.position.x + (offset * _rotationOfPlayer.x), transform.position.y, transform.position.z), _walkMovementSpeed);
         }
-        if (RotationOfPlayer.y != 0)
+        if (_rotationOfPlayer.y != 0)
         {
-            transform.DOMove(new Vector3(transform.position.x , transform.position.y, transform.position.z + (offset * RotationOfPlayer.y)), MovmentSeconds);
+            transform.DOMove(new Vector3(transform.position.x , transform.position.y, transform.position.z + (offset * _rotationOfPlayer.y)), _walkMovementSpeed);
         }
 
         //Attendre d'etre au milieu du trou. 
-        yield return new WaitForSeconds(MovmentSeconds);
+        yield return new WaitForSeconds(_walkMovementSpeed);
 
         int offsetGoUp = 2;
         int offsetGoDown = 8;
@@ -293,15 +278,19 @@ public class PlayerMovement : MonoBehaviour
         Sequence fallSequence = DOTween.Sequence()
         .Append(transform.DOMove(transform.position + Vector3.up * offsetGoUp, delayGoUp))
         .Append(transform.DOMove(transform.position - Vector3.up * offsetGoDown, delayGoDown));
-            
+        
+        _animator.SetBool("IsFalling", true);
+        
         //Attendre d'etre dans l'eau.
         yield return new WaitForSeconds(delayGoUp + delayGoDown);
 
-        CurrentPlayer.isDead = true;
-
-        EndOfMoving.Invoke();
-
-        CurrentPlayer.KillPlayer();
+        _currentPlayer.KillPlayer();
     }
     #endregion
+
+    public void PlayFoostepSound()
+    {
+        int index = Random.Range(0, _foostepsEvents.Count - 1);
+        _foostepsEvents[index].Raise();
+    }
 }
