@@ -141,30 +141,21 @@ public class BoardManager : SingletonMonobehaviour<BoardManager>
     #region Usefull Functions 
     private List<Tile> GetRandomTiles(int tilesAmount)
     {
-        int tempAmount = 0;
-
         List<Tile> tempTileList = new List<Tile>();
 
-        while (tempAmount < tilesAmount)
+        int tempTileIndex = 0;
+
+        for (int i = 0; i < tilesAmount; i++)
         {
-
-            int tempTileIndex;
-            Tile tempTile;
-
-            do
+            tempTileIndex = Random.Range(0, _listTiles.Count);
+            if (CheckPlacementAvailable(_listTiles[tempTileIndex]))
             {
-                tempTileIndex = Random.Range(0, _listTiles.Count);
-                tempTile = _listTiles[tempTileIndex];
-
-                if (CheckPlacementAvailable(tempTile) && tempAmount < tilesAmount)
-                {
-                    tempTileList.Add(tempTile);
-                    tempAmount++;
-                }
-
-            } while (tempTileList.Contains(tempTile));
-
-
+                tempTileList.Add(_listTiles[tempTileIndex]);
+            }
+            else
+            {
+                i--;
+            }
         }
 
         return tempTileList;
@@ -175,14 +166,12 @@ public class BoardManager : SingletonMonobehaviour<BoardManager>
         int xPos = tile.GetCoord().x;
         int zPos = tile.GetCoord().y;
         
-        if(xPos > 0 && xPos < _boardSizeX-1)
+        if(xPos > 0 && xPos < _boardSizeZ-1)
         {
-            if (zPos > 0 && zPos < _boardSizeZ-1)
+            if (zPos > 0 && zPos < _boardSizeX-1)
             {
-                
                 return true;
             }
-            
         }
         
         return false;

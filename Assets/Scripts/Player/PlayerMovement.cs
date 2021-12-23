@@ -113,6 +113,9 @@ public class PlayerMovement : MonoBehaviour
 
         Tile NextTile = null;
 
+        //Just to be sure there is no double cell movment.
+        _rotationOfPlayer = NormalizeTheVector(_rotationOfPlayer);
+
         //Avancer en X 
         if (_rotationOfPlayer.x != 0)
         {
@@ -174,8 +177,11 @@ public class PlayerMovement : MonoBehaviour
             if (BoardManager.Instance.GetTileAtPos(new Vector2Int(_currentPlayer._currentTile.tileRow + _rotationOfPlayer.x * 2, _currentPlayer._currentTile.tileColumn)))
             {
                 NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(_currentPlayer._currentTile.tileRow + _rotationOfPlayer.x * 2, _currentPlayer._currentTile.tileColumn));
-                GoToATile(NextTile);
-                return;
+                if ((!NextTile.hasObstacle) && NextTile.currentPlayer == null)
+                {
+                    GoToATile(NextTile);
+                    return;
+                }
             }
         }
         //Sauter en Z
@@ -184,9 +190,11 @@ public class PlayerMovement : MonoBehaviour
             if (BoardManager.Instance.GetTileAtPos(new Vector2Int(_currentPlayer._currentTile.tileRow, _currentPlayer._currentTile.tileColumn + _rotationOfPlayer.y * 2)))
             {
                 NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(_currentPlayer._currentTile.tileRow , _currentPlayer._currentTile.tileColumn + _rotationOfPlayer.y * 2));
-                GoToATile(NextTile);
-                return;
-                
+                if ((!NextTile.hasObstacle) && NextTile.currentPlayer == null)
+                {
+                    GoToATile(NextTile);
+                    return;
+                }
             }
         }
     }
@@ -292,5 +300,36 @@ public class PlayerMovement : MonoBehaviour
     {
         int index = Random.Range(0, _foostepsEvents.Count - 1);
         _foostepsEvents[index].Raise();
+    }
+
+    public Vector2Int NormalizeTheVector(Vector2Int vector)
+    {
+        Vector2Int vectorToReturn = vector;
+
+        if (vector.x != 0)
+        {
+            if (vector.x > 1)
+            {
+                vectorToReturn.x = 1;
+            }
+            if (vector.x < -1)
+            {
+                vectorToReturn.x = -1;
+            }
+        }
+
+        if (vector.y != 0)
+        {
+            if (vector.y > 1)
+            {
+                vectorToReturn.y = 1;
+            }
+            if (vector.y < -1)
+            {
+                vectorToReturn.y = -1;
+            }
+        }
+
+        return vectorToReturn;
     }
 }
