@@ -302,7 +302,7 @@ MonoBehaviour:
   _buffTimerDuration: 20
   _startTimerDuration: 7
   _winPoint: {fileID: 525586681}
-  _listTurnsToMakeChoice: 010000000200000003000000
+  _listTurnsToMakeChoice: 010000000300000007000000
   _phaseActionsTitle: '[Make actions]'
   _phaseActionsParagraph: Attack with the command [!attack].\nMove with commands
     [!left] [!right] [!top] [!down].
