@@ -9,7 +9,9 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Animations Values")]
     public float _walkMovementSpeed = 1f;
+    public float _jumpMovementSpeed = 1.5f;
     public float _pushedMovementSpeed = 2f;
+    public float _jumpForce = 2f;
     public List<SO_GameEvent> _foostepsEvents;
     
     [Header("Gameplay Values")]
@@ -144,7 +146,11 @@ public class PlayerMovement : MonoBehaviour
             {
                 JumpAnObstacle();
             }
-            EndOfMoving.Invoke();
+            else
+            {
+                EndOfMoving.Invoke();
+            }
+            
             return;
         }
 
@@ -157,12 +163,12 @@ public class PlayerMovement : MonoBehaviour
         GoToATile(nextTile, isPushed);
     }
 
-    private void GoToATile(Tile nextTile, bool isPushed = false)
+    private void GoToATile(Tile nextTile, bool isPushed = false, bool isJumping = false)
     {
 
         ResetMyTile();
 
-        StartCoroutine(DotweenMovment(nextTile, isPushed));
+        StartCoroutine(DotweenMovment(nextTile, isPushed, isJumping));
 
         SetNewTile(nextTile);
     }
@@ -179,7 +185,7 @@ public class PlayerMovement : MonoBehaviour
                 NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(_currentPlayer._currentTile.tileRow + _rotationOfPlayer.x * 2, _currentPlayer._currentTile.tileColumn));
                 if ((!NextTile.hasObstacle) && NextTile.currentPlayer == null)
                 {
-                    GoToATile(NextTile);
+                    GoToATile(NextTile, false, true); 
                     return;
                 }
             }
@@ -192,7 +198,7 @@ public class PlayerMovement : MonoBehaviour
                 NextTile = BoardManager.Instance.GetTileAtPos(new Vector2Int(_currentPlayer._currentTile.tileRow , _currentPlayer._currentTile.tileColumn + _rotationOfPlayer.y * 2));
                 if ((!NextTile.hasObstacle) && NextTile.currentPlayer == null)
                 {
-                    GoToATile(NextTile);
+                    GoToATile(NextTile, false, true);
                     return;
                 }
             }
@@ -214,34 +220,52 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    private IEnumerator DotweenMovment(Tile nextDestination, bool isPushed)
+    private IEnumerator DotweenMovment(Tile nextDestination, bool isPushed, bool isJumping)
     {
         float moveTime;
         Ease movementEase;
         
-        if (!isPushed)
-        {
-            _animator.SetBool("IsWalking", true);
-            moveTime = _walkMovementSpeed;
-            movementEase = Ease.InOutSine;
-        }
-        else
+        if (isPushed)
         {
             _animator.SetBool("IsPushed", true);
             moveTime = _pushedMovementSpeed;
             movementEase = Ease.OutQuint;
         }
-
-        transform.DOMove(nextDestination.transform.position, moveTime, false).SetEase(movementEase);
-        yield return new WaitForSeconds(moveTime);
-        
-        if (!isPushed)
+        else if (isJumping)
         {
-            _animator.SetBool("IsWalking", false);
+            _animator.SetBool("IsJumping", true);
+            moveTime = _animator.GetCurrentAnimatorStateInfo(0).length;
+            movementEase = Ease.OutQuint;
         }
         else
         {
+            _animator.SetBool("IsWalking", true);
+            moveTime = _walkMovementSpeed;
+            movementEase = Ease.InOutSine;
+        }
+
+        if (isJumping)
+        {
+            transform.DOJump(nextDestination.transform.position, _jumpForce, 1, moveTime);
+        }
+        else
+        {
+            transform.DOMove(nextDestination.transform.position, moveTime, false).SetEase(movementEase);
+        }
+        
+        yield return new WaitForSeconds(moveTime);
+        
+        if (isPushed)
+        {
             _animator.SetBool("IsPushed", false);
+        }
+        else if (isJumping)
+        {
+            _animator.SetBool("IsJumping", false);
+        }
+        else
+        {
+            _animator.SetBool("IsWalking", false);
         }
 
         for (int i = 0; i < nextDestination.trapList.Count; i++)
